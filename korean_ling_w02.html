@@ -1,0 +1,1257 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>말소리의 구조 — 한국어학 제2주</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Noto+Serif+KR:wght@300;400;500;600;700;900&family=Noto+Sans+KR:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1a1814;
+  --paper:#f5f1e8;
+  --paper-warm:#ede5d3;
+  --accent:#1e4a7a;        /* deep blue — BLOCK A */
+  --accent-soft:#7da3c4;
+  --moss:#4a5d3a;
+  --terracotta:#c85a3e;
+  --rule:#1a181433;
+  --highlight:#e8b647;
+  --serif:'Noto Serif KR','Fraunces',Georgia,serif;
+  --sans:'Noto Sans KR',sans-serif;
+  --mono:'JetBrains Mono',monospace;
+  --ipa:'Charis SIL','Doulos SIL','Noto Sans',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--serif);background:var(--paper);color:var(--ink);
+  line-height:1.75;font-size:16px;
+  background-image:
+    radial-gradient(circle at 20% 30%, #00000008 1px, transparent 1px),
+    radial-gradient(circle at 80% 70%, #00000008 1px, transparent 1px);
+  background-size:40px 40px,60px 60px;
+}
+
+/* MASTHEAD */
+.masthead{border-bottom:3px double var(--ink);padding:1.8rem 3rem 1.3rem;background:rgba(245,241,232,.95);position:sticky;top:0;z-index:100;backdrop-filter:blur(8px)}
+.masthead-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:auto 1fr auto;gap:2rem;align-items:end}
+.issue-tag{font-family:var(--mono);font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);border:1px solid var(--accent);padding:.3rem .6rem;align-self:start}
+.title-block h1{font-weight:900;font-size:clamp(1.9rem,4.6vw,3.3rem);line-height:.98;letter-spacing:-.02em}
+.title-block .subtitle{font-style:italic;font-weight:300;font-size:1rem;margin-top:.5rem;opacity:.7}
+.meta-info{text-align:right;font-family:var(--mono);font-size:.7rem;line-height:1.6;opacity:.7}
+
+/* NAV */
+.toc-nav{border-bottom:1px solid var(--rule);background:var(--paper-warm);padding:.8rem 3rem;position:sticky;top:141px;z-index:99}
+.toc-nav-inner{max-width:1200px;margin:0 auto;display:flex;gap:.4rem;flex-wrap:wrap;font-family:var(--sans);font-size:.78rem}
+.toc-nav a{color:var(--ink);text-decoration:none;padding:.3rem .7rem;border:1px solid transparent;transition:all .2s;font-weight:500}
+.toc-nav a:hover{border-color:var(--ink);background:var(--paper)}
+.toc-nav a.active{background:var(--ink);color:var(--paper)}
+
+main{max-width:1200px;margin:0 auto;padding:3rem}
+
+/* HERO */
+.hero{display:grid;grid-template-columns:1.35fr 1fr;gap:3rem;margin-bottom:4rem;align-items:start}
+.hero-text .lead{font-size:1.16rem;line-height:1.95}
+.hero-text .lead::first-letter{float:left;font-size:4.3rem;line-height:.82;font-weight:900;margin:.1rem .6rem 0 0;color:var(--accent)}
+.hero-text p+p{margin-top:1.2rem}
+.hero-aside{background:var(--paper-warm);border:1px solid var(--rule);padding:1.6rem 1.8rem}
+.hero-aside h3{font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem;font-weight:500}
+.hero-aside ol{list-style:none;counter-reset:g}
+.hero-aside li{counter-increment:g;position:relative;padding-left:1.9rem;margin-bottom:.75rem;font-size:.92rem;line-height:1.6}
+.hero-aside li::before{content:counter(g);position:absolute;left:0;top:.2rem;font-family:var(--mono);font-size:.68rem;color:var(--paper);background:var(--accent);width:1.3rem;height:1.3rem;display:flex;align-items:center;justify-content:center;border-radius:50%}
+
+/* SECTION */
+.section{margin-bottom:4.5rem;scroll-margin-top:200px}
+.section-header{border-bottom:2px solid var(--ink);padding-bottom:.6rem;margin-bottom:1.6rem}
+.section-number{font-family:var(--mono);font-size:.72rem;letter-spacing:.16em;color:var(--accent);display:block;margin-bottom:.3rem}
+.section-header h2{font-size:clamp(1.5rem,3vw,2.15rem);font-weight:700;letter-spacing:-.01em}
+.ko-en{font-family:var(--sans);font-size:.8rem;font-weight:400;opacity:.55;margin-left:.6rem}
+.src-badge{display:inline-block;font-family:var(--mono);font-size:.63rem;letter-spacing:.06em;border:1px solid var(--rule);padding:.15rem .45rem;margin:.5rem .3rem 0 0;opacity:.72}
+.src-badge.main{border-color:var(--accent);color:var(--accent)}
+.prose p{margin-bottom:1.2rem}
+.prose h3{font-size:1.24rem;font-weight:700;margin:2.2rem 0 .8rem;padding-left:.7rem;border-left:3px solid var(--accent)}
+em.term{font-style:normal;font-weight:600;border-bottom:2px solid var(--highlight);padding-bottom:1px}
+.ex{font-family:var(--sans);background:var(--paper-warm);padding:.9rem 1.2rem;margin:1.1rem 0;font-size:.93rem;line-height:2}
+.bad{color:var(--terracotta)}
+.ipa{font-family:var(--ipa)}
+
+/* 개념 카드 */
+.concept-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:1rem;margin:1.8rem 0}
+.concept-card{border:1px solid var(--rule);padding:1.2rem;background:#fff9;transition:transform .2s}
+.concept-card:hover{transform:translateY(-3px)}
+.concept-card .card-num{font-family:var(--mono);font-size:.65rem;letter-spacing:.13em;color:var(--accent);display:block;margin-bottom:.45rem}
+.concept-card h4{font-size:1rem;margin-bottom:.15rem}
+.concept-card .ko{font-family:var(--sans);font-size:.72rem;opacity:.55;display:block;margin-bottom:.5rem}
+.concept-card p{font-size:.85rem;line-height:1.62;opacity:.87}
+
+/* 인터랙티브 */
+.interactive{background:var(--ink);color:var(--paper);padding:2.1rem 2.3rem;margin:2rem 0;position:relative}
+.interactive::before{content:'';position:absolute;top:8px;left:8px;right:8px;bottom:8px;border:1px solid #f5f1e830;pointer-events:none}
+.interactive h3{font-family:var(--serif);font-size:1.18rem;margin-bottom:.35rem;position:relative}
+.interactive-desc{font-family:var(--sans);font-size:.81rem;opacity:.6;margin-bottom:1.5rem;position:relative}
+.ibody{position:relative}
+.btnrow{display:flex;flex-wrap:wrap;gap:.45rem;margin-bottom:1.3rem}
+.ibtn{font-family:var(--sans);font-size:.8rem;background:transparent;color:var(--paper);border:1px solid #f5f1e850;padding:.4rem .85rem;cursor:pointer;transition:all .18s}
+.ibtn:hover{background:#f5f1e820}
+.ibtn.active{background:var(--paper);color:var(--ink);border-color:var(--paper)}
+.ipanel{min-height:140px;font-size:.9rem;line-height:1.75}
+.ipanel h4{font-size:1.12rem;margin-bottom:.3rem}
+.ipanel .sub{font-family:var(--sans);font-size:.78rem;opacity:.6;margin-bottom:.9rem}
+.ipanel p{margin-bottom:.75rem}
+.ibody .note{font-family:var(--sans);font-size:.82rem;opacity:.75;border-left:2px solid var(--accent-soft);padding-left:.8rem;margin-top:.9rem}
+.igrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem}
+.icell{border:1px solid #f5f1e830;padding:.9rem 1rem}
+.icell b{display:block;font-size:.88rem;margin-bottom:.3rem}
+.icell span{font-size:.82rem;opacity:.78;line-height:1.6}
+.bigform{font-family:var(--sans);font-size:1.5rem;text-align:center;margin:1.2rem 0;letter-spacing:.02em}
+.bigform small{display:block;font-size:.78rem;opacity:.55;margin-top:.4rem;letter-spacing:0}
+
+/* 자음표 */
+.ctab{width:100%;border-collapse:collapse;font-size:.82rem;margin-top:.5rem}
+.ctab th,.ctab td{border:1px solid #f5f1e828;padding:.45rem .3rem;text-align:center}
+.ctab th{font-family:var(--mono);font-size:.62rem;letter-spacing:.05em;font-weight:500;opacity:.75}
+.ctab th.rowh{text-align:left;font-family:var(--sans);font-size:.76rem;letter-spacing:0;opacity:1;white-space:nowrap}
+.ctab button{
+  background:transparent;border:1px solid transparent;color:var(--paper);
+  font-family:var(--sans);font-size:1rem;cursor:pointer;padding:.15rem .4rem;transition:all .15s;
+}
+.ctab button:hover,.ctab button:focus-visible{background:#f5f1e820;outline:none;border-color:var(--accent-soft)}
+.ctab button.on{background:var(--paper);color:var(--ink)}
+.ctab .lax{background:#7da3c418}.ctab .tense{background:#e8b64718}.ctab .asp{background:#c85a3e18}
+
+/* 모음 사각도 */
+.vowsvg{max-width:420px;width:100%;height:auto;display:block;margin:0 auto}
+.vowsvg .vp{cursor:pointer}
+.vowsvg .vp circle{fill:#7da3c4;transition:all .15s}
+.vowsvg .vp:hover circle,.vowsvg .vp.on circle{fill:var(--highlight);r:7}
+.vowsvg .vp text{font-family:var(--sans);font-size:14px;fill:#f5f1e8}
+
+/* 피치 곡선 */
+.pitchsvg{width:100%;height:auto;max-width:560px;display:block;margin:0 auto}
+
+/* 표 */
+.data-table{width:100%;border-collapse:collapse;margin:1.5rem 0;font-size:.85rem}
+.data-table th{font-family:var(--mono);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;text-align:left;padding:.6rem .7rem;border-bottom:2px solid var(--ink);font-weight:500}
+.data-table td{padding:.6rem .7rem;border-bottom:1px solid var(--rule);vertical-align:top;line-height:1.55}
+.data-table tr:hover td{background:var(--paper-warm)}
+.data-table .ko{font-weight:600}
+
+/* callout */
+.callout{border-left:3px solid var(--accent);background:var(--paper-warm);padding:1.2rem 1.5rem;margin:1.7rem 0}
+.callout-label{font-family:var(--mono);font-size:.65rem;letter-spacing:.13em;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:.5rem}
+.callout p{font-size:.92rem;line-height:1.78;margin-bottom:.7rem}
+.callout p:last-child{margin-bottom:0}
+.callout.clinical{border-left-color:var(--moss)}
+.callout.clinical .callout-label{color:var(--moss)}
+.callout.warning{border-left-color:var(--terracotta)}
+.callout.warning .callout-label{color:var(--terracotta)}
+
+/* 퀴즈 */
+.quiz-item{border:1px solid var(--rule);padding:1.1rem 1.3rem;margin-bottom:.9rem;background:#fff9}
+.quiz-q{font-size:.97rem;margin-bottom:.75rem;line-height:1.7}
+.quiz-q .num{font-family:var(--mono);font-size:.7rem;color:var(--accent);margin-right:.5rem}
+.quiz-opts{display:flex;flex-wrap:wrap;gap:.4rem}
+.quiz-opt{font-family:var(--sans);font-size:.82rem;background:var(--paper);border:1px solid var(--rule);padding:.35rem .8rem;cursor:pointer;transition:all .16s;color:var(--ink)}
+.quiz-opt:hover{border-color:var(--ink)}
+.quiz-opt.correct{background:var(--moss);color:var(--paper);border-color:var(--moss)}
+.quiz-opt.wrong{background:var(--terracotta);color:var(--paper);border-color:var(--terracotta)}
+.quiz-opt:disabled{cursor:default}
+.quiz-fb{font-family:var(--sans);font-size:.85rem;line-height:1.7;margin-top:.75rem;padding-top:.7rem;border-top:1px dotted var(--rule);display:none}
+.quiz-fb.show{display:block;animation:fade .3s}
+@keyframes fade{from{opacity:0;transform:translateY(-3px)}to{opacity:1;transform:none}}
+.quiz-score{font-family:var(--mono);font-size:.8rem;padding:.7rem 1rem;background:var(--paper-warm);border:1px solid var(--rule);margin-top:1rem}
+
+/* 실습실 */
+.lab{border:2px solid var(--ink);padding:0;margin:2rem 0}
+.lab-head{background:var(--ink);color:var(--paper);padding:1.1rem 1.6rem}
+.lab-head .tag{font-family:var(--mono);font-size:.65rem;letter-spacing:.14em;color:var(--highlight);display:block;margin-bottom:.25rem}
+.lab-head h3{font-size:1.25rem;font-weight:700}
+.lab-head p{font-family:var(--sans);font-size:.83rem;opacity:.72;margin-top:.35rem}
+.lab-body{padding:1.6rem}
+.worksheet{width:100%;border-collapse:collapse;font-size:.88rem;margin:1.2rem 0}
+.worksheet th,.worksheet td{border:1px solid var(--rule);padding:.5rem .6rem;text-align:left}
+.worksheet th{font-family:var(--mono);font-size:.62rem;letter-spacing:.08em;background:var(--paper-warm);font-weight:500}
+.worksheet td.w{font-family:var(--sans);font-size:1rem;width:22%}
+.worksheet input{width:100%;font-family:var(--sans);font-size:.88rem;border:none;background:transparent;color:var(--ink);padding:.15rem}
+.worksheet input:focus{outline:1px solid var(--accent)}
+
+/* 미니 카드 */
+.mini-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:1rem;margin:1.6rem 0}
+.mini{border:1px solid var(--rule);padding:1.1rem 1.2rem;background:#fff9;transition:transform .2s}
+.mini:hover{transform:translateY(-3px)}
+.mini h5{font-size:.98rem;margin-bottom:.4rem}
+.mini .mtag{font-family:var(--mono);font-size:.63rem;letter-spacing:.1em;color:var(--accent);display:block;margin-bottom:.35rem}
+.mini p{font-size:.83rem;line-height:1.62;opacity:.87}
+
+/* fig */
+.fig{margin:1.8rem 0;text-align:center}
+.fig svg{max-width:100%;height:auto}
+.fig figcaption{font-family:var(--sans);font-size:.78rem;opacity:.6;margin-top:.7rem}
+
+/* week nav */
+.week-nav{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:3.5rem;padding-top:2rem;border-top:1px solid var(--rule)}
+.week-nav div{border:1px solid var(--rule);padding:1.1rem 1.3rem;background:#fff9}
+.week-nav .lbl{font-family:var(--mono);font-size:.63rem;letter-spacing:.13em;color:var(--accent);display:block;margin-bottom:.35rem}
+.week-nav b{font-size:1rem;display:block;margin-bottom:.25rem}
+.week-nav p{font-size:.83rem;opacity:.75;line-height:1.6}
+
+footer{border-top:3px double var(--ink);margin-top:4rem;padding:2.5rem 3rem 3.5rem}
+.colophon{max-width:640px;margin:0 auto;text-align:center;font-size:.82rem;line-height:1.9;opacity:.72}
+.colophon .mono{font-family:var(--mono);font-size:.7rem;letter-spacing:.08em}
+.colophon .epigraph{font-style:italic;margin-top:1.2rem;opacity:.8}
+
+@media(max-width:900px){
+  .masthead,.toc-nav,main,footer{padding-left:1.4rem;padding-right:1.4rem}
+  .masthead-inner{grid-template-columns:1fr;gap:.8rem}
+  .meta-info{text-align:left}
+  .toc-nav{position:static}
+  .hero{grid-template-columns:1fr;gap:2rem}
+  .week-nav{grid-template-columns:1fr}
+  .interactive{padding:1.5rem 1.2rem}
+  .lab-head,.lab-body{padding-left:1.2rem;padding-right:1.2rem}
+  .ctab{font-size:.7rem}
+  .ctab th,.ctab td{padding:.3rem .15rem}
+  .ctab button{font-size:.9rem;padding:.1rem .2rem}
+}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <span class="issue-tag">제02주 · BLOCK A</span>
+    <div class="title-block">
+      <h1>말소리의 구조</h1>
+      <p class="subtitle"><em>An Anatomy of Sound</em> — 지도와 술어를 챙겨 다음 층으로</p>
+    </div>
+    <div class="meta-info">
+      나사렛대학교<br>언어치료학과<br>학부 과정<br>개론서 01·02장 · 이봉원 15장
+    </div>
+  </div>
+</header>
+
+<nav class="toc-nav">
+  <div class="toc-nav-inner">
+    <a href="#intro" class="nav-link">들어가며</a>
+    <a href="#two" class="nav-link">§Ⅰ 음성과 음운</a>
+    <a href="#make" class="nav-link">§Ⅱ 말소리의 산출</a>
+    <a href="#inventory" class="nav-link">§Ⅲ 한국어의 소리 목록</a>
+    <a href="#syllable" class="nav-link">§Ⅳ 음절과 음운 규칙</a>
+    <a href="#prosody" class="nav-link">§Ⅴ 운율</a>
+    <a href="#change" class="nav-link">§Ⅵ 변하는 중인 소리</a>
+    <a href="#lab" class="nav-link">분석 실습실</a>
+    <a href="#clinical" class="nav-link">임상 적용</a>
+    <a href="#check" class="nav-link">확인 문제</a>
+    <a href="#refs" class="nav-link">참고 문헌</a>
+  </div>
+</nav>
+
+<main>
+
+<!-- ============ 들어가며 ============ -->
+<section id="intro" class="section">
+  <div class="hero">
+    <div class="hero-text">
+      <p class="lead">지난주에 그린 지도에서 가장 아래층으로 내려간다. 뜻을 갖지 않는 단위들의 세계, 곧 <strong>말소리</strong>다. 그런데 이 주차는 다른 주차와 성격이 다르다. <strong>여러분은 음성학과 음운론을 별도 과목에서 따로 배운다.</strong> 그러니 여기서 그 내용을 다시 다 할 이유가 없다.</p>
+
+      <p>대신 이 한 주가 하려는 일은 셋이다. 첫째, <strong>술어를 정리한다.</strong> 조음 위치니 평음·경음·격음이니 하는 말이 앞으로 계속 나오는데, 그때마다 막히면 곤란하다. 둘째, <strong>소리의 층위가 문법의 층위와 어디서 만나는지</strong>를 표시해 둔다. 셋째, 앞으로 쓸 도구 하나를 챙긴다 — <strong>억양</strong>이다.</p>
+
+      <p>마지막 것이 특히 중요하다. 3주차에 여러분은 <strong>전사</strong>를 배우며 아동의 전사본을 받고, 4주차에는 그 전사본에서 <strong>발화를 어디서 끊을지</strong> 결정해야 한다. 아이는 종결어미 없이 말을 이어 가는 일이 많다. 그러면 무엇을 근거로 끊는가? <strong>결국 운율이 정한다.</strong> 그 근거를 오늘 마련한다.</p>
+    </div>
+
+    <aside class="hero-aside">
+      <h3>이번 주 학습 목표</h3>
+      <ol>
+        <li><strong>음성</strong>과 <strong>음운</strong>을 구별하고 <span class="ipa">[ ]</span>와 <span class="ipa">/ /</span>를 가려 쓴다</li>
+        <li>말소리 산출을 <strong>발동–발성–조음</strong> 세 단계로 기술한다</li>
+        <li>한국어 자음을 조음 위치·방법·발성 유형으로 분류한다</li>
+        <li>한국어 <strong>삼지적 대립</strong>이 왜 유형론적으로 특이한지 설명한다</li>
+        <li>음운 규칙을 <strong>음운론적 조건</strong>과 <strong>형태론적 조건</strong>으로 가른다</li>
+        <li><strong>억양구 경계</strong>가 발화 구분의 근거가 되는 이유를 안다</li>
+        <li>규범과 현실 발음의 간극을 인식하고 판단을 유보한다</li>
+      </ol>
+    </aside>
+  </div>
+
+  <div class="callout warning">
+    <span class="callout-label">이 주차를 공부하는 법 — 다른 주차와 다르다</span>
+    <p>이 자료는 <strong>넓고 얕게</strong> 간다. 세부는 「음성학」·「음운론」 과목에 맡긴다. 그러니 <strong>외우려 하지 말고 지도를 그린다는 마음으로</strong> 읽어라.</p>
+    <p>다만 <strong>두 가지만은 반드시 남겨 가야 한다.</strong> §Ⅳ의 <strong>형태론적 조건의 음운 규칙</strong>(문법 정보가 있어야 발음이 정해지는 경우)과 §Ⅴ의 <strong>억양구 경계</strong>다. 이 둘은 소리와 문법이 만나는 자리이고, 3주차 전사와 4주차 발화 구분에서부터 학기 내내 계속 쓴다.</p>
+  </div>
+</section>
+
+<!-- ============ §Ⅰ ============ -->
+<section id="two" class="section">
+  <div class="section-header">
+    <span class="section-number">§ Ⅰ</span>
+    <h2>음성과 음운 — 두 개의 층위<span class="ko-en">Phonetics vs. Phonology</span></h2>
+    <span class="src-badge main">개론서 01장 1절 · 02장 1절</span>
+  </div>
+
+  <div class="prose">
+    <p>같은 말을 두 번 하면 같은 소리가 나는가? 물리적으로는 결코 그렇지 않다. 크기도 높이도 길이도 매번 다르다. 그런데 우리는 그것을 <strong>같은 말</strong>로 듣는다. 여기에 이미 두 개의 층위가 있다.</p>
+
+    <div class="concept-grid">
+      <div class="concept-card">
+        <span class="card-num">층위 01</span>
+        <h4>음성</h4>
+        <span class="ko">phone · 音聲</span>
+        <p>실제로 공기를 울려 만들어진 <strong>물리적 대상</strong>. 기계로 재고 그림으로 그릴 수 있다. 대괄호 <span class="ipa">[ ]</span>로 적는다.</p>
+      </div>
+      <div class="concept-card">
+        <span class="card-num">층위 02</span>
+        <h4>음운(음소)</h4>
+        <span class="ko">phoneme · 音韻</span>
+        <p>화자의 머릿속에서 <strong>하나로 묶여 인식되는 단위</strong>. 뜻을 구별하는 기능을 한다. 빗금 <span class="ipa">/ /</span>로 적는다.</p>
+      </div>
+      <div class="concept-card">
+        <span class="card-num">판별 도구</span>
+        <h4>최소대립쌍</h4>
+        <span class="ko">minimal pair</span>
+        <p>한 자리의 소리만 다르고 뜻이 갈리는 두 단어. '<strong>불 / 뿔 / 풀</strong>'처럼. 이런 쌍이 있으면 그 소리들은 <strong>서로 다른 음소</strong>다.</p>
+      </div>
+    </div>
+
+    <p>음성학은 앞쪽, 음운론은 뒤쪽을 다룬다. 그런데 <strong>어떤 소리 차이가 음소의 차이가 되는지는 언어마다 다르다.</strong> 이것이 이 절의 핵심이다.</p>
+  </div>
+
+  <div class="interactive">
+    <h3>같은 소리, 다른 소리</h3>
+    <p class="interactive-desc">한국어 화자에게 명백히 다른 소리가 다른 언어 화자에게는 하나로 들리고, 그 반대도 있습니다. 사례를 골라 확인하세요.</p>
+    <div class="ibody">
+      <div class="btnrow" id="ph-btns"></div>
+      <div class="ipanel" id="ph-panel"></div>
+    </div>
+  </div>
+
+  <div class="callout clinical">
+    <span class="callout-label">임상 연결 — 이 구별이 진단을 가른다</span>
+    <p>아동이 '사탕'을 [타탕]으로 발음한다고 하자. 무엇이 문제인가? 두 갈래로 갈린다.</p>
+    <p>· <strong>음성 층위의 문제</strong> — <span class="ipa">/ㅅ/</span>가 무엇인지는 아는데 <strong>혀를 그 자리에 못 놓는다.</strong> 조음의 문제다.<br>
+       · <strong>음운 층위의 문제</strong> — 머릿속 체계에서 <span class="ipa">/ㅅ/</span>와 <span class="ipa">/ㅌ/</span>가 <strong>아직 갈라지지 않았다.</strong> 체계의 문제다.</p>
+    <p>두 경우는 중재 방향이 전혀 다르다. 앞쪽은 조음 훈련이지만, 뒤쪽은 <strong>두 소리가 뜻을 가른다는 사실 자체를 알게 하는 일</strong>(최소대립쌍 활용)이 먼저다. 그래서 「말소리장애」 과목의 첫 갈림길도 여기다.</p>
+  </div>
+</section>
+
+<!-- ============ §Ⅱ ============ -->
+<section id="make" class="section">
+  <div class="section-header">
+    <span class="section-number">§ Ⅱ</span>
+    <h2>말소리의 산출<span class="ko-en">How Speech Sounds Are Made</span></h2>
+    <span class="src-badge main">개론서 01장 2~4절</span>
+  </div>
+
+  <div class="prose">
+    <p>말소리는 <strong>공기의 흐름을 조작해</strong> 만든다. 그 과정을 세 단계로 나눈다.</p>
+
+    <div class="bigform" style="color:var(--accent)">
+      발동 &nbsp;→&nbsp; 발성 &nbsp;→&nbsp; 조음
+      <small style="color:var(--ink)">공기를 밀어낸다 &nbsp;·&nbsp; 성대에서 조절한다 &nbsp;·&nbsp; 입 안에서 변형한다</small>
+    </div>
+
+    <p><em class="term">발동</em>(發動, initiation)은 공기를 움직이는 단계다. 한국어를 포함한 대부분의 언어는 <strong>폐에서 밖으로 내보내는 날숨</strong>만 쓴다. 그러나 세계에는 다른 방식도 있다 — 성문을 이용해 공기를 밀어내는 방출음, 안으로 빨아들이는 내파음, 혀를 차서 내는 흡착음. <strong>우리가 "말소리는 원래 날숨"이라고 여기는 것부터가 우리 언어의 사정일 뿐이다.</strong></p>
+
+    <p><em class="term">발성</em>(發聲, phonation)은 성대에서 일어난다. 성대가 떨면 <strong>유성음</strong>, 떨지 않으면 <strong>무성음</strong>이다. 여기서 한국어의 특이점이 나오는데, §Ⅲ에서 본격적으로 본다.</p>
+
+    <p><em class="term">조음</em>(調音, articulation)은 입 안에서 통로를 좁히거나 막아 소리를 빚는 단계다. <strong>어디서 막는가</strong>(조음 위치)와 <strong>어떻게 막는가</strong>(조음 방법)로 자음을 분류한다.</p>
+  </div>
+
+  <div class="interactive">
+    <h3>조음 위치 탐색기</h3>
+    <p class="interactive-desc">입 안의 점을 눌러 보세요. 그 자리에서 나는 한국어 소리와, 무엇과 무엇이 맞닿는지를 보여 줍니다.</p>
+    <div class="ibody">
+      <div class="fig" style="margin:0 0 1.2rem">
+        <svg viewBox="0 0 480 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="입과 목의 단면도. 양순·치조·경구개·연구개·성문 다섯 조음 위치가 표시되어 있다." style="max-width:480px">
+          <path d="M40 150 Q40 70 150 55 Q260 45 340 75 Q400 100 410 160 Q415 220 380 260" fill="none" stroke="#f5f1e8" stroke-width="1.6" opacity=".55"/>
+          <path d="M55 175 Q120 150 200 160 Q280 172 330 200 Q360 220 365 260" fill="none" stroke="#f5f1e8" stroke-width="1.6" opacity=".55"/>
+          <path d="M70 185 Q140 205 230 195 Q300 186 340 205" fill="none" stroke="#7da3c4" stroke-width="2.4"/>
+          <text x="200" y="230" fill="#7da3c4" font-family="Noto Sans KR" font-size="13" text-anchor="middle">혀</text>
+          <g id="art-points">
+            <g class="ap" data-p="0"><circle cx="58" cy="163" r="11" fill="#e8b647" opacity=".9"/><text x="58" y="168" font-size="12" text-anchor="middle" fill="#1a1814" font-family="Noto Sans KR">1</text></g>
+            <g class="ap" data-p="1"><circle cx="118" cy="152" r="11" fill="#e8b647" opacity=".9"/><text x="118" y="157" font-size="12" text-anchor="middle" fill="#1a1814" font-family="Noto Sans KR">2</text></g>
+            <g class="ap" data-p="2"><circle cx="196" cy="152" r="11" fill="#e8b647" opacity=".9"/><text x="196" y="157" font-size="12" text-anchor="middle" fill="#1a1814" font-family="Noto Sans KR">3</text></g>
+            <g class="ap" data-p="3"><circle cx="288" cy="165" r="11" fill="#e8b647" opacity=".9"/><text x="288" y="170" font-size="12" text-anchor="middle" fill="#1a1814" font-family="Noto Sans KR">4</text></g>
+            <g class="ap" data-p="4"><circle cx="374" cy="252" r="11" fill="#e8b647" opacity=".9"/><text x="374" y="257" font-size="12" text-anchor="middle" fill="#1a1814" font-family="Noto Sans KR">5</text></g>
+          </g>
+        </svg>
+      </div>
+      <div class="btnrow" id="art-btns"></div>
+      <div class="ipanel" id="art-panel"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ §Ⅲ ============ -->
+<section id="inventory" class="section">
+  <div class="section-header">
+    <span class="section-number">§ Ⅲ</span>
+    <h2>한국어의 소리 목록<span class="ko-en">The Korean Inventory</span></h2>
+    <span class="src-badge main">개론서 01장 4절 · 02장 2절</span>
+  </div>
+
+  <div class="prose">
+    <p>한국어의 자음은 <strong>19개</strong>다. 이것을 조음 위치(가로)와 조음 방법·발성 유형(세로)의 표로 정리하면 체계가 한눈에 보인다.</p>
+  </div>
+
+  <div class="interactive">
+    <h3>한국어 자음표</h3>
+    <p class="interactive-desc">글자를 눌러 보세요. 조음 위치·방법·발성 유형과 IPA 표기가 나타납니다. 배경색은 <span style="color:#7da3c4">평음</span> · <span style="color:#e8b647">경음</span> · <span style="color:#c85a3e">격음</span>입니다. 경음의 IPA 부호 <span class="ipa">◌͈</span>는 성문을 조여 낸다는 표시입니다.</p>
+    <div class="ibody">
+      <table class="ctab" id="ctab"></table>
+      <div class="ipanel" id="cons-panel" style="margin-top:1.2rem"></div>
+    </div>
+  </div>
+
+  <div class="prose">
+    <h3>한국어를 특이하게 만드는 것 — 삼지적 대립</h3>
+    <p>표에서 가장 눈에 띄는 것은 파열음과 파찰음이 <strong>세 줄</strong>이라는 점이다. ㅂ·ㅃ·ㅍ, ㄷ·ㄸ·ㅌ, ㄱ·ㄲ·ㅋ, ㅈ·ㅉ·ㅊ. 이것을 <em class="term">삼지적 상관 체계</em>라고 한다.</p>
+
+    <div class="callout warning">
+      <span class="callout-label">가장 흔한 오해 — "ㅂ은 유성음, ㅍ은 무성음"</span>
+      <p>아니다. <strong>평음·경음·격음 셋 모두 무성음이다.</strong> 성대가 떨리지 않는다.</p>
+      <p>세계 언어에서 가장 흔한 방식은 <strong>유성 대 무성</strong>으로 가르는 것이다(영어의 b/p, 프랑스어의 d/t). 한국어는 그 축을 쓰지 않는다. 대신 <strong>기식성</strong>(숨이 얼마나 터져 나오는가)과 <strong>긴장성</strong>(성문이 얼마나 조이는가)이라는 두 축으로 셋을 가른다.</p>
+      <p>· <strong>평음</strong> = 무기 연음 &nbsp;·&nbsp; <strong>경음</strong> = 무기 경음 &nbsp;·&nbsp; <strong>격음</strong> = 유기 경음</p>
+      <p>영어권 학습자가 한국어를 배울 때 가장 크게 걸리는 지점이 여기다. 그들의 머릿속 체계에는 <strong>이 셋을 가를 축이 없다.</strong> 지난주에 본 "어느 언어를 보고 한 말인가"라는 물음이 소리 층위에서 이렇게 나타난다.</p>
+    </div>
+
+    <h3>모음 — 규범은 열 개, 현실은 일곱 개</h3>
+    <p>여기서 이 과목이 계속 만나게 될 문제가 처음으로 선명하게 드러난다. <strong>표준 발음법은 단모음을 10개로 규정한다</strong> — ㅏ ㅐ ㅓ ㅔ ㅗ ㅚ ㅜ ㅟ ㅡ ㅣ. 그런데 <strong>서울말을 쓰는 젊은 세대의 실제 체계는 7개</strong>에 가깝다.</p>
+
+    <div class="ex">
+      ㅚ · ㅟ — 단모음으로 발음하지 않고 <span class="bad">이중모음</span>으로 낸다 ([we], [wi])<br>
+      ㅐ · ㅔ — 구별하지 못하고 <span class="bad">하나로 합류</span>했다 ('개'와 '게')
+    </div>
+
+    <p>개론서는 이 대목에서 이렇게 못박는다 — <strong>"외워야 한다는 것은 곧 머릿속에 없다는 뜻이다."</strong> 우리가 'ㅐ와 ㅔ의 구별'을 학교에서 <em>외웠다면</em>, 그것은 이미 우리 머릿속 음운 체계에 그 구별이 없다는 증거라는 것이다.</p>
+  </div>
+
+  <div class="interactive">
+    <h3>단모음 사각도 — 규범과 현실</h3>
+    <p class="interactive-desc">혀의 위치를 좌표로 나타낸 그림입니다. 두 체계를 번갈아 보고, 점을 눌러 각 모음의 조음 특징을 확인하세요.</p>
+    <div class="ibody">
+      <div class="btnrow">
+        <button class="ibtn active" data-vsys="std">표준 발음법 · 10모음</button>
+        <button class="ibtn" data-vsys="real">현실 발음 · 7모음</button>
+      </div>
+      <div id="vow-fig"></div>
+      <div class="ipanel" id="vow-panel" style="margin-top:1rem"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ §Ⅳ ============ -->
+<section id="syllable" class="section">
+  <div class="section-header">
+    <span class="section-number">§ Ⅳ</span>
+    <h2>음절과 음운 규칙<span class="ko-en">Syllables and Rules</span></h2>
+    <span class="src-badge main">개론서 02장 4절</span>
+    <span class="src-badge main">이봉원 15장 「음운론과 문법」</span>
+  </div>
+
+  <div class="prose">
+    <p>소리는 낱개로 흩어져 있지 않고 <strong>음절</strong>로 묶인다. 한국어의 음절 구조는 단순하다.</p>
+
+    <div class="bigform" style="color:var(--accent)">
+      (초성) + <strong>중성</strong> + (종성)
+      <small style="color:var(--ink)">괄호는 없어도 된다는 뜻 · 중성(모음)만이 필수다</small>
+    </div>
+
+    <p>두 가지 제약이 중요하다. 첫째, <strong>자음이 연달아 올 수 없다.</strong> 영어의 <em>strike</em>처럼 초성에 자음 셋이 오는 일은 한국어에 없다. 그래서 외래어를 들여올 때 모음을 끼워 넣어 '스트라이크'가 된다. 둘째, <strong>종성에는 7개 자음만 올 수 있다</strong> — ㄱ ㄴ ㄷ ㄹ ㅁ ㅂ ㅇ. 나머지는 이 일곱 중 하나로 바뀐다.</p>
+  </div>
+
+  <div class="interactive">
+    <h3>음절 구조 분석기</h3>
+    <p class="interactive-desc">단어를 골라 음절이 어떻게 나뉘고 각 자리에 무엇이 들어가는지, 그리고 표기와 발음이 어디서 갈라지는지 확인하세요.</p>
+    <div class="ibody">
+      <div class="btnrow" id="syl-btns"></div>
+      <div class="ipanel" id="syl-panel"></div>
+    </div>
+  </div>
+
+  <div class="prose">
+    <h3>이 주차에서 반드시 남겨야 할 것 — 두 종류의 조건</h3>
+    <p>표기와 발음이 다를 때, 그 차이를 만드는 것이 <em class="term">음운 규칙</em>이다. 그런데 규칙이 적용되는 조건에는 <strong>두 종류</strong>가 있고, 이 구별이 이 과목에서 중요하다.</p>
+
+    <div class="concept-grid">
+      <div class="concept-card">
+        <span class="card-num">조건 01</span>
+        <h4>음운론적 조건</h4>
+        <span class="ko">phonological conditioning</span>
+        <p><strong>앞뒤 소리만 보면</strong> 적용 여부가 정해진다. 어떤 단어인지, 어떤 문법 요소인지 알 필요가 없다. 예 — 종성 뒤 평음의 경음화(국밥 → [국빱]).</p>
+      </div>
+      <div class="concept-card">
+        <span class="card-num">조건 02</span>
+        <h4>형태론적 조건</h4>
+        <span class="ko">morphological conditioning</span>
+        <p>소리만 봐서는 <strong>알 수 없다.</strong> 그것이 어간인지 조사인지, 한 단어인지 합성어인지를 알아야 적용 여부가 정해진다. <strong>소리가 문법 정보를 요구하는 자리다.</strong></p>
+      </div>
+    </div>
+
+    <p>둘째 유형이 왜 중요한가. <strong>소리의 층위와 문법의 층위가 독립적이지 않다는 증거</strong>이기 때문이다. 지난주에 본 형식주의 모형은 다섯 영역을 나란한 상자로 그렸지만, 실제로는 상자 사이에 이렇게 정보가 오간다.</p>
+  </div>
+
+  <div class="interactive">
+    <h3>같은 소리, 다른 발음 — 최소대립 실험</h3>
+    <p class="interactive-desc">소리 배열이 거의 같은데 발음이 갈리는 쌍입니다. 무엇이 그 차이를 만드는지 확인하세요.</p>
+    <div class="ibody">
+      <div class="btnrow" id="rule-btns"></div>
+      <div class="ipanel" id="rule-panel"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ §Ⅴ ============ -->
+<section id="prosody" class="section">
+  <div class="section-header">
+    <span class="section-number">§ Ⅴ</span>
+    <h2>운율 — 말의 가락<span class="ko-en">Prosody</span></h2>
+    <span class="src-badge main">개론서 02장 3절</span>
+  </div>
+
+  <div class="prose">
+    <p>지금까지는 낱낱의 소리를 봤다. 그런데 말에는 <strong>소리 하나에 담기지 않는 정보</strong>가 있다. 높이, 길이, 세기, 그리고 그것들이 만드는 가락. 이것을 <em class="term">초분절음</em>(suprasegmental) 또는 운율이라 한다.</p>
+
+    <p>여기서도 유형론적 비교가 유용하다. <strong>영어는 강세로, 중국어는 성조로 단어의 뜻을 가른다.</strong> 한국어는 어떤가?</p>
+
+    <div class="callout">
+      <span class="callout-label">한국어의 운율 — 남은 것은 억양뿐</span>
+      <p>· <strong>성조</strong> — 중세 한국어에는 있었고, <strong>경상 방언에는 지금도 있다</strong>('말[馬]'과 '말[言]'의 구별). 그러나 서울말을 기반으로 한 표준어에는 없다.<br>
+         · <strong>장단</strong> — 규정상으로는 남아 있지만(눈[雪]과 눈[目]) 현실 발음에서는 사실상 소실되었다.<br>
+         · <strong>강세</strong> — 단어의 뜻을 가르는 기능이 없다.</p>
+      <p>그래서 한국어에서 <strong>활발하게 살아 있는 운율은 억양</strong>이다. 그리고 바로 그 억양이 3주차 전사와 4주차 발화 구분에서 우리가 쓸 도구가 된다.</p>
+    </div>
+
+    <h3>운율의 층위</h3>
+    <p>운율에도 구조가 있다. 작은 단위가 큰 단위에 포개지는 <strong>위계</strong>를 이룬다.</p>
+
+    <div class="bigform" style="font-size:1.05rem;line-height:2">
+      음운 → 음절 → 음운 단어 → <strong style="color:var(--accent)">음운구</strong> → <strong style="color:var(--terracotta)">억양구</strong> → 발화
+      <small style="color:var(--ink)">음운구는 강세구(Accentual Phrase), 억양구는 Intonational Phrase라고도 한다</small>
+    </div>
+
+    <p>이 중 <em class="term">억양구</em>(intonational phrase)가 우리에게 중요하다. 억양구의 끝에는 <strong>경계 성조</strong>가 붙는데, 그 모양이 화자의 태도와 발화의 완결 여부를 알려 준다.</p>
+  </div>
+
+  <div class="interactive">
+    <h3>억양구 경계 성조</h3>
+    <p class="interactive-desc">같은 문장이 끝의 가락에 따라 전혀 다른 말이 됩니다. 경계 성조를 골라 곡선과 뜻을 확인하세요. 곡선은 <strong>경계의 모양을 보이기 위한 모식도</strong>이며 실제 억양 곡선은 이보다 훨씬 굴곡이 많습니다.</p>
+    <div class="ibody">
+      <div class="btnrow" id="int-btns"></div>
+      <div id="int-fig" class="fig" style="margin:.5rem 0 1rem"></div>
+      <div class="ipanel" id="int-panel"></div>
+    </div>
+  </div>
+
+  <div class="callout clinical">
+    <span class="callout-label">임상 연결 — 이것으로 말을 옮겨 적고, 이것으로 발화를 끊는다</span>
+    <p>3주차에 여러분은 말을 글로 옮기는 <strong>전사</strong>를 배우며 아동의 전사본을 받는다. 그리고 4주차에는 그 전사본에서 <strong>발화의 경계를 정해야</strong> 한다. 그런데 아이들은 종결어미 없이 말을 이어 가는 일이 많다. "엄마가 그거 주고 나 먹고 또 갔는데 근데…" 어디서 끊을 것인가?</p>
+    <p>이때 쓰는 기준이 셋인데, 그중 둘이 오늘 배운 것이다 — <strong>억양구 경계 성조</strong>(가락이 마무리되는가), <strong>휴지</strong>(쉬는가), 그리고 종결어미(문법적 표지). 김수진 외(2011)가 정리한 이 기준을 주교재 10장이 소개하고 있다.</p>
+    <p>즉 <strong>발화를 끊는 일은 문법만으로도, 운율만으로도 되지 않는다.</strong> 그래서 이 주차를 건너뛸 수 없다.</p>
+  </div>
+</section>
+
+<!-- ============ §Ⅵ ============ -->
+<section id="change" class="section">
+  <div class="section-header">
+    <span class="section-number">§ Ⅵ</span>
+    <h2>변하는 중인 소리<span class="ko-en">Sound Change in Progress</span></h2>
+    <span class="src-badge">열린 쟁점 — 최근 20년의 연구</span>
+  </div>
+
+  <div class="prose">
+    <p>앞에서 모음이 10개에서 7개로 줄어들고 있다는 이야기를 했다. 그런데 <strong>지금 서울말에서는 그보다 더 흥미로운 일이 벌어지고 있다.</strong> 그것도 이 과목의 여러분에게 직접 영향을 주는 일이다.</p>
+
+    <h3>평음과 격음을 무엇으로 가르는가</h3>
+    <p>전통적인 설명은 이렇다. <strong>격음(ㅍ, ㅌ, ㅋ)은 숨이 많이 터져 나오고 평음(ㅂ, ㄷ, ㄱ)은 그렇지 않다.</strong> 이 '숨이 터지기까지의 시간'을 <em class="term">VOT</em>(voice onset time, 성대 진동 개시 시간)라 하며, 오랫동안 두 부류를 가르는 <strong>주된 단서</strong>로 여겨졌다.</p>
+
+    <p>그런데 2000년대 이후의 연구들이 놀라운 사실을 보고했다. <strong>서울말 화자의 VOT 차이가 줄어들고 있고, 젊은 세대에서는 거의 사라졌다는 것이다.</strong> Silva(2006)는 서울 화자 36명을 조사해 <strong>1965년 이전 출생자</strong>는 평음–격음의 VOT 구별을 유지하는 반면 <strong>그 이후 출생자</strong>는 두 범주가 합류하는 경향을 보고했다.</p>
+
+    <p>뒤이어 <strong>Kang(2014)</strong>의 대규모 말뭉치 연구는 이 변화가 어느 한 해를 기점으로 끊기는 것이 아니라 <strong>연속적으로 진행된다</strong>는 것을 보였다. 격음과 평음의 VOT 차이는 1930년대 출생자에게서 약 31ms였던 것이 1980년대 출생자에게서는 약 6ms로 줄고, 같은 기간 음높이 차이는 반대로 커진다.</p>
+
+    <p>그렇다면 젊은 화자들은 '불'과 '풀'을 구별하지 못하는가? 그렇지 않다. <strong>단서가 바뀌었을 뿐이다.</strong> 이제는 뒤따르는 모음의 <strong>음높이(F0)</strong>가 주된 단서가 되었다 — 격음 뒤에서는 높고 평음 뒤에서는 낮다. 즉 <strong>자음의 구별이 음높이의 구별로 옮겨 가고 있다.</strong></p>
+
+    <p>언어학에서는 이런 변화를 <em class="term">성조 발생</em>(tonogenesis)이라 부른다. 자음이 만들어 내던 부수적인 음높이 차이가 점차 커지다가, 다음 세대가 그것을 <strong>주된 구별 단서로 재해석</strong>하는 과정이다. 세계 여러 언어의 성조가 이런 경로로 생겨났다고 알려져 있는데, <strong>서울말에서 그 과정이 지금 진행 중</strong>인 셈이다.</p>
+  </div>
+
+  <div class="interactive">
+    <h3>세대에 따라 달라지는 단서</h3>
+    <p class="interactive-desc">같은 대립을 세대별로 어떻게 실현하는지 비교합니다. 막대는 경향을 나타낸 모식도이며 실측치가 아닙니다.</p>
+    <div class="ibody">
+      <div class="btnrow" id="ton-btns"></div>
+      <div id="ton-fig" style="margin:.5rem 0 1rem"></div>
+      <div class="ipanel" id="ton-panel"></div>
+    </div>
+  </div>
+
+  <div class="callout clinical">
+    <span class="callout-label">임상 연결 — 무엇을 '정상'이라 할 것인가</span>
+    <p>이 발견은 학문적 호기심거리가 아니다. <strong>임상 판단을 직접 흔든다.</strong></p>
+    <p>· <strong>규준의 문제.</strong> 조음 검사의 규준이 오래전 자료로 만들어졌다면, 그 기준은 <strong>VOT로 구별하던 세대</strong>의 것이다. 지금 아이들의 산출을 그 잣대로 재는 것이 타당한가?<br>
+       · <strong>중재 목표의 문제.</strong> 아동에게 평음과 격음을 가르칠 때 <strong>무엇을 가르쳐야 하는가</strong> — 숨의 세기인가, 음높이인가? 또래가 실제로 쓰는 단서를 가르치는 것이 옳을 것이다.<br>
+       · <strong>청각장애 아동의 문제.</strong> 구별의 단서가 음높이로 옮겨 갔다면, <strong>음높이 정보에 접근하기 어려운 아동</strong>에게는 이 대립이 예전보다 더 어려워졌을 수 있다.</p>
+    <p>답은 아직 정해지지 않았다. 다만 <strong>"교과서에 그렇게 나와 있다"가 근거가 되지 않는다</strong>는 지난주의 교훈이 여기서 또 확인된다.</p>
+  </div>
+
+  <div class="callout warning">
+    <span class="callout-label">그리고 규범은 이 변화를 따라오지 않는다</span>
+    <p>표준 발음법은 여전히 단모음을 10개로 규정한다. VOT와 음높이에 대해서는 아무 말도 하지 않는다. <strong>규범은 언어의 변화보다 늦게 움직이고, 늦는 것이 규범의 성질이기도 하다.</strong> 안정된 기준을 주는 것이 그 역할이기 때문이다.</p>
+    <p>그러니 규범이 틀렸다고 할 일도 아니고, 현실이 틀렸다고 할 일도 더더욱 아니다. <strong>둘이 하는 일이 다르다는 것을 알고 갈라 쓰면 된다</strong> — 지난주에 사전을 두고 했던 이야기와 같다. 이 문제는 15주차 「언어의 변이와 규범」에서 결론을 얻는다.</p>
+  </div>
+</section>
+
+<!-- ============ 분석 실습실 ============ -->
+<section id="lab" class="section">
+  <div class="lab">
+    <div class="lab-head">
+      <span class="tag">분석 실습실 · TYPE 4 조사</span>
+      <h3>사람들은 실제로 어떻게 발음하는가</h3>
+      <p>개론서 02장의 연습문제를 그대로 씁니다. 교실 밖에서 자료를 직접 만들어 오는 과제입니다.</p>
+    </div>
+    <div class="lab-body">
+      <div class="prose">
+        <p><strong>과제.</strong> 아래 일곱 항목을 <strong>주변 사람 다섯 명</strong>에게 자연스럽게 읽게 하고 실현형을 적으세요. 미리 "정확히 발음해 달라"고 부탁하면 안 됩니다 — 그 순간 자료가 규범 쪽으로 끌려갑니다.</p>
+      </div>
+
+      <table class="worksheet">
+        <thead>
+          <tr><th style="width:22%">항목</th><th>내가 들은 실현형</th><th style="width:34%">어떤 규칙이 관여했나</th></tr>
+        </thead>
+        <tbody id="ws-body"></tbody>
+      </table>
+
+      <div class="callout">
+        <span class="callout-label">이어서 할 것</span>
+        <p><strong>1.</strong> 다섯 명의 답이 <strong>갈린 항목</strong>이 있는가? 있다면 나이·출신 지역과 관계가 있어 보이는가? (이 관찰이 15주차 사회방언 논의의 예고편이다)</p>
+        <p><strong>2.</strong> 표준 발음법이 정한 발음을 찾아보고, <strong>실제 조사 결과와 다른 항목</strong>을 표시하라. 다르다면 누가 틀린 것인가 — 이 물음에 성급히 답하지 말 것.</p>
+        <p><strong>3.</strong> 목록 안에는 <strong>최소대립을 이루는 쌍</strong>이 숨어 있다. 소리 배열이 거의 같은데 결과가 갈리는 쌍을 찾아, 무엇이 그 차이를 만드는지 §Ⅳ의 두 조건으로 설명하라.</p>
+        <p><strong>4.</strong> 같은 목록을 두고 <strong>"영어권 한국어 학습자라면 어디서 막힐까"</strong>를 예측해 보라. 한국어를 밖에서 보는 연습이다.</p>
+      </div>
+
+      <div class="callout clinical">
+        <span class="callout-label">임상 연결 — 이 실습이 훈련하는 것</span>
+        <p>이 과제의 진짜 목표는 발음 지식이 아니라 <strong>귀</strong>다. 여러분은 앞으로 남의 말을 듣고 그것을 글로 옮기는 일을 수없이 하게 된다. 그때 무심코 <strong>자기가 아는 표기대로 적어 버리는 것</strong>이 가장 흔한 실수다.</p>
+        <p>'금은방'을 [그믄방]이라 들었는데 '금은방'이라고 적는 순간, 그 자료에서 알아낼 수 있었던 것이 사라진다. <strong>들은 대로 적는 훈련</strong>이 3주차 전사 실습의 전제다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 임상 적용 ============ -->
+<section id="clinical" class="section">
+  <div class="section-header">
+    <span class="section-number">§ 임상</span>
+    <h2>임상 적용 — 말소리가 다루는 층위<span class="ko-en">Clinical Application</span></h2>
+    <span class="src-badge main">개론서 16장 3절 「국어학과 언어 치료」</span>
+  </div>
+
+  <div class="prose">
+    <p>1주차에 펼친 대응표에서 <strong>음성학·음운론 칸</strong>을 오늘 채운다. 이 칸에 걸리는 장애가 가장 많다.</p>
+  </div>
+
+  <table class="data-table">
+    <thead>
+      <tr><th style="width:22%">장애 영역</th><th style="width:26%">주로 문제되는 층위</th><th>오늘 배운 것이 쓰이는 자리</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="ko">말소리장애<br><span style="opacity:.6;font-weight:400">(조음음운장애)</span></td>
+        <td>조음(음성) 또는 음운 체계</td>
+        <td>오류를 <strong>조음 위치·방법·발성 유형</strong>으로 기술한다. "발음이 이상하다"가 아니라 "치조 파열음이 연구개로 후방화된다"고 적을 수 있어야 한다.</td>
+      </tr>
+      <tr>
+        <td class="ko">음성장애</td>
+        <td>발성</td>
+        <td>세 단계 중 <strong>발성</strong>의 문제다. 성대의 진동 자체가 대상이므로 조음과는 다른 영역이다.</td>
+      </tr>
+      <tr>
+        <td class="ko">유창성장애</td>
+        <td>운율·시간 구조</td>
+        <td>말의 흐름이 끊기는 문제. <strong>휴지와 억양</strong>을 기술할 줄 알아야 한다.</td>
+      </tr>
+      <tr>
+        <td class="ko">청각장애</td>
+        <td>입력 전반</td>
+        <td>어떤 <strong>음향 단서</strong>에 접근할 수 있는지가 관건. §Ⅵ에서 본 F0 단서 문제가 여기 걸린다.</td>
+      </tr>
+      <tr>
+        <td class="ko">언어장애</td>
+        <td>(음운 인식을 통해 간접적으로)</td>
+        <td><strong>음운 인식</strong>은 읽기 발달의 토대다. 음절과 음소를 다룰 줄 아는 능력이 3주차 「말과 글」의 읽기 논의로 이어진다.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="prose">
+    <h3>자음정확도는 무엇을 세는가</h3>
+    <p>말소리장애 평가에서 가장 널리 쓰이는 지표가 <strong>자음정확도</strong>다. 계산은 단순하다 — 아동이 산출한 자음 중 정확하게 낸 것의 비율.</p>
+
+    <p>그런데 여기에 오늘 배운 것이 전부 들어간다. <strong>무엇을 '정확하다'고 볼 것인가?</strong> 표준 발음법이 정한 형태인가, 그 지역·그 세대가 실제로 쓰는 형태인가? 음운 규칙이 적용된 형태를 오류로 셀 것인가?</p>
+
+    <p>예를 들어 아동이 '국밥'을 [국빱]이라 했다면 이것은 <strong>오류가 아니다.</strong> 경음화라는 필수 규칙이 적용된 정상적인 발음이다. 이런 것을 오류로 세면 수치가 통째로 어긋난다. <strong>그래서 채점하려면 먼저 규칙을 알아야 한다.</strong></p>
+
+    <div class="callout clinical">
+      <span class="callout-label">이 과목이 「말소리장애」 과목에 넘겨주는 것</span>
+      <p>진단 절차와 중재 기법은 이 과목의 일이 아니다. 이 과목이 하는 일은 <strong>기술할 언어를 손에 쥐여 주는 것</strong>이다.</p>
+      <p>· 오류를 <strong>조음 위치·방법·발성 유형</strong>의 좌표로 적을 수 있게 한다<br>
+         · 오류인 것과 <strong>규칙이 적용된 것</strong>을 가를 수 있게 한다<br>
+         · 개별 음소의 문제인지 <strong>체계의 문제</strong>인지 묻게 한다<br>
+         · 그 기준이 <strong>세대와 지역에 따라 움직인다</strong>는 것을 잊지 않게 한다</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 확인 문제 ============ -->
+<section id="check" class="section">
+  <div class="section-header">
+    <span class="section-number">§ 정리</span>
+    <h2>확인 문제<span class="ko-en">Self-Check</span></h2>
+  </div>
+
+  <div class="prose">
+    <p>점수는 반영되지 않습니다. 틀린 문항의 해설을 읽고 해당 절로 돌아가 확인하세요.</p>
+  </div>
+
+  <div id="check-items"></div>
+  <div class="quiz-score" id="check-score">아직 푼 문항이 없습니다.</div>
+
+  <div class="callout" style="margin-top:2rem">
+    <span class="callout-label">이번 주 과제</span>
+    <p><strong>필수</strong> — 분석 실습실의 발음 조사(7항목 × 5명)를 표로 정리해 제출. 갈린 항목과 그 이유에 대한 관찰을 세 줄 이상 붙일 것.</p>
+    <p><strong>권장</strong> — 표준 발음법의 모음 체계와 자신의 실제 발음을 비교해, 자신이 몇 모음 체계를 쓰고 있는지 판정해 보기. ('개'와 '게'를 정말 다르게 발음하는가?)</p>
+    <p><strong>읽어 올 것</strong> — 개론서 12장 1절 「표기 방법의 변화」, 이봉원 15장 「어문 규범」 절 앞부분. <strong>다음 주에 학기 내내 쓸 아동 발화 전사본을 배부합니다.</strong></p>
+  </div>
+
+  <div class="week-nav">
+    <div>
+      <span class="lbl">지난주 · 제01주</span>
+      <b>언어와 한국어학</b>
+      <p>기호와 자의성, 언어의 설계 특성, 형식과 내용의 구별, 한국어학의 지도, 한국어의 유형론적 위치, 그리고 논쟁 중인 네 가지 질문.</p>
+    </div>
+    <div>
+      <span class="lbl">다음 주 · 제03주</span>
+      <b>말과 글</b>
+      <p>오늘 다룬 음성언어의 맞은편으로 건너갑니다. 두 매체의 조건이 언어의 형식을 층위마다 어떻게 갈라놓는지 보고, <strong>구어가 단순한 것이 아니라 다르게 복잡하다</strong>는 것을 어휘 밀도로 확인합니다. 문자 체계의 유형과 <strong>한글의 설계·가획 원리</strong>, 정서법의 깊이. 그리고 <strong>전사</strong> — 말을 글로 옮길 때 무엇이 사라지는가, 오늘 배운 억양과 휴지를 어떻게 적을 것인가. 학기 내내 쓸 아동 발화 전사본을 이날 받습니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 참고 문헌 ============ -->
+<section id="refs" class="section">
+  <div class="section-header">
+    <span class="section-number">§ 자료</span>
+    <h2>참고 문헌과 더 읽을거리<span class="ko-en">References</span></h2>
+  </div>
+
+  <div class="prose"><h3>교재</h3></div>
+
+  <table class="data-table">
+    <tbody>
+      <tr>
+        <td style="width:30%" class="ko">홍종선 외 19인(2022)</td>
+        <td><strong>『쉽게 읽는 한국어학의 이해』 개정2판.</strong> 서울: 한국문화사.<br>
+        <span style="opacity:.72"><strong>이번 주의 주된 근거.</strong> 01장 「음성학」(신지영), 02장 「음운론」(정명숙).</span></td>
+      </tr>
+      <tr>
+        <td class="ko">이봉원(2015)</td>
+        <td><strong>『언어치료사를 위한 한국어 문법』 개정판.</strong> 서울: 학지사.<br>
+        <span style="opacity:.72">15장 「문법의 확장」의 「음운론과 문법」 절 — §Ⅳ의 형태론적 조건 논의. 10장 「발화」 절은 4주차에서 쓴다.</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="prose"><h3>이 분야를 더 볼 사람에게</h3></div>
+
+  <table class="data-table">
+    <tbody>
+      <tr><td style="width:30%" class="ko">★ 신지영</td><td>『한국어의 말소리』, 박이정. <span style="opacity:.65">— 개론서 01장의 집필자가 쓴 단행본. 이 주차의 내용을 제대로 배우려면 여기서 시작한다.</span></td></tr>
+      <tr><td class="ko">★ 신지영·차재은</td><td>『우리말 소리의 체계』, 한국문화사. <span style="opacity:.65">— 한국어 음운 체계의 표준 기술.</span></td></tr>
+      <tr><td class="ko">Ladefoged &amp; Johnson</td><td><em>A Course in Phonetics</em>, Cengage. <span style="opacity:.65">— 음성학의 세계 표준 교재. IPA를 익히려면.</span></td></tr>
+    </tbody>
+  </table>
+
+  <div class="prose"><h3>이번 주에 인용한 연구</h3></div>
+
+  <table class="data-table">
+    <thead><tr><th style="width:22%">절</th><th>문헌</th></tr></thead>
+    <tbody>
+      <tr><td class="ko">§Ⅲ 모음 체계</td><td>홍종선 외(2022: 02장 2절). <span style="opacity:.65">"외워야 한다는 것은 곧 머릿속에 없다는 뜻"이라는 진술의 출처.</span></td></tr>
+      <tr><td class="ko">§Ⅳ 음운 규칙</td><td>홍종선 외(2022: 02장 4절). <span style="opacity:.65">음운론적 조건과 형태론적 조건의 이분, '신라/신라면'·'끝이니까/끝인사' 예.</span></td></tr>
+      <tr><td class="ko">§Ⅴ 운율</td><td>홍종선 외(2022: 02장 3절). <span style="opacity:.65">운율 위계와 억양구 경계 성조.</span><br>김수진 외(2011) — 발화 구분 기준, 이봉원(2015: 10장) 재인용.</td></tr>
+      <tr><td class="ko">§Ⅵ VOT 합류</td><td><strong>Silva, D. J. (2006)</strong> "Acoustic evidence for the emergence of tonal contrast in contemporary Korean." <em>Phonology</em> 23(2): 287–308. <span style="opacity:.65">— 서울 화자 36명 조사. <b>1965년 출생 분기점</b>의 출처.</span><br>
+      <strong>Kang, Y. &amp; Han, S. (2013)</strong> "Tonogenesis in early Contemporary Seoul Korean: A longitudinal case study." <em>Lingua</em> 134: 62–74. <span style="opacity:.65">— 한 화자를 오래 추적한 사례 연구.</span><br>
+      <strong>Kang, Y. (2014)</strong> "Voice Onset Time merger and development of tonal contrast in Seoul Korean stops: A corpus study." <em>Journal of Phonetics</em> 45: 76–90. <span style="opacity:.65">— 대규모 말뭉치. 변화가 <b>연속적</b>이며 <b>여성 화자가 앞선다</b>는 것을 보였다.</span></td></tr>
+      <tr><td class="ko">규범 자료</td><td>국립국어원 「표준 발음법」(표준어 규정 제2부). <span style="opacity:.65">이 주차에서 인용한 조항 — 제4항(단모음 10개, ㅚ·ㅟ의 이중모음 허용), 제10항(자음군 단순화), 제14항(겹받침의 연음), 제17항(구개음화), 제18항(비음화), 제20항과 그 ‘다만’(유음화와 그 예외), <b>제21항(조음 위치 동화 불인정)</b>, 제23항(경음화), 제29항(ㄴ 첨가).</span></td></tr>
+    </tbody>
+  </table>
+
+  <div class="prose"><h3>직접 써 볼 자료</h3></div>
+
+  <div class="mini-grid">
+    <div class="mini">
+      <span class="mtag">규범</span>
+      <h5>국립국어원 어문 규범</h5>
+      <p>표준 발음법 조문을 원문으로 볼 수 있다. 이번 주 실습에서 조사 결과와 대조할 때 쓴다.</p>
+    </div>
+    <div class="mini">
+      <span class="mtag">음성 분석</span>
+      <h5>Praat</h5>
+      <p>무료 음성 분석 프로그램. 소리를 파형과 스펙트로그램으로 보고 VOT와 F0를 직접 잴 수 있다. 「음성학」 과목에서 본격적으로 다루지만, <strong>§Ⅵ의 변화를 자기 목소리로 확인해 보고 싶다면</strong> 지금 설치해도 좋다.</p>
+    </div>
+    <div class="mini">
+      <span class="mtag">전사 기호</span>
+      <h5>IPA 차트</h5>
+      <p>국제음성협회의 공식 차트. 조음 위치·방법의 좌표가 그대로 표로 되어 있다. 이 과목에서는 읽을 줄만 알면 된다.</p>
+    </div>
+    <div class="mini">
+      <span class="mtag">사전</span>
+      <h5>고려대 한국어대사전</h5>
+      <p>이 과목의 기본 사전(네이버 국어사전 수록). 표준국어대사전과 나란히 <strong>표준 발음 표시</strong>를 비교할 수 있다.</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="colophon">
+    <strong>말소리의 구조</strong> — 한국어학 제2주 강의자료<br>
+    <span class="mono">주교재 이봉원(2015) 『언어치료사를 위한 한국어 문법』 개정판, 학지사</span><br>
+    <span class="mono">부교재 홍종선 외 19인(2022) 『쉽게 읽는 한국어학의 이해』 개정2판, 한국문화사</span><br>
+    <span class="mono">Set in Noto Serif KR &amp; JetBrains Mono</span>
+    <p class="epigraph">"외워야 한다는 것은 곧 머릿속에 없다는 뜻이다."<br>— 부교재 02장, 국어의 분절음 체계</p>
+    <p style="font-size:.72rem;opacity:.55;margin-top:1rem">교재 밖 내용의 출처는 §자료 「참고 문헌」에 밝혀 두었다.</p>
+  </div>
+</footer>
+
+<script>
+/* ===== §Ⅰ 음소 지각 ===== */
+const PHONES=[
+ {btn:'불 / 뿔 / 풀',title:'한국어 화자에게는 셋, 영어 화자에게는 둘',
+  sub:'평음 · 경음 · 격음의 삼지적 대립',
+  body:'한국어 화자는 이 셋을 <b>서로 다른 단어</b>로 듣는다. 최소대립쌍이 성립하므로 <span class="ipa">/ㅂ/ /ㅃ/ /ㅍ/</span>는 각각 별개의 음소다. 그런데 영어 화자에게 이 셋은 <b>대체로 두 부류</b>로만 들린다. 그들의 체계에는 셋을 가를 축이 없기 때문이다.',
+  note:'같은 소리가 물리적으로는 분명히 다른데도 <b>어떤 화자에게는 하나로 뭉쳐진다</b>. 음소가 물리적 사실이 아니라 <b>체계에 속한 자리</b>라는 뜻이다.'},
+ {btn:'bus / buzz',title:'영어 화자에게는 둘, 한국어 화자에게는 하나',
+  sub:'유성 · 무성의 대립',
+  body:'영어에서 <span class="ipa">/s/</span>와 <span class="ipa">/z/</span>는 성대의 떨림 하나로 갈리는 별개의 음소다. 그러나 <b>한국어에는 유성 마찰음 음소가 없다.</b> 그래서 한국어 화자는 이 둘을 구별해 듣기 어렵고, 둘 다 ㅅ 계열로 처리한다.',
+  note:'앞의 사례와 정확히 <b>반대 방향</b>이다. 어느 쪽이 더 예민한 귀를 가진 것이 아니라, <b>각자의 체계가 다른 것을 듣도록 만들어 놓았을 뿐</b>이다.'},
+ {btn:'감기 / 강기',title:'한국인도 자기 소리를 모른다',
+  sub:'변이음 — 같은 음소의 다른 실현',
+  body:'‘감기’를 자연스럽게 발음하면 실제로는 [강기]에 가깝게 난다(위치 동화). 그런데 대부분의 한국어 화자는 <b>자기가 그렇게 발음한 줄 모른다.</b> 머릿속에는 <span class="ipa">/ㅁ/</span> 하나만 있고, [ㅁ]과 [ㅇ]은 그 하나가 환경에 따라 달라진 <b>변이음</b>이기 때문이다.',
+  note:'이것이 <b>전사가 어려운 이유</b>다. 우리는 들은 것이 아니라 <b>알고 있는 것</b>을 적는 경향이 있다. 3주차 전사 실습의 첫 관문이 여기다.<br><b>덧붙여 — 표준 발음법 제21항은 이 동화를 인정하지 않는다.</b> 규정은 "감기[감ː기](×[강ː기])"라고 못박는다. 게다가 이 동화는 <b>수의적</b>이다 — §Ⅳ의 경음화처럼 반드시 일어나는 것이 아니다. 자음정확도를 셀 때 필수 규칙과 수의적 규칙을 같게 다룰 수 없는 이유가 여기 있다.'}
+];
+const phBtns=document.getElementById('ph-btns'),phPanel=document.getElementById('ph-panel');
+PHONES.forEach((p,i)=>{
+  const b=document.createElement('button');
+  b.className='ibtn'+(i===0?' active':'');b.textContent=p.btn;
+  b.onclick=()=>{[...phBtns.children].forEach(c=>c.classList.remove('active'));b.classList.add('active');renderPh(p);};
+  phBtns.appendChild(b);
+});
+function renderPh(p){
+  phPanel.innerHTML='<h4>'+p.title+'</h4><p class="sub">'+p.sub+'</p><p>'+p.body+'</p><p class="note">'+p.note+'</p>';
+}
+renderPh(PHONES[0]);
+
+/* ===== §Ⅱ 조음 위치 ===== */
+const PLACES=[
+ {btn:'① 양순',name:'양순음',en:'bilabial',organ:'아랫입술 + 윗입술',
+  sounds:'ㅂ ㅃ ㅍ ㅁ',
+  body:'두 입술을 붙였다 떼며 낸다. <b>눈으로 보이는 유일한 조음 위치</b>라 아동에게 가장 먼저 발달하고, 시각 단서를 쓸 수 있어 중재에서도 출발점이 되는 일이 많다.'},
+ {btn:'② 치조',name:'치조음(치경음)',en:'alveolar',organ:'혀끝 + 윗잇몸',
+  sounds:'ㄷ ㄸ ㅌ ㄴ ㅅ ㅆ ㄹ',
+  body:'혀끝을 윗니 뒤 잇몸에 대고 낸다. <b>한국어 자음이 가장 많이 몰려 있는 자리</b>다. 그만큼 오류도 자주 일어난다.'},
+ {btn:'③ 경구개',name:'경구개음',en:'palatal',organ:'혓바닥 + 단단한 입천장',
+  sounds:'ㅈ ㅉ ㅊ',
+  body:'혓바닥을 입천장의 단단한 부분에 대고 낸다. 파찰음(막았다가 터뜨리며 마찰) 세 개가 여기 있다. 아동에게 비교적 늦게 발달한다.'},
+ {btn:'④ 연구개',name:'연구개음',en:'velar',organ:'혀 뒤 + 물렁한 입천장',
+  sounds:'ㄱ ㄲ ㅋ ㅇ',
+  body:'혀의 뒷부분을 입천장 안쪽의 물렁한 부분에 붙여 낸다. 종성의 ㅇ(<span class="ipa">/ŋ/</span>)도 여기다.'},
+ {btn:'⑤ 성문',name:'성문음(후음)',en:'glottal',organ:'성대 사이의 틈',
+  sounds:'ㅎ',
+  body:'입 안에서는 아무것도 막지 않고 <b>성대 사이에서 나는 마찰</b>로 만든다. 그래서 뒤따르는 모음의 입 모양을 미리 취한 채로 발음된다.'}
+];
+const artBtns=document.getElementById('art-btns'),artPanel=document.getElementById('art-panel');
+PLACES.forEach((p,i)=>{
+  const b=document.createElement('button');
+  b.className='ibtn'+(i===0?' active':'');b.textContent=p.btn;
+  b.dataset.p=i;
+  b.onclick=()=>pickPlace(i);
+  artBtns.appendChild(b);
+});
+document.querySelectorAll('#art-points .ap').forEach(g=>{
+  g.style.cursor='pointer';
+  g.onclick=()=>pickPlace(+g.dataset.p);
+});
+function pickPlace(i){
+  [...artBtns.children].forEach((c,j)=>c.classList.toggle('active',j===i));
+  document.querySelectorAll('#art-points .ap circle').forEach((c,j)=>{
+    c.setAttribute('fill',j===i?'#f5f1e8':'#e8b647');
+  });
+  const p=PLACES[i];
+  artPanel.innerHTML='<h4>'+p.name+' <span style="font-family:var(--sans);font-size:.75rem;opacity:.55">'+p.en+'</span></h4>'+
+    '<p class="sub">'+p.organ+'</p>'+
+    '<div style="font-size:1.6rem;font-family:var(--sans);letter-spacing:.3em;margin:.6rem 0 1rem;color:var(--highlight)">'+p.sounds+'</div>'+
+    '<p>'+p.body+'</p>';
+}
+pickPlace(0);
+
+/* ===== §Ⅲ 자음표 ===== */
+const CPLACES=['양순','치조','경구개','연구개','성문'];
+const CROWS=[
+ {name:'파열음 · 평음',cls:'lax',cells:['ㅂ','ㄷ','','ㄱ','']},
+ {name:'파열음 · 경음',cls:'tense',cells:['ㅃ','ㄸ','','ㄲ','']},
+ {name:'파열음 · 격음',cls:'asp',cells:['ㅍ','ㅌ','','ㅋ','']},
+ {name:'파찰음 · 평음',cls:'lax',cells:['','','ㅈ','','']},
+ {name:'파찰음 · 경음',cls:'tense',cells:['','','ㅉ','','']},
+ {name:'파찰음 · 격음',cls:'asp',cells:['','','ㅊ','','']},
+ {name:'마찰음 · 평음',cls:'lax',cells:['','ㅅ','','','']},
+ {name:'마찰음 · 경음',cls:'tense',cells:['','ㅆ','','','']},
+ {name:'비음',cls:'',cells:['ㅁ','ㄴ','','ㅇ','']},
+ {name:'유음',cls:'',cells:['','ㄹ','','','']},
+ {name:'성문 마찰음',cls:'',cells:['','','','','ㅎ']}
+];
+const CINFO={
+ 'ㅂ':['양순 파열음 · 평음','p','두 입술을 막았다 터뜨린다. 숨이 거의 터지지 않고 성문도 조이지 않는다.'],
+ 'ㅃ':['양순 파열음 · 경음','p͈','같은 자리이되 <b>성문을 조여</b> 긴장된 소리를 낸다.'],
+ 'ㅍ':['양순 파열음 · 격음','pʰ','같은 자리이되 <b>숨이 크게 터져 나온다</b>(유기).'],
+ 'ㄷ':['치조 파열음 · 평음','t','혀끝을 윗잇몸에 붙였다 뗀다.'],
+ 'ㄸ':['치조 파열음 · 경음','t͈','긴장을 동반한다.'],
+ 'ㅌ':['치조 파열음 · 격음','tʰ','기식을 동반한다.'],
+ 'ㄱ':['연구개 파열음 · 평음','k','혀 뒤를 물렁입천장에 붙였다 뗀다.'],
+ 'ㄲ':['연구개 파열음 · 경음','k͈','긴장을 동반한다.'],
+ 'ㅋ':['연구개 파열음 · 격음','kʰ','기식을 동반한다.'],
+ 'ㅈ':['경구개 파찰음 · 평음','tɕ','막았다가 <b>터뜨리면서 마찰</b>을 낸다. 파열과 마찰이 잇달아 일어난다.'],
+ 'ㅉ':['경구개 파찰음 · 경음','t͈ɕ','긴장을 동반한다.'],
+ 'ㅊ':['경구개 파찰음 · 격음','tɕʰ','기식을 동반한다.'],
+ 'ㅅ':['치조 마찰음 · 평음','s','통로를 좁혀 <b>공기를 계속 흘려보내며</b> 마찰을 낸다. 막지 않는다. 어두에서는 <b>약간의 기식을 동반</b>해 [sʰ]로 적기도 한다.'],
+ 'ㅆ':['치조 마찰음 · 경음','s͈','긴장을 동반한다. <b>마찰음에는 격음 자리가 비어 있다</b> — 파열음·파찰음이 셋씩인 것과 대조되는 체계의 빈자리다.'],
+ 'ㅎ':['성문 마찰음','h','입 안에서는 막지 않고 <b>성대 사이에서</b> 마찰을 낸다. <b>ㅎ은 삼지적 대립에 참여하지 않는다</b> — 평음도 경음도 격음도 아니고, 오히려 평음과 만나 격음을 만든다(좋고 → [조코]). 한국어 자음 체계에서 홀로 서 있는 소리다.'],
+ 'ㅁ':['양순 비음','m','입을 막되 <b>공기를 코로 보낸다</b>. 성대가 떨리는 유성음이다.'],
+ 'ㄴ':['치조 비음','n','혀끝으로 막고 코로 보낸다. 유성음.'],
+ 'ㅇ':['연구개 비음','ŋ','혀 뒤로 막고 코로 보낸다. <b>종성에서만 나타난다</b> — 초성의 ㅇ은 소리가 없는 자리 표시일 뿐이다.'],
+ 'ㄹ':['치조 유음','l / ɾ','혀끝을 잇몸에 대되 <b>옆으로 공기를 흘리거나</b>(설측음, 종성) <b>가볍게 튕긴다</b>(탄설음, 모음 사이). 한 음소의 두 변이음이다.']
+};
+const ctab=document.getElementById('ctab'),consPanel=document.getElementById('cons-panel');
+(function buildCtab(){
+  let h='<thead><tr><th class="rowh"></th>';
+  CPLACES.forEach(p=>h+='<th>'+p+'</th>');
+  h+='</tr></thead><tbody>';
+  CROWS.forEach(r=>{
+    h+='<tr><th class="rowh">'+r.name+'</th>';
+    r.cells.forEach(c=>{
+      h+='<td class="'+r.cls+'">'+(c?'<button data-c="'+c+'">'+c+'</button>':'')+'</td>';
+    });
+    h+='</tr>';
+  });
+  ctab.innerHTML=h+'</tbody>';
+  ctab.querySelectorAll('button').forEach(b=>{
+    b.onclick=()=>{
+      ctab.querySelectorAll('button').forEach(x=>x.classList.remove('on'));
+      b.classList.add('on');showCons(b.dataset.c);
+    };
+  });
+})();
+function showCons(c){
+  const d=CINFO[c];
+  consPanel.innerHTML='<h4><span style="font-size:1.5rem;margin-right:.5rem">'+c+'</span>'+d[0]+'</h4>'+
+    '<p class="sub">IPA <span class="ipa">['+d[1]+']</span></p><p>'+d[2]+'</p>';
+}
+showCons('ㅂ');
+
+/* ===== §Ⅲ 모음 사각도 ===== */
+const VOWELS={
+ std:{label:'표준 발음법 10모음',
+  pts:[['ㅣ',60,45,'전설 · 고 · 평순'],['ㅟ',60,72,'전설 · 고 · <b>원순</b> — 규정상 단모음'],
+       ['ㅔ',95,95,'전설 · 중 · 평순'],['ㅚ',95,122,'전설 · 중 · <b>원순</b> — 규정상 단모음'],
+       ['ㅐ',130,150,'전설 · 중저 · 평순'],
+       ['ㅡ',290,45,'후설(음성학적으로는 중설) · 고 · 평순'],['ㅜ',330,45,'후설 · 고 · 원순'],
+       ['ㅓ',288,128,'후설(음성학적으로는 중설) · 중저 · 평순'],['ㅗ',330,100,'후설 · 중고 · 원순'],
+       ['ㅏ',280,168,'후설 · 저 · 평순']],
+  body:'표준 발음법은 단모음을 <b>10개</b>로 규정한다. 여기에는 <b>ㅚ와 ㅟ</b>가 단모음으로 포함되고, <b>ㅐ와 ㅔ</b>가 별개의 모음으로 구별된다.',
+  note:'규정은 "ㅚ, ㅟ는 이중모음으로 발음할 수 있다"는 단서를 달아 두었다. <b>규정 스스로 현실과의 거리를 인정하고 있는 셈</b>이다.'},
+ real:{label:'현실 발음 7모음',
+  pts:[['ㅣ',60,45,'전설 · 고 · 평순'],
+       ['ㅔ',95,110,'전설 · 중 · 평순 — <b>ㅐ와 합류</b>'],
+       ['ㅡ',290,45,'후설 · 고 · 평순'],['ㅜ',330,45,'후설 · 고 · 원순'],
+       ['ㅓ',290,110,'후설 · 중 · 평순'],['ㅗ',330,110,'후설 · 중 · 원순'],
+       ['ㅏ',280,165,'후설 · 저 · 평순']],
+  body:'서울말 젊은 세대의 실제 체계는 <b>7개</b>에 가깝다. <b>ㅚ·ㅟ는 이중모음</b>([we], [wi])으로 실현되어 단모음 목록에서 빠지고, <b>ㅐ와 ㅔ는 하나로 합류</b>했다.',
+  note:'‘개’와 ‘게’를 구별해 발음할 수 있는가? 대부분 못 한다. 그런데도 <b>글로 쓸 때는 정확히 가려 쓴다</b> — 표기가 발음보다 오래 남는다는 것을 보여 주는 사례다. 3주차 「말과 글」에서 다시 만난다.'}
+};
+const vowFig=document.getElementById('vow-fig'),vowPanel=document.getElementById('vow-panel');
+document.querySelectorAll('[data-vsys]').forEach(b=>{
+  b.onclick=()=>{
+    document.querySelectorAll('[data-vsys]').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');renderVow(b.dataset.vsys);
+  };
+});
+function renderVow(k){
+  const v=VOWELS[k];
+  let s='<svg class="vowsvg" viewBox="0 0 400 210" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="단모음 사각도. 가로축은 혀의 앞뒤, 세로축은 혀의 높낮이.">'+
+    '<path d="M45 30 L355 30 L320 180 L120 180 Z" fill="none" stroke="#f5f1e8" stroke-width="1.2" opacity=".45"/>'+
+    '<text x="200" y="18" fill="#7da3c4" font-family="Noto Sans KR" font-size="11" text-anchor="middle">← 전설  ·  혀의 앞뒤  ·  후설 →</text>'+
+    '<text x="18" y="110" fill="#7da3c4" font-family="Noto Sans KR" font-size="11" text-anchor="middle" transform="rotate(-90 18 110)">← 고  ·  혀 높이  ·  저 →</text>';
+  v.pts.forEach((p,i)=>{
+    s+='<g class="vp" data-v="'+i+'"><circle cx="'+p[1]+'" cy="'+p[2]+'" r="5"/>'+
+       '<text x="'+(p[1]+11)+'" y="'+(p[2]+5)+'">'+p[0]+'</text></g>';
+  });
+  vowFig.innerHTML=s+'</svg>';
+  vowPanel.innerHTML='<h4>'+v.label+'</h4><p>'+v.body+'</p><p class="note">'+v.note+'</p>';
+  vowFig.querySelectorAll('.vp').forEach(g=>{
+    g.onclick=()=>{
+      vowFig.querySelectorAll('.vp').forEach(x=>x.classList.remove('on'));
+      g.classList.add('on');
+      const p=v.pts[+g.dataset.v];
+      vowPanel.innerHTML='<h4><span style="font-size:1.5rem;margin-right:.5rem">'+p[0]+'</span>'+v.label+'</h4>'+
+        '<p class="sub">'+p[3]+'</p><p>'+v.body+'</p><p class="note">'+v.note+'</p>';
+    };
+  });
+}
+renderVow('std');
+
+/* ===== §Ⅳ 음절 ===== */
+const SYLS=[
+ {btn:'닭',w:'닭',syl:[['ㄷ','ㅏ','ㄺ']],pron:'[닥]',
+  body:'표기의 종성은 <b>겹받침 ㄺ</b>이지만, 한국어 음절의 종성에는 <b>자음이 하나만</b> 올 수 있다. 그래서 둘 중 하나가 탈락해 [닥]이 된다.',
+  note:'‘닭이’처럼 뒤에 모음이 오면 상황이 달라진다 — [달기]. 탈락하지 않고 <b>다음 음절의 초성으로 넘어간다</b>. 같은 표기가 환경에 따라 다르게 실현되는 것이다.'},
+ {btn:'꽃',w:'꽃',syl:[['ㄲ','ㅗ','ㅊ']],pron:'[꼳]',
+  body:'종성에 올 수 있는 자음은 <b>ㄱ ㄴ ㄷ ㄹ ㅁ ㅂ ㅇ 일곱 개</b>뿐이다. ㅊ은 그중에 없으므로 가장 가까운 ㄷ으로 바뀐다. 이것을 <b>평파열음화</b>(음절말 중화)라 한다.',
+  note:'‘꽃이’는 [꼬치]가 된다. 뒤에 모음이 오면 중화가 일어나지 않고 원래의 ㅊ이 살아난다. <b>머릿속 형태는 /꽃/이고 [꼳]은 표면형일 뿐</b>이라는 증거다.'},
+ {btn:'스트라이크',w:'스트라이크',syl:[['ㅅ','ㅡ',''],['ㅌ','ㅡ',''],['ㄹ','ㅏ',''],['','ㅣ',''],['ㅋ','ㅡ','']],pron:'[스트라이크]',
+  body:'영어 <i>strike</i>는 <b>1음절</b>이다(초성에 자음 셋). 그런데 한국어 음절에는 <b>자음이 연달아 올 수 없다.</b> 그래서 자음마다 모음 ㅡ를 끼워 넣어 <b>5음절</b>이 되었다.',
+  note:'외래어가 길어지는 이유가 여기 있다. <b>음절 구조 제약이 외래어의 모양을 결정한다.</b> 어느 언어의 소리 체계인지가 이렇게 드러난다.'},
+ {btn:'아이',w:'아이',syl:[['','ㅏ',''],['','ㅣ','']],pron:'[아이]',
+  body:'초성과 종성이 모두 비어 있고 <b>중성만</b> 있는 음절이다. 표기의 ㅇ은 자음이 아니라 <b>초성 자리가 비었음을 나타내는 표시</b>일 뿐이다.',
+  note:'그래서 ㅇ은 초성에서는 소릿값이 없고 <b>종성에서만</b> 연구개 비음 <span class="ipa">/ŋ/</span>으로 실현된다. 한글 표기의 특징이며 3주차 「말과 글」에서 다시 다룬다.'}
+];
+const sylBtns=document.getElementById('syl-btns'),sylPanel=document.getElementById('syl-panel');
+SYLS.forEach((s,i)=>{
+  const b=document.createElement('button');
+  b.className='ibtn'+(i===0?' active':'');b.textContent=s.btn;
+  b.onclick=()=>{[...sylBtns.children].forEach(c=>c.classList.remove('active'));b.classList.add('active');renderSyl(s);};
+  sylBtns.appendChild(b);
+});
+function renderSyl(s){
+  let cells=s.syl.map(sy=>
+    '<div class="icell" style="text-align:center;min-width:82px">'+
+    '<span style="display:block;font-size:.62rem;opacity:.5;font-family:var(--mono)">초성</span>'+
+    '<span style="display:block;font-size:1.15rem;color:var(--paper);min-height:1.6rem">'+(sy[0]||'—')+'</span>'+
+    '<span style="display:block;font-size:.62rem;opacity:.5;font-family:var(--mono);margin-top:.3rem">중성</span>'+
+    '<span style="display:block;font-size:1.15rem;color:#e8b647;min-height:1.6rem">'+sy[1]+'</span>'+
+    '<span style="display:block;font-size:.62rem;opacity:.5;font-family:var(--mono);margin-top:.3rem">종성</span>'+
+    '<span style="display:block;font-size:1.15rem;color:var(--paper);min-height:1.6rem">'+(sy[2]||'—')+'</span>'+
+    '</div>').join('');
+  sylPanel.innerHTML=
+    '<div style="font-size:1.5rem;font-family:var(--sans);margin-bottom:.3rem">'+s.w+
+      '<span style="opacity:.5;margin:0 .6rem">→</span><span style="color:var(--highlight)">'+s.pron+'</span></div>'+
+    '<p class="sub">'+s.syl.length+'음절</p>'+
+    '<div style="display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:1rem">'+cells+'</div>'+
+    '<p>'+s.body+'</p><p class="note">'+s.note+'</p>';
+}
+renderSyl(SYLS[0]);
+
+/* ===== §Ⅳ 음운 규칙 ===== */
+const RULES=[
+ {btn:'신라 / 신라면',
+  a:['신라','[실라]'],b:['신라면','[신나면]'],
+  q:'둘 다 ㄴ + ㄹ 배열인데 왜 결과가 정반대인가?',
+  body:'‘신라’는 <b>하나의 단어</b>이므로 ㄴ이 ㄹ에 동화되어 [실라]가 된다(유음화). 그런데 ‘신라면’을 <b>‘신 + 라면’</b>으로 인식하면 단어 경계가 끼어 유음화가 일어나지 않고 오히려 ㄹ이 ㄴ으로 바뀐다(표준 발음법 제20항 ‘다만’ — 의견란[의ː견난], 상견례[상견녜] 유형).',
+  concl:'<b>소리 배열만 봐서는 예측할 수 없다.</b> 실제로 국립국어원은 ‘신라면’의 표준 발음을 정해 두지 않았다 — <b>한 단어로 인식하는 화자는 [실라면], ‘신+라면’으로 인식하는 화자는 [신나면]</b>으로 발음한다. 같은 소리 배열을 두고 발음이 갈리는 이유가 <b>화자의 형태 분석</b>에 있다는 것 — 이보다 나은 증거가 없다.'},
+ {btn:'끝이니까 / 끝인사',
+  a:['끝이니까','[끄치니까]'],b:['끝인사','[끈닌사]'],
+  q:'둘 다 ‘끝’ 뒤에 ㅣ 계열 소리가 오는데 왜 다른가?',
+  body:'‘끝이니까’의 ‘이’는 <b>조사·어미 계열의 문법 형태소</b>다. 이런 환경에서는 ㅌ이 ㅊ으로 바뀐다(구개음화). 반면 ‘끝인사’의 ‘인사’는 <b>독립된 실질 형태소</b>라 구개음화가 일어나지 않고, 규칙 세 개가 차례로 적용된다 — 앞의 ㅌ이 먼저 ㄷ으로 중화되고(방금 배운 평파열음화), ㄴ이 덧나며(ㄴ 첨가), 그 ㄴ 때문에 앞의 ㄷ이 ㄴ으로 바뀐다(비음화). <b>끝인사 → [끋인사] → [끋닌사] → [끈닌사]</b>.',
+  concl:'<b>뒤에 오는 것이 문법 형태소인가 실질 형태소인가</b>가 발음을 가른다. 소리의 층위가 형태소의 종류를 <b>알아야만</b> 작동하는 것이다.'},
+ {btn:'국밥 / 국물',
+  a:['국밥','[국빱]'],b:['국물','[궁물]'],
+  q:'이 쌍은 앞의 둘과 성격이 다르다',
+  body:'‘국밥’에서는 종성 ㄱ 뒤의 ㅂ이 경음이 된다(경음화). ‘국물’에서는 뒤따르는 ㅁ 때문에 앞의 ㄱ이 비음 ㅇ으로 바뀐다(비음화). 둘 다 <b>앞뒤 소리만 보면 예측된다.</b>',
+  concl:'이것이 <b>음운론적 조건</b>이다. 어떤 단어인지, 합성어인지 몰라도 된다. 소리 배열만 알면 결과가 정해진다. — 앞의 두 사례와 <b>이 차이가 이 절의 핵심</b>이다.'}
+];
+const ruleBtns=document.getElementById('rule-btns'),rulePanel=document.getElementById('rule-panel');
+RULES.forEach((r,i)=>{
+  const b=document.createElement('button');
+  b.className='ibtn'+(i===0?' active':'');b.textContent=r.btn;
+  b.onclick=()=>{[...ruleBtns.children].forEach(c=>c.classList.remove('active'));b.classList.add('active');renderRule(r);};
+  ruleBtns.appendChild(b);
+});
+function renderRule(r){
+  const pair=(x,color)=>'<div class="icell" style="text-align:center">'+
+    '<b style="font-size:1.25rem;color:var(--paper);margin-bottom:.4rem">'+x[0]+'</b>'+
+    '<span style="font-size:1.35rem;color:'+color+'">'+x[1]+'</span></div>';
+  rulePanel.innerHTML=
+    '<div class="igrid" style="margin-bottom:1rem">'+pair(r.a,'#e8b647')+pair(r.b,'#e0836a')+'</div>'+
+    '<h4>'+r.q+'</h4><p>'+r.body+'</p><p class="note">'+r.concl+'</p>';
+}
+renderRule(RULES[0]);
+
+/* ===== §Ⅴ 억양 ===== */
+const INTONS=[
+ {btn:'L%  내림',tone:'L%',path:'M40,60 L200,60 L340,105',
+  read:'“학교에 가요.”',mean:'평서 — 사실을 전달하고 끝맺는다',
+  body:'가락이 <b>내려가며 마무리</b>된다. 발화가 끝났다는 신호이므로, 전사할 때 여기서 끊는 근거가 된다.',
+  note:'격식적이고 단정적인 느낌을 준다. 아나운서의 말투나 윗사람이 아랫사람에게 하는 말에서 자주 나타난다.'},
+ {btn:'H%  올림',tone:'H%',path:'M40,80 L200,80 L340,25',
+  read:'“학교에 가요?”',mean:'판정 의문 — 예/아니요를 묻는다',
+  body:'가락이 <b>올라가며</b> 끝난다. 같은 문장이 물음이 된다. <b>한국어에서 억양만으로 문장 유형이 바뀌는</b> 대표적인 경우다.',
+  note:'부드럽고 공손하며 친근한 느낌을 준다. 그래서 서비스업 종사자의 말투에서 두드러진다. <b>억양이 화용적 의미를 나른다</b>는 것 — 14주차 화용론의 예고편이다.'},
+ {btn:'LH%  내렸다 올림',tone:'LH%',path:'M40,60 L170,95 L340,35',
+  read:'“학교에 가요…?”',mean:'되묻기 · 확인 · 다짐에 자주 쓰인다',
+  body:'한 번 내려갔다가 다시 올라간다. 상대의 말을 <b>되묻거나 확인</b>할 때, 무언가를 <b>다짐하거나 강조</b>할 때 자주 나타난다.',
+  note:'단순한 상승과 구별된다는 점이 중요하다. <b>경계 성조는 두 개 이상의 성조가 결합한 모양</b>을 가질 수 있다.'},
+ {btn:'HL%  올렸다 내림',tone:'HL%',path:'M40,75 L170,30 L340,95',
+  read:'“학교에 가요!”',mean:'감탄 · 강조에 자주 쓰이지만 평서에도 붙는다',
+  body:'올라갔다가 내려온다. 감탄하거나 강하게 단정할 때 쓰이는데, 평범한 평서문에도 흔히 나타난다.',
+  note:'<b>여기서 본 넷은 대표적인 것일 뿐이다.</b> K-ToBI는 억양구 경계 성조를 아홉 개까지 구별하며, <b>성조와 의미는 일대일이 아니다</b> — 같은 의문사 의문이 L%·H%·LH%·HL%로 모두 실현될 수 있다. 억양은 문장 유형을 기계적으로 정하는 장치가 아니라 <b>화자의 태도까지 함께 나르는 자원</b>이다. 그래서 같은 문장이 여러 발화가 된다 — 10주차 「문장의 구성」에서 만나는 문장과 발화의 구별이 여기서 미리 보인다.'}
+];
+const intBtns=document.getElementById('int-btns'),intFig=document.getElementById('int-fig'),intPanel=document.getElementById('int-panel');
+INTONS.forEach((t,i)=>{
+  const b=document.createElement('button');
+  b.className='ibtn'+(i===0?' active':'');b.textContent=t.btn;
+  b.onclick=()=>{[...intBtns.children].forEach(c=>c.classList.remove('active'));b.classList.add('active');renderInt(t);};
+  intBtns.appendChild(b);
+});
+function renderInt(t){
+  intFig.innerHTML='<svg class="pitchsvg" viewBox="0 0 380 140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="억양 곡선. 경계 성조 '+t.tone+'">'+
+    '<line x1="30" y1="120" x2="360" y2="120" stroke="#f5f1e8" stroke-width="1" opacity=".25"/>'+
+    '<text x="14" y="30" fill="#7da3c4" font-family="Noto Sans KR" font-size="10">높이</text>'+
+    '<path d="'+t.path+'" fill="none" stroke="#e8b647" stroke-width="3" stroke-linecap="round"/>'+
+    '<text x="190" y="134" fill="#f5f1e8" opacity=".65" font-family="Noto Sans KR" font-size="12" text-anchor="middle">'+t.read+'</text>'+
+    '<text x="352" y="'+(t.tone==='H%'||t.tone==='LH%'?14:118)+'" fill="#e8b647" font-family="JetBrains Mono" font-size="13" text-anchor="end">'+t.tone+'</text>'+
+    '</svg>';
+  intPanel.innerHTML='<h4>'+t.tone+' — '+t.mean+'</h4><p>'+t.body+'</p><p class="note">'+t.note+'</p>';
+}
+renderInt(INTONS[0]);
+
+/* ===== §Ⅵ 성조 발생 ===== */
+const TONO=[
+ {btn:'1930년대 출생',vot:[26,88],f0:[52,60],
+  title:'VOT가 주된 단서였다',
+  body:'평음과 격음의 <b>VOT 차이가 뚜렷하다.</b> ㅍ은 숨이 크게 터지고 ㅂ은 그렇지 않다. 음높이 차이도 있지만 부수적이다.',
+  note:'교과서와 검사 규준의 상당수가 이 세대의 자료로 만들어졌다.'},
+ {btn:'1960년대 출생',vot:[42,62],f0:[40,78],
+  title:'두 단서가 자리를 바꾸는 중',
+  body:'VOT 차이가 <b>눈에 띄게 줄었다.</b> 대신 음높이 차이가 커진다. Silva(2006)가 1965년 무렵을 분기점으로 본 것도 이 구간이다.',
+  note:'변화는 <b>여성 화자가 앞선다.</b> Kang(2014)에 따르면 여성은 1940년 무렵 출생자에게서 이미 음높이 대립이 나타나는데, 남성은 한 세대쯤 뒤진다. 많은 소리 변화가 여성 화자에게서 먼저 진행된다는 사회언어학의 관찰과 일치한다.'},
+ {btn:'1980년대 출생',vot:[50,55],f0:[32,90],
+  title:'음높이가 주된 단서가 되었다',
+  body:'VOT만으로는 <b>둘을 가르기 어렵다.</b> 구별은 뒤따르는 모음의 음높이가 담당한다 — 격음 뒤는 높고 평음 뒤는 낮다.',
+  note:'자음의 대립이 <b>음높이의 대립으로 옮겨 가는</b> 이 과정이 성조 발생(tonogenesis)이다. 세계 여러 언어의 성조가 이 경로로 생겨났다고 알려져 있다.'}
+];
+const tonBtns=document.getElementById('ton-btns'),tonFig=document.getElementById('ton-fig'),tonPanel=document.getElementById('ton-panel');
+TONO.forEach((t,i)=>{
+  const b=document.createElement('button');
+  b.className='ibtn'+(i===0?' active':'');b.textContent=t.btn;
+  b.onclick=()=>{[...tonBtns.children].forEach(c=>c.classList.remove('active'));b.classList.add('active');renderTon(t);};
+  tonBtns.appendChild(b);
+});
+function renderTon(t){
+  const bar=(lbl,v,color)=>
+    '<div style="display:grid;grid-template-columns:64px 1fr 40px;gap:.6rem;align-items:center;margin-bottom:.4rem">'+
+    '<span style="font-family:var(--sans);font-size:.8rem">'+lbl+'</span>'+
+    '<span style="display:block;height:1rem;background:#f5f1e818"><span style="display:block;height:100%;width:'+v+'%;background:'+color+'"></span></span>'+
+    '<span style="font-family:var(--mono);font-size:.68rem;opacity:.6">'+v+'</span></div>';
+  const gap=(a,b)=>Math.abs(a-b);
+  tonFig.innerHTML=
+    '<div class="igrid">'+
+      '<div class="icell"><b>VOT — 숨이 터지는 시간</b>'+
+        bar('평음 ㅂ',t.vot[0],'#7da3c4')+bar('격음 ㅍ',t.vot[1],'#7da3c4')+
+        '<span style="font-size:.76rem;opacity:.6">두 값의 차이 '+gap(t.vot[0],t.vot[1])+' — '+(gap(t.vot[0],t.vot[1])<15?'거의 사라짐':gap(t.vot[0],t.vot[1])<35?'줄어드는 중':'뚜렷함')+'</span></div>'+
+      '<div class="icell"><b>F0 — 뒤따르는 모음의 음높이</b>'+
+        bar('평음 ㅂ',t.f0[0],'#e8b647')+bar('격음 ㅍ',t.f0[1],'#e8b647')+
+        '<span style="font-size:.76rem;opacity:.6">두 값의 차이 '+gap(t.f0[0],t.f0[1])+' — '+(gap(t.f0[0],t.f0[1])<15?'작음':gap(t.f0[0],t.f0[1])<45?'커지는 중':'주된 단서')+'</span></div>'+
+    '</div>';
+  tonPanel.innerHTML='<h4>'+t.title+'</h4><p>'+t.body+'</p><p class="note">'+t.note+'</p>';
+}
+renderTon(TONO[0]);
+
+/* ===== 실습실 워크시트 ===== */
+const WSITEMS=['최인락','김연례','넓네요','한국요리','한국요?','금은방','공부방'];
+document.getElementById('ws-body').innerHTML=WSITEMS.map((w,i)=>
+  '<tr><td class="w">'+w+'</td>'+
+  '<td><input type="text" aria-label="'+w+'의 실현형" placeholder="[            ]"></td>'+
+  '<td><input type="text" aria-label="'+w+'에 관여한 규칙" placeholder="예) ㄴ 첨가 · 유음화 · 자음군 단순화 · 사잇소리 경음화 …"></td></tr>').join('');
+
+/* ===== 퀴즈 엔진 ===== */
+function buildQuiz(containerId,scoreId,items){
+  const wrap=document.getElementById(containerId),scoreEl=document.getElementById(scoreId);
+  let done=0,right=0;
+  items.forEach((it,i)=>{
+    const d=document.createElement('div');
+    d.className='quiz-item';
+    d.innerHTML='<div class="quiz-q"><span class="num">'+String(i+1).padStart(2,'0')+'</span>'+it.q+'</div>'+
+      '<div class="quiz-opts"></div><div class="quiz-fb"></div>';
+    const optWrap=d.querySelector('.quiz-opts'),fb=d.querySelector('.quiz-fb');
+    it.opts.forEach((label,j)=>{
+      const b=document.createElement('button');
+      b.className='quiz-opt';b.textContent=label;
+      b.onclick=()=>{
+        optWrap.querySelectorAll('.quiz-opt').forEach(x=>x.disabled=true);
+        const ok=j===it.a;
+        b.classList.add(ok?'correct':'wrong');
+        if(!ok)optWrap.querySelectorAll('.quiz-opt')[it.a].classList.add('correct');
+        fb.innerHTML='<b>'+(ok?'정답':'다시 보기')+'</b> · '+it.fb;
+        fb.classList.add('show');
+        done++;if(ok)right++;
+        scoreEl.textContent=done+'문항 풀이 · 정답 '+right+'개 ('+Math.round(right/done*100)+'%)'+
+          (done===items.length?(right===items.length?' — 완벽합니다.':' — 틀린 문항의 해설을 다시 읽어 보세요.'):'');
+      };
+      optWrap.appendChild(b);
+    });
+    wrap.appendChild(d);
+  });
+}
+
+buildQuiz('check-items','check-score',[
+ {q:'물리적으로 실현된 소리를 적을 때 쓰는 기호와, 머릿속 단위를 적을 때 쓰는 기호가 바르게 짝지어진 것은?',
+  opts:['음성 / /  ·  음운 [ ]','음성 [ ]  ·  음운 / /','둘 다 [ ]','둘 다 / /'],a:1,
+  fb:'음성은 대괄호 <span class="ipa">[ ]</span>, 음운(음소)은 빗금 <span class="ipa">/ /</span>다. ‘옷’의 머릿속 형태는 <span class="ipa">/os/</span>이고 홀로 발음하면 <span class="ipa">[ot̚]</span>이 된다. → §Ⅰ'},
+ {q:'한국어의 평음·경음·격음에 대한 설명으로 <b>옳은</b> 것은?',
+  opts:['평음은 유성음, 경음과 격음은 무성음이다','셋 모두 유성음이다','셋 모두 무성음이며 기식성과 긴장성으로 갈린다','평음과 경음은 유성, 격음은 무성이다'],a:2,
+  fb:'<b>셋 모두 무성음</b>이다. 세계 언어에서 흔한 유성/무성 축을 한국어는 쓰지 않고, 기식성(유기/무기)과 긴장성(연음/경음)으로 셋을 가른다. 영어권 학습자가 가장 크게 걸리는 지점이다. → §Ⅲ'},
+ {q:'말소리 산출의 세 단계를 순서대로 바르게 나열한 것은?',
+  opts:['조음 → 발성 → 발동','발성 → 발동 → 조음','발동 → 조음 → 발성','발동 → 발성 → 조음'],a:3,
+  fb:'공기를 밀어내고(발동), 성대에서 조절하고(발성), 입 안에서 변형한다(조음). 음성장애는 <b>발성</b>, 말소리장애는 주로 <b>조음</b>의 문제라는 구분도 여기서 나온다. → §Ⅱ'},
+ {q:'‘꽃’을 홀로 발음하면 [꼳]이 되지만 ‘꽃이’는 [꼬치]가 된다. 이 사실이 보여 주는 것은?',
+  opts:['종성에 올 수 있는 자음이 제한되어 있고, 머릿속 형태는 표면형과 다르다','표기가 잘못되었다','ㅊ은 원래 ㄷ이다','두 단어는 서로 다른 단어다'],a:0,
+  fb:'종성에는 7개 자음만 올 수 있어 ㅊ이 ㄷ으로 중화된다(평파열음화). 그러나 뒤에 모음이 오면 원래의 ㅊ이 되살아난다 — <b>머릿속 형태는 /꽃/</b>이고 [꼳]은 표면에 나타난 모습일 뿐이라는 증거다. → §Ⅳ'},
+ {q:'‘신라’는 [실라]인데 ‘신라면’은 [신나면]이다. 이 차이를 만드는 것은?',
+  opts:['말하는 속도','앞뒤 소리의 배열','한 단어인가 합성어인가 하는 형태론적 정보','발화의 억양'],a:2,
+  fb:'소리 배열은 둘 다 ㄴ+ㄹ로 같다. 다른 것은 ‘신라’가 한 단어이고 ‘신라면’이 <b>‘신+라면’의 합성어</b>라는 점이다. 소리만으로 예측되지 않으므로 <b>형태론적 조건</b>의 음운 규칙이다. → §Ⅳ'},
+ {q:'다음 중 <b>음운론적 조건</b>만으로 설명되는 것은?',
+  opts:['끝이니까 → [끄치니까]','국밥 → [국빱]','끝인사 → [끈닌사]','신라면 → [신나면]'],a:1,
+  fb:'‘국밥’의 경음화는 앞뒤 소리만 보면 예측된다 — 종성 뒤의 평음이 경음이 된다. 나머지 셋은 문법 형태소인지 실질 형태소인지, 한 단어인지 합성어인지를 알아야 결정된다. → §Ⅳ'},
+ {q:'표준 발음법은 단모음을 10개로 규정하지만 서울말 젊은 세대의 실제 체계는 7개에 가깝다. 그 차이를 만드는 두 가지는?',
+  opts:['ㅏ와 ㅓ의 합류, ㅗ의 소실','ㅚ·ㅟ의 이중모음화, ㅐ와 ㅔ의 합류','ㅡ의 소실, ㅣ의 이중모음화','ㅜ와 ㅗ의 합류, ㅐ의 소실'],a:1,
+  fb:'ㅚ·ㅟ는 단모음이 아니라 이중모음([we], [wi])으로 실현되고, ㅐ와 ㅔ는 하나로 합류했다. ‘개’와 ‘게’를 구별해 발음하지 못한다면 여러분도 7모음 체계를 쓰고 있는 것이다. → §Ⅲ'},
+ {q:'한국어에서 <b>단어의 뜻을 가르는 기능이 살아 있는</b> 운율 요소는?',
+  opts:['강세','성조 (표준어의 경우)','장단 (현실 발음의 경우)','위 셋 모두 표준어에서는 그 기능이 약하거나 없다'],a:3,
+  fb:'강세는 뜻을 가르지 않고, 성조는 중세 한국어와 경상 방언에 남아 있을 뿐 표준어에는 없으며, 장단은 규정에는 있으나 현실 발음에서 사실상 소실되었다. 한국어에서 활발한 것은 <b>억양</b>이다. → §Ⅴ'},
+ {q:'“학교에 가요”의 끝을 올려 발음하면 물음이 된다. 이때 붙은 억양구 경계 성조는?',
+  opts:['L%','H%','HL%','성조가 아니라 강세다'],a:1,
+  fb:'상승조 H%다. 같은 문장이 억양만으로 다른 발화가 된다 — <b>문장은 하나인데 발화는 여럿</b>이라는 10주차의 구별이 여기서 미리 나타난다. → §Ⅴ'},
+ {q:'4주차에 아동의 전사본에서 발화를 끊을 때, 종결어미와 함께 근거가 되는 것은?',
+  opts:['단어의 개수','억양구 경계 성조와 휴지','자음정확도','문장의 길이'],a:1,
+  fb:'아이들은 종결어미 없이 말을 이어 가는 일이 많으므로, <b>가락이 마무리되는가</b>(억양구 경계)와 <b>쉬는가</b>(휴지)가 실질적인 근거가 된다. 이 주차를 건너뛸 수 없는 이유다. → §Ⅴ'},
+ {q:'서울말에서 진행 중인 VOT 합류와 성조 발생에 대한 설명으로 <b>옳지 않은</b> 것은?',
+  opts:['젊은 세대에서 평음과 격음의 VOT 차이가 줄었다','구별의 단서가 뒤따르는 모음의 음높이로 옮겨 가고 있다','젊은 세대는 평음과 격음을 구별하지 못하게 되었다','이런 변화는 젊은 여성 화자에게서 앞서 나타난다'],a:2,
+  fb:'구별을 <b>못 하게 된 것이 아니라 단서가 바뀐 것</b>이다. VOT 대신 음높이로 가른다. 이 점을 놓치면 "요즘 애들 발음이 나빠졌다"는 엉뚱한 결론으로 간다. → §Ⅵ'},
+ {q:'아동이 ‘국밥’을 [국빱]으로 발음했다. 자음정확도 채점에서 이것을 어떻게 처리해야 하는가?',
+  opts:['오류로 센다 — 표기와 다르므로','정확한 산출로 센다 — 필수 음운 규칙이 적용된 형태이므로','판단을 보류하고 다시 시킨다','ㅂ만 오류로 세고 나머지는 정확으로 센다'],a:1,
+  fb:'경음화는 필수적으로 적용되는 음운 규칙이므로 [국빱]이 <b>정상적인 발음</b>이다. 이런 것을 오류로 세면 수치가 통째로 어긋난다. <b>채점하려면 먼저 규칙을 알아야 한다</b>는 것이 이 주차가 임상에 넘겨주는 핵심이다. → §임상'}
+]);
+
+/* ===== 스크롤 스파이 ===== */
+const navLinks=[...document.querySelectorAll('.nav-link')].filter(a=>document.querySelector(a.getAttribute('href')));
+const navSecs=navLinks.map(a=>document.querySelector(a.getAttribute('href')));
+function spy(){
+  let cur=0;
+  navSecs.forEach((s,i)=>{if(s.getBoundingClientRect().top<250)cur=i;});
+  navLinks.forEach((a,i)=>a.classList.toggle('active',i===cur));
+}
+window.addEventListener('scroll',spy);spy();
+</script>
+
+</body>
+</html>

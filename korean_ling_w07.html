@@ -1,0 +1,1295 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>체언과 관형사 — 한국어학 제7주</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Noto+Serif+KR:wght@300;400;500;600;700;900&family=Noto+Sans+KR:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1a1814;
+  --paper:#f5f1e8;
+  --paper-warm:#ede5d3;
+  --accent:#7a2c5e;        /* plum — BLOCK C */
+  --accent-soft:#b87ba0;
+  --moss:#4a5d3a;
+  --terracotta:#c85a3e;
+  --rule:#1a181433;
+  --highlight:#e8b647;
+  --serif:'Noto Serif KR','Fraunces',Georgia,serif;
+  --sans:'Noto Sans KR',sans-serif;
+  --mono:'JetBrains Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--serif);background:var(--paper);color:var(--ink);
+  line-height:1.75;font-size:16px;
+  background-image:
+    radial-gradient(circle at 20% 30%, #00000008 1px, transparent 1px),
+    radial-gradient(circle at 80% 70%, #00000008 1px, transparent 1px);
+  background-size:40px 40px,60px 60px;
+}
+.masthead{border-bottom:3px double var(--ink);padding:1.8rem 3rem 1.3rem;background:rgba(245,241,232,.95);position:sticky;top:0;z-index:100;backdrop-filter:blur(8px)}
+.masthead-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:auto 1fr auto;gap:2rem;align-items:end}
+.issue-tag{font-family:var(--mono);font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);border:1px solid var(--accent);padding:.3rem .6rem;align-self:start}
+.title-block h1{font-weight:900;font-size:clamp(1.9rem,4.6vw,3.3rem);line-height:.98;letter-spacing:-.02em}
+.title-block .subtitle{font-style:italic;font-weight:300;font-size:1rem;margin-top:.5rem;opacity:.7}
+.meta-info{text-align:right;font-family:var(--mono);font-size:.7rem;line-height:1.6;opacity:.7}
+
+.toc-nav{border-bottom:1px solid var(--rule);background:var(--paper-warm);padding:.8rem 3rem;position:sticky;top:141px;z-index:99}
+.toc-nav-inner{max-width:1200px;margin:0 auto;display:flex;gap:.4rem;flex-wrap:wrap;font-family:var(--sans);font-size:.78rem}
+.toc-nav a{color:var(--ink);text-decoration:none;padding:.3rem .7rem;border:1px solid transparent;transition:all .2s;font-weight:500}
+.toc-nav a:hover{border-color:var(--ink);background:var(--paper)}
+.toc-nav a.active{background:var(--ink);color:var(--paper)}
+
+main{max-width:1200px;margin:0 auto;padding:3rem}
+
+.hero{display:grid;grid-template-columns:1.35fr 1fr;gap:3rem;margin-bottom:4rem;align-items:start}
+.hero-text .lead{font-size:1.16rem;line-height:1.95}
+.hero-text .lead::first-letter{float:left;font-size:4.3rem;line-height:.82;font-weight:900;margin:.1rem .6rem 0 0;color:var(--accent)}
+.hero-text p+p{margin-top:1.2rem}
+.hero-aside{background:var(--paper-warm);border:1px solid var(--rule);padding:1.6rem 1.8rem}
+.hero-aside h3{font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem;font-weight:500}
+.hero-aside ol{list-style:none;counter-reset:g}
+.hero-aside li{counter-increment:g;position:relative;padding-left:1.9rem;margin-bottom:.75rem;font-size:.92rem;line-height:1.6}
+.hero-aside li::before{content:counter(g);position:absolute;left:0;top:.2rem;font-family:var(--mono);font-size:.68rem;color:var(--paper);background:var(--accent);width:1.3rem;height:1.3rem;display:flex;align-items:center;justify-content:center;border-radius:50%}
+
+.section{margin-bottom:4.5rem;scroll-margin-top:200px}
+.section-header{border-bottom:2px solid var(--ink);padding-bottom:.6rem;margin-bottom:1.6rem}
+.section-number{font-family:var(--mono);font-size:.72rem;letter-spacing:.16em;color:var(--accent);display:block;margin-bottom:.3rem}
+.section-header h2{font-size:clamp(1.4rem,2.8vw,2.05rem);font-weight:700;letter-spacing:-.01em}
+.ko-en{font-family:var(--sans);font-size:.8rem;font-weight:400;opacity:.55;margin-left:.6rem}
+.src-badge{display:inline-block;font-family:var(--mono);font-size:.63rem;letter-spacing:.06em;border:1px solid var(--rule);padding:.15rem .45rem;margin:.5rem .3rem 0 0;opacity:.72}
+.src-badge.main{border-color:var(--accent);color:var(--accent)}
+.prose p{margin-bottom:1.2rem}
+.prose h3{font-size:1.24rem;font-weight:700;margin:2.2rem 0 .8rem;padding-left:.7rem;border-left:3px solid var(--accent)}
+em.term{font-style:normal;font-weight:600;border-bottom:2px solid var(--highlight);padding-bottom:1px}
+.ex{font-family:var(--sans);background:var(--paper-warm);padding:.9rem 1.2rem;margin:1.1rem 0;font-size:.93rem;line-height:2}
+.mono{font-family:var(--mono)}
+
+.concept-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:1rem;margin:1.8rem 0}
+.concept-card{border:1px solid var(--rule);padding:1.2rem;background:#fff9;transition:transform .2s}
+.concept-card:hover{transform:translateY(-3px)}
+.concept-card .card-num{font-family:var(--mono);font-size:.65rem;letter-spacing:.13em;color:var(--accent);display:block;margin-bottom:.45rem}
+.concept-card h4{font-size:1rem;margin-bottom:.15rem}
+.concept-card .ko{font-family:var(--sans);font-size:.72rem;opacity:.55;display:block;margin-bottom:.5rem}
+.concept-card p{font-size:.85rem;line-height:1.62;opacity:.87}
+
+.interactive{background:var(--ink);color:var(--paper);padding:2.1rem 2.3rem;margin:2rem 0;position:relative}
+.interactive::before{content:'';position:absolute;top:8px;left:8px;right:8px;bottom:8px;border:1px solid #f5f1e830;pointer-events:none}
+.interactive h3{font-family:var(--serif);font-size:1.18rem;margin-bottom:.35rem;position:relative}
+.interactive-desc{font-family:var(--sans);font-size:.81rem;opacity:.6;margin-bottom:1.5rem;position:relative}
+.ibody{position:relative}
+.btnrow{display:flex;flex-wrap:wrap;gap:.45rem;margin-bottom:1.3rem}
+.ibtn{font-family:var(--sans);font-size:.8rem;background:transparent;color:var(--paper);border:1px solid #f5f1e850;padding:.4rem .85rem;cursor:pointer;transition:all .18s}
+.ibtn:hover{background:#f5f1e820}
+.ibtn.active{background:var(--paper);color:var(--ink);border-color:var(--paper)}
+.ibtn:disabled{opacity:.3;cursor:default}
+.ipanel{min-height:110px;font-size:.9rem;line-height:1.75}
+.ipanel h4{font-size:1.12rem;margin-bottom:.3rem}
+.ipanel p{margin-bottom:.75rem}
+.ibody .note{font-family:var(--sans);font-size:.82rem;opacity:.75;border-left:2px solid var(--accent-soft);padding-left:.8rem;margin-top:.9rem}
+.itable{width:100%;border-collapse:collapse;color:var(--paper);font-size:.85rem;margin:.3rem 0 1rem}
+.itable th{font-family:var(--mono);font-size:.62rem;letter-spacing:.09em;text-align:left;padding:.4rem .55rem;border-bottom:1px solid #f5f1e850;font-weight:500;opacity:.7}
+.itable td{padding:.42rem .55rem;border-bottom:1px solid #f5f1e820;vertical-align:top;line-height:1.55}
+
+/* 결정트리 */
+.tree-q{font-family:var(--sans);font-size:1.02rem;margin-bottom:.5rem;line-height:1.6}
+.tree-crit{font-family:var(--mono);font-size:.66rem;letter-spacing:.12em;color:var(--highlight);display:block;margin-bottom:.35rem}
+.tree-path{display:flex;flex-wrap:wrap;gap:.35rem;margin:.9rem 0;font-family:var(--mono);font-size:.72rem}
+.tree-path span{border:1px solid #f5f1e840;padding:.15rem .5rem;opacity:.8}
+.tree-path span.hit{background:var(--highlight);color:var(--ink);border-color:var(--highlight);opacity:1}
+.result-big{font-family:var(--sans);font-size:1.55rem;color:var(--highlight);margin:.4rem 0 .2rem}
+
+/* 막대 */
+.barset{margin:.4rem 0 1.1rem}
+.barrow{display:grid;grid-template-columns:82px 1fr 112px;gap:.7rem;align-items:center;margin-bottom:.5rem;font-family:var(--sans);font-size:.83rem}
+.bartrack{background:#f5f1e818;height:19px;position:relative;overflow:hidden}
+.barfill{height:100%;transition:width .5s cubic-bezier(.4,0,.2,1)}
+.barval{font-family:var(--mono);font-size:.75rem;text-align:right;opacity:.85;white-space:nowrap}
+
+/* 수용성 판정 */
+.perm{border:1px solid #f5f1e830;padding:.75rem .95rem;margin-bottom:.5rem;display:flex;justify-content:space-between;gap:.8rem;align-items:center;appearance:none;-webkit-appearance:none;border-radius:0;transition:background .15s}
+.perm:hover{background:#f5f1e810}
+.perm .ph{font-family:var(--sans);font-size:1.02rem}
+.perm .pj{font-family:var(--mono);font-size:.78rem;white-space:nowrap}
+.perm.ok{border-color:#9dd39a}.perm.ok .pj{color:#9dd39a}
+.perm.mid{border-color:#e8b647}.perm.mid .pj{color:#e8b647}
+.perm.bad{border-color:#e0836a}.perm.bad .pj{color:#e0836a}
+
+/* 단위명사 격자 */
+.unitgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(72px,1fr));gap:.35rem;margin-bottom:1.1rem}
+.unitbtn{font-family:var(--sans);font-size:.95rem;background:transparent;color:var(--paper);border:1px solid #f5f1e840;padding:.42rem .2rem;cursor:pointer;transition:all .15s}
+.unitbtn:hover{background:#f5f1e818}
+.unitbtn.on{background:var(--paper);color:var(--ink)}
+
+.data-table{width:100%;border-collapse:collapse;margin:1.5rem 0;font-size:.85rem}
+.data-table th{font-family:var(--mono);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;text-align:left;padding:.6rem .7rem;border-bottom:2px solid var(--ink);font-weight:500}
+.data-table td{padding:.6rem .7rem;border-bottom:1px solid var(--rule);vertical-align:top;line-height:1.55}
+.data-table tr:hover td{background:var(--paper-warm)}
+.data-table .ko{font-weight:600}
+.data-table td.num{font-family:var(--mono);text-align:right;white-space:nowrap}
+
+.callout{border-left:3px solid var(--accent);background:var(--paper-warm);padding:1.2rem 1.5rem;margin:1.7rem 0}
+.callout-label{font-family:var(--mono);font-size:.65rem;letter-spacing:.13em;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:.5rem}
+.callout p{font-size:.92rem;line-height:1.78;margin-bottom:.7rem}
+.callout p:last-child{margin-bottom:0}
+.callout.clinical{border-left-color:var(--moss)}
+.callout.clinical .callout-label{color:var(--moss)}
+.callout.warning{border-left-color:var(--terracotta)}
+.callout.warning .callout-label{color:var(--terracotta)}
+
+.quiz-item{border:1px solid var(--rule);padding:1.1rem 1.3rem;margin-bottom:.9rem;background:#fff9}
+.quiz-q{font-size:.97rem;margin-bottom:.75rem;line-height:1.7}
+.quiz-q .num{font-family:var(--mono);font-size:.7rem;color:var(--accent);margin-right:.5rem}
+.quiz-opts{display:flex;flex-wrap:wrap;gap:.4rem}
+.quiz-opt{font-family:var(--sans);font-size:.82rem;background:var(--paper);border:1px solid var(--rule);padding:.35rem .8rem;cursor:pointer;transition:all .16s;color:var(--ink)}
+.quiz-opt:hover{border-color:var(--ink)}
+.quiz-opt.correct{background:var(--moss);color:var(--paper);border-color:var(--moss)}
+.quiz-opt.wrong{background:var(--terracotta);color:var(--paper);border-color:var(--terracotta)}
+.quiz-opt:disabled{cursor:default}
+.quiz-fb{font-family:var(--sans);font-size:.85rem;line-height:1.7;margin-top:.75rem;padding-top:.7rem;border-top:1px dotted var(--rule);display:none}
+.quiz-fb.show{display:block;animation:fade .3s}
+@keyframes fade{from{opacity:0;transform:translateY(-3px)}to{opacity:1;transform:none}}
+.quiz-score{font-family:var(--mono);font-size:.8rem;padding:.7rem 1rem;background:var(--paper-warm);border:1px solid var(--rule);margin-top:1rem}
+
+.lab{border:2px solid var(--ink);padding:0;margin:2rem 0}
+.lab-head{background:var(--ink);color:var(--paper);padding:1.1rem 1.6rem}
+.lab-head .tag{font-family:var(--mono);font-size:.65rem;letter-spacing:.14em;color:var(--highlight);display:block;margin-bottom:.25rem}
+.lab-head h3{font-size:1.25rem;font-weight:700}
+.lab-head p{font-family:var(--sans);font-size:.83rem;opacity:.72;margin-top:.35rem}
+.lab-body{padding:1.6rem}
+.worksheet{width:100%;border-collapse:collapse;font-size:.88rem;margin:1.2rem 0}
+.worksheet th,.worksheet td{border:1px solid var(--rule);padding:.5rem .6rem;text-align:left}
+.worksheet th{font-family:var(--mono);font-size:.62rem;letter-spacing:.08em;background:var(--paper-warm);font-weight:500}
+.worksheet td.w{font-family:var(--sans);font-size:.95rem;width:24%}
+.worksheet input{width:100%;font-family:var(--sans);font-size:.88rem;border:none;background:transparent;color:var(--ink);padding:.15rem}
+.worksheet input:focus{outline:1px solid var(--accent)}
+
+.mini-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:1rem;margin:1.6rem 0}
+.mini{border:1px solid var(--rule);padding:1.1rem 1.2rem;background:#fff9;transition:transform .2s}
+.mini:hover{transform:translateY(-3px)}
+.mini h5{font-size:.98rem;margin-bottom:.4rem}
+.mini .mtag{font-family:var(--mono);font-size:.63rem;letter-spacing:.1em;color:var(--accent);display:block;margin-bottom:.35rem}
+.mini p{font-size:.83rem;line-height:1.62;opacity:.87}
+
+.week-nav{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:3.5rem;padding-top:2rem;border-top:1px solid var(--rule)}
+.week-nav div{border:1px solid var(--rule);padding:1.1rem 1.3rem;background:#fff9}
+.week-nav .lbl{font-family:var(--mono);font-size:.63rem;letter-spacing:.13em;color:var(--accent);display:block;margin-bottom:.35rem}
+.week-nav b{font-size:1rem;display:block;margin-bottom:.25rem}
+.week-nav p{font-size:.83rem;opacity:.75;line-height:1.6}
+
+footer{border-top:3px double var(--ink);margin-top:4rem;padding:2.5rem 3rem 3.5rem}
+.colophon{max-width:640px;margin:0 auto;text-align:center;font-size:.82rem;line-height:1.9;opacity:.72}
+.colophon .mn{font-family:var(--mono);font-size:.7rem;letter-spacing:.08em}
+.colophon .epigraph{font-style:italic;margin-top:1.2rem;opacity:.8}
+
+@media(max-width:900px){
+  .masthead,.toc-nav,main,footer{padding-left:1.4rem;padding-right:1.4rem}
+  .masthead-inner{grid-template-columns:1fr;gap:.8rem}
+  .meta-info{text-align:left}
+  .toc-nav{position:static}
+  .hero{grid-template-columns:1fr;gap:2rem}
+  .week-nav{grid-template-columns:1fr}
+  .interactive{padding:1.5rem 1.2rem}
+  .lab-head,.lab-body{padding-left:1.2rem;padding-right:1.2rem}
+  .barrow{grid-template-columns:66px 1fr 96px;gap:.5rem;font-size:.78rem}
+}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <span class="issue-tag">제07주 · BLOCK C</span>
+    <div class="title-block">
+      <h1>체언과 관형사</h1>
+      <p class="subtitle"><em>Sorting Words</em> — 단어를 무리 짓는 세 가지 기준</p>
+    </div>
+    <div class="meta-info">
+      나사렛대학교<br>언어치료학과<br>학부 과정<br>이봉원 5·6·8장 · 개론서 04장
+    </div>
+  </div>
+</header>
+
+<nav class="toc-nav">
+  <div class="toc-nav-inner">
+    <a href="#intro" class="nav-link">들어가며</a>
+    <a href="#criteria" class="nav-link">§Ⅰ 세 가지 기준</a>
+    <a href="#nine" class="nav-link">§Ⅱ 9품사와 5언</a>
+    <a href="#noun" class="nav-link">§Ⅲ 명사</a>
+    <a href="#bound" class="nav-link">§Ⅳ 의존명사</a>
+    <a href="#pron" class="nav-link">§Ⅴ 대명사와 수사</a>
+    <a href="#det" class="nav-link">§Ⅵ 관형사</a>
+    <a href="#issues" class="nav-link">§Ⅶ 열린 쟁점</a>
+    <a href="#lab" class="nav-link">분석 실습실</a>
+    <a href="#clinical" class="nav-link">임상 적용</a>
+    <a href="#check" class="nav-link">확인 문제</a>
+    <a href="#refs" class="nav-link">참고 문헌</a>
+  </div>
+</nav>
+
+<main>
+
+<!-- ============ 들어가며 ============ -->
+<section id="intro" class="section">
+  <div class="hero">
+    <div class="hero-text">
+      <p class="lead">단어를 무리 짓는 일은 쉬워 보인다. '학교'는 명사, '먹다'는 동사, '예쁘다'는 형용사. 그런데 <strong>'있다'는 무엇인가?</strong> 동사 같기도 하고 형용사 같기도 하다. <strong>'이다'는?</strong> 학교 문법은 이것을 <strong>조사</strong>라고 한다.</p>
+
+      <p>이런 흔들림은 실수가 아니다. <strong>품사 분류에는 기준이 셋 있고, 그 셋이 늘 같은 답을 주지는 않기</strong> 때문이다. 오늘 배우는 것의 절반은 9품사의 목록이지만, 나머지 절반은 <strong>기준이 어긋날 때 무엇을 우선할 것인가</strong>이다.</p>
+
+      <p>BLOCK C가 여기서 시작한다. 세 주에 걸쳐 9품사를 다 본다. 오늘은 <strong>체언</strong>(명사·대명사·수사)과 <strong>관형사</strong>. 관형사를 여기 붙인 데는 이유가 있다 — <strong>'두 개'의 '두'가 수사인지 관형사인지</strong>를 가리려면 체언과 나란히 놓고 봐야 하기 때문이다.</p>
+    </div>
+
+    <aside class="hero-aside">
+      <h3>이번 주 학습 목표</h3>
+      <ol>
+        <li>품사 분류의 <strong>세 기준</strong>(형태·기능·의미)을 알고 적용한다</li>
+        <li><strong>9품사와 5언</strong>의 관계를 설명한다</li>
+        <li>명사를 고유/보통, 유정/무정, 자립/의존으로 나눈다</li>
+        <li><strong>의존명사</strong>의 세 갈래를 구별한다</li>
+        <li>대명사와 수사의 하위 부류를 안다</li>
+        <li><strong>관형사</strong>를 판정하고 그 배열 순서를 안다</li>
+        <li>품사 분류가 <strong>흔들리는 자리</strong>를 찾아낸다</li>
+      </ol>
+    </aside>
+  </div>
+
+  <div class="callout warning">
+    <span class="callout-label">먼저 털어놓을 것 — 품사는 발견되는 것이 아니다</span>
+    <p>학생들이 흔히 오해하는 것이 있다. <strong>단어마다 품사가 새겨져 있고 우리는 그것을 찾아내면 된다</strong>는 생각이다. 그렇지 않다.</p>
+    <p>품사는 <strong>사람이 기준을 세워 나눈 것</strong>이다. 그래서 기준이 다르면 결과가 다르다. 한국어 학교 문법은 9품사이지만, <strong>10품사로 나누는 문법도 있고 5품사로 줄이는 문법도 있다.</strong> 6주차에서 본 두 사전이 같은 단어에 다른 품사를 붙이는 일도 여기서 나온다.</p>
+    <p>그러니 오늘의 목표는 「정답 외우기」가 아니다. <strong>어떤 기준으로 그렇게 나누었는지 말할 수 있게 되는 것</strong>이다.</p>
+  </div>
+</section>
+
+<!-- ============ §Ⅰ ============ -->
+<section id="criteria" class="section">
+  <div class="section-header">
+    <span class="section-number">§ Ⅰ</span>
+    <h2>세 가지 기준<span class="ko-en">Form, Function, Meaning</span></h2>
+    <span class="src-badge main">이봉원 5장 「품사론」</span>
+    <span class="src-badge main">개론서 04장 1절</span>
+  </div>
+
+  <div class="prose">
+    <p>품사는 세 기준으로 나눈다. 순서가 있다 — <strong>형태 → 기능 → 의미</strong>. 앞의 것이 더 굵게 자르고, 뒤로 갈수록 잘게 나눈다.</p>
+
+    <div class="concept-grid">
+      <div class="concept-card">
+        <span class="card-num">기준 01 · 가장 굵게</span>
+        <h4>형태</h4>
+        <span class="ko">形態 · form</span>
+        <p><strong>모습이 변하는가?</strong> 어미를 달아 활용하면 <strong>가변어</strong>, 안 하면 <strong>불변어</strong>. 「먹다·먹었다·먹으니」는 가변어, 「학교」는 불변어.</p>
+      </div>
+      <div class="concept-card">
+        <span class="card-num">기준 02 · 중간</span>
+        <h4>기능</h4>
+        <span class="ko">機能 · function</span>
+        <p><strong>문장에서 무슨 구실을 하는가?</strong> 주어가 되는가, 서술어가 되는가, 다른 말을 꾸미는가, 말과 말을 이어 주는가.</p>
+      </div>
+      <div class="concept-card">
+        <span class="card-num">기준 03 · 가장 잘게</span>
+        <h4>의미</h4>
+        <span class="ko">意味 · meaning</span>
+        <p><strong>어떤 부류의 뜻인가?</strong> 사물의 이름인가, 그것을 가리키는 말인가, 수를 나타내는가. 명사·대명사·수사를 가르는 것이 이 기준이다.</p>
+      </div>
+    </div>
+
+    <div class="callout">
+      <span class="callout-label">「의미」 기준을 조심할 것</span>
+      <p>의미 기준은 <strong>맨 마지막에, 가장 좁게</strong> 쓴다. 그 이유가 있다.</p>
+      <p>"명사는 사물의 이름이다"라고 배우면 <strong>'사랑·기쁨·평화'는 명사가 아닌 것처럼</strong> 느껴진다. 사물이 아니니까. 그런데 이들은 명사다 — 조사가 붙고 주어가 되기 때문이다(<strong>기능</strong>). 반대로 '달리기'와 '달리다'는 <strong>의미가 거의 같은데</strong> 품사가 다르다 — 하나는 활용하고 하나는 안 하기 때문이다(<strong>형태</strong>).</p>
+      <p>즉 <strong>의미만으로는 판정할 수 없다.</strong> 형태와 기능이 먼저다. 아래 결정트리가 그 순서로 묻는다.</p>
+    </div>
+  </div>
+
+  <div class="interactive">
+    <h3>★ 9품사 분류 결정트리</h3>
+    <p class="interactive-desc">단어를 고르면 <strong>형태 → 기능 → 의미</strong> 순으로 묻습니다. 판정에 이르는 <strong>경로</strong>를 보십시오 — 답보다 경로가 중요합니다.</p>
+    <div class="ibody">
+      <div class="btnrow" id="dt-btns"></div>
+      <div class="tree-path" id="dt-path"></div>
+      <div class="ipanel" id="dt-panel"></div>
+      <div class="btnrow" style="margin:1rem 0 0">
+        <button class="ibtn" id="dt-step">다음 물음</button>
+        <button class="ibtn" id="dt-all">끝까지</button>
+        <button class="ibtn" id="dt-reset">처음으로</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ §Ⅱ ============ -->
+<section id="nine" class="section">
+  <div class="section-header">
+    <span class="section-number">§ Ⅱ</span>
+    <h2>9품사와 5언<span class="ko-en">Nine Parts of Speech</span></h2>
+    <span class="src-badge main">이봉원 5장 · 개론서 04장 2절</span>
+  </div>
+
+  <div class="prose">
+    <p>학교 문법은 한국어의 품사를 <strong>아홉</strong>으로 나눈다. 그리고 그 아홉을 기능에 따라 <strong>다섯 무리</strong>로 묶는다.</p>
+  </div>
+
+  <table class="data-table">
+    <thead>
+      <tr><th style="width:13%">5언</th><th style="width:20%">9품사</th><th style="width:10%">형태</th><th>어떤 구실을 하는가</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="ko" rowspan="3" style="background:#7a2c5e12">체언<br><span style="font-weight:400;font-size:.78rem;opacity:.6">體言</span></td><td class="ko">명사</td><td>불변</td><td rowspan="3">조사가 붙어 <strong>주어·목적어 등이 된다.</strong> 문장의 「몸」에 해당한다. <strong>오늘의 주제.</strong></td></tr>
+      <tr><td class="ko">대명사</td><td>불변</td></tr>
+      <tr><td class="ko">수사</td><td>불변</td></tr>
+      <tr><td class="ko" rowspan="2" style="background:#2d5a3d12">용언<br><span style="font-weight:400;font-size:.78rem;opacity:.6">用言</span></td><td class="ko">동사</td><td><strong>가변</strong></td><td rowspan="2"><strong>서술어가 된다.</strong> 어미를 달아 활용한다 — 한국어에서 가장 복잡한 체계. <strong>8주차.</strong></td></tr>
+      <tr><td class="ko">형용사</td><td><strong>가변</strong></td></tr>
+      <tr><td class="ko" rowspan="2" style="background:#a86b1c12">수식언<br><span style="font-weight:400;font-size:.78rem;opacity:.6">修飾言</span></td><td class="ko">관형사</td><td>불변</td><td><strong>체언을 꾸민다.</strong> 오늘 §Ⅵ.</td></tr>
+      <tr><td class="ko">부사</td><td>불변</td><td><strong>용언·다른 부사·문장을 꾸민다.</strong> 8주차.</td></tr>
+      <tr><td class="ko" style="background:#c85a3e12">관계언<br><span style="font-weight:400;font-size:.78rem;opacity:.6">關係言</span></td><td class="ko">조사</td><td>불변<sup style="opacity:.6">*</sup></td><td>앞말에 붙어 <strong>문법적 관계를 나타내거나 뜻을 더한다.</strong> <strong>9주차.</strong></td></tr>
+      <tr><td class="ko" style="background:#1a181410">독립언<br><span style="font-weight:400;font-size:.78rem;opacity:.6">獨立言</span></td><td class="ko">감탄사</td><td>불변</td><td>다른 성분과 <strong>관계를 맺지 않고</strong> 홀로 쓰인다. 8주차에 잠깐 다룬다.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout warning">
+    <span class="callout-label"><sup>*</sup> 조사가 「불변」인가 — 여기서부터 흔들린다</span>
+    <p>서술격조사 <strong>'이다'</strong>는 활용한다 — 이고, 이니, 이어서, 이었다. 그러면 <strong>불변어라는 조사의 정의에 어긋난다.</strong></p>
+    <p>이 문제를 두고 세 갈래 처리가 있다. ① 학교 문법처럼 <strong>조사로 두되 예외로 인정</strong>한다. ② <strong>지정사</strong>라는 품사를 따로 만든다(북한 문법과 일부 학자). ③ <strong>접사</strong>로 본다. §Ⅶ에서 다시 다룬다.</p>
+    <p>흔들리는 자리를 미리 알려 주는 이유가 있다. <strong>기준이 어긋나는 지점이 곧 그 언어의 특징</strong>이기 때문이다. 매끈한 분류표만 외우면 정작 중요한 것을 놓친다.</p>
+  </div>
+</section>
+
+<!-- ============ §Ⅲ ============ -->
+<section id="noun" class="section">
+  <div class="section-header">
+    <span class="section-number">§ Ⅲ</span>
+    <h2>명사<span class="ko-en">Nouns</span></h2>
+    <span class="src-badge main">이봉원 6장 「체언」</span>
+    <span class="src-badge">개론서 04장 3절</span>
+  </div>
+
+  <div class="prose">
+    <p>명사는 압도적으로 많다. 표준국어대사전 표제어의 <strong>73.9%</strong>(270,039개)가 명사다 — 의존명사 874개는 사전이 따로 집계하므로 <strong>이 수치에 들어 있지 않다.</strong> 그러니 나누어 볼 필요가 있다. 세 가지 기준이 쓰인다.</p>
+  </div>
+
+  <div class="interactive">
+    <h3>명사를 나누는 세 방식</h3>
+    <p class="interactive-desc">기준을 골라 보세요. <strong>세 기준은 서로 독립적</strong>이라 한 명사에 셋이 동시에 적용됩니다.</p>
+    <div class="ibody">
+      <div class="btnrow" id="nn-btns"></div>
+      <div class="ipanel" id="nn-panel"></div>
+    </div>
+  </div>
+
+  <div class="callout clinical">
+    <span class="callout-label">임상 연결 — 유정/무정이 조사를 고른다</span>
+    <p>유정명사와 무정명사의 구별은 뜻풀이용 분류가 아니다. <strong>붙는 조사가 다르다.</strong></p>
+    <div class="ex" style="background:#fff6;margin:.6rem 0">
+      친구<strong>에게</strong> 줬어 &nbsp;·&nbsp; 강아지<strong>한테</strong> 줬어 &nbsp;<span style="opacity:.55">(유정)</span><br>
+      학교<strong>에</strong> 갔어 &nbsp;·&nbsp; <span style="color:var(--terracotta)">*</span>학교<strong>에게</strong> 갔어 &nbsp;<span style="opacity:.55">(무정)</span>
+    </div>
+    <p>아동이 "<u>인형에게</u> 밥 줬어"라고 하면 그것은 오류가 아니라 <strong>인형을 유정물로 대하는 것</strong>이다. 반대로 "<u>엄마에 줬어</u>"는 조사 선택 오류다. <strong>조사 오류를 볼 때 명사의 유정성을 먼저 확인</strong>해야 하는 이유가 여기 있다. 9주차 조사에서 다시 다룬다.</p>
+  </div>
+</section>
+
+<!-- ============ §Ⅳ ============ -->
+<section id="bound" class="section">
+  <div class="section-header">
+    <span class="section-number">§ Ⅳ</span>
+    <h2>의존명사 — 혼자 못 서는 명사<span class="ko-en">Bound Nouns</span></h2>
+    <span class="src-badge main">이봉원 6장 「의존 명사」</span>
+  </div>
+
+  <div class="prose">
+    <p><em class="term">의존명사</em>는 명사이면서 <strong>앞에 꾸미는 말이 있어야만</strong> 쓰인다. 「것·수·바·지·데·뿐·만큼」 같은 것들이다.</p>
+
+    <div class="ex">
+      <span style="color:var(--terracotta)">*</span>것이 좋다 &nbsp;→&nbsp; <strong>먹는</strong> 것이 좋다<br>
+      <span style="color:var(--terracotta)">*</span>수 있어 &nbsp;→&nbsp; <strong>갈</strong> 수 있어
+    </div>
+
+    <p>사전에 <strong>874개</strong>밖에 없다. 그런데 <strong>말에서는 엄청나게 자주 쓰인다.</strong> 3주차 전사본에서 아동이 가장 많이 쓴 체언이 무엇이었는지는 §Ⅴ에서 확인한다.</p>
+
+    <p>의존명사는 셋으로 나눈다.</p>
+  </div>
+
+  <div class="interactive">
+    <h3>의존명사의 세 갈래</h3>
+    <p class="interactive-desc">갈래를 고르세요. <strong>단위성 의존명사</strong>가 특히 임상적으로 중요합니다.</p>
+    <div class="ibody">
+      <div class="btnrow" id="bn-btns"></div>
+      <div class="ipanel" id="bn-panel"></div>
+    </div>
+  </div>
+
+  <div class="interactive">
+    <h3>★ 단위성 의존명사 사전 — 무엇을 셀 때 무엇을 쓰는가</h3>
+    <p class="interactive-desc">단위를 눌러 무엇을 세는지 확인하세요. 한국어는 <strong>세는 대상마다 다른 단위</strong>를 씁니다.</p>
+    <div class="ibody">
+      <div class="unitgrid" id="un-grid"></div>
+      <div class="ipanel" id="un-panel"></div>
+      <p class="note" style="margin-top:1.1rem">주의 — 여기 든 열여섯 가운데 <b>송이·자루·그릇·판</b>은 표준국어대사전이 <b>「명사」의 한 뜻</b>으로 처리한다(「그릇1「3」 담아 그 분량을 세는 단위」). 한글 맞춤법 제43항도 「단위를 나타내는 <b>명사</b>는 띄어 쓴다」고 한다. <b>「단위성 의존명사」는 문법서의 갈래 이름이고, 사전의 품사 표시와 늘 맞아떨어지지는 않는다</b> — 6주차 §Ⅳ의 이야기가 여기서 되풀이된다.</p>
+    </div>
+  </div>
+
+  <div class="callout warning">
+    <span class="callout-label">수를 붙일 때 고유어와 한자어가 갈린다</span>
+    <p>단위성 의존명사는 <strong>앞에 오는 수가 고유어인지 한자어인지</strong>까지 정해 놓는다.</p>
+    <div class="ex" style="background:#fff6;margin:.6rem 0">
+      <strong>고유어 수</strong> &nbsp;한 명 · 두 마리 · 세 그루 · 네 켤레 &nbsp;<span style="opacity:.55">(하나·둘·셋·넷 → 한·두·세·네)</span><br>
+      <strong>한자어 수</strong> &nbsp;일 번 · 이 층 · 삼 학년 · 오 개월 &nbsp;<span style="opacity:.55">(일·이·삼·사)</span><br>
+      <span style="color:var(--terracotta)">*</span>하나 명 &nbsp;·&nbsp; <span style="color:var(--terracotta)">*</span>일 마리 &nbsp;·&nbsp; <span style="color:var(--terracotta)">*</span>한 층
+    </div>
+    <p>「하나·둘·셋·넷」이 단위 앞에서 「한·두·세·네」로 바뀌는 이 형태가 <strong>수관형사</strong>다 — §Ⅵ에서 다룬다. 그러니까 <strong>"두 개"의 '두'는 수사가 아니라 관형사</strong>다.</p>
+    <p>그리고 이 모든 것이 <strong>외워야 할 목록</strong>이다. 규칙이 없다. 그래서 아동에게 늦게 발달하고, 한국어 학습자에게도 어렵다.</p>
+  </div>
+
+  <div class="interactive">
+    <h3>최소대립쌍 — 띄어쓰기가 품사를 드러낸다</h3>
+    <p class="interactive-desc">같은 글자가 <strong>의존명사</strong>일 때와 <strong>조사·어미·접미사</strong>일 때를 가르세요. 기본 근거는 <strong>앞말이 꾸미는 말인가</strong>이고, 그것이 통하지 않는 경우도 하나 있습니다.</p>
+    <div class="ibody">
+      <div class="btnrow" id="mp-btns"></div>
+      <div class="ipanel" id="mp-panel"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ §Ⅴ ============ -->
+<section id="pron" class="section">
+  <div class="section-header">
+    <span class="section-number">§ Ⅴ</span>
+    <h2>대명사와 수사<span class="ko-en">Pronouns and Numerals</span></h2>
+    <span class="src-badge main">이봉원 6장 「대명사」 「수사」</span>
+  </div>
+
+  <div class="prose">
+    <p>대명사는 <strong>이름 대신 가리키는</strong> 말이고, 수사는 <strong>수량이나 순서를 나타내는</strong> 말이다. 둘 다 체언이라 조사가 붙는다.</p>
+
+    <table class="data-table">
+      <thead><tr><th style="width:16%">품사</th><th style="width:24%">하위 부류</th><th>보기</th></tr></thead>
+      <tbody>
+        <tr><td class="ko" rowspan="3">대명사</td><td><strong>인칭</strong> — 사람을 가리킨다</td><td>1인칭 나·저·우리 / 2인칭 너·당신·자네 / 3인칭 그·그녀<sup style="opacity:.6">*</sup></td></tr>
+        <tr><td><strong>지시</strong> — 사물·장소를 가리킨다</td><td>이것·그것·저것 / 여기·거기·저기</td></tr>
+        <tr><td><strong>재귀</strong> — 앞에 나온 것을 되받는다</td><td>자기, 저, 당신<span style="opacity:.6">(높임)</span> — "철수는 <u>자기</u> 방에 갔다"</td></tr>
+        <tr><td class="ko" rowspan="2">수사</td><td><strong>양수사</strong> — 수량</td><td>고유어 하나·둘·셋 / 한자어 일·이·삼</td></tr>
+        <tr><td><strong>서수사</strong> — 순서</td><td>고유어 첫째·둘째<sup style="opacity:.6">†</sup> / 한자어 제일·제이<sup style="opacity:.6">‡</sup></td></tr>
+      </tbody>
+    </table>
+
+    <p style="font-size:.88rem;opacity:.72"><sup>*</sup> '그녀'를 인칭대명사로 인정할 것인가는 논쟁거리다 — <strong>이번 주 과제</strong>가 이것이다. §Ⅶ을 보라.<br>
+    <sup>†</sup> '첫째·둘째'는 표준국어대사전에서 <strong>수사·관형사·명사 셋을 겸한다.</strong><br>
+    <sup>‡</sup> 전통 문법은 '제일·제이'를 한자어 서수사로 들지만, <strong>표준국어대사전은 '제일'을 명사·부사로만 표시하고 '제이(第二)'는 표제어에 두지 않는다.</strong> 문법서의 분류와 사전의 표시가 갈리는 자리다(6주차 §Ⅳ).</p>
+
+    <h3>미지칭과 부정칭 — 같은 말, 다른 쓰임</h3>
+    <p>'누구·무엇·어디·언제'는 <strong>묻는 말</strong>로도 쓰이고 <strong>정해지지 않은 것을 가리키는 말</strong>로도 쓰인다 <span style="opacity:.6">(의문사·부정사라고도 한다)</span>. 글로는 구별이 안 되고, <strong>억양이 가른다.</strong></p>
+
+    <div class="ex">
+      "<strong>누구</strong> 왔어?" &nbsp;<span style="opacity:.6">↗ 끝을 올리면</span> &nbsp;→&nbsp; <strong>부정칭</strong> — 「누군가 왔니?」 예/아니오로 답함<br>
+      "<strong>누구</strong> 왔어?" &nbsp;<span style="opacity:.6">↘ '누구'에 강세, 끝을 내리면</span> &nbsp;→&nbsp; <strong>미지칭</strong> — 「누가 왔니?」 이름으로 답함
+    </div>
+
+    <p>2주차 §Ⅴ에서 본 <strong>운율</strong>이 여기서 문법적 구별을 짊어진다. 3주차에서 "전사본에는 운율이 빠져 있다"고 한 것이 왜 문제인지가 이런 자리에서 드러난다.</p>
+  </div>
+
+  <div class="interactive">
+    <h3>★ 체언 빈도 탐색기 — 사전과 실제 사용</h3>
+    <p class="interactive-desc">왼쪽은 <strong>표준국어대사전 표제어 수</strong>, 오른쪽은 <strong>3주차 전사본의 실제 사용 빈도</strong>입니다. 6주차에서 배운 대로, 무엇을 세느냐에 따라 그림이 뒤집힙니다.</p>
+    <div class="ibody">
+      <div class="btnrow" id="fr-btns"></div>
+      <div class="barset" id="fr-bars"></div>
+      <div class="ipanel" id="fr-panel"></div>
+    </div>
+  </div>
+
+  <div class="callout clinical">
+    <span class="callout-label">임상 연결 — 「거」가 많다는 것은 무슨 뜻인가</span>
+    <p>전사본에서 아동이 가장 많이 쓴 체언은 의존명사 <strong>「거」</strong>였다. 명사 「집」·「오빠」보다 많다.</p>
+    <p>이것을 두 가지로 읽을 수 있다. <strong>긍정적으로</strong> — 「거」를 쓰려면 앞에 관형절이 와야 하므로(「토끼가 나오는 거」), 아이가 <strong>안은문장을 만들고 있다</strong>는 뜻이다(11주차). <strong>주의해서</strong> — 구체적인 이름을 못 대서 「거」로 때우는 것일 수도 있다.</p>
+    <p>둘을 가르는 방법은 하나다. <strong>맥락을 보는 것</strong>이다. C22 「토끼가 나오는 거요」는 앞의 관형절이 충분한 정보를 담고 있다. 반면 이름을 물었는데 「그거」로만 답한다면 낱말 찾기의 문제일 수 있다. <strong>빈도만으로는 판단할 수 없다</strong> — 6주차의 결론이 여기서도 같다.</p>
+  </div>
+</section>
+
+<!-- ============ §Ⅵ ============ -->
+<section id="det" class="section">
+  <div class="section-header">
+    <span class="section-number">§ Ⅵ</span>
+    <h2>관형사 — 체언만 꾸미는 말<span class="ko-en">Determiners</span></h2>
+    <span class="src-badge main">이봉원 8장 「관형사」 절</span>
+  </div>
+
+  <div class="prose">
+    <p><em class="term">관형사</em>는 <strong>체언 앞에 놓여 체언을 꾸미는</strong> 불변어다. 사전에 <strong>1,584개</strong>뿐이다. 셋으로 나눈다.</p>
+
+    <table class="data-table">
+      <thead><tr><th style="width:16%">갈래</th><th style="width:26%">무엇을 나타내는가</th><th>보기</th></tr></thead>
+      <tbody>
+        <tr><td class="ko">지시 관형사</td><td>어느 것인지 <strong>가리킨다</strong></td><td>이, 그, 저, 무슨, 어느, 다른</td></tr>
+        <tr><td class="ko">수 관형사</td><td><strong>수량</strong>을 나타낸다</td><td>한, 두, 세, 네, 몇, 여러, 모든, 온갖</td></tr>
+        <tr><td class="ko">성상 관형사</td><td><strong>성질이나 상태</strong>를 나타낸다</td><td>새, 헌, 옛, 순, 갖은</td></tr>
+      </tbody>
+    </table>
+
+    <p style="font-size:.88rem;opacity:.72">「모든·온갖·갖은·여러」의 소속은 <strong>책마다 다르다.</strong> 수량을 뭉뚱그려 나타내므로 수관형사(부정수)로 보는 쪽과, 성질을 나타내므로 성상관형사로 보는 쪽이 있다. <strong>표준국어대사전은 「관형사」로만 표시하고 갈래를 주지 않는다.</strong> 위 표는 「모든·온갖·여러」에 대해 앞쪽 견해를 따르고 「갖은」만 성상 쪽에 두었다 — <strong>이 일관되지 않음 자체가 갈래가 흔들린다는 증거다.</strong> 그리고 아래 어순 실험이 이 전제 위에 서 있으니, 전제가 바뀌면 실험도 다시 짜야 한다. 「다른」도 조심할 것 — 관형사 「다른」(당장 문제 되는 것 이외의)과 형용사 「다르다」의 관형사형(생각이 <u>다른</u> 사람)이 꼴이 같다.</p>
+
+    <h3>관형사와 헷갈리는 것 셋</h3>
+  </div>
+
+  <div class="interactive">
+    <h3>관형사인가, 아닌가</h3>
+    <p class="interactive-desc">관형사와 <strong>헷갈리는 셋</strong>을 가릅니다. 판정 기준이 각각 다릅니다.</p>
+    <div class="ibody">
+      <div class="btnrow" id="dm-btns"></div>
+      <div class="ipanel" id="dm-panel"></div>
+    </div>
+  </div>
+
+  <div class="interactive">
+    <h3>★ 어순 순열 실험 — 관형사는 순서가 정해져 있다</h3>
+    <p class="interactive-desc">「저 모든 새 건물」의 관형사 세 개를 <strong>여섯 가지로 배열</strong>했습니다. 어느 것이 자연스러운지 스스로 판단한 뒤 눌러 보세요.</p>
+    <div class="ibody">
+      <div id="pm-list"></div>
+      <div class="ipanel" id="pm-panel" style="margin-top:.8rem"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ §Ⅶ ============ -->
+<section id="issues" class="section">
+  <div class="section-header">
+    <span class="section-number">§ Ⅶ</span>
+    <h2>열린 쟁점 — 분류가 흔들리는 자리<span class="ko-en">Open Questions</span></h2>
+    <span class="src-badge">개론서 04장 · 학계 논의</span>
+  </div>
+
+  <div class="prose">
+    <p>여기까지가 학교 문법의 9품사다. 그런데 <strong>그 경계에서 계속 논쟁이 일어나는 자리</strong>가 있다. 넷만 보자. 각각 <strong>전통적 견해 → 도전 → 지금은 → 임상적 함의</strong> 순으로 정리한다.</p>
+  </div>
+
+  <div class="interactive">
+    <h3>네 가지 쟁점</h3>
+    <p class="interactive-desc">쟁점을 고르세요. <strong>답이 정해지지 않았다는 것</strong>이 요점입니다.</p>
+    <div class="ibody">
+      <div class="btnrow" id="is-btns"></div>
+      <div class="ipanel" id="is-panel"></div>
+    </div>
+  </div>
+
+  <div class="callout warning">
+    <span class="callout-label">이번 주 과제 — '그녀'를 인칭대명사로 인정할 수 있는가</span>
+    <p>'그녀'는 근대에 만들어진 말이다. 일본어 <strong>彼女(かのじょ)</strong> — '그 남자' 彼에 女를 붙여 영어 <em>she</em>를 옮기려 만든 말 — 의 번역 과정에서 들어왔다. <strong>1920년대에 김동인이 자기 소설에 즐겨 쓰면서 퍼졌다는 것이 널리 알려진 설명</strong>인데, 김동인 자신의 회고에 근거하므로 정설로 굳었다기보다 <strong>확인해 볼 거리</strong>다 — 그 확인이 과제의 일부다. 어쨌든 한국어에 원래 있던 말이 아니고, 그래서 몇 가지 이상한 점이 있다.</p>
+    <p>· <strong>말에서는 거의 안 쓴다.</strong> 소설과 번역문에서 주로 쓰인다 — "그녀가 웃었다"를 실제 대화에서 들어 본 적이 있는가?<br>
+       · <strong>대응하는 남성형이 어색하다.</strong> '그'는 성 중립이기도 하고 남성을 가리키기도 한다. 짝이 맞지 않는다.<br>
+       · <strong>존대 체계에 자리가 없다.</strong> 웃어른을 '그녀'라 부를 수 없다.</p>
+    <p><strong>근거를 들어 논증하라.</strong> 인정하는 쪽과 인정하지 않는 쪽 모두 나름의 근거가 있다. 어느 쪽을 택하든, <strong>「어떤 기준으로 품사를 정하는가」에 대한 자기 입장</strong>이 드러나게 쓸 것. A4 한 쪽.</p>
+  </div>
+</section>
+
+<!-- ============ 분석 실습실 ============ -->
+<section id="lab" class="section">
+  <div class="lab">
+    <div class="lab-head">
+      <span class="tag">분석 실습실 · TYPE 1 태깅 · 수업 중 실습</span>
+      <h3>전사본의 모든 체언과 관형사</h3>
+      <p>3주차 전사본에서 체언과 관형사를 전부 찾아 하위 부류까지 판정합니다. 여기서 만든 표를 8·9주차에 계속 씁니다.</p>
+    </div>
+    <div class="lab-body">
+      <div class="prose">
+        <p><strong>대상.</strong> 아동 발화 60개(C01–C60). 성인 발화는 제외합니다.</p>
+        <p><strong>절차.</strong> ① 체언과 관형사를 모두 표시한다 → ② 각각의 품사를 판정한다 → ③ 명사는 자립/의존을, 대명사는 인칭/지시/재귀를, 관형사는 지시/수/성상을 표시한다.</p>
+      </div>
+
+      <table class="worksheet">
+        <thead>
+          <tr><th style="width:24%">항목</th><th style="width:20%">토큰 수</th><th style="width:20%">타입 수</th><th>가장 잦은 것</th></tr>
+        </thead>
+        <tbody id="ws-body"></tbody>
+      </table>
+
+      <div class="callout">
+        <span class="callout-label">함께 답할 것 — A4 한 쪽</span>
+        <p><strong>1.</strong> <strong>판정이 어려웠던 것 다섯</strong>을 고르고, 각각에서 <strong>어느 기준(형태·기능·의미)이 서로 어긋났는지</strong> 설명하라. (힌트 — C18 '잠깐만요'의 '잠깐', C37 '언제요'의 '언제', C49 '혼자서도'의 '혼자', C51 '네 발'의 '네', C50 '두 발'의 '발', 그리고 C45 '조금만'의 '조금')</p>
+        <p style="font-size:.88rem;opacity:.75"><strong>기준을 하나 미리 밝혀 둔다.</strong> 채점 기준으로 삼는 값(명사 58 등)은 <strong>C45 '조금'·C13·C20 '이제'·C27 '먼저'·C56 '계속'을 부사로</strong>, <strong>C18 '잠깐'·C49 '혼자'를 명사로</strong> 처리해 나온 것이다. '잠깐만요'와 '조금만'은 구조가 같은데(명사·부사 겸용어 + 보조사 '만') 판정이 갈렸다 — <strong>뒤에 꾸밀 용언이 있느냐가 갈랐다.</strong> 다르게 판정했다면 그것도 답이 될 수 있다. <strong>다만 그 기준을 적어야 한다.</strong></p>
+        <p><strong>2.</strong> 이 아동의 발화에 <strong>수사가 하나도 없다.</strong> 그런데 수관형사는 있다(C50 '두', C51 '네'). 이것이 우연인가, 아니면 이유가 있는가?</p>
+        <p><strong>3.</strong> 판정이 갈린 것 하나를 골라 <strong>고려대 한국어대사전과 표준국어대사전에서 각각 찾아보고</strong> 품사 표시가 같은지 확인하라. 다르다면 그 차이가 어디서 오는가?(6주차 §Ⅳ)</p>
+      </div>
+
+      <div class="callout warning">
+        <span class="callout-label">다음 주까지 해 올 것 — 제출</span>
+        <p><strong>'그녀'를 인칭대명사로 인정할 수 있는가.</strong> 근거를 들어 논증하시오. A4 한 쪽. §Ⅶ의 단서를 참고하되 <strong>그대로 옮기지 말고</strong>, 사전 두 곳에서 '그녀'를 직접 찾아본 결과를 반드시 포함할 것.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 임상 적용 ============ -->
+<section id="clinical" class="section">
+  <div class="section-header">
+    <span class="section-number">§ 임상</span>
+    <h2>임상 적용 — 체언이 알려 주는 것<span class="ko-en">Clinical Application</span></h2>
+  </div>
+
+  <div class="prose">
+    <p>품사 판정 자체가 임상 행위는 아니다. 그런데 <strong>체언의 어느 부류가 얼마나 나오는가</strong>는 여러 가지를 알려 준다.</p>
+  </div>
+
+  <table class="data-table">
+    <thead><tr><th style="width:20%">무엇을 보는가</th><th style="width:30%">무엇이 문제될 수 있는가</th><th>전사본에서 확인할 것</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="ko">단위성 의존명사</td>
+        <td><strong>「개」로 과잉일반화</strong>하는가 — "강아지 세 <u>개</u>", "사람 두 <u>개</u>"</td>
+        <td>단위 체계는 규칙이 없어 <strong>하나씩 외워야</strong> 한다. 학령전기에 「개·명·마리」 정도가 자리 잡고 나머지는 훨씬 늦다.</td>
+      </tr>
+      <tr>
+        <td class="ko">의존명사 「거」의 비중</td>
+        <td>구체적 이름 대신 <strong>「거」로 때우는가</strong></td>
+        <td>전사본에서 「거」가 체언 1위(9회)다. 다만 <strong>앞에 관형절이 제대로 붙어 있으면</strong> 오히려 통사적 성숙의 신호다.</td>
+      </tr>
+      <tr>
+        <td class="ko">지시 표현 이/그/저</td>
+        <td>듣는 사람이 알 수 있게 <strong>가리키는가</strong></td>
+        <td>전사본 C08 「응 그거요」, C09 「이거 안 돼」. 눈앞에 있으니 통하지만, <strong>탈맥락 상황</strong>(상황 ③)에서도 같은 방식이면 문제다 — 14주차 <strong>직시</strong>.</td>
+      </tr>
+      <tr>
+        <td class="ko">대명사 「나」의 비중</td>
+        <td>화제가 <strong>자기에게만</strong> 머무는가</td>
+        <td>전사본에서 「나」가 7회로 대명사 1위. 4~5세에 자연스럽지만, 상대의 화제를 받아 이어 가는지 함께 봐야 한다 — 14주차 <strong>주제 유지</strong>.</td>
+      </tr>
+      <tr>
+        <td class="ko">고유명사</td>
+        <td>사람·장소의 <strong>이름을 대는가</strong></td>
+        <td>전사본에는 고유명사가 <strong>하나도 없다.</strong> '할머니·오빠·선생님'처럼 <strong>관계로만</strong> 가리킨다. 이 연령에 흔한 모습이나, 이름대기 과제와 함께 보면 정보가 된다.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout clinical">
+    <span class="callout-label">한 가지 경고 — 품사 비율을 규준처럼 쓰지 말 것</span>
+    <p>"명사 비율이 63%다"라는 수치는 그 자체로 아무것도 말해 주지 않는다. <strong>같은 아동이라도 활동에 따라 달라지기</strong> 때문이다.</p>
+    <p>전사본을 보라. 블록 놀이(상황 ①)에서는 사물 이름과 지시 표현이 많고, 경험 이야기(상황 ③)에서는 사람을 가리키는 말과 시간 표현이 많다. <strong>같은 아이, 같은 회기인데 구성이 다르다.</strong></p>
+    <p>그러니 품사 비율은 <strong>같은 아동의 변화를 추적</strong>하거나 <strong>같은 활동끼리 비교</strong>할 때 쓴다. 6주차의 결론과 같다 — <strong>조건을 밝히지 않은 수치는 자료가 아니다.</strong></p>
+  </div>
+</section>
+
+<!-- ============ 확인 문제 ============ -->
+<section id="check" class="section">
+  <div class="section-header">
+    <span class="section-number">§ 정리</span>
+    <h2>확인 문제<span class="ko-en">Self-Check</span></h2>
+  </div>
+
+  <div class="prose">
+    <p>점수는 반영되지 않습니다. 틀린 문항의 해설을 읽고 해당 절로 돌아가 확인하세요.</p>
+  </div>
+
+  <div id="check-items"></div>
+  <div class="quiz-score" id="check-score">아직 푼 문항이 없습니다.</div>
+
+  <div class="callout" style="margin-top:2rem">
+    <span class="callout-label">이번 주 과제</span>
+    <p><strong>수업 중 실습</strong> — 전사본의 체언·관형사 전수 태깅. 표를 8·9주차에 계속 씁니다.</p>
+    <p><strong>제출</strong> — '그녀'를 인칭대명사로 인정할 수 있는가. A4 한 쪽.</p>
+    <p><strong>읽어 올 것</strong> — 이봉원 7장(용언), 8장(수식언). 개론서 04장 「품사론」 5~7절.</p>
+  </div>
+
+  <div class="week-nav">
+    <div>
+      <span class="lbl">지난주 · 제06주</span>
+      <b>어휘 · 사전 · 말뭉치</b>
+      <p>어휘소와 어종, 사전의 편찬 근거, 말뭉치의 조건과 주석, 타입·토큰·TTR, 그리고 빈도표를 의심하는 세 가지 물음.</p>
+    </div>
+    <div>
+      <span class="lbl">다음 주 · 제08주</span>
+      <b>품사 ② 용언과 부사</b>
+      <p>드디어 <strong>활용</strong>입니다. 한국어에서 가장 복잡한 체계이고, 임상에서 가장 자주 보는 오류가 나오는 자리입니다. 어간과 어미, 규칙과 불규칙, 본용언과 보조용언, 그리고 <strong>동사와 형용사를 가르는 법</strong>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 참고 문헌 ============ -->
+<section id="refs" class="section">
+  <div class="section-header">
+    <span class="section-number">§ 자료</span>
+    <h2>참고 문헌과 더 읽을거리<span class="ko-en">References</span></h2>
+  </div>
+
+  <div class="prose"><h3>교재</h3></div>
+
+  <table class="data-table">
+    <tbody>
+      <tr>
+        <td style="width:30%" class="ko">이봉원(2015)</td>
+        <td><strong>『언어치료사를 위한 한국어 문법』 개정판.</strong> 서울: 학지사.<br>
+        <span style="opacity:.72">5장 「품사론」(§Ⅰ·§Ⅱ), 6장 「체언」(§Ⅲ·§Ⅳ·§Ⅴ), 8장의 「관형사」 절(§Ⅵ).</span></td>
+      </tr>
+      <tr>
+        <td class="ko">홍종선 외 19인(2022)</td>
+        <td><strong>『쉽게 읽는 한국어학의 이해』 개정2판.</strong> 서울: 한국문화사.<br>
+        <span style="opacity:.72">04장 「품사론」 1~4절. 개론서가 품사론을 형태론과 <strong>별개의 장</strong>으로 둔 것을 따라 이 과목도 7~9주 세 주를 배정했다.</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="prose"><h3>수치의 출처</h3></div>
+
+  <table class="data-table">
+    <thead><tr><th style="width:22%">절</th><th>자료</th></tr></thead>
+    <tbody>
+      <tr><td class="ko">§Ⅱ·§Ⅲ·§Ⅳ·§Ⅵ<br>사전 표제어 수</td><td><strong>국립국어원, 표준국어대사전 「사전 통계」 &gt; 품사별 현황</strong>(2026년 조회).<br><span style="opacity:.65">명사 270,039(73.934%) · 동사 56,476 · 형용사 13,400 · 부사 12,325 · 관형사 1,584 · 의존명사 874 · 대명사 352 · 수사 188 · 조사 181 · 어미 811 · 감탄사 650 · 접사 532 · 보조동사 42 · 보조형용사 19 · 품사 없음 7,772. 합계 365,245. <b>하나의 단어가 두 품사로 쓰이면 중복 계산</b>되므로 합계가 단어 표제어 수(362,262)보다 많다. 매달 갱신되므로 인용할 때 조회 시점을 밝혀야 한다.</span><br><span class="mono" style="font-size:.78rem">stdict.korean.go.kr/statistic/dicStat.do</span></td></tr>
+      <tr><td class="ko">§Ⅴ 전사본 빈도</td><td><strong>3주차 배부 전사본</strong>(교육용 구성 자료)의 아동 발화 60개를 직접 태깅해 산출.<br><span style="opacity:.65">체언 토큰 92 — 명사 58 · 대명사 22 · 의존명사 12 · 수사 0. 관형사 3. 자세한 수치는 §Ⅴ 탐색기와 실습실 표에 있다. <b>교육용 자료이므로 규준으로 쓸 수 없다.</b></span></td></tr>
+    </tbody>
+  </table>
+
+  <div class="prose"><h3>더 볼 사람에게</h3></div>
+
+  <table class="data-table">
+    <tbody>
+      <tr><td style="width:30%" class="ko">★ 구본관 외(2015)</td><td>『한국어 문법 총론 Ⅰ』, 집문당. <span style="opacity:.65">— 품사 분류의 쟁점을 상세히 다룬다. §Ⅶ의 네 쟁점을 더 보고 싶다면 여기서 시작한다.</span></td></tr>
+      <tr><td class="ko">★ 남기심·고영근·<br>유현경·최형용(2019)</td><td>『표준 국어문법론』 전면개정판, 한국문화사. <span style="opacity:.65">— 학교 문법의 근간이 된 문법서. 9품사 체계의 표준적 서술이고, §Ⅳ의 의존명사 5분류(보편성·주어성·서술성·부사성·단위성)도 여기서 왔다. 초판(1985)·개정판(1993)은 <b>탑출판사</b>에서 나왔으므로 도서관 검색 때 주의.</span></td></tr>
+      <tr><td class="ko">최현배(1937)</td><td>『우리말본』. <span style="opacity:.65">— 한국어 품사 체계의 원형. '이다'를 <b>잡음씨(지정사)</b>로 따로 세운 것이 여기서 왔다. 다만 <b>존재사는 최현배가 아니라 이희승의 것</b>이다 — 최현배는 '있다/없다'를 그림씨(형용사)로 처리했다. 1985년 통일 학교 문법은 용어를 이희승 계통에서 가져왔고, 그래서 우리는 '이름씨·움직씨'가 아니라 '명사·동사'로 배운다. §Ⅶ의 쟁점들이 어디서 시작되었는지 알 수 있다.</span></td></tr>
+      <tr><td class="ko">Aikhenvald, A. Y. (2000)</td><td><em>Classifiers: A Typology of Noun Categorization Devices</em>, Oxford University Press. <span style="opacity:.65">— 단위성 의존명사(분류사)의 유형론. 한국어·일본어·중국어가 왜 이런 체계를 갖는지 넓게 볼 수 있다.</span></td></tr>
+    </tbody>
+  </table>
+
+  <div class="prose"><h3>직접 써 볼 자료</h3></div>
+
+  <div class="mini-grid">
+    <div class="mini">
+      <span class="mtag">사전</span>
+      <h5>고려대 한국어대사전</h5>
+      <p>이 과목의 기본 사전. <strong>품사 표시가 표준국어대사전과 갈리는 단어</strong>를 찾아보라 — 실습 3번 문항이 그것이다.</p>
+    </div>
+    <div class="mini">
+      <span class="mtag">규범</span>
+      <h5>한글 맞춤법 제5장 띄어쓰기</h5>
+      <p>제42항 「의존명사는 띄어 쓴다」, 제43항 「단위를 나타내는 명사는 띄어 쓴다」. §Ⅳ의 최소대립쌍이 곧 이 규정의 적용 문제다.</p>
+    </div>
+    <div class="mini">
+      <span class="mtag">통계</span>
+      <h5>표준국어대사전 「사전 통계」</h5>
+      <p>품사별 현황을 직접 확인해 보라. <strong>매달 갱신</strong>되므로 이 자료의 수치와 달라져 있을 수 있다.</p>
+    </div>
+    <div class="mini">
+      <span class="mtag">실물</span>
+      <h5>3주차 전사본</h5>
+      <p>오늘의 실습 대상. §Ⅴ 탐색기의 오른쪽 막대가 여기서 나왔다. <strong>직접 세어 보면 값이 다를 수 있다</strong> — 그것이 실습 1번의 핵심이다.</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="colophon">
+    <strong>체언과 관형사</strong> — 한국어학 제7주 강의자료<br>
+    <span class="mn">주교재 이봉원(2015) 『언어치료사를 위한 한국어 문법』 개정판, 학지사</span><br>
+    <span class="mn">부교재 홍종선 외 19인(2022) 『쉽게 읽는 한국어학의 이해』 개정2판, 한국문화사</span><br>
+    <span class="mn">Set in Noto Serif KR &amp; JetBrains Mono</span>
+    <p class="epigraph">"품사는 발견되는 것이 아니라 사람이 기준을 세워 나눈 것이다."<br>— §들어가며</p>
+    <p style="font-size:.72rem;opacity:.55;margin-top:1rem">사전 통계는 조회 시점에 따라 달라진다. 전사본 수치는 교육용 구성 자료의 것이므로 규준이 아니다.</p>
+  </div>
+</footer>
+
+<script>
+/* ===== §Ⅰ 9품사 결정트리 ===== */
+const CRIT=['형태','기능','의미'];
+const DTREE=[
+ {btn:'학교',steps:[
+   ['형태','모습이 변하는가? — 조사를 떼면 「학교」로 늘 같다.','<b>불변어</b>'],
+   ['기능','조사가 붙어 주어·목적어가 되는가? — 「학교가」 「학교를」 된다.','<b>체언</b>'],
+   ['의미','사물의 이름인가, 가리키는 말인가, 수인가? — 이름이다.','명사']],
+  res:'명사',n:'가장 단순한 경로다. 세 기준이 <b>서로 어긋나지 않는다.</b> 대부분의 단어가 이렇다.'},
+ {btn:'나',steps:[
+   ['형태','어미를 달아 활용하는가? — 하지 않는다. (주격·보격 조사 「가」 앞에서만 「내」로 바뀌는데, 이것은 <b>교체</b>이지 활용이 아니다 — 어미가 붙은 것이 아니기 때문이다. 「나를·나에게」는 그대로다.)','<b>불변어</b>'],
+   ['기능','조사가 붙어 주어가 되는가? — 「내가」 「나를」 된다.','<b>체언</b>'],
+   ['의미','이름인가 가리키는 말인가? — <b>이름을 대신해 가리킨다.</b>','대명사']],
+  res:'대명사',n:'명사와 <b>형태·기능이 똑같다.</b> 갈라지는 것은 세 번째 기준인 <b>의미</b>에서다. 그래서 대명사는 체언 안에 들어간다.'},
+ {btn:'셋',steps:[
+   ['형태','모습이 변하는가? — 「셋」으로 같다.','<b>불변어</b>'],
+   ['기능','조사가 붙어 주어가 되는가? — 「셋이」 「셋을」 된다.','<b>체언</b>'],
+   ['의미','이름인가 가리킴인가 수인가? — <b>수량</b>이다.','수사']],
+  res:'수사',n:'「셋이 왔다」처럼 <b>조사가 붙는다</b>는 점이 결정적이다. 「세 명」의 「세」는 조사가 붙지 않으므로 <b>관형사</b>다 — §Ⅵ.'},
+ {btn:'먹다',steps:[
+   ['형태','모습이 변하는가? — 먹었다·먹으니·먹는. <b>변한다.</b>','<b>가변어</b>'],
+   ['기능','서술어가 되는가? — 「밥을 먹는다」의 서술어다.','<b>용언</b>'],
+   ['의미','움직임인가 상태인가? — <b>움직임</b>이다. 명령형 「먹어라」가 된다.','동사']],
+  res:'동사',n:'첫 물음에서 이미 체언과 갈라진다. <b>형태 기준이 가장 굵게 자른다</b>는 것이 이것이다. 동사와 형용사를 가르는 법은 <b>8주차</b>에서 자세히 본다.'},
+ {btn:'예쁘다',steps:[
+   ['형태','모습이 변하는가? — 예뻤다·예쁘니. <b>변한다.</b>','<b>가변어</b>'],
+   ['기능','서술어가 되는가? — 「꽃이 예쁘다」의 서술어다.','<b>용언</b>'],
+   ['의미','움직임인가 상태인가? — <b>상태</b>다. <b>명령형</b> <span style="color:#e0836a">*</span>예뻐라와 <b>현재형</b> <span style="color:#e0836a">*</span>예쁜다가 안 된다. (「아이, 예뻐라」의 「-어라」는 <b>감탄형</b>이라 형용사에도 붙는다 — 꼴이 같으니 조심할 것.)','형용사']],
+  res:'형용사',n:'동사와 <b>형태·기능이 같다.</b> 갈라지는 자리는 의미인데, 실제 판정은 <b>명령형과 현재형 어미가 붙는가</b>로 한다 — 의미 기준을 <b>형태로 확인</b>하는 셈이다.'},
+ {btn:'새',steps:[
+   ['형태','모습이 변하는가? — 「새」로 늘 같다.','<b>불변어</b>'],
+   ['기능','조사가 붙는가? — <span style="color:#e0836a">*</span>새가, <span style="color:#e0836a">*</span>새를. <b>안 붙는다.</b> 뒤의 체언을 꾸민다.','<b>수식언</b>'],
+   ['의미','무엇을 꾸미는가? — <b>체언</b>을 꾸민다. 「새 옷」.','관형사']],
+  res:'관형사',n:'체언과 <b>형태 기준에서는 같다</b>(둘 다 불변어). 갈라지는 것은 <b>조사가 붙는가</b>이다 — 기능 기준. 이것이 관형사 판정의 핵심이다.'},
+ {btn:'매우',steps:[
+   ['형태','모습이 변하는가? — 「매우」로 같다.','<b>불변어</b>'],
+   ['기능','조사가 붙는가? — 안 붙는다. 뒤의 말을 꾸민다.','<b>수식언</b>'],
+   ['의미','무엇을 꾸미는가? — <b>용언</b>을 꾸민다. 「매우 예쁘다」.','부사']],
+  res:'부사',n:'관형사와 갈라지는 자리는 <b>무엇을 꾸미는가</b>다. 체언을 꾸미면 관형사, 용언·부사·문장을 꾸미면 부사. 8주차의 주제다.'},
+ {btn:'가 (주격)',steps:[
+   ['형태','모습이 변하는가? — 「이/가」로 <b>교체하지만</b> 활용은 아니다.','<b>불변어</b>'],
+   ['기능','홀로 쓰이는가? — 앞말에 <b>붙어야만</b> 한다. 앞말에 자격을 준다.','<b>관계언</b>'],
+   ['의미','—','조사']],
+  res:'조사',n:'<b>여기서 문제가 생긴다.</b> 조사를 <b>단어</b>로 볼 것인가? 학교 문법은 단어로 보지만, 홀로 못 쓰이므로 어미와 다를 바 없다는 견해도 있다. §Ⅶ 쟁점 ②.'},
+ {btn:'아이고',steps:[
+   ['형태','모습이 변하는가? — 같다.','<b>불변어</b>'],
+   ['기능','다른 말과 관계를 맺는가? — <b>맺지 않는다.</b> 떼어 내도 문장이 성립한다.','<b>독립언</b>'],
+   ['의미','—','감탄사']],
+  res:'감탄사',n:'전사본 C50의 「응」, C08의 「응」이 이것이다. 아동 발화에는 감탄사가 많은데, <b>문장 구조 분석에서는 대개 제외</b>한다 — 관계를 맺지 않기 때문이다.'},
+ {btn:'것',steps:[
+   ['형태','모습이 변하는가? — 같다.','<b>불변어</b>'],
+   ['기능','조사가 붙는가? — 「것이」 「것을」 <b>붙는다.</b> 그런데 <b>혼자서는 못 쓴다.</b>','<b>체언</b>'],
+   ['의미','이름인가? — 이름이되 <b>구체적 내용이 없다.</b>','의존명사(명사)']],
+  res:'의존명사',n:'<b>별개의 품사가 아니다.</b> 명사의 하위 부류다. 조사가 붙으므로 체언이고, 혼자 못 서므로 「의존」이다. 다만 <b>표준국어대사전은 「의존 명사」를 「명사」와 나란히 따로 표시하고 통계도 따로 낸다</b>(874개) — 그래서 §Ⅲ의 명사 270,039개에는 의존명사가 <b>들어 있지 않다.</b> 이것은 사전의 <b>표시 관행</b>이지 열째 품사를 세운 것이 아니다. §Ⅳ의 주제.'}
+];
+let dIdx=0,dStep=0;
+const dtBtns=document.getElementById('dt-btns'),dtPath=document.getElementById('dt-path'),dtPanel=document.getElementById('dt-panel');
+DTREE.forEach((x,i)=>{
+  const b=document.createElement('button');
+  b.className='ibtn'+(i===0?' active':'');b.textContent=x.btn;
+  b.onclick=()=>{[...dtBtns.children].forEach(c=>c.classList.remove('active'));b.classList.add('active');dIdx=i;dStep=0;drawDt();};
+  dtBtns.appendChild(b);
+});
+function drawDt(){
+  const T=DTREE[dIdx],n=T.steps.length;
+  dtPath.innerHTML=CRIT.map((c,i)=>{
+    const done=i<dStep;
+    return '<span class="'+(done?'hit':'')+'">'+c+(done?' → '+T.steps[i][2].replace(/<[^>]+>/g,''):'')+'</span>';
+  }).join('');
+  let body='';
+  if(dStep===0){
+    body='<h4>'+T.btn+'</h4><p>「다음 물음」을 눌러 <b>형태 → 기능 → 의미</b> 순으로 판정해 보세요.</p>';
+  }else{
+    const s=T.steps[dStep-1];
+    body='<h4>'+T.btn+' <span style="font-family:var(--mono);font-size:.72rem;opacity:.55">'+dStep+'/'+n+' · '+s[0]+' 기준</span></h4>'+
+      '<p class="tree-crit">기준 '+dStep+' — '+s[0]+'</p><p class="tree-q">'+s[1]+'</p>'+
+      '<p style="font-family:var(--sans);color:var(--highlight)">→ '+s[2]+'</p>';
+    if(dStep>=n) body+='<div class="result-big">'+T.res+'</div><p class="note">'+T.n+'</p>';
+  }
+  dtPanel.innerHTML=body;
+  document.getElementById('dt-step').disabled=dStep>=n;
+  document.getElementById('dt-all').disabled=dStep>=n;
+}
+document.getElementById('dt-step').onclick=()=>{dStep=Math.min(dStep+1,DTREE[dIdx].steps.length);drawDt();};
+document.getElementById('dt-all').onclick=()=>{dStep=DTREE[dIdx].steps.length;drawDt();};
+document.getElementById('dt-reset').onclick=()=>{dStep=0;drawDt();};
+drawDt();
+
+/* ===== §Ⅲ 명사 분류 ===== */
+const NOUNS=[
+ {btn:'고유명사 / 보통명사',
+  rows:[['고유명사','유일한 하나를 가리킨다','세종대왕, 한강, 나사렛대학교'],
+        ['보통명사','같은 부류를 두루 가리킨다','사람, 강, 학교']],
+  d:'하나뿐인 것을 가리키는가, 부류를 가리키는가.',
+  n:'고유명사는 <b>수를 세거나 꾸미기 어렵다</b> — <span style="color:#e0836a">*</span>두 세종대왕, <span style="color:#e0836a">*</span>새 한강. 3주차 전사본에는 고유명사가 <b>하나도 없다</b> — 이름 대신 「할머니·오빠·선생님」처럼 관계로만 가리킨다.'},
+ {btn:'유정명사 / 무정명사',
+  rows:[['유정명사','감정을 느끼는 것 — 사람과 동물','친구, 강아지, 선생님'],
+        ['무정명사','그 밖의 것','학교, 나무, 돌']],
+  d:'감정을 느끼는 존재인가 아닌가.',
+  n:'<b>붙는 조사가 다르다.</b> 유정명사에는 「에게/한테」, 무정명사에는 「에」가 붙는다 — 친구<b>에게</b> / 학교<b>에</b>. 그래서 이 구별은 <b>의미가 아니라 문법의 문제</b>다.'},
+ {btn:'자립명사 / 의존명사',
+  rows:[['자립명사','혼자 쓰일 수 있다','학교, 사람, 물'],
+        ['의존명사','앞에 꾸미는 말이 있어야 한다','것, 수, 바, 데, 뿐, 명, 마리']],
+  d:'혼자 설 수 있는가.',
+  n:'사전에 의존명사는 <b>874개</b>뿐인데 말에서는 아주 자주 쓰인다. 전사본에서 아동이 가장 많이 쓴 체언이 의존명사 <b>「거」</b>였다 — §Ⅴ. 다음 절의 주제다.'},
+ {btn:'셋은 서로 독립적이다',
+  rows:[['강아지','보통 · 유정 · 자립','세 기준이 각각 적용된다'],
+        ['세종대왕','고유 · 유정 · 자립','—'],
+        ['한강','고유 · 무정 · 자립','—'],
+        ['마리','보통 · 무정 · <b>의존</b>','단위성 의존명사']],
+  d:'한 명사에 세 기준이 동시에 적용된다.',
+  n:'그러니 「이 명사는 보통명사다」라고만 하면 <b>3분의 1만 말한 것</b>이다. 5주차 합성어의 두 기준과 같은 구조다 — <b>기준이 여럿이면 각각 적용해야 한다.</b>'},
+ {btn:'★ 그런데 수(數)는 왜 기준이 아닌가',
+  rows:[['영어','<b>의무적</b>','one book / two book<span style="color:#e0836a">*</span>s — 안 붙이면 비문'],
+        ['한국어','<b>수의적</b>','책 세 권 / 책들 세 권 — 둘 다 된다'],
+        ['한국어의 「-들」','명사 밖에도 붙는다','빨리<b>들</b> 와 · 어서<b>들</b> 앉아 · 많이<b>들</b> 먹어']],
+  d:'한국어 명사에는 <b>수를 표시하는 의무가 없다.</b> 성(性)도 없다. 그래서 수는 명사를 가르는 기준이 되지 못한다.',
+  n:'셋째 줄이 결정적이다. <b>「-들」이 부사와 어미 뒤에도 붙는다</b>는 것은 이것이 명사의 복수 표지가 아니라 <b>「여럿에게 해당한다」는 것을 문장 어딘가에 표시하는 보조사</b>에 가깝다는 뜻이다. 표준국어대사전도 「-들」을 <b>접미사</b>와 <b>보조사</b> 두 표제어로 싣는다 — 「사람들」의 「-들」과 「빨리들」의 「들」이 다른 항목이다.<br><br><b>임상적으로 두 가지가 걸린다.</b> ① 영어권 검사·중재를 옮길 때 <b>복수 형태소를 목표로 두면 안 된다</b> — 한국어에서 「사과 세 개」는 오류가 아니다. 15주차에서 「도구를 옮겨 쓸 때의 문제」로 다시 다룬다. ② 그런데도 아동이 <b>「친구들이 놀았어요」처럼 「-들」을 과하게 붙이는</b> 관찰은 흔하다. 이것은 결함이 아니라 <b>수의적인 것을 의무적인 것으로 다루는 과도기</b>로 읽는다.<br><br>전사본에는 「-들」이 <b>0회</b>다. 아동 발화 60개 어디에도 없다.'}
+];
+const nnBtns=document.getElementById('nn-btns'),nnPanel=document.getElementById('nn-panel');
+NOUNS.forEach((x,i)=>{
+  const b=document.createElement('button');
+  b.className='ibtn'+(i===0?' active':'');b.textContent=x.btn;
+  b.onclick=()=>{[...nnBtns.children].forEach(c=>c.classList.remove('active'));b.classList.add('active');renderNn(x);};
+  nnBtns.appendChild(b);
+});
+function renderNn(x){
+  let t='<table class="itable"><tbody>';
+  x.rows.forEach(r=>{t+='<tr><td style="width:22%;color:var(--highlight);font-weight:600">'+r[0]+'</td><td style="width:34%">'+r[1]+'</td><td>'+r[2]+'</td></tr>';});
+  nnPanel.innerHTML=t+'</tbody></table><p>'+x.d+'</p><p class="note">'+x.n+'</p>';
+}
+renderNn(NOUNS[0]);
+
+/* ===== §Ⅳ 의존명사 세 갈래 ===== */
+const BNOUN=[
+ {btn:'형식성 의존명사',
+  ex:'것 · 바 · 줄 · 리 · 따름',
+  d:'구체적인 뜻이 거의 없고 <b>문법적 형식</b>만 채운다. 앞의 관형절을 명사처럼 만들어 준다.',
+  n:'「먹는 <b>것</b>이 좋다」에서 「것」을 빼면 문장이 무너진다. <b>관형절을 주어 자리에 앉히는</b> 장치다 — 11주차 안은문장에서 다시 만난다.'},
+ {btn:'보편성 의존명사',
+  ex:'것 · 데 · 이 · 분',
+  d:'여러 성분 자리에 두루 쓰인다. 주어도 되고 목적어도 되고 부사어도 된다.',
+  n:'「데」를 보라 — 「갈 <b>데</b>가 없다」(주어), 「갈 <b>데</b>를 정하자」(목적어), 「갈 <b>데</b>로 가자」(부사어). 자리를 가리지 않는다. 반면 「수」는 <b>주로 「있다/없다」와 함께</b>만 쓰인다 — 자리가 이렇게 제한된 것을 <b>주어성 의존명사</b>라 한다.'},
+ {btn:'단위성 의존명사 ★',
+  ex:'명 · 마리 · 개 · 권 · 켤레 · 그루',
+  d:'수를 세는 단위. 앞에 <b>반드시 수관형사</b>가 온다 — 「세 <b>마리</b>」.',
+  n:'<b>분류사</b>(classifier)라고도 한다. 한국어·일본어·중국어에 발달했고 영어에는 거의 없다 — <i>three dogs</i>이지 <span style="color:#e0836a">*</span><i>three animal dogs</i>가 아니다. <b>세는 대상마다 다른 단위</b>를 써야 하므로 목록을 외워야 한다. 임상적으로 중요한 이유가 이것이다.'},
+ {btn:'표준 분류는 다섯이다',
+  ex:'보편성 · 주어성 · 서술성 · 부사성 · 단위성',
+  d:'국어학의 표준 분류는 <b>다섯</b>이다 — 보편성(것·데·이·분) · <b>주어성</b>(지·수·리) · <b>서술성</b>(따름·뿐·터) · <b>부사성</b>(대로·만큼·채·뻔) · 단위성.',
+  n:'이 다섯은 <b>어느 성분 자리에 오는가</b>를 묻는 <b>한 축</b>의 분류다. 반면 「형식성」은 그 축이 아니라 <b>뜻이 얼마나 비었는가</b>를 묻는 <b>다른 축</b>의 말이다. 앞에서 셋만 든 것은 임상에서 자주 쓰는 것 위주로 추린 것이고, <b>축이 둘이라서</b> 「것」이 형식성이면서 보편성일 수 있다. <b>분류표를 외우기보다 각 기준이 무엇을 묻는지를 아는 편이 낫다.</b>'}
+];
+const bnBtns=document.getElementById('bn-btns'),bnPanel=document.getElementById('bn-panel');
+BNOUN.forEach((x,i)=>{
+  const b=document.createElement('button');
+  b.className='ibtn'+(i===0?' active':'');b.textContent=x.btn;
+  b.onclick=()=>{[...bnBtns.children].forEach(c=>c.classList.remove('active'));b.classList.add('active');renderBn(x);};
+  bnBtns.appendChild(b);
+});
+function renderBn(x){
+  bnPanel.innerHTML='<h4>'+x.btn+'</h4>'+
+    '<div style="font-family:var(--sans);font-size:1.2rem;color:var(--highlight);margin:.5rem 0 .9rem">'+x.ex+'</div>'+
+    '<p>'+x.d+'</p><p class="note">'+x.n+'</p>';
+}
+renderBn(BNOUN[0]);
+
+/* ===== §Ⅳ 단위성 의존명사 사전 ===== */
+const UNITS=[
+ ['개','가장 두루 쓰이는 단위 — 물건 일반','사과 세 개, 지우개 두 개','아동이 <b>다른 단위 자리에까지 밀어 넣는</b> 바로 그 단위다. "강아지 세 개"의 그 「개」.'],
+ ['명','사람','학생 다섯 명','높임에서는 「분」을 쓴다 — 선생님 세 <b>분</b>. 같은 사람을 세는데 <b>대우에 따라 단위가 바뀐다.</b>'],
+ ['분','사람(높임)','손님 두 분','같은 대상에 <b>대우에 따라 다른 단위</b>를 쓴다. 12주차 높임법과 이어진다. (「놈」은 사람을 낮잡아 이르는 <b>의존명사</b>이지 세는 단위가 아니다.)'],
+ ['마리','동물·물고기','강아지 두 마리, 고등어 세 마리','사람에게는 못 쓴다. 유정명사 안에서도 사람과 동물이 갈린다.'],
+ ['권','책','책 다섯 권','「책 세 개」는 어색하지만 통하기는 한다 — 「개」의 과잉 확장.'],
+ ['장','종이처럼 얇고 넓은 것','종이 열 장, 김 두 장','「매(枚)」는 문어적. 「장」이 일상적이다.'],
+ ['벌','옷·그릇처럼 짝을 이루는 것','옷 한 벌, 수저 두 벌','표준국어대사전은 「옷을 세는 단위」로 풀이하고 <b>「드레스 두 벌」처럼 단품에도</b> 쓴다. 「티셔츠 한 장」은 널리 쓰이지만 「장(張)」의 사전 뜻풀이(종이·유리처럼 얇고 넓적한 것)에는 없다 — <b>규범과 실제가 어긋나는 자리</b>다.'],
+ ['켤레','짝이 되는 두 개','신발 한 켤레, 양말 세 켤레','<b>둘이 한 짝</b>이어야 한다. 장갑도 켤레다.'],
+ ['그루','나무','소나무 열 그루','「나무 열 개」는 베어 놓은 목재 느낌이 된다.'],
+ ['송이','꽃·포도처럼 뭉쳐 달린 것','장미 한 송이, 포도 두 송이','「다발」과 다르다 — 다발은 여럿을 묶은 것.'],
+ ['대','자동차·기계','자동차 두 대, 컴퓨터 세 대','「차 두 개」는 장난감 차 느낌이 난다.'],
+ ['채','집·건물','집 한 채, 기와집 두 채','건물은 「동(棟)」도 쓴다 — 아파트 세 동.'],
+ ['척','배','배 두 척','전통 단위가 지금도 살아 있는 예다.'],
+ ['그릇','그릇에 담아 그 분량을 세는 것','밥 두 그릇, 국 한 그릇','표준국어대사전은 <b>그릇을 세는 단위로 「개·벌·죽」</b>을 든다. 「그릇 세 개」(그릇의 수)와 「밥 세 그릇」(담긴 분량)은 세는 대상이 다르다.'],
+ ['자루','길쭉한 물건','연필 세 자루, 붓 두 자루','「연필 세 개」도 쓰이지만 「자루」가 본래다.'],
+ ['판','수량이 정해진 묶음 — 달걀, 그리고 자르기 전의 음식','계란 두 판, 피자 한 판','한 판은 <b>달걀 30개</b>다. 이렇게 <b>수량이 정해진</b> 단위가 또 있다 — 「접」(채소·과일 100개), 「두름」(물고기 20마리), 「쌈」(바늘 24개).']
+];
+const unGrid=document.getElementById('un-grid'),unPanel=document.getElementById('un-panel');
+unGrid.innerHTML=UNITS.map((u,i)=>'<button class="unitbtn'+(i===0?' on':'')+'" data-i="'+i+'">'+u[0]+'</button>').join('');
+unGrid.querySelectorAll('.unitbtn').forEach(b=>{
+  b.onclick=()=>{unGrid.querySelectorAll('.unitbtn').forEach(x=>x.classList.remove('on'));b.classList.add('on');showUn(+b.dataset.i);};
+});
+function showUn(i){
+  const u=UNITS[i];
+  unPanel.innerHTML='<h4><span style="font-size:1.6rem;margin-right:.5rem;color:var(--highlight)">'+u[0]+'</span>'+u[1]+'</h4>'+
+    '<div style="font-family:var(--sans);font-size:1.05rem;margin:.6rem 0 .9rem">'+u[2]+'</div>'+
+    '<p class="note">'+u[3]+'</p>';
+}
+showUn(0);
+
+/* ===== §Ⅳ 최소대립쌍 ===== */
+const MINP=[
+ {btn:'뿐',
+  a:['너<b>뿐</b>이야','조사','앞말이 <b>체언</b>(너)이다. 조사이므로 <b>붙여</b> 쓴다.'],
+  b:['기다릴 <b>뿐</b>이야','의존명사','앞말이 <b>관형사형</b>(기다릴)이다. 의존명사이므로 <b>띄어</b> 쓴다.'],
+  n:'판정 기준은 하나다 — <b>앞말이 체언인가 관형사형인가.</b> 체언 뒤면 조사, 관형사형 뒤면 의존명사. 「-ㄹ/-는/-던」이 앞에 있으면 띄어 쓴다고 외워도 된다.'},
+ {btn:'데',
+  a:['가는<b>데</b> 비가 왔다','어미','「-는데」라는 <b>연결어미</b>다. 붙여 쓴다. 「그런데」의 뜻이 든다.'],
+  b:['가는 <b>데</b>가 어디야','의존명사','<b>「곳·장소」</b>의 뜻이다. 띄어 쓴다. 조사가 붙는다 — 「데가」 「데를」.'],
+  n:'구별법 — <b>뒤에 조사를 넣어 보라.</b> 「데가·데를·데에」가 되면 의존명사(띄어 씀), 안 되면 어미(붙여 씀). 「곳」으로 바꾸는 방법도 있지만 <b>절반만 통한다</b> — 「데」에는 「곳」 말고 <b>「일·것」</b>(그 책을 다 읽는 데 삼 일이 걸렸다)과 <b>「경우」</b>(머리 아픈 데 먹는 약)의 뜻도 있고, 이때도 <b>띄어 쓴다.</b>'},
+ {btn:'만큼',
+  a:['너<b>만큼</b> 컸다','조사','앞말이 체언(너)이다. 붙여 쓴다.'],
+  b:['아는 <b>만큼</b> 보인다','의존명사','앞말이 관형사형(아는)이다. 띄어 쓴다.'],
+  n:'「뿐」과 <b>똑같은 구조</b>다. 「대로」도 마찬가지 — 「법<b>대로</b>」(조사) vs 「아는 <b>대로</b>」(의존명사). 셋을 묶어 외우면 된다.'},
+ {btn:'만',
+  a:['하나<b>만</b> 줘','조사','<b>「오직」</b>의 뜻. 붙여 쓴다. 전사본 C45 「조금만 먹을 수 있어」의 그 「만」이다.'],
+  b:['사흘 <b>만</b>에 왔다','의존명사','<b>시간의 경과</b>를 나타낸다. 띄어 쓴다.'],
+  n:'이 쌍은 <b>앞말이 둘 다 체언</b>이라 앞의 방법이 안 통한다. <b>뜻으로</b> 갈라야 한다 — 「오직」이면 조사, 「그만큼의 시간이 지나서」면 의존명사.'},
+ {btn:'차 (次)',
+  a:['연구<b>차</b> 갔다','접미사','<b>「목적」</b>을 나타낸다. 앞말이 <b>명사</b>다. 붙여 쓴다.'],
+  b:['가려던 <b>차</b>에 잘 왔다','의존명사','<b>「기회·순간」</b>을 나타낸다. 앞말이 <b>관형사형</b>(-던)이다. 띄어 쓴다.'],
+  n:'같은 한자 <b>次</b>인데 접미사와 의존명사로 갈린다 — 앞말이 <b>명사</b>면 접미사, <b>관형사형</b>이면 의존명사. 앞의 셋과 같은 구조다.<br>덤 — 전사본 C41 「차 타고 오래 갔어」의 「차」는 아예 다른 단어인 <b>자립명사 車</b>다. 6주차 중의성 카드에서 본 그 「차」 — 車/茶/차다.'}
+];
+const mpBtns=document.getElementById('mp-btns'),mpPanel=document.getElementById('mp-panel');
+MINP.forEach((x,i)=>{
+  const b=document.createElement('button');
+  b.className='ibtn'+(i===0?' active':'');b.textContent=x.btn;
+  b.onclick=()=>{[...mpBtns.children].forEach(c=>c.classList.remove('active'));b.classList.add('active');renderMp(x);};
+  mpBtns.appendChild(b);
+});
+function renderMp(x){
+  mpPanel.innerHTML='<table class="itable"><thead><tr><th style="width:34%">보기</th><th style="width:18%">품사</th><th>왜 그런가</th></tr></thead><tbody>'+
+    '<tr><td style="font-family:var(--sans);font-size:1.02rem">'+x.a[0]+'</td><td style="color:var(--highlight)">'+x.a[1]+'</td><td>'+x.a[2]+'</td></tr>'+
+    '<tr><td style="font-family:var(--sans);font-size:1.02rem">'+x.b[0]+'</td><td style="color:var(--highlight)">'+x.b[1]+'</td><td>'+x.b[2]+'</td></tr>'+
+    '</tbody></table><p class="note">'+x.n+'</p>';
+}
+renderMp(MINP[0]);
+
+/* ===== §Ⅴ 체언 빈도 탐색기 ===== */
+const PCOL={'명사':'#9dd39a','대명사':'#e8b647','의존명사':'#8fb8d8','수사':'#c0a8d8','관형사':'#d89a8f'};
+const FREQV=[
+ {btn:'사전 표제어 수',
+  d:{명사:270039,대명사:352,수사:188,의존명사:874,관형사:1584},
+  t:'표준국어대사전 품사별 현황 · 2026년 조회',
+  n:'<b>여기서 세는 것은 체언과 관형사뿐이다</b>(합계 273,037 — §Ⅲ의 73.9%는 전체 표제어 365,245가 분모였다). 이 안에서 명사가 <b>98.9%</b>다. 대명사는 <b>352개</b>, 수사는 <b>188개</b>뿐이다. 새 명사는 얼마든지 만들어지지만 <b>대명사와 수사는 새로 생기지 않는다</b> — 이런 부류를 <b>폐쇄 부류</b>(closed class)라 한다. 조사 181개, 어미 811개도 마찬가지다.'},
+ {btn:'전사본 실제 사용',
+  d:{명사:58,대명사:22,수사:0,의존명사:12,관형사:3},
+  t:'3주차 전사본 아동 발화 60개 · 토큰 기준',
+  n:'<b>그림이 완전히 뒤집힌다.</b> 사전에서 0.1%였던 대명사가 <b>체언 토큰(92개) 기준으로 24%</b>다. 사전에서 0.3%였던 의존명사가 <b>13%</b>다. (옆 막대는 관형사 3개까지 합한 95가 분모라 조금 낮게 나온다.) <b>적은 수의 단어가 아주 자주 쓰인다</b> — 폐쇄 부류의 성질이다. 6주차에서 「사전을 세는 것과 사용을 세는 것은 다르다」고 한 그 이야기다.'},
+ {btn:'전사본 · 낱말별 순위',
+  d:{},
+  t:'같은 자료를 낱말 단위로',
+  n:'',
+  rank:[['거','의존명사',9],['나','대명사',7],['이거','대명사',5],['집','명사',5],['오빠','명사',5],
+        ['여기','대명사',4],['토끼','명사',4],['거북이','명사',4],['인형','명사',3],['밑','명사',3],
+        ['문','명사',3],['수','의존명사',3],['엄마','명사',3]],
+  rn:'<b>1위가 의존명사 「거」</b>(9회)다. 2위는 대명사 「나」(7회), 3위는 「이거」(대명사)와 「집」·「오빠」(명사)가 5회로 공동이다. 사전에서 <b>300분의 1</b>(0.3%)밖에 안 되는 부류가 실제 말에서는 <b>맨 앞자리</b>를 차지한다.'},
+ {btn:'수사가 하나도 없다',
+  d:{명사:58,대명사:22,수사:0,의존명사:12,관형사:3},
+  t:'전사본 · 수사 0회 · 관형사 3회',
+  n:'<b>수사가 0이다.</b> 그런데 수관형사는 있다 — C50 「<b>두</b> 발」, C51 「<b>네</b> 발」. 무슨 뜻인가? 아이가 수를 <b>세는 맥락</b>에 있지 않았다는 뜻이기도 하고, 「하나·둘·셋」이 <b>단독으로 쓰이는 일 자체가 드물다</b>는 뜻이기도 하다. 관형사도 3회뿐이다(이·두·네). <b>실습 2번 문항이 이것이다.</b>'}
+];
+const frBtns=document.getElementById('fr-btns'),frBars=document.getElementById('fr-bars'),frPanel=document.getElementById('fr-panel');
+FREQV.forEach((x,i)=>{
+  const b=document.createElement('button');
+  b.className='ibtn'+(i===0?' active':'');b.textContent=x.btn;
+  b.onclick=()=>{[...frBtns.children].forEach(c=>c.classList.remove('active'));b.classList.add('active');renderFr(x);};
+  frBtns.appendChild(b);
+});
+function renderFr(x){
+  if(x.rank){
+    const mx=x.rank[0][2];
+    frBars.innerHTML=x.rank.map(r=>{
+      return '<div class="barrow"><span>'+r[0]+'</span>'+
+        '<div class="bartrack"><div class="barfill" style="width:'+(r[2]/mx*100).toFixed(1)+'%;background:'+(PCOL[r[1]]||'#aaa')+'"></div></div>'+
+        '<span class="barval">'+r[2]+'회 · '+r[1]+'</span></div>';
+    }).join('');
+    frPanel.innerHTML='<h4>'+x.btn+'</h4><p style="font-family:var(--sans);font-size:.8rem;opacity:.6;margin-bottom:.6rem">'+x.t+'</p><p class="note">'+x.rn+'</p>';
+    return;
+  }
+  const tot=Object.values(x.d).reduce((a,b)=>a+b,0);
+  frBars.innerHTML=Object.keys(x.d).map(k=>{
+    const v=x.d[k],p=tot?v/tot*100:0;
+    return '<div class="barrow"><span>'+k+'</span>'+
+      '<div class="bartrack"><div class="barfill" style="width:'+p.toFixed(2)+'%;background:'+PCOL[k]+'"></div></div>'+
+      '<span class="barval">'+v.toLocaleString()+' · '+p.toFixed(1)+'%</span></div>';
+  }).join('');
+  frPanel.innerHTML='<h4>'+x.btn+' <span style="font-family:var(--mono);font-size:.75rem;opacity:.55">합계 '+tot.toLocaleString()+'</span></h4>'+
+    '<p style="font-family:var(--sans);font-size:.8rem;opacity:.6;margin-bottom:.6rem">'+x.t+'</p>'+
+    '<p class="note">'+x.n+'</p>';
+}
+renderFr(FREQV[0]);
+
+/* ===== §Ⅵ 관형사 판별 ===== */
+const DETM=[
+ {btn:'관형사 vs 용언의 관형사형',
+  rows:[['새 옷','<b>관형사</b>','「새」는 <b>그 꼴 하나뿐</b>이다 — 「새고·새서·새었다」로 활용하는 「새-」는 없다. (동사 「새다」는 「날이 새다·물이 새다」로 <b>아예 다른 단어</b>다.)'],
+        ['큰 집','<b>형용사</b>의 관형사형','「크다」가 활용한 것이다 — 크고, 컸다, 큰. 사전 표제어는 「크다」.'],
+        ['옛 친구','<b>관형사</b>','「옛」도 그 꼴 하나뿐이다 — <span style="color:#e0836a">*</span>옛다, <span style="color:#e0836a">*</span>옛은.'],
+        ['낡은 책','<b>형용사</b>의 관형사형','「낡다」의 활용형.'],
+        ['헌 책','<b>관형사</b> — 다만 경계 사례','「헌」은 동사 「헐다」(낡아지다)의 관형사형과 꼴이 같다(헐-+-은 → 헌, ㄹ탈락). 그러니 <b>꼴만으로는 못 가른다.</b> 사전이 「헌」을 별도 관형사로 세우는 근거는 <b>「헐다」의 뜻으로 되돌려 풀리지 않는다</b>는 데 있다 — 「낡은 책 ↔ 책이 낡았다」는 짝이 되지만 「헌 책 ↔ <span style="color:#e0836a">?</span>책이 헐었다」는 되지 않는다.']],
+  d:'판정 기준 — <b>활용하는가.</b> 관형사는 그 꼴 하나뿐이다.',
+  n:'전사본 C04·C05·C12의 「<b>큰</b> 집」·「<b>큰</b> 거」는 <b>관형사가 아니다.</b> 형용사 「크다」의 관형사형이다. 실습에서 이것을 관형사로 세면 안 된다.'},
+ {btn:'관형사 vs 접두사',
+  rows:[['<b>새</b> 옷','관형사','띄어 쓴다. 사이에 다른 말이 들어갈 수 있다 — 「새 <u>겨울</u> 옷」.'],
+        ['<b>햇</b>-곡식','접두사','붙여 쓴다. 사이에 아무것도 못 넣는다. 붙는 어근이 제한적이다.'],
+        ['<b>맨</b> 처음','관형사','「맨 <u>마지막</u>」처럼 여러 체언에 붙는다.'],
+        ['<b>맨</b>-발','접두사','5주차에서 본 그 「맨-」. 같은 소리인데 <b>품사가 다르다.</b>']],
+  d:'판정 기준 — <b>자립성과 분리성.</b> 관형사는 단어이고 접두사는 단어의 일부다.',
+  n:'<b>5주차와 곧바로 이어진다.</b> 접두사는 <b>조어</b>의 재료이고 관형사는 <b>문장</b>의 성분이다. 층위가 다르다. 그래서 「맨발」은 한 단어이고 「맨 처음」은 두 단어다.'},
+ {btn:'수관형사 vs 수사',
+  rows:[['셋<b>이</b> 왔다','<b>수사</b>','조사가 붙는다 → 체언이다.'],
+        ['<b>세</b> 명이 왔다','<b>수관형사</b>','조사가 안 붙는다. 뒤의 체언을 꾸민다.'],
+        ['하나<b>를</b> 줘','<b>수사</b>','조사가 붙는다.'],
+        ['<b>한</b> 개를 줘','<b>수관형사</b>','「하나」가 「한」으로 바뀌었다.']],
+  d:'판정 기준 — <b>조사가 붙는가.</b> 붙으면 수사, 안 붙고 꾸미면 관형사.',
+  n:'「하나·둘·셋·넷」이 단위 앞에서 「한·두·세·네」로 바뀐다. <b>형태가 바뀌므로 눈에 보인다.</b> 그런데 「다섯」 이상은 형태가 안 바뀐다 — 「다섯이 왔다」(수사)와 「다섯 명」(관형사)이 같은 꼴이다. <b>조사로 판정해야 하는 이유</b>가 이것이다.'}
+];
+const dmBtns=document.getElementById('dm-btns'),dmPanel=document.getElementById('dm-panel');
+DETM.forEach((x,i)=>{
+  const b=document.createElement('button');
+  b.className='ibtn'+(i===0?' active':'');b.textContent=x.btn;
+  b.onclick=()=>{[...dmBtns.children].forEach(c=>c.classList.remove('active'));b.classList.add('active');renderDm(x);};
+  dmBtns.appendChild(b);
+});
+function renderDm(x){
+  let t='<table class="itable"><thead><tr><th style="width:24%">보기</th><th style="width:22%">판정</th><th>근거</th></tr></thead><tbody>';
+  x.rows.forEach(r=>{t+='<tr><td style="font-family:var(--sans);font-size:1.02rem">'+r[0]+'</td><td style="color:var(--highlight)">'+r[1]+'</td><td>'+r[2]+'</td></tr>';});
+  dmPanel.innerHTML=t+'</tbody></table><p>'+x.d+'</p><p class="note">'+x.n+'</p>';
+}
+renderDm(DETM[0]);
+
+/* ===== §Ⅵ 어순 순열 ===== */
+const PERMS=[
+ {ph:'저 모든 새 건물',ord:'지시–수–성상',j:'자연스럽다',cls:'ok',
+  n:'<b>이것 하나만 자연스럽다.</b> 한국어 관형사의 배열은 <b>지시 → 수 → 성상</b> 순으로 굳어져 있다.'},
+ {ph:'저 새 모든 건물',ord:'지시–성상–수',j:'어색하다',cls:'mid',
+  n:'수관형사 「모든」이 성상관형사 뒤로 갔다. 이해는 되지만 <b>어색하다.</b>'},
+ {ph:'모든 저 새 건물',ord:'수–지시–성상',j:'매우 어색',cls:'bad',
+  n:'지시관형사가 맨 앞을 내주었다. <b>지시가 가장 바깥</b>이라는 원칙이 깨졌다.'},
+ {ph:'모든 새 저 건물',ord:'수–성상–지시',j:'비문에 가깝다',cls:'bad',
+  n:'지시가 맨 안쪽으로 밀렸다. <b>거의 받아들이기 어렵다.</b>'},
+ {ph:'새 저 모든 건물',ord:'성상–지시–수',j:'비문에 가깝다',cls:'bad',
+  n:'성상이 맨 앞에 왔다. 성상관형사는 <b>체언에 가장 가까이</b> 붙는데 그 반대가 되었다.'},
+ {ph:'새 모든 저 건물',ord:'성상–수–지시',j:'비문에 가깝다',cls:'bad',
+  n:'순서가 <b>완전히 뒤집혔다.</b> 여섯 중 가장 나쁘다.'}
+];
+const pmList=document.getElementById('pm-list'),pmPanel=document.getElementById('pm-panel');
+let pmDone=0;
+pmList.innerHTML=PERMS.map((p,i)=>
+  '<button type="button" class="perm" data-i="'+i+'" style="cursor:pointer;width:100%;text-align:left;background:transparent;color:inherit;font:inherit"><span class="ph">'+p.ph+'</span><span class="pj">?</span></button>').join('');
+pmList.querySelectorAll('.perm').forEach(d=>{
+  d.onclick=()=>{
+    const i=+d.dataset.i,p=PERMS[i];
+    if(!d.classList.contains(p.cls)){
+      d.classList.add(p.cls);
+      d.querySelector('.pj').textContent=p.j;
+      pmDone++;
+    }
+    pmPanel.innerHTML='<h4>'+p.ph+' <span style="font-family:var(--mono);font-size:.75rem;opacity:.6">'+p.ord+'</span></h4>'+
+      '<p class="note">'+p.n+'</p>'+
+      (pmDone>=PERMS.length?'<p class="note" style="border-left-color:var(--highlight)"><b>여섯을 다 보았다.</b> 자연스러운 것은 <b>하나뿐</b>이다. 관형사는 서로 자유롭게 자리를 바꾸지 못한다 — 이것이 관형사가 <b>부사와 다른 점</b>이다. 부사는 자리를 비교적 자유롭게 옮긴다(8주차). 다만 이 판정은 <b>정도의 문제</b>이고 사람마다 조금씩 다르다 — 1주차에서 문법성 판단이 예/아니오가 아니라 <b>눈금</b>이라고 한 것이 이것이다. <b>임상적 함의</b> — 아동이 관형사를 여러 개 겹쳐 쓰는 일은 드물다. 하나만 써도 충분하기 때문이다. 전사본에도 관형사가 3회뿐이다.</p>':'');
+  };
+});
+pmPanel.innerHTML='<p>여섯 배열을 하나씩 눌러 판정을 확인하세요. <b>먼저 스스로 판단한 뒤</b> 누르는 것이 좋습니다.</p>';
+
+/* ===== §Ⅶ 열린 쟁점 ===== */
+const ISSUE=[
+ {btn:'① 이다',
+  rows:[['전통적 견해','<b>서술격조사</b>다. 학교 문법과 표준국어대사전이 이 처리를 따른다.'],
+        ['도전','<b>조사는 활용하지 않는데 「이다」는 활용한다</b> — 이고, 이니, 이어서, 이었다. 정의에 어긋난다.'],
+        ['지금은','세 갈래 처리가 공존한다. ① 조사로 두되 예외 인정(학교 문법) ② <b>지정사</b>라는 품사 신설(최현배의 「잡음씨」, 북한 문법) ③ <b>접사</b>로 처리.'],
+        ['임상적 함의','「이다」의 활용은 아동에게 늦지 않게 나타난다. 전사본 C14 「문<b>이고</b>」, C60 「갈 <b>거예요</b>」(거+이에요)가 그것이다. C54 「애기 <b>아닌데</b>」의 「아니다」는 「이다」의 부정형처럼 보이지만 <b>별개의 형용사</b>이므로 이 목록에 넣지 않는다 — 최현배는 이 둘을 함께 잡음씨에 넣었다. <b>어떤 품사로 부르든 활용하는 것은 사실</b>이므로, 분석에서는 <b>어미를 분리해 세는</b> 편이 일관된다.']],
+  n:'이 쟁점은 <b>품사 분류의 기준끼리 충돌</b>하는 대표적 사례다. 기능으로는 조사(앞말에 붙어 자격을 준다), 형태로는 용언(활용한다). <b>무엇을 우선할 것인가</b>가 답을 정한다.'},
+ {btn:'② 조사는 단어인가',
+  rows:[['전통적 견해','<b>단어다.</b> 학교 문법은 조사를 9품사의 하나로 세운다. 그래서 「책이」는 <b>두 단어</b>다.'],
+        ['도전','조사는 <b>홀로 쓰이지 못한다.</b> 그 점에서 어미와 다를 바 없는데, 어미는 단어로 치지 않는다. <b>일관되지 않다.</b>'],
+        ['지금은','세 체계가 공존한다 — <b>분석적 체계</b>(조사·어미 모두 단어), <b>종합적 체계</b>(둘 다 단어 아님), <b>절충적 체계</b>(조사만 단어). 학교 문법은 절충적 체계다.'],
+        ['임상적 함의','<b>4주차 MLU 계산에서 이미 만난 문제다.</b> 「엄마가」를 1단어로 셀 것인가 2단어로 셀 것인가. 어느 체계를 택하든 <b>일관되게</b> 적용하고 <b>밝혀야</b> 한다.']],
+  n:'5주차 §Ⅰ에서 「곡용」이라는 말에 걸렸던 것이 이 문제였다. <b>9주차에서 정면으로 다룬다.</b>'},
+ {btn:'③ 접속사가 없다',
+  rows:[['전통적 견해','한국어에는 <b>접속사라는 품사가 없다.</b> 「그리고·그러나·그런데」는 <b>접속부사</b>로 분류한다.'],
+        ['도전','영어의 <i>and, but</i>에 해당하는 말이 분명히 있는데 왜 별개 품사가 아닌가? 「와/과」는 <b>접속조사</b>라고 부르면서.'],
+        ['지금은','한국어에서 <b>절과 절을 잇는 일은 어미가 맡는다</b>(-고, -지만, -어서). 「그러나」류는 문장 사이를 잇지 절을 잇지 않으므로 <b>부사</b>로 보는 것이 일관된다는 설명이 표준이다.'],
+        ['임상적 함의','아동이 문장을 잇는 방식을 볼 때 <b>어미</b>를 봐야 한다는 뜻이다. 전사본 C25 「자<b>서</b>」, C26 「가<b>다가</b>」, C11 「좁아<b>서</b>」가 그것이다 — 11주차 이어진문장.']],
+  n:'이것은 <b>언어마다 품사 목록이 다르다</b>는 것을 보여 주는 좋은 예다. 1주차에서 본 Evans &amp; Levinson의 논지 — <b>보편적 품사 목록은 없다.</b>'},
+ {btn:'④ 있다·없다',
+  rows:[['전통적 견해','학교 문법은 <b>「있다」를 형용사와 동사 양쪽으로</b>, 「없다」를 형용사로 처리한다.'],
+        ['도전','「있다」는 명령형이 된다 — 「있어라」. 형용사는 명령형이 안 되는데(<span style="color:#e0836a">*</span>예뻐라 — 감탄형 「아이 예뻐라」와 헷갈리지 말 것). 그러면 동사인가? 그런데 「있는다」는 어색하다.'],
+        ['지금은','<b>이희승</b>은 <b>존재사</b>(存在詞)라는 품사를 따로 세웠다. 최현배는 「있다/없다」를 그림씨(형용사)로 처리했다. 지금 학교 문법은 존재사를 두지 않고, 「있다」의 <b>뜻에 따라</b> 동사(머물다)와 형용사(존재하다)로 나눈다.'],
+        ['임상적 함의','「있다/없다」는 <b>아동이 아주 일찍 습득</b>하는 말이다. 전사본에는 「있다」만 다섯 번 나오고(C20·C34·C40·C45·C49) <b>「없다」는 한 번도 나오지 않는다</b> — 이것 자체가 관찰거리다. 활용형을 분석할 때 <b>동사로 볼지 형용사로 볼지에 따라 오류 판정이 달라지므로</b> 기준을 밝혀 두어야 한다.']],
+  n:'네 쟁점 모두 같은 구조다 — <b>형태 기준과 의미 기준이 어긋난다.</b> §Ⅰ에서 「기준이 셋이고 늘 같은 답을 주지 않는다」고 한 말의 실제 사례들이다.'}
+];
+const isBtns=document.getElementById('is-btns'),isPanel=document.getElementById('is-panel');
+ISSUE.forEach((x,i)=>{
+  const b=document.createElement('button');
+  b.className='ibtn'+(i===0?' active':'');b.textContent=x.btn;
+  b.onclick=()=>{[...isBtns.children].forEach(c=>c.classList.remove('active'));b.classList.add('active');renderIs(x);};
+  isBtns.appendChild(b);
+});
+function renderIs(x){
+  let t='<table class="itable"><tbody>';
+  x.rows.forEach(r=>{t+='<tr><td style="width:20%;color:var(--highlight);font-weight:600">'+r[0]+'</td><td>'+r[1]+'</td></tr>';});
+  isPanel.innerHTML=t+'</tbody></table><p class="note">'+x.n+'</p>';
+}
+renderIs(ISSUE[0]);
+
+/* ===== 실습실 워크시트 ===== */
+const LABW=['명사 (자립)','명사 (의존)','대명사','수사','관형사','체언 합계'];
+document.getElementById('ws-body').innerHTML=LABW.map(w=>
+  '<tr><td class="w">'+w+'</td>'+
+  '<td><input type="text" aria-label="'+w+' 토큰 수" placeholder="토큰"></td>'+
+  '<td><input type="text" aria-label="'+w+' 타입 수" placeholder="타입"></td>'+
+  '<td><input type="text" aria-label="'+w+' 최빈 항목" placeholder="가장 잦은 것과 횟수"></td></tr>').join('');
+
+/* ===== 퀴즈 ===== */
+function buildQuiz(containerId,scoreId,items){
+  const wrap=document.getElementById(containerId),scoreEl=document.getElementById(scoreId);
+  let done=0,right=0;
+  items.forEach((it,i)=>{
+    const d=document.createElement('div');
+    d.className='quiz-item';
+    d.innerHTML='<div class="quiz-q"><span class="num">'+String(i+1).padStart(2,'0')+'</span>'+it.q+'</div>'+
+      '<div class="quiz-opts"></div><div class="quiz-fb"></div>';
+    const optWrap=d.querySelector('.quiz-opts'),fb=d.querySelector('.quiz-fb');
+    it.opts.forEach((label,j)=>{
+      const b=document.createElement('button');
+      b.className='quiz-opt';b.textContent=label;
+      b.onclick=()=>{
+        optWrap.querySelectorAll('.quiz-opt').forEach(x=>x.disabled=true);
+        const ok=j===it.a;
+        b.classList.add(ok?'correct':'wrong');
+        if(!ok)optWrap.querySelectorAll('.quiz-opt')[it.a].classList.add('correct');
+        fb.innerHTML='<b>'+(ok?'정답':'다시 보기')+'</b> · '+it.fb;
+        fb.classList.add('show');
+        done++;if(ok)right++;
+        scoreEl.textContent=done+'문항 풀이 · 정답 '+right+'개 ('+Math.round(right/done*100)+'%)'+
+          (done===items.length?(right===items.length?' — 완벽합니다.':' — 틀린 문항의 해설을 다시 읽어 보세요.'):'');
+      };
+      optWrap.appendChild(b);
+    });
+    wrap.appendChild(d);
+  });
+}
+
+buildQuiz('check-items','check-score',[
+ {q:'품사 분류의 세 기준을 <b>적용 순서대로</b> 나열한 것은?',
+  opts:['의미 → 기능 → 형태','형태 → 기능 → 의미','기능 → 형태 → 의미','의미 → 형태 → 기능'],a:1,
+  fb:'형태가 가장 굵게 자르고(가변어/불변어), 기능이 그 다음(체언/용언/수식언/관계언/독립언), 의미가 가장 잘게 나눈다(명사/대명사/수사). <b>의미만으로는 판정할 수 없다.</b> → §Ⅰ'},
+ {q:'"명사는 사물의 이름"이라는 정의의 문제는?',
+  opts:['너무 길다','\'사랑·기쁨\'처럼 사물이 아닌 명사를 설명하지 못한다','한자어를 제외한다','고유명사에만 맞는다'],a:1,
+  fb:'\'사랑·기쁨·평화\'는 사물이 아니지만 명사다 — <b>조사가 붙고 주어가 되기</b> 때문이다(기능 기준). 그래서 의미 기준은 맨 마지막에, 가장 좁게 쓴다. → §Ⅰ'},
+ {q:'「셋이 왔다」의 \'셋\'과 「세 명이 왔다」의 \'세\'의 품사는?',
+  opts:['둘 다 수사','둘 다 수관형사','셋=수사, 세=수관형사','셋=수관형사, 세=수사'],a:2,
+  fb:'판정 기준은 <b>조사가 붙는가</b>다. 「셋<u>이</u>」는 조사가 붙으므로 수사(체언), 「세 명」의 「세」는 조사 없이 체언을 꾸미므로 수관형사다. → §Ⅵ'},
+ {q:'유정명사와 무정명사의 구별이 <b>문법적으로</b> 중요한 이유는?',
+  opts:['뜻이 달라서','붙는 조사가 다르기 때문에','수를 세는 방식이 달라서','높임법이 달라서'],a:1,
+  fb:'유정명사에는 「에게/한테」가, 무정명사에는 「에」가 붙는다 — 친구<b>에게</b> / 학교<b>에</b>. 그래서 아동의 조사 오류를 볼 때 <b>명사의 유정성을 먼저 확인</b>해야 한다. → §Ⅲ'},
+ {q:'「기다릴 뿐이야」의 \'뿐\'과 「너뿐이야」의 \'뿐\'을 가르는 기준은?',
+  opts:['띄어쓰기','앞말이 체언인가 관형사형인가','뜻의 차이','발음의 차이'],a:1,
+  fb:'앞말이 <b>체언</b>이면 조사(붙여 씀), <b>관형사형</b>이면 의존명사(띄어 씀)다. 「대로·만큼」도 똑같은 구조다. 띄어쓰기는 판정의 <b>결과</b>이지 근거가 아니다. → §Ⅳ'},
+ {q:'단위성 의존명사가 임상적으로 중요한 이유는?',
+  opts:['빈도가 높아서','규칙이 없어 목록을 외워야 하므로 발달이 늦다','발음이 어려워서','한자어라서'],a:1,
+  fb:'무엇을 셀 때 무엇을 쓰는지에 <b>규칙이 없다</b> — 강아지는 「마리」, 나무는 「그루」, 신발은 「켤레」. 그래서 아동은 「개」로 과잉일반화한다("강아지 세 <u>개</u>"). → §Ⅳ'},
+ {q:'사전에 대명사가 352개뿐인데 실제 발화에서는 체언 토큰의 4분의 1을 차지한다. 이런 부류를 무엇이라 하는가?',
+  opts:['개방 부류','폐쇄 부류','기능 부류','의존 부류'],a:1,
+  fb:'<b>폐쇄 부류</b>(closed class)다. 새 구성원이 거의 생기지 않는 대신 <b>적은 수가 매우 자주</b> 쓰인다. 조사 181개, 어미 811개도 같다. 반대로 명사는 개방 부류다. → §Ⅴ'},
+ {q:'3주차 전사본에서 아동이 가장 많이 쓴 <b>체언</b>은?',
+  opts:['명사 \'집\'','대명사 \'나\'','의존명사 \'거\'','명사 \'오빠\''],a:2,
+  fb:'의존명사 <b>「거」가 9회</b>로 1위다. 「나」 7회, 「이거」·「집」·「오빠」 5회가 뒤를 잇는다. 사전에서 0.3%뿐인 부류가 실제 말에서는 맨 앞자리를 차지한다. → §Ⅴ'},
+ {q:'전사본 C12 「큰 거를 밑에 놓으면 돼」의 \'큰\'의 품사는?',
+  opts:['관형사','형용사','명사','부사'],a:1,
+  fb:'<b>형용사</b> 「크다」의 관형사형이다. 활용하기 때문이다 — 크고, 컸다, 큰. 관형사는 그 꼴 하나뿐이라 활용하지 않는다(새, 헌, 옛). 실습에서 이것을 관형사로 세면 안 된다. → §Ⅵ'},
+ {q:'「맨 처음」의 \'맨\'과 「맨발」의 \'맨-\'의 차이는?',
+  opts:['뜻이 다르다','앞은 관형사, 뒤는 접두사','앞은 접두사, 뒤는 관형사','같은 것이다'],a:1,
+  fb:'「맨 처음」의 「맨」은 <b>관형사</b>(단어, 띄어 씀)이고 「맨발」의 「맨-」은 <b>접두사</b>(단어의 일부, 붙여 씀)다. 5주차에서 본 그 「맨-」이다. <b>조어의 층위와 문장의 층위가 다르다.</b> → §Ⅵ'},
+ {q:'「저 모든 새 건물」에서 관형사의 배열 순서는?',
+  opts:['성상–수–지시','수–지시–성상','지시–수–성상','자유롭다'],a:2,
+  fb:'<b>지시 → 수 → 성상</b> 순으로 굳어져 있다. 여섯 순열 중 이것만 자연스럽다. 관형사는 부사와 달리 <b>자리를 자유롭게 바꾸지 못한다.</b> → §Ⅵ'},
+ {q:'「이다」를 서술격조사로 보는 처리의 문제점은?',
+  opts:['뜻이 없다','조사인데 활용한다','너무 자주 쓰인다','한자어가 아니다'],a:1,
+  fb:'조사는 불변어인데 「이다」는 활용한다 — 이고, 이니, 이었다. <b>형태 기준과 기능 기준이 충돌</b>하는 것이다. 그래서 지정사라는 품사를 따로 세우거나 접사로 보는 처리도 있다. → §Ⅶ'},
+ {q:'한국어에 <b>접속사</b>라는 품사가 없는 이유로 가장 적절한 설명은?',
+  opts:['접속하는 말이 없어서','절을 잇는 일은 어미가 맡고, \'그러나\'류는 문장 사이를 잇는 부사이므로','한자어라서','조사에 포함되어서'],a:1,
+  fb:'한국어에서 절과 절을 잇는 것은 <b>연결어미</b>(-고, -지만, -어서)다. 「그러나·그런데」는 문장 사이를 잇지 절을 잇지 않으므로 <b>접속부사</b>로 본다. <b>언어마다 품사 목록이 다르다</b>는 좋은 예다. → §Ⅶ'},
+ {q:'품사 비율(예: "명사 63%")을 임상 자료로 쓸 때 반드시 고려할 것은?',
+  opts:['아동의 나이','활동과 상황에 따라 크게 달라진다는 것','치료사의 경력','검사 도구의 종류'],a:1,
+  fb:'같은 아동, 같은 회기라도 블록 놀이와 경험 이야기의 품사 구성이 다르다. 그래서 품사 비율은 <b>같은 아동의 변화 추적</b>이나 <b>같은 활동끼리 비교</b>에 쓴다. 6주차의 결론과 같다. → §임상'}
+]);
+
+/* ===== 스크롤 스파이 ===== */
+const navLinks=[...document.querySelectorAll('.nav-link')].filter(a=>document.querySelector(a.getAttribute('href')));
+const navSecs=navLinks.map(a=>document.querySelector(a.getAttribute('href')));
+function spy(){
+  let cur=0;
+  navSecs.forEach((s,i)=>{if(s.getBoundingClientRect().top<250)cur=i;});
+  navLinks.forEach((a,i)=>a.classList.toggle('active',i===cur));
+}
+window.addEventListener('scroll',spy);spy();
+</script>
+
+</body>
+</html>

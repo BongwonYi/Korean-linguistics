@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>한국어학 — 15주 강의 자료</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Noto+Serif+KR:wght@300;400;500;600;700;900&family=Noto+Sans+KR:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1a1814;
+  --paper:#f5f1e8;
+  --paper-warm:#ede5d3;
+  --accent:#1a1814;
+  --rule:#1a181433;
+  --highlight:#e8b647;
+  --moss:#4a5d3a;
+  --terracotta:#c85a3e;
+  --blk-a:#1e4a7a;
+  --blk-b:#a86b1c;
+  --blk-c:#7a2c5e;
+  --blk-d:#2d5a3d;
+  --blk-e:#b8341c;
+  --serif:'Noto Serif KR','Fraunces',Georgia,serif;
+  --sans:'Noto Sans KR',sans-serif;
+  --mono:'JetBrains Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--serif);background:var(--paper);color:var(--ink);
+  line-height:1.75;font-size:16px;
+  background-image:
+    radial-gradient(circle at 20% 30%, #00000008 1px, transparent 1px),
+    radial-gradient(circle at 80% 70%, #00000008 1px, transparent 1px);
+  background-size:40px 40px,60px 60px;
+}
+
+/* ===== MASTHEAD ===== */
+.masthead{
+  border-bottom:3px double var(--ink);padding:1.8rem 3rem 1.3rem;
+  background:rgba(245,241,232,.95);position:sticky;top:0;z-index:100;backdrop-filter:blur(8px);
+}
+.masthead-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:auto 1fr auto;gap:2rem;align-items:end}
+.issue-tag{
+  font-family:var(--mono);font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--ink);border:1px solid var(--ink);padding:.3rem .6rem;align-self:start;
+}
+.title-block h1{font-weight:900;font-size:clamp(1.9rem,4.6vw,3.3rem);line-height:.98;letter-spacing:-.02em}
+.title-block .subtitle{font-style:italic;font-weight:300;font-size:1rem;margin-top:.5rem;opacity:.7}
+.meta-info{text-align:right;font-family:var(--mono);font-size:.7rem;line-height:1.6;opacity:.7}
+
+/* ===== NAV ===== */
+.toc-nav{border-bottom:1px solid var(--rule);background:var(--paper-warm);padding:.8rem 3rem;position:sticky;top:141px;z-index:99}
+.toc-nav-inner{max-width:1200px;margin:0 auto;display:flex;gap:.4rem;flex-wrap:wrap;font-family:var(--sans);font-size:.78rem}
+.toc-nav a{color:var(--ink);text-decoration:none;padding:.3rem .7rem;border:1px solid transparent;transition:all .2s;font-weight:500}
+.toc-nav a:hover{border-color:var(--ink);background:var(--paper)}
+.toc-nav a.active{background:var(--ink);color:var(--paper)}
+
+main{max-width:1200px;margin:0 auto;padding:3rem}
+
+/* ===== HERO ===== */
+.hero{display:grid;grid-template-columns:1.35fr 1fr;gap:3rem;margin-bottom:3.5rem;align-items:start}
+.hero-text .lead{font-size:1.16rem;line-height:1.95}
+.hero-text .lead::first-letter{float:left;font-size:4.3rem;line-height:.82;font-weight:900;margin:.1rem .6rem 0 0;color:var(--blk-a)}
+.hero-text p+p{margin-top:1.2rem}
+.hero-aside{background:var(--paper-warm);border:1px solid var(--rule);padding:1.6rem 1.8rem}
+.hero-aside h3{font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;margin-bottom:1rem;font-weight:500}
+.bookline{font-size:.9rem;line-height:1.65;margin-bottom:.9rem;padding-bottom:.9rem;border-bottom:1px dotted var(--rule)}
+.bookline:last-child{border:none;margin-bottom:0;padding-bottom:0}
+.bookline .tag{font-family:var(--mono);font-size:.63rem;letter-spacing:.08em;opacity:.6;display:block}
+
+/* ===== 숫자 요약 ===== */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);margin-bottom:4rem}
+.stat{background:var(--paper);padding:1.15rem 1rem;text-align:center}
+.stat .n{font-family:var(--mono);font-size:1.75rem;font-weight:500;line-height:1;display:block}
+.stat .l{font-family:var(--sans);font-size:.72rem;opacity:.6;margin-top:.45rem;display:block}
+
+/* ===== 블록 ===== */
+.block{margin-bottom:3.8rem}
+.block-header{border-bottom:2px solid var(--bc);padding-bottom:.55rem;margin-bottom:1.5rem;display:flex;align-items:baseline;gap:1rem;flex-wrap:wrap}
+.block-badge{
+  font-family:var(--mono);font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;
+  background:var(--bc);color:var(--paper);padding:.25rem .6rem;
+}
+.block-header h2{font-size:clamp(1.35rem,2.6vw,1.85rem);font-weight:700;letter-spacing:-.01em}
+.block-header .wk{font-family:var(--mono);font-size:.74rem;opacity:.55;margin-left:auto}
+.block-note{font-size:.92rem;opacity:.75;margin-bottom:1.4rem;line-height:1.7}
+
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.1rem}
+.card{
+  border:1px solid var(--rule);border-top:3px solid var(--bc);background:#fff9;
+  padding:1.3rem 1.4rem 1.15rem;display:flex;flex-direction:column;
+  text-decoration:none;color:var(--ink);transition:transform .18s,box-shadow .18s;
+}
+.card:hover{transform:translateY(-3px);box-shadow:0 6px 18px #1a181418}
+.card-top{display:flex;align-items:baseline;gap:.6rem;margin-bottom:.55rem}
+.card-wk{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;color:var(--bc);font-weight:500}
+.card-task{
+  font-family:var(--mono);font-size:.6rem;letter-spacing:.06em;margin-left:auto;
+  border:1px solid var(--terracotta);color:var(--terracotta);padding:.1rem .38rem;
+}
+.card h3{font-size:1.12rem;font-weight:700;line-height:1.35;margin-bottom:.25rem}
+.card .sub{font-family:var(--sans);font-size:.78rem;opacity:.6;line-height:1.5;margin-bottom:.85rem}
+.card ol{list-style:none;counter-reset:s;font-family:var(--sans);font-size:.79rem;line-height:1.5;margin-bottom:.9rem}
+.card ol li{counter-increment:s;padding-left:1.55rem;position:relative;margin-bottom:.28rem;opacity:.85}
+.card ol li::before{
+  content:counter(s,upper-roman);position:absolute;left:0;top:0;
+  font-family:var(--mono);font-size:.62rem;color:var(--bc);opacity:.8;font-weight:500;
+}
+.card-foot{
+  margin-top:auto;padding-top:.7rem;border-top:1px dotted var(--rule);
+  font-family:var(--mono);font-size:.66rem;opacity:.6;display:flex;gap:.9rem;flex-wrap:wrap;
+}
+.card-foot .go{margin-left:auto;color:var(--bc);opacity:1;font-weight:500}
+
+/* ===== 섹션 공통 ===== */
+.section{margin-bottom:4.2rem;scroll-margin-top:200px}
+.section-header{border-bottom:2px solid var(--ink);padding-bottom:.6rem;margin-bottom:1.6rem}
+.section-number{font-family:var(--mono);font-size:.72rem;letter-spacing:.16em;display:block;margin-bottom:.3rem;opacity:.6}
+.section-header h2{font-size:clamp(1.5rem,3vw,2.15rem);font-weight:700;letter-spacing:-.01em}
+.ko-en{font-family:var(--sans);font-size:.8rem;font-weight:400;opacity:.55;margin-left:.6rem}
+.prose p{margin-bottom:1.2rem}
+.prose h3{font-size:1.2rem;font-weight:700;margin:2rem 0 .8rem;padding-left:.7rem;border-left:3px solid var(--ink)}
+
+/* ===== 타임라인 표 ===== */
+.data-table{width:100%;border-collapse:collapse;font-size:.87rem;margin:1.4rem 0}
+.data-table th{
+  font-family:var(--mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;
+  text-align:left;padding:.6rem .7rem;border-bottom:2px solid var(--ink);font-weight:500;
+}
+.data-table td{padding:.62rem .7rem;border-bottom:1px solid var(--rule);vertical-align:top;line-height:1.55}
+.data-table tr:hover td{background:#fff7}
+.tl-n{font-family:var(--mono);font-size:.78rem;width:3.2rem;white-space:nowrap}
+.tl-dot{display:inline-block;width:.5rem;height:.5rem;border-radius:50%;margin-right:.45rem;vertical-align:middle}
+.tl-t a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--rule);font-weight:600}
+.tl-t a:hover{border-bottom-color:var(--ink)}
+.tl-sub{font-family:var(--sans);font-size:.74rem;opacity:.55;display:block;margin-top:.1rem}
+.tl-task{font-family:var(--mono);font-size:.68rem;color:var(--terracotta);white-space:nowrap}
+
+/* ===== 개념 색인 ===== */
+.idx-box{background:var(--ink);color:var(--paper);padding:2.1rem 2.3rem;position:relative;margin:1.6rem 0}
+.idx-box::before{content:'';position:absolute;top:8px;left:8px;right:8px;bottom:8px;border:1px solid #f5f1e830;pointer-events:none}
+.idx-box h3{font-family:var(--serif);font-size:1.18rem;margin-bottom:.35rem;position:relative}
+.idx-desc{font-family:var(--sans);font-size:.81rem;opacity:.6;margin-bottom:1.3rem;position:relative}
+.idx-inner{position:relative}
+#idx-q{
+  width:100%;font-family:var(--sans);font-size:.95rem;background:transparent;color:var(--paper);
+  border:1px solid #f5f1e850;padding:.65rem .9rem;margin-bottom:.9rem;
+}
+#idx-q::placeholder{color:#f5f1e866}
+#idx-q:focus{outline:none;border-color:var(--paper)}
+.idx-btns{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1.2rem}
+.ibtn{
+  font-family:var(--sans);font-size:.78rem;background:transparent;color:var(--paper);
+  border:1px solid #f5f1e850;padding:.35rem .8rem;cursor:pointer;transition:all .18s;
+}
+.ibtn:hover{background:#f5f1e820}
+.ibtn.active{background:var(--paper);color:var(--ink);border-color:var(--paper)}
+#idx-count{font-family:var(--mono);font-size:.72rem;opacity:.55;margin-bottom:.8rem}
+#idx-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:.3rem .9rem;min-height:120px}
+.idx-item{display:flex;align-items:baseline;gap:.5rem;font-size:.87rem;padding:.16rem 0;border-bottom:1px dotted #f5f1e820}
+.idx-item .t{flex:1}
+.idx-item .t mark{background:var(--highlight);color:var(--ink);padding:0 .12rem}
+.idx-item a{
+  font-family:var(--mono);font-size:.68rem;color:var(--paper);text-decoration:none;
+  border:1px solid #f5f1e840;padding:.05rem .3rem;transition:all .15s;white-space:nowrap;
+}
+.idx-item a:hover{background:var(--paper);color:var(--ink)}
+.idx-empty{font-family:var(--sans);font-size:.85rem;opacity:.55;padding:1rem 0}
+
+/* ===== 자료 카드 ===== */
+.res-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.1rem;margin-top:1.4rem}
+.res{border:1px solid var(--rule);background:var(--paper-warm);padding:1.3rem 1.4rem;text-decoration:none;color:var(--ink);transition:transform .18s}
+.res:hover{transform:translateY(-3px)}
+.res .k{font-family:var(--mono);font-size:.64rem;letter-spacing:.12em;opacity:.55;display:block;margin-bottom:.4rem}
+.res h4{font-size:1.02rem;margin-bottom:.35rem}
+.res p{font-size:.84rem;line-height:1.6;opacity:.8}
+
+/* ===== callout ===== */
+.callout{border-left:3px solid var(--ink);background:var(--paper-warm);padding:1.1rem 1.4rem;margin:1.5rem 0}
+.callout-label{
+  font-family:var(--mono);font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;
+  display:block;margin-bottom:.5rem;opacity:.7;
+}
+.callout p{font-size:.9rem;line-height:1.72;margin-bottom:.6rem}
+.callout p:last-child{margin-bottom:0}
+.rule-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;margin:1.5rem 0}
+.rule{border:1px solid var(--rule);padding:1.15rem 1.25rem;background:#fff9}
+.rule .n{font-family:var(--mono);font-size:.63rem;letter-spacing:.13em;opacity:.55;display:block;margin-bottom:.4rem}
+.rule h4{font-size:.98rem;margin-bottom:.4rem}
+.rule p{font-size:.85rem;line-height:1.62;opacity:.85}
+
+/* ===== FOOTER ===== */
+footer{border-top:3px double var(--ink);margin-top:4rem;padding:2.5rem 3rem 3rem;background:var(--paper-warm)}
+.footer-inner{max-width:1200px;margin:0 auto;font-family:var(--mono);font-size:.74rem;line-height:1.9;opacity:.72}
+.epigraph{font-family:var(--serif);font-style:italic;font-size:.95rem;line-height:1.8;margin-top:1.5rem;padding-left:1.2rem;border-left:2px solid var(--rule);opacity:.85}
+
+@media (max-width:900px){
+  .masthead,.toc-nav,footer{padding-left:1.5rem;padding-right:1.5rem}
+  .masthead-inner{grid-template-columns:1fr;gap:.8rem}
+  .meta-info{text-align:left}
+  .toc-nav{top:auto;position:static}
+  main{padding:2rem 1.5rem}
+  .hero{grid-template-columns:1fr;gap:2rem}
+}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <span class="issue-tag">Index</span>
+    <div class="title-block">
+      <h1>한국어학</h1>
+      <p class="subtitle">15주 강의 자료 — 나사렛대학교 언어치료학과</p>
+    </div>
+    <div class="meta-info">
+      15 WEEKS · 5 BLOCKS<br>
+      124 INTERACTIVES<br>
+      2026
+    </div>
+  </div>
+</header>
+
+<nav class="toc-nav">
+  <div class="toc-nav-inner">
+    <a href="#a">A · 총론과 매체</a>
+    <a href="#b">B · 형태와 어휘</a>
+    <a href="#c">C · 품사</a>
+    <a href="#d">D · 통사</a>
+    <a href="#e">E · 의미·화용·사회</a>
+    <a href="#timeline">학기 흐름</a>
+    <a href="#index">개념 색인</a>
+    <a href="#res">자료</a>
+    <a href="#how">읽는 법</a>
+  </div>
+</nav>
+
+<main>
+
+  <section class="hero">
+    <div class="hero-text">
+      <p class="lead">이 과목은 <strong>협의의 문법서를 넘어 한국어학 전체</strong>를 다룬다. 음운에서 화용까지, 그리고 사회언어학과 문자언어까지 열다섯 주에 담았다.</p>
+      <p>다만 나열이 목적이 아니다. 열다섯 주가 겨냥하는 것은 하나다 — <strong>남의 말을 판단해야 하는 자리에 설 사람에게 그 판단의 근거를 쥐여 주는 것.</strong> 그래서 매 주차가 개념을 세우고, 그 개념으로 <strong>같은 아동 발화 전사본</strong>을 다시 읽고, 마지막에 임상으로 되돌아온다.</p>
+      <p>자료 전체를 관통하는 원칙이 셋 있다. <strong>판정 기준을 밝혀라 · 어느 이론 틀인지 명시하라 · 이것은 교육용 구성 자료이지 규준이 아니다.</strong> 아래 「읽는 법」에서 그 뜻을 밝혀 두었다.</p>
+    </div>
+    <aside class="hero-aside">
+      <h3>교재</h3>
+      <div class="bookline">
+        <span class="tag">주교재</span>
+        이봉원(2015) 『언어치료사를 위한 한국어 문법』 개정판, 학지사 — 전 15장
+      </div>
+      <div class="bookline">
+        <span class="tag">부교재</span>
+        홍종선 외 20인(2022) 『쉽게 읽는 한국어학의 이해』 개정2판, 한국문화사 — 총론 + 16장
+      </div>
+      <div class="bookline">
+        <span class="tag">공통 자료</span>
+        아동 발화 전사본 — 여아 4;6, 세 상황, 아동 60발화 + 성인 30발화
+      </div>
+      <div class="bookline">
+        <span class="tag">사전 정책</span>
+        기본 사전은 <strong>고려대 한국어대사전</strong>, 규범 확인은 <strong>표준국어대사전</strong>
+      </div>
+    </aside>
+  </section>
+
+  <div class="stats">
+    <div class="stat"><span class="n">15</span><span class="l">주차</span></div>
+    <div class="stat"><span class="n">99</span><span class="l">본문 절</span></div>
+    <div class="stat"><span class="n">124</span><span class="l">인터랙티브</span></div>
+    <div class="stat"><span class="n">241</span><span class="l">확인 문제</span></div>
+    <div class="stat"><span class="n">15</span><span class="l">분석 실습실</span></div>
+    <div class="stat"><span class="n">7</span><span class="l">제출 과제</span></div>
+  </div>
+
+  <div id="blocks"></div>
+
+  <!-- ============ 학기 흐름 ============ -->
+  <section id="timeline" class="section">
+    <div class="section-header">
+      <span class="section-number">학기 전체</span>
+      <h2>열다섯 주의 흐름<span class="ko-en">The Arc of the Semester</span></h2>
+    </div>
+    <div class="prose">
+      <p>다섯 블록이 <strong>작은 단위에서 큰 단위로</strong> 올라간다. 소리 → 형태소 → 단어 → 품사 → 문장 → 문장을 넘어선 것. 그리고 마지막 블록에서 <strong>다시 사람에게로</strong> 내려온다 — 뜻, 맥락, 그리고 말하는 사람이 누구인가.</p>
+    </div>
+    <table class="data-table">
+      <thead>
+        <tr><th style="width:4rem">주차</th><th style="width:38%">주제</th><th>이 주차가 하는 일</th><th style="width:7rem">과제</th></tr>
+      </thead>
+      <tbody id="tl-body"></tbody>
+    </table>
+  </section>
+
+  <!-- ============ 개념 색인 ============ -->
+  <section id="index" class="section">
+    <div class="section-header">
+      <span class="section-number">찾아보기</span>
+      <h2>개념 색인<span class="ko-en">Term Index</span></h2>
+    </div>
+    <div class="prose">
+      <p>「이 용어는 몇 주차에서 다뤘더라」를 위한 것이다. <strong>용어를 입력하거나 영역 단추를 누르면</strong> 해당 주차로 바로 갈 수 있다.</p>
+    </div>
+    <div class="idx-box">
+      <h3>★ 용어로 찾기</h3>
+      <p class="idx-desc">한글·영문 어느 쪽으로든 검색됩니다. 부분 일치로 찾으므로 「조사」만 쳐도 관련 항목이 모두 나옵니다.</p>
+      <div class="idx-inner">
+        <input type="text" id="idx-q" placeholder="예 — 이형태, 피동, 함축, MLU, 격률 …" autocomplete="off" aria-label="용어 검색">
+        <div class="idx-btns" id="idx-btns"></div>
+        <div id="idx-count"></div>
+        <div id="idx-list"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 자료 ============ -->
+  <section id="res" class="section">
+    <div class="section-header">
+      <span class="section-number">함께 쓰는 것</span>
+      <h2>자료<span class="ko-en">Course Materials</span></h2>
+    </div>
+    <div class="prose">
+      <p>주차 자료 말고도 학기 내내 곁에 두는 것이 둘 있다.</p>
+    </div>
+    <div class="res-grid">
+      <a class="res" href="전사본_아동발화_4세6개월.html">
+        <span class="k">공통 자료</span>
+        <h4>아동 발화 전사본 — 4세 6개월</h4>
+        <p>3주차에 배부해 15주차까지 쓴다. 자유놀이(C01–C20) · 그림책(C21–C38) · 경험 이야기(C39–C60), 아동 60발화 + 성인 30발화. <strong>모든 주차의 실습이 이 하나를 다시 읽는다.</strong></p>
+      </a>
+      <a class="res" href="한국어학_15주_설계안.html">
+        <span class="k">설계 문서</span>
+        <h4>15주 설계안</h4>
+        <p>각 주차가 무엇을 다루기로 했는지, 어느 교재의 어느 장에서 왔는지, 무엇을 보강했는지. <strong>강의 자료의 기준선</strong>이자 개설 근거 문서다.</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- ============ 읽는 법 ============ -->
+  <section id="how" class="section">
+    <div class="section-header">
+      <span class="section-number">약속</span>
+      <h2>이 자료를 읽는 법<span class="ko-en">How to Read This</span></h2>
+    </div>
+    <div class="prose">
+      <p>열다섯 주 자료가 <strong>스스로에게 건 규약</strong>이 셋 있다. 자료가 이 규약을 어기는 자리가 있다면 그것은 고쳐야 할 오류이지 예외가 아니다.</p>
+    </div>
+
+    <div class="rule-grid">
+      <div class="rule">
+        <span class="n">규약 01</span>
+        <h4>판정 기준을 밝혀라</h4>
+        <p>수치는 세는 방식에 따라 달라진다. 「MLU 4.2」가 아니라 <strong>「MLU-m 4.2 — 합성어 미분리, 50발화 표본」</strong>이라고 적는다. 기준을 밝히지 않은 수치는 비교할 수 없다.</p>
+      </div>
+      <div class="rule">
+        <span class="n">규약 02</span>
+        <h4>어느 이론 틀인지 명시하라</h4>
+        <p>학교문법·생성문법·세종 태그셋은 같은 것을 다르게 처리한다. 인용절을 부사어로 볼지 보충어로 볼지가 그 예다. <strong>어느 쪽이 옳은가보다 무엇이 걸려 있는가</strong>를 본다.</p>
+      </div>
+      <div class="rule">
+        <span class="n">규약 03</span>
+        <h4>교육용 구성 자료이지 규준이 아니다</h4>
+        <p>전사본과 거기서 나온 모든 수치는 <strong>분석을 가르치기 위해 만든 것</strong>이다. 실제 아동의 자료가 아니며, 어떤 아이를 이 수치와 견주어 판단해서는 안 된다.</p>
+      </div>
+    </div>
+
+    <div class="callout">
+      <span class="callout-label">표기 규약</span>
+      <p><strong>*</strong> 문법적으로 성립하지 않는 문장(비문) &nbsp;·&nbsp; <strong>?</strong> 문법은 맞으나 수용성이 떨어지는 문장 &nbsp;·&nbsp; <strong>#</strong> 문법은 맞으나 의미적으로 모순인 문장</p>
+      <p><strong>C01–C60</strong> 전사본의 아동 발화 &nbsp;·&nbsp; <strong>A01–A30</strong> 성인 발화 &nbsp;·&nbsp; <strong>[ ]</strong> 발음, <strong>/ /</strong> 음운</p>
+    </div>
+
+    <div class="callout">
+      <span class="callout-label">「열린 쟁점」 상자를 만나면</span>
+      <p>정답이 정해지지 않은 자리에는 같은 틀의 상자가 붙는다 — <strong>전통적 견해 → 도전 → 지금은 → 임상적 함의.</strong> 이 상자가 붙어 있다는 것은 <strong>시험에서 하나를 고르라고 하지 않겠다</strong>는 뜻이고, 대신 <strong>어느 쪽을 골랐는지 밝히고 그 이유를 대라</strong>는 뜻이다.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <span>한국어학 · 15주 강의 자료 · 나사렛대학교 언어치료학과</span><br>
+    <span>주교재 이봉원(2015) 『언어치료사를 위한 한국어 문법』 개정판, 학지사</span><br>
+    <span>부교재 홍종선 외 20인(2022) 『쉽게 읽는 한국어학의 이해』 개정2판, 한국문화사</span><br>
+    <span>Set in Noto Serif KR &amp; JetBrains Mono</span>
+    <p class="epigraph">"구어와 아동의 언어발달과 관련된 분석의 틀을 제시하는 과제는 아직 남아 있다."<br>— 주교재 머리말</p>
+  </div>
+</footer>
+
+<script>
+/* ===================== 주차 데이터 ===================== */
+const BLOCKS=[
+ {k:'a',name:'총론과 매체',wk:'1–3주',
+  note:'지도를 먼저 펼치고, 소리와 글자를 훑는다. 그리고 <b>말과 글이 어떻게 다른가</b>를 물은 직후에 전사본을 배부한다 — 전사가 곧 매체 변환이라는 것을 이해한 뒤여야 하기 때문이다.'},
+ {k:'b',name:'형태와 어휘',wk:'4–6주',
+  note:'이 과목의 기초 공사. <b>어디서 끊을 것인가</b>가 4주차의 물음이고, 그 물음이 MLU로 이어진다. 6주차는 개념이 아니라 <b>자료를 다루는 법</b>을 가르친다.'},
+ {k:'c',name:'품사',wk:'7–9주',
+  note:'단어를 무리 짓는다. 9주차의 <b>조사와 어미</b>가 이 블록의 무게중심이다 — 한국어를 굴리는 것이 그것이기 때문이고, 다음 블록의 재료가 되기 때문이다.'},
+ {k:'d',name:'통사',wk:'10–12주',
+  note:'문장을 세우고, 키우고, 변형한다. 셋이 한 계열이다 — <b>10주차의 수형도가 11주차에서 재귀적으로 자라고, 12주차에서 그 문장에 조작이 얹힌다.</b>'},
+ {k:'e',name:'의미 · 화용 · 사회',wk:'13–15주',
+  note:'형식에서 <b>뜻으로, 맥락으로, 그리고 사람에게로</b> 내려온다. 15주차는 열다섯 주를 되감으면서 마지막 물음을 던진다 — <b>다르게 말하는 것과 잘못 말하는 것을 무엇으로 가를 것인가.</b>'}
+];
+
+const WEEKS=[
+{n:1,b:'a',t:'언어와 한국어학',s:'이 학문의 지도를 먼저 펼친다',ix:10,q:14,
+ secs:['기호로서의 언어','언어의 설계 특성','형식과 내용은 다르다','언어의 층위와 한국어학의 지도','한국어라는 언어','문법이라는 말','논쟁 중인 언어학'],
+ does:'한국어학의 지도를 펼치고 학기 전체의 술어와 표기 규약을 정한다. 한국어의 유형론적 위치(교착어·SOV·핵-끝머리)와 국어학–언어치료 대응표.'},
+{n:2,b:'a',t:'말소리의 구조',s:'별도 과목으로 가기 전, 지도와 술어만',ix:8,q:12,
+ secs:['음성과 음운 — 두 개의 층위','말소리의 산출','한국어의 소리 목록','음절과 음운 규칙','운율 — 말의 가락','변하는 중인 소리'],
+ does:'음성/음운의 구별, 삼지적 대립, 음절 구조. 두 가지를 남긴다 — <b>형태론적 조건의 음운 규칙</b>과 <b>억양구 경계 성조</b>. 둘 다 뒤에서 다시 쓴다.'},
+{n:3,b:'a',t:'말과 글',s:'음성언어와 문자언어',ix:7,q:14,task:'과제 1',
+ secs:['두 매체의 조건','층위별 대비','두 가지 복잡성','이분법을 넘어서','글자는 소리를 어떻게 적는가','전사 — 두 매체 사이'],
+ does:'구어는 단순한 것이 아니라 <b>다르게 복잡하다</b>. 어휘 밀도와 문법적 복잡성. 문자 유형과 한글, 차자 표기. <b>끝에 전사본을 배부한다.</b>'},
+{n:4,b:'b',t:'문법 단위와 형태소 분석',s:'이 과목의 기초 공사 — 그리고 심장',ix:8,q:14,task:'과제 2',
+ secs:['쪼개는 도구','두 종류의 단위','형태소 — 최소의 유의미 단위','이형태 — 하나의 형태소, 여러 모습','단어와 어절','발화 구분과 MLU'],
+ does:'계열·결합 관계로 형태소를 분석한다. 이형태의 세 조건(음운론적·형태론적·보충법)과 영형태소. 그리고 <b>MLU-m·w·c</b>.'},
+{n:5,b:'b',t:'단어의 구조',s:'합성과 파생 — 수형도로 그려 보는 단어',ix:6,q:16,task:'과제 3',
+ secs:['굴절과 조어','단어의 재료','직소 분석 — 한 번에 둘로','합성 — 어근과 어근','파생 — 어근과 접사','경계의 문제'],
+ does:'단일어·합성어·파생어를 직소 분석으로 가른다. 영파생과 내적 변화까지. <b>「큰집」과 「큰 집」을 무엇으로 가를 것인가.</b>'},
+{n:6,b:'b',t:'어휘 · 사전 · 말뭉치',s:'언어를 자료로 다루는 법',ix:7,q:15,
+ secs:['단어에서 어휘로','어종 — 무엇으로 이루어져 있는가','어휘의 양상','사전 — 누가, 무엇을 근거로 실었는가','말뭉치','세는 일 — 타입, 토큰, 그리고 함정'],
+ does:'어휘 지식이 아니라 <b>자료를 다루는 법</b>을 가르친다. 사전의 유형, 심성어휘집, 말뭉치와 연어, TTR과 빈도의 함정.'},
+{n:7,b:'c',t:'품사 ① 체언과 관형사',s:'단어를 무리 짓는 세 가지 기준',ix:9,q:14,
+ secs:['세 가지 기준','9품사와 5언','명사','의존명사 — 혼자 못 서는 명사','대명사와 수사','관형사 — 체언만 꾸미는 말','열린 쟁점 — 분류가 흔들리는 자리'],
+ does:'형태·기능·의미 세 기준으로 품사를 가른다. 의존명사의 두 분류축, 「뿐/데/만큼」의 최소대립, 관형사의 배열 순서.'},
+{n:8,b:'c',t:'품사 ② 용언과 부사',s:'활용 — 한국어에서 가장 복잡한 체계',ix:7,q:17,
+ secs:['활용 — 어간과 어미','동사와 형용사를 가르는 법','자동사·타동사, 본용언·보조용언','규칙 활용과 불규칙 활용','활용표 — 비어 있는 칸이 말해 주는 것','부사'],
+ does:'불규칙 활용 아홉 갈래와 그 유래. 활용표의 <b>빈칸이 왜 비었는지</b>를 세 이유로 가른다. 상징부사와 존재사·지정사 논쟁.'},
+{n:9,b:'c',t:'품사 ③ 조사와 어미',s:'한국어를 굴리는 문법형태소',ix:9,q:14,task:'과제 4',
+ secs:["격조사 — 자리를 표시한다",'보조사 — 뜻을 더한다',"'은/는'과 '이/가'",'어미의 계층','연결어미 — 절을 잇는다','조사는 단어인가 — 미뤄 온 물음','빈도와 이형태'],
+ does:'격조사 일곱과 연결어미 열 범주. 「은/는」과 「이/가」를 네 원리로 가른다. 그리고 <b>조사 생략을 어떻게 셀 것인가.</b>'},
+{n:10,b:'d',t:'문장의 구성',s:'성분 · 문형 · 수형도',ix:7,q:19,task:'과제 5',
+ secs:['어절 · 구 · 절','문장 성분 일곱','서술어의 자릿수와 논항','기본 문형','어순 — 핵이 뒤에 온다','수형도 — 문장의 구조를 그린다','문장 종결법과 서법'],
+ does:'구절 구조 규칙 다섯으로 수형도를 그린다. 지배와 선행, 명제와 양태, 서법. 그리고 <b>단서가 어긋날 때 문장을 어떻게 이해하는가.</b>'},
+{n:11,b:'d',t:'문장의 확대',s:'내포와 접속 — 문장 안의 문장',ix:9,q:15,task:'과제 6',
+ secs:['문장이 커지는 두 방식','내포 — 안긴 절 다섯','관형절 — 두 종류','접속 — 이어진문장','복문 수형도','생략과 접속의 범위','무엇으로 잴 것인가'],
+ does:'안긴 절 다섯과 이어진문장. 수형도가 <b>재귀적으로 자란다</b>. 절 밀도·C-unit·T-unit — 그리고 빌려 온 단위를 어떻게 쓸 것인가.'},
+{n:12,b:'d',t:'문법 요소의 기능과 의미',s:'문장을 변형하는 다섯 가지 조작',ix:11,q:18,
+ secs:['논항과 의미역','피동 — 당하는 쪽을 주어로','사동 — 시키는 사람을 새로 세워','높임법 — 누구를 높이는가','시제와 상 — 언제, 그리고 어떻게 펼쳐지는가','부정 — 아니라고 말하는 두 가지 길','다섯을 겹치면'],
+ does:'피동·사동·높임·시제와 상·부정. 다섯 다 <b>문법 범주</b>이고, 겹쳐 쓸 수 있다. 피동사와 사동사가 같은 꼴인 자리가 이 주차의 핵이다.'},
+{n:13,b:'e',t:'의미론',s:'뜻이란 무엇이고 어떻게 분석하는가',ix:9,q:19,
+ secs:['의미란 무엇인가','성분 분석 — 뜻을 쪼갠다','의미 관계 — 단어들 사이','의미장 — 뜻의 밭','다의어와 동음이의어','의미 확장 — 은유와 환유','문장의 의미 — 중의성 · 함의 · 전제'],
+ does:'의미의 네 관점부터 성분 분석·의미 관계·의미장까지. 은유와 환유가 <b>굳으면 다의어가 되고, 원래 뜻을 밀어내면 의미 변화가 된다.</b>'},
+{n:14,b:'e',t:'화용론과 담화',s:'맥락 속에서 말은 무엇을 하는가',ix:8,q:20,task:'과제 7',
+ secs:['화용론이란 — 그리고 의미론과의 경계','직시 — 말하는 자리에서 가리키기','화행 — 말로 무엇을 하는가','협력 원리와 함축','공손성 — 왜 돌려 말하는가','담화표지와 간투사 — 지워 온 것들','담화의 짜임 — 결속과 응집'],
+ does:'화행과 적정 조건, 격률과 함축, 공손성. 그리고 <b>지금까지 군말로 지워 온 것들</b>이 담화에서 하는 일 — 담화표지·인접쌍·순서 교대.'},
+{n:15,b:'e',t:'언어의 변이와 규범',s:'다르게 말하는 것과 잘못 말하는 것',ix:9,q:20,
+ secs:['언어와 방언 — 무엇이 가르는가','지역 방언','사회 방언 — 지역만이 아니다','변이에서 변화로','어문 규범 — 정해서 쓰는 것','규범과 현실 — 미뤄 둔 물음들','열다섯 주를 돌아보며'],
+ does:'방언·언어 변항·코드 전환·언어 태도, 그리고 어문 규범 넷. 마지막 물음은 <b>차이인가 장애인가</b> — 열다섯 주가 이 물음을 위해 있었다.'}
+];
+
+/* ===================== 블록·카드 렌더 ===================== */
+const RN=['Ⅰ','Ⅱ','Ⅲ','Ⅳ','Ⅴ','Ⅵ','Ⅶ'];
+const wkFile=n=>'korean_ling_w'+String(n).padStart(2,'0')+'.html';
+const blkC=k=>'var(--blk-'+k+')';
+
+const blocksEl=document.getElementById('blocks');
+BLOCKS.forEach(b=>{
+  const sec=document.createElement('section');
+  sec.className='block';sec.id=b.k;
+  sec.style.setProperty('--bc',blkC(b.k));
+  sec.style.scrollMarginTop='200px';
+
+  const head=document.createElement('div');
+  head.className='block-header';
+  head.innerHTML='<span class="block-badge">Block '+b.k.toUpperCase()+'</span>'+
+                 '<h2>'+b.name+'</h2>'+
+                 '<span class="wk">'+b.wk+'</span>';
+  sec.appendChild(head);
+
+  const note=document.createElement('p');
+  note.className='block-note';note.innerHTML=b.note;
+  sec.appendChild(note);
+
+  const cards=document.createElement('div');
+  cards.className='cards';
+  WEEKS.filter(w=>w.b===b.k).forEach(w=>{
+    const a=document.createElement('a');
+    a.className='card';a.href=wkFile(w.n);
+    let li='';
+    w.secs.forEach((s,i)=>{
+      const t=document.createElement('span');t.textContent=s;
+      li+='<li>'+t.innerHTML+'</li>';
+    });
+    const tt=document.createElement('span');tt.textContent=w.t;
+    const ss=document.createElement('span');ss.textContent=w.s;
+    a.innerHTML=
+      '<div class="card-top"><span class="card-wk">Week '+String(w.n).padStart(2,'0')+'</span>'+
+        (w.task?'<span class="card-task">'+w.task+'</span>':'')+'</div>'+
+      '<h3>'+tt.innerHTML+'</h3>'+
+      '<p class="sub">'+ss.innerHTML+'</p>'+
+      '<ol>'+li+'</ol>'+
+      '<div class="card-foot"><span>인터랙티브 '+w.ix+'</span><span>확인 문제 '+w.q+'</span>'+
+        '<span class="go">열기 →</span></div>';
+    cards.appendChild(a);
+  });
+  sec.appendChild(cards);
+  blocksEl.appendChild(sec);
+});
+
+/* ===================== 타임라인 ===================== */
+const tlBody=document.getElementById('tl-body');
+WEEKS.forEach(w=>{
+  const tr=document.createElement('tr');
+  const tt=document.createElement('span');tt.textContent=w.t;
+  const ss=document.createElement('span');ss.textContent=w.s;
+  tr.innerHTML=
+    '<td class="tl-n"><span class="tl-dot" style="background:'+blkC(w.b)+'"></span>'+String(w.n).padStart(2,'0')+'</td>'+
+    '<td class="tl-t"><a href="'+wkFile(w.n)+'">'+tt.innerHTML+'</a>'+
+      '<span class="tl-sub">'+ss.innerHTML+'</span></td>'+
+    '<td>'+w.does+'</td>'+
+    '<td class="tl-task">'+(w.task||'')+'</td>';
+  tlBody.appendChild(tr);
+});
+
+/* ===================== 개념 색인 ===================== */
+/* [용어, 주차, 영역] — 주차는 배열로도 쓸 수 있다 */
+const F=['총론','음운','문자','형태','어휘','품사','통사','의미','화용','사회·규범'];
+const IDX=[
+ ['기호 · 기표와 기의',1,'총론'],['자의성',1,'총론'],['유연성',1,'총론'],
+ ['분절성',1,'총론'],['이중 분절',1,'총론'],['창조성 · 생산성',1,'총론'],
+ ['귀환성 (recursiveness)',[1,11],'총론'],['전위 (displacement)',1,'총론'],
+ ['사회성과 역사성',1,'총론'],['비문(*)과 수용성(?)',1,'총론'],
+ ['교착어 · SOV · 핵-끝머리',[1,10],'총론'],['굴절과 조어',[1,5],'형태'],
+ ['규범문법과 기술문법',[1,15],'총론'],['내용어와 기능어',1,'총론'],
+ ['언어학의 하위 영역',1,'총론'],['의사소통 장애의 다섯 영역',1,'총론'],
+
+ ['음성과 음운 · [ ]와 / /',2,'음운'],['발동–발성–조음',2,'음운'],
+ ['조음 위치와 조음 방법',2,'음운'],['평음 · 경음 · 격음',[2,8],'음운'],
+ ['삼지적 대립',[2,8],'음운'],['최소대립쌍',2,'음운'],
+ ['모음 체계 — 표준 10 vs 현실 7',2,'음운'],['음절 구조와 종성 제약',2,'음운'],
+ ['모음조화',[1,4,8],'음운'],['음운 규칙 — 두 조건',[2,4],'음운'],
+ ['운율과 억양구 경계 성조',[2,4],'음운'],['사잇소리',[5,6],'음운'],
+
+ ['구어와 문어',3,'문자'],['어휘 밀도',3,'문자'],['문법적 복잡성',3,'문자'],
+ ['사용역 (register) · 레지스터',[3,15],'문자'],['문자 체계의 유형',3,'문자'],
+ ['자질문자와 한글의 가획',3,'문자'],['차자 표기 — 이두 · 구결 · 향찰',3,'문자'],
+ ['정서법의 깊이',3,'문자'],['형태음소적 표기 · 형태주의',[3,15],'문자'],
+ ['전사와 전사 규약',[3,14],'문자'],
+
+ ['계열관계와 결합관계',[4,13],'형태'],['문법 단위와 음운 단위',4,'형태'],
+ ['형태소',4,'형태'],['자립/의존 · 실질/형식 형태소',4,'형태'],
+ ['유일 형태소',4,'형태'],['이형태와 기본형',4,'형태'],
+ ['음운론적 조건과 형태론적 조건',4,'형태'],['보충법 (suppletion)',4,'형태'],
+ ['영형태소 (∅)',[4,5],'형태'],['단어의 세 가지 정의',[4,9],'형태'],
+ ['어절',[4,10],'형태'],['발화 구분',4,'형태'],
+ ['MLU-m · MLU-w · MLU-c',[4,11],'형태'],
+
+ ['어근과 접사',5,'형태'],['어간과 어미',[5,8],'형태'],
+ ['직접 구성 요소 (직소) 분석',[5,10],'형태'],['단일어',5,'형태'],
+ ['복합어 — 합성어와 파생어',5,'형태'],['대등 · 종속 · 융합 합성어',5,'형태'],
+ ['통사적/비통사적 합성어',5,'형태'],['접두사와 접미사',5,'형태'],
+ ['한정적 접사와 지배적 접사',5,'형태'],['영파생 (zero derivation)',5,'형태'],
+ ['내적 변화',[5,8],'형태'],['준말 · 두자어 · 혼성어',5,'형태'],
+ ['생산성 (productivity)',5,'형태'],['합성어와 구의 경계',5,'형태'],
+
+ ['어휘와 어휘소',6,'어휘'],['어종 — 고유어 · 한자어 · 외래어',6,'어휘'],
+ ['한자어의 출신',6,'어휘'],['어휘의 양상 여덟',6,'어휘'],
+ ['기초 어휘',6,'어휘'],['사전의 유형',6,'어휘'],
+ ['규범 사전과 기술 사전',[6,15],'어휘'],['심성어휘집 (mental lexicon)',6,'어휘'],
+ ['낱말 찾기 · 설단 현상',[6,7],'어휘'],['말뭉치 — 대표성과 균형성',6,'어휘'],
+ ['주석과 태그셋',6,'어휘'],['타입과 토큰 · TTR',6,'어휘'],
+ ['연어 (collocation)',[6,13],'어휘'],['빈도 자료를 읽는 법',[6,9],'어휘'],
+
+ ['품사 분류의 세 기준',7,'품사'],['9품사와 5언',7,'품사'],
+ ['고유명사와 보통명사',7,'품사'],['유정명사와 무정명사',7,'품사'],
+ ['의존명사 — 형식성 · 보편성 · 단위성',7,'품사'],['대명사 — 인칭 · 지시 · 재귀',7,'품사'],
+ ['미지칭과 부정칭',7,'품사'],['수사 — 양수사와 서수사',7,'품사'],
+ ['관형사와 배열 순서',7,'품사'],['품사 통용',5,'품사'],
+ ['복수 「-들」과 명사의 수',[7,12],'품사'],
+
+ ['활용',8,'품사'],['동사와 형용사의 판별',8,'품사'],
+ ['자동사와 타동사',8,'품사'],['본용언과 보조용언',[8,12],'품사'],
+ ['불규칙 활용 아홉',8,'품사'],['활용표와 빈칸',[8,12],'품사'],
+ ['존재사와 지정사',[7,8],'품사'],['성분부사와 문장부사',8,'품사'],
+ ['상징부사 — 의성 · 의태',8,'품사'],['양태부사와 접속부사',[8,14],'품사'],
+ ['감탄사',[8,14],'품사'],
+
+ ['격조사 일곱',9,'품사'],['보조사',9,'품사'],
+ ['「은/는」과 「이/가」',9,'품사'],['주제와 대조',[9,14],'품사'],
+ ['접속조사',9,'품사'],['선어말어미와 어말어미',9,'품사'],
+ ['종결 · 연결 · 전성어미',[9,11],'품사'],['연결어미의 의미 범주 열',[9,11],'품사'],
+ ['조사 생략',[9,10],'품사'],['조사는 단어인가',[4,9],'품사'],
+
+ ['어절 · 구 · 절',10,'통사'],['문장 성분 일곱',10,'통사'],
+ ['주성분 · 부속성분 · 독립성분',10,'통사'],['서술어의 자릿수',10,'통사'],
+ ['논항',[10,12],'통사'],['필수적 부사어',10,'통사'],
+ ['기본 문형',10,'통사'],['어순과 핵-끝머리',10,'통사'],
+ ['수형도 — 마디 · 가지',[10,11],'통사'],['지배와 선행',10,'통사'],
+ ['구절 구조 규칙',[10,11],'통사'],['명제와 양태',[10,12],'통사'],
+ ['서법 (mood)',[10,12],'통사'],['문장 종결법 다섯',[10,12],'통사'],
+ ['어순 단서와 문장 이해',[10,12],'통사'],
+
+ ['내포와 접속',11,'통사'],['안은문장과 안긴문장',11,'통사'],
+ ['명사절',11,'통사'],['관형절 — 관계와 동격',11,'통사'],
+ ['부사절',11,'통사'],['서술절과 이중주어문',11,'통사'],
+ ['인용절',11,'통사'],['대등 접속과 종속 접속',11,'통사'],
+ ['문 접속과 구 접속',11,'통사'],['절 밀도',11,'통사'],
+ ['C-unit과 T-unit',11,'통사'],
+
+ ['문법 범주',12,'통사'],['의미역 여덟',12,'통사'],
+ ['피동 — 파생 · 통사 · 어휘',12,'통사'],['이중 피동',12,'통사'],
+ ['사동 — 직접과 간접',12,'통사'],['피동사·사동사 동형',12,'통사'],
+ ['높임법 — 주체 · 객체 · 상대',12,'통사'],['격식체와 비격식체',12,'통사'],
+ ['압존법',12,'통사'],['사물 존대',[12,15],'통사'],
+ ['시제 — 절대와 상대',12,'통사'],['동작상 — 예정 · 진행 · 완료 · 결과 지속',12,'통사'],
+ ['부정 — 「안」과 「못」',12,'통사'],['단형 부정과 장형 부정',12,'통사'],
+ ['부정의 작용역 (scope)',[12,13],'통사'],
+
+ ['의미의 네 관점',13,'의미'],['지시설 · 개념설',13,'의미'],
+ ['자극반응설 (Bloomfield)',13,'의미'],['용법설 (Wittgenstein)',13,'의미'],
+ ['기호 삼각형',13,'의미'],['사전적 의미와 함축적 의미',13,'의미'],
+ ['성분 분석과 의미 자질',13,'의미'],['유의 관계',13,'의미'],
+ ['반의 관계 — 정도 · 상보 · 방향',13,'의미'],['상하 관계',13,'의미'],
+ ['부분 관계 (meronymy)',13,'의미'],['의미장 (낱말밭)',13,'의미'],
+ ['다의어와 동음이의어',13,'의미'],['은유와 환유',13,'의미'],
+ ['의미 변화 — 확대 · 축소 · 이동',13,'의미'],['중의성 — 어휘 · 구조 · 작용역',13,'의미'],
+ ['함의와 전제',13,'의미'],
+
+ ['화용론과 의미론의 경계',14,'화용'],['직시 (deixis)',14,'화용'],
+ ['인칭 · 장소 · 시간 직시',14,'화용'],['담화 직시와 사회적 직시',14,'화용'],
+ ['화행 — 세 층',14,'화용'],['적정 조건',14,'화용'],
+ ['화행 다섯 갈래',14,'화용'],['직접 화행과 간접 화행',14,'화용'],
+ ['협력 원리',14,'화용'],['네 격률 — 양 · 질 · 관련성 · 태도',14,'화용'],
+ ['대화 함축',14,'화용'],['일반 함축과 특정 함축',14,'화용'],
+ ['척도 함축',14,'화용'],['공손성과 체면',14,'화용'],
+ ['적극적 공손과 소극적 공손',14,'화용'],['담화표지와 간투사',14,'화용'],
+ ['담화와 텍스트',14,'화용'],['결속과 응집',14,'화용'],
+ ['결속 장치 다섯',14,'화용'],['순서 교대 (turn-taking)',14,'화용'],
+ ['인접쌍과 선호 구조',14,'화용'],['수정 (repair)',14,'화용'],
+ ['화제 전환',14,'화용'],
+
+ ['언어와 방언',15,'사회·규범'],['방언 구획 여섯',15,'사회·규범'],
+ ['등어선',15,'사회·규범'],['언어 변항과 변이형',15,'사회·규범'],
+ ['계층 변이와 Labov',15,'사회·규범'],['성별 변이',15,'사회·규범'],
+ ['연령 단계적 변이 (age-grading)',15,'사회·규범'],['레지스터와 말투 바꾸기',15,'사회·규범'],
+ ['은어와 속어',15,'사회·규범'],['코드 전환',15,'사회·규범'],
+ ['언어 태도 · 가면 짝 기법',15,'사회·규범'],['외관시간과 실시간 연구',15,'사회·규범'],
+ ['한글 맞춤법의 두 원리',15,'사회·규범'],['표준어 규정과 사정 원칙',15,'사회·규범'],
+ ['표준 발음법',[2,15],'사회·규범'],['외래어 표기법',15,'사회·규범'],
+ ['로마자 표기법 — 전자법과 전음법',15,'사회·규범'],['표준어 이데올로기',15,'사회·규범'],
+ ['차이인가 장애인가',15,'사회·규범']
+];
+
+const qEl=document.getElementById('idx-q'),
+      listEl=document.getElementById('idx-list'),
+      cntEl=document.getElementById('idx-count'),
+      btnsEl=document.getElementById('idx-btns');
+let curF='전체';
+
+['전체'].concat(F).forEach((f,i)=>{
+  const b=document.createElement('button');
+  b.className='ibtn'+(i===0?' active':'');
+  b.textContent=f;
+  b.onclick=()=>{
+    [...btnsEl.children].forEach(c=>c.classList.remove('active'));
+    b.classList.add('active');curF=f;draw();
+  };
+  btnsEl.appendChild(b);
+});
+
+function esc(s){const d=document.createElement('span');d.textContent=s;return d.innerHTML;}
+
+function draw(){
+  const q=qEl.value.trim().toLowerCase();
+  const rows=IDX.filter(r=>{
+    if(curF!=='전체'&&r[2]!==curF) return false;
+    if(!q) return true;
+    return r[0].toLowerCase().indexOf(q)>-1;
+  });
+  cntEl.textContent=rows.length+'개 항목'+(curF!=='전체'?' · '+curF:'')+(q?' · "'+qEl.value.trim()+'"':'');
+  if(!rows.length){
+    listEl.innerHTML='<p class="idx-empty">찾는 용어가 없습니다. 다른 말로 검색하거나 영역 단추를 눌러 보세요.</p>';
+    return;
+  }
+  listEl.innerHTML=rows.map(r=>{
+    let label=esc(r[0]);
+    if(q){
+      const i=r[0].toLowerCase().indexOf(q);
+      if(i>-1) label=esc(r[0].slice(0,i))+'<mark>'+esc(r[0].slice(i,i+q.length))+'</mark>'+esc(r[0].slice(i+q.length));
+    }
+    const ws=Array.isArray(r[1])?r[1]:[r[1]];
+    const links=ws.map(n=>'<a href="'+wkFile(n)+'">'+n+'주</a>').join(' ');
+    return '<div class="idx-item"><span class="t">'+label+'</span>'+links+'</div>';
+  }).join('');
+}
+qEl.addEventListener('input',draw);
+draw();
+
+/* ===================== 스크롤 스파이 ===================== */
+const navLinks=[...document.querySelectorAll('.toc-nav a')].filter(a=>document.querySelector(a.getAttribute('href')));
+const navSecs=navLinks.map(a=>document.querySelector(a.getAttribute('href')));
+function spy(){
+  let cur=0;
+  navSecs.forEach((s,i)=>{ if(s.getBoundingClientRect().top<260) cur=i; });
+  navLinks.forEach((a,i)=>a.classList.toggle('active',i===cur));
+}
+window.addEventListener('scroll',spy,{passive:true});spy();
+</script>
+
+</body>
+</html>

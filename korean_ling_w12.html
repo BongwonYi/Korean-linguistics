@@ -1,0 +1,1735 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>문법 요소의 기능과 의미 — 한국어학 제12주</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Noto+Serif+KR:wght@300;400;500;600;700;900&family=Noto+Sans+KR:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1a1814;
+  --paper:#f5f1e8;
+  --paper-warm:#ede5d3;
+  --accent:#2d5a3d;        /* forest — BLOCK D */
+  --accent-soft:#7a9e88;
+  --moss:#4a5d3a;
+  --terracotta:#c85a3e;
+  --rule:#1a181433;
+  --highlight:#e8b647;
+  --serif:'Noto Serif KR','Fraunces',Georgia,serif;
+  --sans:'Noto Sans KR',sans-serif;
+  --mono:'JetBrains Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--serif);background:var(--paper);color:var(--ink);
+  line-height:1.75;font-size:16px;
+  background-image:
+    radial-gradient(circle at 20% 30%, #00000008 1px, transparent 1px),
+    radial-gradient(circle at 80% 70%, #00000008 1px, transparent 1px);
+  background-size:40px 40px,60px 60px;
+}
+.masthead{border-bottom:3px double var(--ink);padding:1.8rem 3rem 1.3rem;background:rgba(245,241,232,.95);position:sticky;top:0;z-index:100;backdrop-filter:blur(8px)}
+.masthead-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:auto 1fr auto;gap:2rem;align-items:end}
+.issue-tag{font-family:var(--mono);font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);border:1px solid var(--accent);padding:.3rem .6rem;align-self:start}
+.title-block h1{font-weight:900;font-size:clamp(1.9rem,4.6vw,3.3rem);line-height:.98;letter-spacing:-.02em}
+.title-block .subtitle{font-style:italic;font-weight:300;font-size:1rem;margin-top:.5rem;opacity:.7}
+.meta-info{text-align:right;font-family:var(--mono);font-size:.7rem;line-height:1.6;opacity:.7}
+
+.toc-nav{border-bottom:1px solid var(--rule);background:var(--paper-warm);padding:.8rem 3rem;position:sticky;top:141px;z-index:99}
+.toc-nav-inner{max-width:1200px;margin:0 auto;display:flex;gap:.4rem;flex-wrap:wrap;font-family:var(--sans);font-size:.78rem}
+.toc-nav a{color:var(--ink);text-decoration:none;padding:.3rem .7rem;border:1px solid transparent;transition:all .2s;font-weight:500}
+.toc-nav a:hover{border-color:var(--ink);background:var(--paper)}
+.toc-nav a.active{background:var(--ink);color:var(--paper)}
+
+main{max-width:1200px;margin:0 auto;padding:3rem}
+
+.hero{display:grid;grid-template-columns:1.35fr 1fr;gap:3rem;margin-bottom:4rem;align-items:start}
+.hero-text .lead{font-size:1.16rem;line-height:1.95}
+.hero-text .lead::first-letter{float:left;font-size:4.3rem;line-height:.82;font-weight:900;margin:.1rem .6rem 0 0;color:var(--accent)}
+.hero-text p+p{margin-top:1.2rem}
+.hero-aside{background:var(--paper-warm);border:1px solid var(--rule);padding:1.6rem 1.8rem}
+.hero-aside h3{font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem;font-weight:500}
+.hero-aside ol{list-style:none;counter-reset:g}
+.hero-aside li{counter-increment:g;position:relative;padding-left:1.9rem;margin-bottom:.75rem;font-size:.92rem;line-height:1.6}
+.hero-aside li::before{content:counter(g);position:absolute;left:0;top:.2rem;font-family:var(--mono);font-size:.68rem;color:var(--paper);background:var(--accent);width:1.3rem;height:1.3rem;display:flex;align-items:center;justify-content:center;border-radius:50%}
+
+.section{margin-bottom:4.5rem;scroll-margin-top:200px}
+.section-header{border-bottom:2px solid var(--ink);padding-bottom:.6rem;margin-bottom:1.6rem}
+.section-number{font-family:var(--mono);font-size:.72rem;letter-spacing:.16em;color:var(--accent);display:block;margin-bottom:.3rem}
+.section-header h2{font-size:clamp(1.4rem,2.8vw,2.05rem);font-weight:700;letter-spacing:-.01em}
+.ko-en{font-family:var(--sans);font-size:.8rem;font-weight:400;opacity:.55;margin-left:.6rem}
+.src-badge{display:inline-block;font-family:var(--mono);font-size:.63rem;letter-spacing:.06em;border:1px solid var(--rule);padding:.15rem .45rem;margin:.5rem .3rem 0 0;opacity:.72}
+.src-badge.main{border-color:var(--accent);color:var(--accent)}
+.prose p{margin-bottom:1.2rem}
+.prose h3{font-size:1.24rem;font-weight:700;margin:2.2rem 0 .8rem;padding-left:.7rem;border-left:3px solid var(--accent)}
+em.term{font-style:normal;font-weight:600;border-bottom:2px solid var(--highlight);padding-bottom:1px}
+.ex{font-family:var(--sans);background:var(--paper-warm);padding:.9rem 1.2rem;margin:1.1rem 0;font-size:.93rem;line-height:2}
+.mono{font-family:var(--mono)}
+.bad{color:var(--terracotta)}
+
+.concept-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:1rem;margin:1.8rem 0}
+.concept-card{border:1px solid var(--rule);padding:1.2rem;background:#fff9;transition:transform .2s}
+.concept-card:hover{transform:translateY(-3px)}
+.concept-card .card-num{font-family:var(--mono);font-size:.65rem;letter-spacing:.13em;color:var(--accent);display:block;margin-bottom:.45rem}
+.concept-card h4{font-size:1rem;margin-bottom:.15rem}
+.concept-card .ko{font-family:var(--sans);font-size:.72rem;opacity:.55;display:block;margin-bottom:.5rem}
+.concept-card p{font-size:.85rem;line-height:1.62;opacity:.87}
+
+.interactive{background:var(--ink);color:var(--paper);padding:2.1rem 2.3rem;margin:2rem 0;position:relative}
+.interactive::before{content:'';position:absolute;top:8px;left:8px;right:8px;bottom:8px;border:1px solid #f5f1e830;pointer-events:none}
+.interactive h3{font-family:var(--serif);font-size:1.18rem;margin-bottom:.35rem;position:relative}
+.interactive-desc{font-family:var(--sans);font-size:.81rem;opacity:.6;margin-bottom:1.5rem;position:relative}
+.ibody{position:relative}
+.btnrow{display:flex;flex-wrap:wrap;gap:.45rem;margin-bottom:1.3rem}
+.ibtn{font-family:var(--sans);font-size:.8rem;background:transparent;color:var(--paper);border:1px solid #f5f1e850;padding:.4rem .85rem;cursor:pointer;transition:all .18s}
+.ibtn:hover{background:#f5f1e820}
+.ibtn.active{background:var(--paper);color:var(--ink);border-color:var(--paper)}
+.ibtn:disabled{opacity:.3;cursor:default}
+.ipanel{min-height:110px;font-size:.9rem;line-height:1.75}
+.ipanel h4{font-size:1.12rem;margin-bottom:.3rem}
+.ipanel p{margin-bottom:.75rem}
+.ibody .note{font-family:var(--sans);font-size:.82rem;opacity:.75;border-left:2px solid var(--accent-soft);padding-left:.8rem;margin-top:.9rem}
+.itable{width:100%;border-collapse:collapse;color:var(--paper);font-size:.85rem;margin:.3rem 0 1rem}
+.itable th{font-family:var(--mono);font-size:.62rem;letter-spacing:.09em;text-align:left;padding:.4rem .55rem;border-bottom:1px solid #f5f1e850;font-weight:500;opacity:.7}
+.itable td{padding:.42rem .55rem;border-bottom:1px solid #f5f1e820;vertical-align:top;line-height:1.55}
+
+/* 문장 변형 표시 */
+.tsent{font-family:var(--sans);font-size:1.2rem;line-height:2.5;margin:.5rem 0 1rem}
+.tk{display:inline-block;padding:.12rem .3rem;margin:0 .05rem}
+.tk.add{background:#e8b6472e;border-bottom:2px solid var(--highlight);font-weight:700}
+.tk.mv{color:#8fb8d8;font-weight:700}
+.tk.gone{opacity:.32;text-decoration:line-through}
+.tlegend{display:flex;gap:1.2rem;flex-wrap:wrap;font-family:var(--sans);font-size:.76rem;opacity:.8;margin-bottom:.8rem}
+.tlegend b{display:inline-block;padding:.05rem .3rem;margin-right:.25rem}
+
+/* 의미역 칩 */
+.roleline{font-family:var(--sans);font-size:1.05rem;line-height:2.9;margin:.4rem 0 .9rem}
+.rchip{display:inline-block;position:relative;padding:.1rem .3rem;margin:0 .18rem;border-bottom:2px solid var(--accent-soft)}
+.rchip small{position:absolute;left:50%;transform:translateX(-50%);top:-1.05rem;font-family:var(--mono);font-size:.58rem;letter-spacing:.04em;color:var(--highlight);white-space:nowrap}
+
+/* 활용표 격자 */
+.hgrid{width:100%;border-collapse:collapse;color:var(--paper);font-size:.82rem;margin:.4rem 0 1rem}
+.hgrid th{font-family:var(--mono);font-size:.6rem;letter-spacing:.07em;padding:.42rem .4rem;border-bottom:1px solid #f5f1e850;font-weight:500;opacity:.75;text-align:center}
+.hgrid th.rowh{text-align:left;opacity:.9;font-family:var(--sans);font-size:.72rem;letter-spacing:0}
+.hgrid td{padding:.42rem .4rem;border-bottom:1px solid #f5f1e820;text-align:center;font-family:var(--sans);line-height:1.5}
+.hgrid td.gap{color:#e0836a;font-family:var(--mono);font-size:.9rem}
+.hgrid td.hit{background:#e8b6472e;font-weight:700}
+.hgrid tr:hover td{background:#f5f1e812}
+
+/* 축 그림 */
+.axsvg{width:100%;height:auto;max-width:660px;display:block;margin:.3rem auto 1rem}
+.axsvg text{font-family:'Noto Sans KR',sans-serif}
+
+/* 계량 */
+.metgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(128px,1fr));gap:.6rem;margin:1rem 0}
+.met{border:1px solid #f5f1e830;padding:.8rem .6rem;text-align:center}
+.met .n{font-family:var(--mono);font-size:1.5rem;display:block;color:var(--highlight);line-height:1.2}
+.met .l{font-family:var(--sans);font-size:.7rem;opacity:.62;display:block;margin-top:.25rem;line-height:1.4}
+.barset{margin:.4rem 0 1.1rem}
+.barrow{display:grid;grid-template-columns:110px 1fr 104px;gap:.7rem;align-items:center;margin-bottom:.5rem;font-family:var(--sans);font-size:.83rem}
+.bartrack{background:#f5f1e818;height:19px;position:relative;overflow:hidden}
+.barfill{height:100%;transition:width .5s cubic-bezier(.4,0,.2,1)}
+.barval{font-family:var(--mono);font-size:.75rem;text-align:right;opacity:.85;white-space:nowrap}
+
+.data-table{width:100%;border-collapse:collapse;margin:1.5rem 0;font-size:.85rem}
+.data-table th{font-family:var(--mono);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;text-align:left;padding:.6rem .7rem;border-bottom:2px solid var(--ink);font-weight:500}
+.data-table td{padding:.6rem .7rem;border-bottom:1px solid var(--rule);vertical-align:top;line-height:1.55}
+.data-table tr:hover td{background:var(--paper-warm)}
+.data-table .ko{font-weight:600}
+.data-table td.num{font-family:var(--mono);text-align:right;white-space:nowrap}
+
+.callout{border-left:3px solid var(--accent);background:var(--paper-warm);padding:1.2rem 1.5rem;margin:1.7rem 0}
+.callout-label{font-family:var(--mono);font-size:.65rem;letter-spacing:.13em;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:.5rem}
+.callout p{font-size:.92rem;line-height:1.78;margin-bottom:.7rem}
+.callout p:last-child{margin-bottom:0}
+.callout.clinical{border-left-color:var(--moss)}
+.callout.clinical .callout-label{color:var(--moss)}
+.callout.warning{border-left-color:var(--terracotta)}
+.callout.warning .callout-label{color:var(--terracotta)}
+
+.quiz-item{border:1px solid var(--rule);padding:1.1rem 1.3rem;margin-bottom:.9rem;background:#fff9}
+.quiz-q{font-size:.97rem;margin-bottom:.75rem;line-height:1.7}
+.quiz-q .num{font-family:var(--mono);font-size:.7rem;color:var(--accent);margin-right:.5rem}
+.quiz-opts{display:flex;flex-wrap:wrap;gap:.4rem}
+.quiz-opt{font-family:var(--sans);font-size:.82rem;background:var(--paper);border:1px solid var(--rule);padding:.35rem .8rem;cursor:pointer;transition:all .16s;color:var(--ink)}
+.quiz-opt:hover{border-color:var(--ink)}
+.quiz-opt.correct{background:var(--moss);color:var(--paper);border-color:var(--moss)}
+.quiz-opt.wrong{background:var(--terracotta);color:var(--paper);border-color:var(--terracotta)}
+.quiz-opt:disabled{cursor:default}
+.quiz-fb{font-family:var(--sans);font-size:.85rem;line-height:1.7;margin-top:.75rem;padding-top:.7rem;border-top:1px dotted var(--rule);display:none}
+.quiz-fb.show{display:block;animation:fade .3s}
+@keyframes fade{from{opacity:0;transform:translateY(-3px)}to{opacity:1;transform:none}}
+.quiz-score{font-family:var(--mono);font-size:.8rem;padding:.7rem 1rem;background:var(--paper-warm);border:1px solid var(--rule);margin-top:1rem}
+
+.lab{border:2px solid var(--ink);padding:0;margin:2rem 0}
+.lab-head{background:var(--ink);color:var(--paper);padding:1.1rem 1.6rem}
+.lab-head .tag{font-family:var(--mono);font-size:.65rem;letter-spacing:.14em;color:var(--highlight);display:block;margin-bottom:.25rem}
+.lab-head h3{font-size:1.25rem;font-weight:700}
+.lab-head p{font-family:var(--sans);font-size:.83rem;opacity:.72;margin-top:.35rem}
+.lab-body{padding:1.6rem}
+.worksheet{width:100%;border-collapse:collapse;font-size:.88rem;margin:1.2rem 0}
+.worksheet th,.worksheet td{border:1px solid var(--rule);padding:.5rem .6rem;text-align:left}
+.worksheet th{font-family:var(--mono);font-size:.62rem;letter-spacing:.08em;background:var(--paper-warm);font-weight:500}
+.worksheet td.w{font-family:var(--sans);font-size:.95rem;width:26%}
+.worksheet input{width:100%;font-family:var(--sans);font-size:.88rem;border:none;background:transparent;color:var(--ink);padding:.15rem}
+.worksheet input:focus{outline:1px solid var(--accent)}
+
+.mini-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:1rem;margin:1.6rem 0}
+.mini{border:1px solid var(--rule);padding:1.1rem 1.2rem;background:#fff9;transition:transform .2s}
+.mini:hover{transform:translateY(-3px)}
+.mini h5{font-size:.98rem;margin-bottom:.4rem}
+.mini .mtag{font-family:var(--mono);font-size:.63rem;letter-spacing:.1em;color:var(--accent);display:block;margin-bottom:.35rem}
+.mini p{font-size:.83rem;line-height:1.62;opacity:.87}
+
+.week-nav{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:3.5rem;padding-top:2rem;border-top:1px solid var(--rule)}
+.week-nav div{border:1px solid var(--rule);padding:1.1rem 1.3rem;background:#fff9}
+.week-nav .lbl{font-family:var(--mono);font-size:.63rem;letter-spacing:.13em;color:var(--accent);display:block;margin-bottom:.35rem}
+.week-nav b{font-size:1rem;display:block;margin-bottom:.25rem}
+.week-nav p{font-size:.83rem;opacity:.75;line-height:1.6}
+
+footer{border-top:3px double var(--ink);margin-top:4rem;padding:2.5rem 3rem 3.5rem}
+.colophon{max-width:640px;margin:0 auto;text-align:center;font-size:.82rem;line-height:1.9;opacity:.72}
+.colophon .mn{font-family:var(--mono);font-size:.7rem;letter-spacing:.08em}
+.colophon .epigraph{font-style:italic;margin-top:1.2rem;opacity:.8}
+
+@media(max-width:900px){
+  .masthead,.toc-nav,main,footer{padding-left:1.4rem;padding-right:1.4rem}
+  .masthead-inner{grid-template-columns:1fr;gap:.8rem}
+  .meta-info{text-align:left}
+  .toc-nav{position:static}
+  .hero{grid-template-columns:1fr;gap:2rem}
+  .week-nav{grid-template-columns:1fr}
+  .interactive{padding:1.5rem 1.2rem}
+  .lab-head,.lab-body{padding-left:1.2rem;padding-right:1.2rem}
+  .tsent{font-size:1.02rem;line-height:2.3}
+  .roleline{font-size:.94rem;line-height:2.7}
+  .hgrid{font-size:.7rem}
+  .hgrid th,.hgrid td{padding:.34rem .22rem}
+  .barrow{grid-template-columns:88px 1fr 92px;gap:.5rem;font-size:.78rem}
+  .htablewrap{overflow-x:auto}
+}
+.htablewrap{overflow-x:auto}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <span class="issue-tag">제12주 · BLOCK D</span>
+    <div class="title-block">
+      <h1>문법 요소의 기능과 의미</h1>
+      <p class="subtitle"><em>Grammatical Categories</em> — 문장을 변형하는 다섯 조작</p>
+    </div>
+    <div class="meta-info">
+      나사렛대학교<br>언어치료학과<br>학부 과정<br>이봉원 13·14장 · 개론서 08장
+    </div>
+  </div>
+</header>
+
+<nav class="toc-nav">
+  <div class="toc-nav-inner">
+    <a href="#intro" class="nav-link">들어가며</a>
+    <a href="#role" class="nav-link">§Ⅰ 논항과 의미역</a>
+    <a href="#pass" class="nav-link">§Ⅱ 피동</a>
+    <a href="#caus" class="nav-link">§Ⅲ 사동</a>
+    <a href="#hon" class="nav-link">§Ⅳ 높임법</a>
+    <a href="#tense" class="nav-link">§Ⅴ 시제와 상</a>
+    <a href="#neg" class="nav-link">§Ⅵ 부정</a>
+    <a href="#stack" class="nav-link">§Ⅶ 다섯을 겹치면</a>
+    <a href="#lab" class="nav-link">분석 실습실</a>
+    <a href="#clinical" class="nav-link">임상 적용</a>
+    <a href="#check" class="nav-link">확인 문제</a>
+    <a href="#refs" class="nav-link">참고 문헌</a>
+  </div>
+</nav>
+
+<main>
+
+<!-- ============ 들어가며 ============ -->
+<section id="intro" class="section">
+  <div class="hero">
+    <div class="hero-text">
+      <p class="lead">10주차와 11주차에서 문장을 <strong>세우고 키웠다.</strong> 오늘은 세워 놓은 문장을 <strong>변형한다.</strong> 같은 사건을 두고 <strong>누구를 주어로 세울지, 누구를 높일지, 언제 일어난 일로 놓을지, 일어났다고 할지 안 일어났다고 할지</strong>를 고르는 장치들이다.</p>
+
+      <p>다섯이다 — <strong>피동 · 사동 · 높임 · 시제와 상 · 부정.</strong> 서로 다른 것을 하는 것처럼 보이지만 하는 일은 같다. <strong>기본 문장 하나를 받아 새 문장을 내놓는다.</strong> 그래서 오늘은 다섯을 <em class="term">조작</em>으로 묶어 본다.</p>
+
+      <p>그리고 이 다섯은 <strong>겹쳐 쓸 수 있다.</strong> 「할머니가 오빠에게 자전거를 태워 주셨어요」 하나에 사동·높임·시제가 함께 들어 있다. 마지막 절에서 다섯을 한 문장에 겹쳐 볼 것이다.</p>
+
+      <p>이 다섯을 부르는 이름이 따로 있다. <em class="term">문법 범주</em>(grammatical category)다. <strong>어떤 의미가 문법 형태로, 규칙적으로, 그리고 되도록 의무적으로 표시될 때</strong> 그것을 문법 범주라 한다. 판별의 핵심은 <strong>의무성</strong>이다 — 안 고를 수가 없는가.</p>
+
+      <p>한국어의 상대 높임법이 그 예다. <strong>모든 문장이 반드시 여섯 등급 가운데 하나를 고른다.</strong> 「밥 먹어」와 「밥 먹어요」 사이에 중립 지대가 없다. 반면 <strong>수(數)는 한국어에서 문법 범주가 아니다</strong> — 「사과 세 개」에 「-들」을 안 붙여도 아무 문제가 없다(7주차 §Ⅲ). 영어는 정반대다. 수는 의무적이고 높임은 그렇지 않다. <strong>어떤 의미가 문법 범주가 되는가는 언어마다 다르다.</strong></p>
+    </div>
+    <aside class="hero-aside">
+      <h3>오늘의 학습 목표</h3>
+      <ol>
+        <li>서술어의 <strong>논항</strong>에 <strong>의미역</strong>을 배당하고, 같은 격이 다른 의미역일 수 있음을 안다</li>
+        <li>피동과 사동을 <strong>파생적·통사적·어휘적</strong> 셋으로 가른다</li>
+        <li><strong>피동사와 사동사가 같은 꼴</strong>인 경우를 사전으로 확인하고 문맥으로 구별한다</li>
+        <li>높임법을 <strong>주체·객체·상대</strong> 셋으로 나누고, 상대 높임 6등급 표를 읽는다</li>
+        <li><strong>시제·상·양태</strong>를 구별하고, 「-겠-」이 시제가 아닌 이유를 안다</li>
+        <li>부정의 <strong>짧은 꼴·긴 꼴</strong>과 <strong>중의성</strong>을 다룬다</li>
+      </ol>
+    </aside>
+  </div>
+
+  <div class="callout warning">
+    <span class="callout-label">오늘 다룰 충돌을 미리 적어 둔다</span>
+    <p>· <strong>「-겠-」은 시제인가 양태인가</strong> — 학교 문법의 삼분 시제가 여기서 흔들린다.<br>
+       · <strong>「-고 있다」는 진행인가 결과 지속인가</strong> — 「옷을 입고 있다」 하나가 둘로 읽힌다.<br>
+       · <strong>사물 존대는 오류인가 변화인가</strong> — 규범은 오류라 하고, 현실은 퍼지고 있다.<br>
+       · <strong>파생적 피동·사동을 어디까지 규칙으로 볼 것인가</strong> — 접미사가 붙는 동사를 예측할 수 없다.</p>
+    <p>넷 다 <strong>정답이 없다.</strong> 오늘도 목표는 「올바르게 판정하기」가 아니라 <strong>「어느 기준을 택했는지 말할 수 있기」</strong>다.</p>
+  </div>
+</section>
+
+<!-- ============ §Ⅰ ============ -->
+<section id="role" class="section">
+  <div class="section-header">
+    <span class="section-number">§ Ⅰ</span>
+    <h2>논항과 의미역<span class="ko-en">Arguments and Semantic Roles</span></h2>
+    <span class="src-badge main">이봉원 14장 앞머리 · 10주차 §Ⅲ 자릿수</span>
+  </div>
+
+  <div class="prose">
+    <p>10주차에서 서술어가 <strong>몇 자리를 요구하는지</strong>를 보았다. 그 자리를 <em class="term">논항</em>(argument)이라 한다. 오늘은 한 걸음 더 간다 — <strong>그 자리에 들어간 것이 사건 속에서 무슨 역할을 하는가.</strong> 이것이 <em class="term">의미역</em>(semantic role)이다.</p>
+
+    <p>왜 필요한가. <strong>격만으로는 부족하기 때문</strong>이다. 다음 셋은 모두 「무엇이 따뜻하다」인데, 주어가 하는 일이 저마다 다르다.</p>
+
+    <div class="ex">
+      <span class="mono">가.</span> 나는 따뜻하다 &nbsp;<span style="opacity:.6">— 따뜻함을 <b>느끼는</b> 쪽</span><br>
+      <span class="mono">나.</span> 잔이 따뜻하다 &nbsp;<span style="opacity:.6">— 따뜻함을 <b>지닌</b> 쪽</span><br>
+      <span class="mono">다.</span> 옷이 따뜻하다 &nbsp;<span style="opacity:.6">— 따뜻하게 <b>해 주는</b> 쪽</span>
+    </div>
+
+    <p>셋 다 주격조사 「이/가」와 「은/는」이 붙은 주어다. <strong>격은 같은데 역할이 다르다.</strong> 그래서 격과 의미역을 따로 두는 것이다. 그리고 오늘의 피동·사동은 <strong>바로 이 의미역과 격의 짝을 바꾸는 조작</strong>이다.</p>
+  </div>
+
+  <div class="interactive">
+    <h3>★ 의미역 배당기</h3>
+    <p class="interactive-desc">문장을 고르면 각 성분 위에 <strong>의미역</strong>이 붙습니다. <strong>같은 격이 다른 역을 맡는 자리</strong>에 주목하세요.</p>
+    <div class="ibody">
+      <div class="btnrow" id="sr-btns"></div>
+      <div class="roleline" id="sr-line"></div>
+      <div class="ipanel" id="sr-panel"></div>
+    </div>
+  </div>
+
+  <div class="prose">
+    <h3>의미역 여덟</h3>
+    <p>연구자마다 수가 다르지만, 학부에서 다루는 기본은 여덟 정도다. <strong>목록을 외우는 것이 목적이 아니라</strong>, 「이 자리가 무슨 일을 하는가」를 묻는 습관을 들이는 것이 목적이다.</p>
+  </div>
+
+  <div class="callout warning">
+    <span class="callout-label">틀을 밝혀 둔다 — 의미역은 학교 문법의 용어가 아니다</span>
+    <p><strong>학교 문법은 이 자리를 「서술어의 자릿수」와 「문장 성분」으로만 다룬다</strong>(10주차). 「논항」과 「의미역」은 <strong>격문법</strong>(Fillmore 1968)에서 나와 <strong>생성 문법의 의미역 이론</strong>으로 이어진 개념이다. 세종 태그셋에는 의미역 층위가 아예 없다.</p>
+    <p>그래서 <strong>역의 이름도 수도 이론마다 다르다.</strong> 여덟으로 잡는 것은 <strong>이 자료의 선택이지 정설이 아니다.</strong> 오늘 「행위주·대상」이라고 부를 때마다 그것은 <strong>학교 문법 바깥의 말</strong>이라는 것을 기억하라.</p>
+  </div>
+
+  <table class="data-table">
+    <thead><tr><th style="width:16%">의미역</th><th style="width:20%">무엇인가</th><th>예</th></tr></thead>
+    <tbody>
+      <tr><td class="ko">행위주 <span style="opacity:.5;font-weight:400">agent</span></td><td>일을 <strong>일으키는</strong> 쪽</td><td><b>아이가</b> 문을 열었다 · 전사본 C48 <b>오빠가</b> 자전거 태워 줬어</td></tr>
+      <tr><td class="ko">대상 <span style="opacity:.5;font-weight:400">theme</span></td><td>일을 <strong>당하거나 움직이는</strong> 쪽</td><td>아이가 <b>문을</b> 열었다 · 전사본 C34 <b>눈이</b> 감겨 있잖아요</td></tr>
+      <tr><td class="ko">경험주 <span style="opacity:.5;font-weight:400">experiencer</span></td><td>느끼거나 아는 쪽</td><td><b>나는</b> 따뜻하다 · 전사본 C29 「<b>나도</b> … 슬펐어」</td></tr>
+      <tr><td class="ko">도구 <span style="opacity:.5;font-weight:400">instrument</span></td><td>일을 하는 데 <strong>쓰이는</strong> 것</td><td><b>열쇠로</b> 문을 열었다 · 전사본 C03 <b>이거로</b> 집 만들 거야</td></tr>
+      <tr><td class="ko">처소 <span style="opacity:.5;font-weight:400">location</span></td><td>일이 일어나는 곳</td><td>전사본 C26 <b>나무 밑에서</b> 잤어요</td></tr>
+      <tr><td class="ko">착점 <span style="opacity:.5;font-weight:400">goal</span></td><td>움직임이 <strong>가 닿는</strong> 곳·사람</td><td>전사본 C39 <b>할머니 집에</b> 갔어요 · C56 <b>엄마한테</b> 말했어</td></tr>
+      <tr><td class="ko">기점 <span style="opacity:.5;font-weight:400">source</span></td><td>움직임이 <strong>떠나는</strong> 곳</td><td>학교<b>에서</b> 왔다 <span style="opacity:.6">— 전사본에 나타나지 않았다</span></td></tr>
+      <tr><td class="ko">수혜자 <span style="opacity:.5;font-weight:400">benefactive</span></td><td>일의 <strong>덕을 보는</strong> 쪽</td><td>전사본 C42 <b>(나에게)</b> 떡볶이 해 주셨어요</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout warning">
+    <span class="callout-label">이 표의 배당 기준을 밝혀 둔다</span>
+    <p><strong>① 도구와 재료를 가르지 않고 도구로 묶었다.</strong> 여덟 목록에 재료가 없기 때문이다. 엄밀히는 「열쇠<b>로</b> 문을 열었다」의 열쇠는 <strong>도구</strong>(결과물에 남지 않는다)이고, C03 「이거<b>로</b> 집 만들 거야」의 블록은 <strong>재료</strong>(결과물이 된다)다.</p>
+    <p><strong>② 처소와 착점은 서술어가 요구하는 이동이 있으면 착점으로 보았다.</strong> 그런데 C48 「자전거」는 이 기준으로도 갈린다 — 표준국어대사전의 「태우다2」가 「탈것…<b>에</b> 몸을 얹게 하다」이므로 <strong>착점</strong>으로 볼 근거가 있고, 「타고 있는 동안 있는 곳」을 앞세우면 <strong>처소</strong>다. 그래서 <strong>의미역 배당기는 「처소 / 착점」을 함께 붙여 두었다.</strong> <strong>둘 다 근거가 있고, 어느 쪽을 택했는지 말할 수 있으면 된다.</strong></p>
+    <p><strong>③ 「옷이 따뜻하다」의 「옷이」를 도구로 본 것은 확장 적용이다.</strong> 도구역은 통상 <strong>「-로」로 실현되는 부가어</strong>에 부여된다. 주어 자리에 도구역을 주는 것은 이 자료의 결정이고, 표준적으로는 <strong>대상</strong>으로 처리된다.</p>
+  </div>
+
+  <div class="callout">
+    <span class="callout-label">격과 의미역은 일대일이 아니다</span>
+    <p><strong>같은 조사가 여러 역을 맡는다.</strong> 「에서」 하나만 봐도 처소(「학교<b>에서</b> 공부한다」)와 기점(「학교<b>에서</b> 왔다」)에 걸친다. 9주차 §Ⅴ에서 부사격조사가 「장소·시간·도구·비교·동반을 다 맡는다」며 「에」와 「에서」를 갈랐던 그 자리다.</p>
+    <p>오늘은 같은 구별을 <strong>조사 쪽이 아니라 서술어 쪽에서</strong> 다시 본다 — <strong>역을 정하는 것은 조사가 아니라 서술어</strong>다. 같은 「에」가 「집<b>에</b> 가다」에서는 착점이고 「집<b>에</b> 있다」에서는 처소인 것이 그 증거다.</p>
+    <p>거꾸로 <strong>같은 역이 여러 격으로 나타난다.</strong> 착점은 「에」로도 「한테」로도 「께」로도 표시된다 — 그리고 셋 중 무엇을 쓰느냐가 §Ⅳ 높임법의 문제가 된다.</p>
+  </div>
+</section>
+
+<!-- ============ §Ⅱ ============ -->
+<section id="pass" class="section">
+  <div class="section-header">
+    <span class="section-number">§ Ⅱ</span>
+    <h2>피동 — 당하는 쪽을 주어로<span class="ko-en">Passive</span></h2>
+    <span class="src-badge main">이봉원 14장 · 개론서 08장 1절</span>
+  </div>
+
+  <div class="prose">
+    <p><em class="term">피동</em>(被動)은 <strong>행위주가 아니라 대상을 주어 자리에 세우는</strong> 조작이다. 능동문 「누가 무엇을 했다」가 피동문 「무엇이 되었다」로 바뀐다.</p>
+
+    <div class="ex">
+      <span style="opacity:.6">능동</span> &nbsp;아이가 <b>문을</b> 닫았다<br>
+      <span style="opacity:.6">피동</span> &nbsp;<b>문이</b> (아이에게) 닫혔다
+    </div>
+
+    <p>세 가지가 한꺼번에 일어난다. ① 목적어였던 <strong>대상이 주어</strong>가 되고 ② 주어였던 <strong>행위주가 부사어로 밀려나거나 사라지고</strong> ③ <strong>서술어의 꼴이 바뀐다.</strong> ①②는 의미역과 격의 짝이 바뀐 것이고(§Ⅰ), ③이 형태론의 몫이다.</p>
+
+    <h3>세 갈래</h3>
+    <p>서술어를 피동으로 바꾸는 방법이 셋이다.</p>
+  </div>
+
+  <div class="interactive">
+    <h3>★ 피동 세 갈래 변환기</h3>
+    <p class="interactive-desc">갈래를 골라 <strong>능동문이 어떻게 바뀌는지</strong> 보세요. <strong>노란색</strong>이 새로 생긴 것, <strong>파란색</strong>이 자리를 옮긴 것입니다.</p>
+    <div class="ibody">
+      <div class="btnrow" id="pv-btns"></div>
+      <div class="tlegend">
+        <span><b style="background:#e8b6472e;border-bottom:2px solid #e8b647">새로 생김</b></span>
+        <span><b style="color:#8fb8d8">자리 옮김</b></span>
+        <span><b style="opacity:.4;text-decoration:line-through">사라짐</b></span>
+      </div>
+      <div class="tsent" id="pv-a"></div>
+      <div class="tsent" id="pv-b"></div>
+      <div class="ipanel" id="pv-panel"></div>
+    </div>
+  </div>
+
+  <div class="callout warning">
+    <span class="callout-label">파생적 피동은 규칙이 아니다</span>
+    <p><strong>어떤 동사에 어떤 접미사가 붙는지 예측할 수 없다.</strong> 「닫다→닫히다」인데 「열다→*열히다」가 아니라 「열리다」이고, 「먹다→먹히다」인데 「마시다」에는 붙는 접미사가 아예 없다.</p>
+    <p>그러니 이것은 <strong>규칙이 아니라 목록</strong>이다. 5주차 §Ⅵ에서 접사를 가르는 잣대로 「자립성과 생산성」을 들며 <strong>「여러 어근에 두루 붙으면 접사」</strong>라고 했는데, <strong>피동·사동 접미사는 그 잣대를 통과하지 못한다</strong> — 붙는 어간이 정해져 있고 새 단어로 확대되지 않는다. <strong>굳어 버린 파생</strong>이다.</p>
+    <p><strong>사전을 찾는 수밖에 없다</strong> — 그리고 이 과목의 기본 사전은 고려대 한국어대사전, 규범 확인은 표준국어대사전이다.</p>
+  </div>
+
+  <div class="prose">
+    <h3>피동으로 보이지만 아닌 것</h3>
+    <p>전사본 C10 「자꾸 <strong>무너져요</strong>」의 「무너지다」는 어떤가. 「-어지다」가 붙은 것처럼 보인다.</p>
+    <p>아니다. <strong>「*무너다」라는 동사가 없기 때문</strong>이다. 표준국어대사전은 이것을 「무너-지다」 하나의 <strong>자동사</strong>로 싣는다. <strong>피동은 대응하는 능동문이 있어야 성립하는데</strong>, 「*아이가 블록을 무너다」가 없으므로 피동이 아니다.</p>
+    <p>대신 「무너뜨리다/무너트리다」가 있다 — 이것은 <strong>타동사</strong>이고, 「무너지다」와 짝을 이룬다. <strong>같은 사건을 자동사로도 타동사로도 말할 수 있게 하는 짝</strong>이다. 문헌마다 <strong>「자·타동 대응」·「기동/사동 교체」</strong> 등으로 달리 부르는데, 이 자료는 <strong>「자·타 대응쌍」</strong>이라 부르기로 한다. 피동·사동과 하는 일은 비슷하지만 <strong>접미사 체계가 다르다</strong>(「-뜨리/트리-」).</p>
+  </div>
+
+  <div class="callout warning">
+    <span class="callout-label">이중 피동 — 규범이 막는데도 늘어나는 것</span>
+    <p>반대쪽에는 <strong>피동 표지를 두 번 얹은</strong> 형태가 있다.</p>
+    <p>· <b>되어지다</b> ← 「되-」(어휘적 피동) + 「-어지다」(통사적 피동)<br>
+       · <b>쓰여지다 · 보여지다 · 잊혀지다</b> ← 파생적 피동 + 「-어지다」</p>
+    <p>비슷하게 겹쳐 쓴 것으로 <b>「불리우다」</b>가 있는데, 이쪽은 성격이 조금 다르다 — 「부르-」에 피동 접미사 「-이-」가 붙어 「불리다」가 되었고, 거기에 <strong>사동 접미사 「-우-」</strong>가 덧붙은 것이다. <strong>피동 두 번이 아니라 피동 뒤에 사동이 얹힌 꼴</strong>이라, 「이중 피동」이라는 이름으로 함께 묶으면 정확하지 않다. 국립국어원도 이것을 「불리다」의 잘못으로 본다.</p>
+    <p><strong>규범적으로는 오류</strong>다. 한 번이면 될 일을 두 번 하는 중복이기 때문이다. 「이 문제는 <u>해결된다</u>」로 충분한데 「<u>해결되어진다</u>」로 쓸 이유가 없다.</p>
+    <p>그런데 <strong>실제 사용은 늘고 있다.</strong> 특히 학술 문장과 공문서에서 그렇다. 왜 그런가에 관해서는 ① 번역투의 영향 ② <strong>행위자를 더 확실히 지우려는 동기</strong> ③ 「-되다」가 피동이라는 감각이 옅어진 것 등이 거론된다. 어느 쪽이든 <strong>말하는 사람이 그렇게 쓰는 이유가 있다</strong>는 것이고, 그 점에서 §Ⅳ에서 볼 <strong>사물 존대</strong>(「주문하신 커피 나오셨습니다」)와 성격이 같다 — <strong>규범이 금지하는데 세력이 커지는 형태</strong>다. <strong>15주차 §Ⅵ</strong>에서 「오류인가 변이인가」를 물을 때 이 둘이 다시 나온다.</p>
+    <p style="opacity:.88;font-size:.94rem"><strong>실무에서 걸리는 자리.</strong> 평가 보고서와 치료 계획서는 <strong>규범을 지켜 쓰는 문서</strong>다. 「관찰되어진다」·「사료되어진다」는 피하고 「관찰된다」로 쓴다. 그런데 <strong>아동이나 환자의 발화에서 이중 피동이 나왔을 때</strong> 그것을 오류로 셀 것인지는 다른 문제다 — 성인 언어에서 흔한 형태를 아동에게만 오류로 세면 기준이 어긋난다.</p>
+  </div>
+
+  <div class="callout clinical">
+    <span class="callout-label">전사본에서 — 피동 두 번, 같은 단어</span>
+    <p>아동 발화 60개에서 피동은 <strong>두 번</strong> 나온다. 그런데 <strong>같은 단어</strong>다.</p>
+    <p>· C34 「눈이 <b>감겨</b> 있잖아요」<br>· C35 「여기 이렇게 <b>감겼어</b>」</p>
+    <p><strong>통사적 피동(-어지다)과 어휘적 피동(-되다·-당하다·-받다)은 0회</strong>다. 4;6에는 자연스러운 결과다 — 「-어지다」와 한자어 피동은 <strong>문어와 학령기 언어</strong>에서 늘어난다. 11주차의 명사절 0회와 같은 성격의 0이다.</p>
+    <p>그리고 <strong>「감기다」가 오늘의 가장 중요한 단어</strong>다. 다음 절에서 이 단어를 다시 만난다.</p>
+  </div>
+</section>
+
+<!-- ============ §Ⅲ ============ -->
+<section id="caus" class="section">
+  <div class="section-header">
+    <span class="section-number">§ Ⅲ</span>
+    <h2>사동 — 시키는 사람을 새로 세워<span class="ko-en">Causative</span></h2>
+    <span class="src-badge main">이봉원 14장 · 개론서 08장 2절</span>
+  </div>
+
+  <div class="prose">
+    <p><em class="term">사동</em>(使動)은 피동과 반대 방향이다. <strong>주어를 하나 새로 만들어 앞에 세운다.</strong> 원래 주어는 한 칸 밀려난다.</p>
+
+    <div class="ex">
+      <span style="opacity:.6">주동</span> &nbsp;<b>아이가</b> 밥을 먹었다 &nbsp;<span style="opacity:.5">— 2자리</span><br>
+      <span style="opacity:.6">사동</span> &nbsp;<b>엄마가</b> <b>아이에게</b> 밥을 먹였다 &nbsp;<span style="opacity:.5">— 3자리</span>
+    </div>
+
+    <p><strong>자릿수가 하나 늘어난다.</strong> 피동은 줄고 사동은 는다 — 10주차의 자릿수가 여기서 움직인다.</p>
+  </div>
+
+  <div class="interactive">
+    <h3>★ 사동 세 갈래 · 직접과 간접</h3>
+    <p class="interactive-desc">갈래를 골라 보세요. <strong>같은 사동이라도 「직접 해 주었는지」와 「시켰는지」가 갈립니다.</strong></p>
+    <div class="ibody">
+      <div class="btnrow" id="cv-btns"></div>
+      <div class="tlegend">
+        <span><b style="background:#e8b6472e;border-bottom:2px solid #e8b647">새로 생김</b></span>
+        <span><b style="color:#8fb8d8">자리 옮김</b></span>
+      </div>
+      <div class="tsent" id="cv-a"></div>
+      <div class="tsent" id="cv-b"></div>
+      <div class="ipanel" id="cv-panel"></div>
+    </div>
+  </div>
+
+  <div class="prose">
+    <h3>같은 꼴, 다른 일 — 피동사와 사동사</h3>
+    <p>여기가 오늘 가장 헷갈리는 자리다. <strong>피동 접미사와 사동 접미사가 겹친다.</strong> 「-이-·-히-·-리-·-기-」 넷은 양쪽에 다 쓰인다.</p>
+    <p>그래서 <strong>같은 동사에서 만들어진 같은 꼴이 피동사이기도 하고 사동사이기도 한</strong> 일이 생긴다. 표준국어대사전은 이것을 <strong>별개의 표제어</strong>로 나누어 싣는다.</p>
+  </div>
+
+  <div class="interactive">
+    <h3>★ 피동사·사동사 동형 사전</h3>
+    <p class="interactive-desc">단어를 눌러 표준국어대사전의 표제어 처리를 확인하세요. 앞의 여섯이 <strong>피동·사동이 겹치는 것</strong>, 뒤의 둘이 <strong>한쪽만 있는 것</strong>입니다. 뜻풀이는 <strong>줄여 옮겼으므로</strong> 과제로 쓸 때는 사전 원문을 직접 확인하십시오.</p>
+    <div class="ibody">
+      <div class="btnrow" id="hm-btns"></div>
+      <div class="ipanel" id="hm-panel"></div>
+    </div>
+  </div>
+
+  <div class="callout warning">
+    <span class="callout-label">그렇다면 문맥으로 가릴 수밖에 없다</span>
+    <p>「아이가 눈이 <b>감겼다</b>」와 「엄마가 아이 눈을 <b>감겼다</b>」는 <strong>서술어의 꼴이 같다.</strong> 무엇이 다른가 — <strong>논항의 수와 격</strong>이다.</p>
+    <p>· <strong>피동</strong> — 주어가 그 일을 <b>당하는 쪽</b>이다. 자리가 줄어 대개 주어 하나다.<br>
+       · <strong>사동</strong> — 주어가 그 일을 <b>시키는 쪽</b>이다. 자리가 늘어 주어와 목적어가 함께 온다.</p>
+    <p><strong>절차는 이렇다.</strong></p>
+    <p>① <strong>주어가 당하는 쪽인가 시키는 쪽인가</strong>를 먼저 본다.<br>
+       ② <strong>행위주를 「에게/에 의해」로 되살릴 수 있는가</strong> → 되면 피동 쪽.<br>
+       ③ 목적어가 있으면 대체로 사동이다. <strong>다만 예외가 있다</strong> — 아래를 보라.<br>
+       ④ <strong>사전에서 표제어 번호를 확인한다.</strong></p>
+  </div>
+
+  <div class="callout warning">
+    <span class="callout-label">「목적어가 있으면 사동」은 안전한 기준이 아니다</span>
+    <p><strong>목적어가 남는 피동문</strong>이 있다. 신체 부분이나 소유물이 목적어 자리에 그대로 있는 경우다.</p>
+    <div class="ex" style="background:#0000000d">
+      나는 개에게 <b>다리를</b> 물렸다<br>
+      도둑이 경찰에게 <b>손목을</b> 잡혔다<br>
+      나는 도둑에게 <b>가방을</b> 빼앗겼다
+    </div>
+    <p>표준국어대사전의 「빼앗기다」 뜻풀이가 그대로 증거다 — <strong>「가진 것을 억지로 남에게 잃게 되다. '빼앗다'의 피동사」</strong>. <strong>뜻풀이 안에 목적어가 들어 있다.</strong></p>
+    <p>그러니 <strong>목적어 유무는 보조 기준</strong>이다. 결정적인 것은 ①이다 — <strong>「손목을 잡힌」 도둑은 시킨 사람이 아니라 당한 사람</strong>이다. 하필 §Ⅲ에서 다루는 「잡히다」가 여기 걸린다.</p>
+  </div>
+
+  <div class="callout clinical">
+    <span class="callout-label">전사본에서 — 사동 하나, 그리고 갈리는 하나</span>
+    <p>· C48 「오빠가 자전거 <b>태워</b> 줬어」 — 「타다」에 「-우-」가 붙은 <strong>파생적 사동</strong>이다. 표준국어대사전의 「태우다」는 <strong>일곱 표제어이고 전부 사동사</strong>인데, 이 일곱은 <strong>서로 다른 일곱 개의 「타다」</strong>(불에 타다·탈것에 오르다·몫을 받다·부끄럼을 타다…)에서 각각 나온 것이다. C48은 <strong>「태우다2」</strong>다. <strong>피동은 하나도 없으므로 판정이 흔들리지 않는다.</strong><br>
+       · C17 「문을 <b>크게 만들어야</b> 돼요」 — <strong>판정이 갈린다.</strong></p>
+    <p>C17을 「-게 만들다」 통사적 사동으로 보면 사동이다. 그런데 <strong>아이는 블록으로 문을 실제로 짓고 있다.</strong> 그렇다면 「만들다」는 본동사이고 「크게」는 그냥 부사어다 — 사동이 아니다.</p>
+    <p><strong>「-게 하다/만들다」가 늘 사동인 것은 아니다.</strong> 뒤의 동사가 <strong>본동사로 살아 있으면</strong> 사동 구성이 아니다. 이 자료는 C17을 사동으로 세지 않았고, 11주차에서 「-게」를 연결어미로 처리한 것과 같은 결정이다.</p>
+  </div>
+</section>
+
+<!-- ============ §Ⅳ ============ -->
+<section id="hon" class="section">
+  <div class="section-header">
+    <span class="section-number">§ Ⅳ</span>
+    <h2>높임법 — 누구를 높이는가<span class="ko-en">Honorifics</span></h2>
+    <span class="src-badge main">이봉원 13장 · 개론서 08장 3절</span>
+  </div>
+
+  <div class="prose">
+    <p>한국어의 높임법은 <strong>세 갈래</strong>다. 갈래를 가르는 기준은 하나 — <strong>누구를 높이는가</strong>다.</p>
+  </div>
+
+  <div class="concept-grid">
+    <div class="concept-card">
+      <span class="card-num">갈래 01</span>
+      <h4>주체 높임</h4>
+      <span class="ko">문장의 주어를 높인다</span>
+      <p>도구는 선어말어미 <strong>「-(으)시-」</strong>, 주격조사 <strong>「께서」</strong>, 그리고 <strong>특수 어휘</strong>(계시다·잡수시다·주무시다·편찮으시다).</p>
+    </div>
+    <div class="concept-card">
+      <span class="card-num">갈래 02</span>
+      <h4>객체 높임</h4>
+      <span class="ko">목적어나 부사어를 높인다</span>
+      <p>도구는 <strong>특수 어휘</strong>(드리다·모시다·여쭙다·뵙다)와 부사격조사 <strong>「께」</strong>. <strong>어미가 없다</strong>는 것이 다른 둘과 다르다.</p>
+    </div>
+    <div class="concept-card">
+      <span class="card-num">갈래 03</span>
+      <h4>상대 높임</h4>
+      <span class="ko">듣는 사람을 높인다</span>
+      <p>도구는 <strong>종결어미</strong>. 여섯 등급이 있고, <strong>모든 문장이 반드시 하나를 고른다.</strong> 안 고를 수가 없다.</p>
+    </div>
+  </div>
+
+  <div class="prose">
+    <p>셋 가운데 <strong>상대 높임만 의무적</strong>이다. 주체·객체 높임은 높일 사람이 없으면 안 쓰면 그만인데, 상대 높임은 <strong>종결어미로 끝맺는 순간 등급이 정해진다.</strong> 「밥 먹어」와 「밥 먹어요」와 「밥 먹습니다」 중 하나를 반드시 골라야 한다.</p>
+    <p><strong>다만 모든 발화가 종결어미로 끝나는 것은 아니다.</strong> 명사구로 끝나거나(전사본 C04 「큰 집」), 연결어미에서 멈추거나(C25 「토끼가 잠을 자서」), 「거」로 끝나면(C23) <strong>등급이 드러나지 않는다.</strong> 전사본 60발화 중 <strong>다섯</strong>이 그렇다. 「반드시 고른다」는 <strong>완결된 문장에 한한 이야기</strong>다.</p>
+
+    <h3>상대 높임법 여섯 등급</h3>
+    <p>격식체 넷과 비격식체 둘이다. 표준국어대사전은 해요체를 <strong>「격식체인 '하오체'와 '하십시오체'를 쓸 자리에 두루 쓰는 비격식체」</strong>로 풀이한다 — 그래서 <em class="term">두루높임</em>이라 한다.</p>
+  </div>
+
+  <div class="interactive">
+    <h3>★ 상대 높임법 활용표</h3>
+    <p class="interactive-desc">동사를 고르면 <strong>6등급 × 5문장종류</strong> 표가 채워집니다. 빈칸이 <strong>세 기호</strong>로 갈립니다(이 표 안에서의 뜻입니다) — <span style="color:#e0836a">✕</span> 그 등급에 어미가 없다 · <span style="color:#e0836a">△</span> 어미는 있으나 이 품사에 붙지 못한다 · <span style="color:#e0836a">—</span> 어미도 결합도 되지만 쓸 상황이 없다. <strong>어느 이유인지 말할 수 있어야 표를 읽은 것입니다.</strong> 노란 칸은 전사본에 실제로 나온 자리입니다.</p>
+    <div class="ibody">
+      <div class="btnrow" id="hg-btns"></div>
+      <div class="htablewrap"><table class="hgrid" id="hg-table"></table></div>
+      <div class="ipanel" id="hg-panel"></div>
+    </div>
+  </div>
+
+  <div class="callout warning">
+    <span class="callout-label">빈칸을 읽는 법 — 이유가 셋이다</span>
+    <p>표에 ✕가 나오는 이유가 <strong>같지 않다.</strong></p>
+    <p>· <strong>✕ — 등급 쪽 사정</strong> — 하십시오체에는 <strong>감탄형 어미가 아예 없다.</strong> 동사를 무엇으로 바꿔도 그 칸은 빈다.<br>
+       · <strong>△ — 품사 쪽 사정</strong> — 「-어라」와 「-자」는 <strong>있는데 형용사 어간에 붙지 못한다.</strong> 상태는 시켜서 되는 것이 아니기 때문이다(8주차 §Ⅴ · 10주차 §Ⅶ).<br>
+       · <strong>— &nbsp;쓸 상황 쪽 사정</strong> — 어미도 있고 결합도 되는데 <strong>그렇게 말할 자리가 없다.</strong> 「-시-」로 높여 놓고 해라체로 명령하는 것이 그렇다.</p>
+    <p><strong>세 기호가 세 이유를 가리킨다.</strong> 한 글자로 뭉개면 표를 읽어도 아무것도 알 수 없다 — 10주차에서 종결법을 다루며 한 이야기가 여기서 등급 축까지 넓어진 것이다.</p>
+  </div>
+
+  <div class="callout">
+    <span class="callout-label">청유의 자리 — 「먹읍시다」는 하오체다</span>
+    <p>윗사람에게 「같이 갑시다」라고 해도 되는가. <strong>표준국어대사전은 「-읍시다」를 「하오할 자리에 쓰여」로 풀이한다</strong> — 하오체다. 예사높임이므로 <strong>아주 높여야 할 상대에게는 맞지 않는다.</strong></p>
+    <p>하십시오체에도 청유형이 있기는 하다. <strong>「-십시다」</strong>인데, 사전은 <strong>「비교적 격의 없는 상대에게 말할 때 쓴다」</strong>는 단서를 달아 두었다. 결국 <strong>아주 높여야 할 상대를 청유로 끌어들이는 일 자체가 어색하다</strong>는 뜻이다.</p>
+    <p>그래서 실제로는 <strong>「-(으)시지요」·「-(으)시겠어요?」</strong>처럼 <strong>청유를 의문이나 제안으로 돌려 말한다.</strong> 14주차 화행에서 이것을 다시 만난다 — <strong>문장 종류와 실제 하는 일이 어긋나는</strong> 대표적인 자리다.</p>
+  </div>
+
+  <div class="interactive">
+    <h3>★ 경어법 빌더</h3>
+    <p class="interactive-desc">세 축을 각각 눌러 조합하세요. <strong>주체 · 객체 · 상대</strong>가 한 문장에서 어떻게 겹치는지 보입니다.</p>
+    <div class="ibody">
+      <div style="margin-bottom:.5rem;font-family:var(--sans);font-size:.72rem;opacity:.6;letter-spacing:.08em">주체 — 누가 주는가 (문장의 주어)</div>
+      <div class="btnrow" id="hb-subj"></div>
+      <div style="margin-bottom:.5rem;font-family:var(--sans);font-size:.72rem;opacity:.6;letter-spacing:.08em">객체 — 누구에게 주는가</div>
+      <div class="btnrow" id="hb-obj"></div>
+      <div style="margin-bottom:.5rem;font-family:var(--sans);font-size:.72rem;opacity:.6;letter-spacing:.08em">상대 — 누구에게 말하는가</div>
+      <div class="btnrow" id="hb-hear"></div>
+      <div class="tsent" id="hb-out"></div>
+      <div class="ipanel" id="hb-panel"></div>
+    </div>
+  </div>
+
+  <div class="prose">
+    <h3>간접 높임과 사물 존대</h3>
+    <p>주체 높임에는 <strong>간접 높임</strong>이라는 갈래가 있다. 높일 사람의 <strong>신체 부분·소유물·관계된 것</strong>에 「-시-」를 붙이는 것이다.</p>
+
+    <div class="ex">
+      선생님은 <b>손이 크시다</b> &nbsp;<span style="opacity:.6">— 높이는 대상은 「손」이 아니라 <b>선생님</b></span><br>
+      할머니는 <b>연세가 많으시다</b> &nbsp;<span style="opacity:.6">— 「연세」를 통해 <b>할머니</b>를 높인다</span>
+    </div>
+
+    <p>그런데 이것이 <strong>대상을 잃고 번지면</strong> 이렇게 된다.</p>
+
+    <div class="ex">
+      <span class="bad">✕</span> 커피 <b>나오셨습니다</b> &nbsp;<span style="opacity:.6">— 커피는 손님의 것도 손님 자신도 아니다</span><br>
+      <span class="bad">✕</span> 그 사이즈는 <b>없으십니다</b><br>
+      <span class="bad">✕</span> 오천 원 <b>이세요</b>
+    </div>
+
+    <p>이것을 <em class="term">사물 존대</em>라 한다. 국립국어원은 <strong>「커피 나왔습니다」가 바른 표현</strong>이라고 명시한다 — 사물이 아니라 사람을 높이는 것이 높임법이기 때문이다.</p>
+  </div>
+
+  <div class="callout warning">
+    <span class="callout-label">열린 쟁점 — 사물 존대는 오류인가, 변화인가</span>
+    <p><strong>전통적 견해</strong> — 「-시-」는 <strong>주체를 높이는</strong> 어미다. 주체가 사물이면 높일 이유가 없으므로 오류다. 규범의 판단은 분명하다.</p>
+    <p><strong>도전</strong> — 그런데 <strong>왜 퍼지는가.</strong> 말하는 사람은 커피를 높이려는 것이 아니다. <strong>손님을 높이려는 것</strong>이다. 「-시-」가 주체 표지에서 <strong>공손함 일반의 표지</strong>로 기능을 넓히고 있다고 보면, 이것은 오류가 아니라 <strong>진행 중인 변화</strong>다.</p>
+    <p><strong>지금은</strong> — 규범은 오류로 판정하고 있고, 서비스업 종사자를 대상으로 한 교육도 이를 따른다. 그러나 <strong>사용은 줄지 않았다.</strong> 규범과 현실이 갈라져 있는 상태다. 15주차에서 이런 어긋남을 <strong>변이와 변화</strong>의 틀로 다시 볼 것이다.</p>
+    <p><strong>임상적 함의</strong> — 아동·성인 대상자가 이런 표현을 쓸 때 <strong>「문법 오류」로 기록할 것인가.</strong> 이 자료의 답은 「기록하되 무엇으로 기록할지 밝혀라」다. <strong>규범 위반과 문법 능력의 결함은 다른 것</strong>이고, 둘을 한 칸에 적으면 보고서를 읽는 사람이 구별할 수 없다.</p>
+  </div>
+
+  <div class="callout">
+    <span class="callout-label">압존법 — 규범이 옮겨 간 자리</span>
+    <p><em class="term">압존법</em>(壓尊法)은 <strong>높여야 할 대상이지만 듣는 이가 더 높을 때 그 공대를 줄이는</strong> 어법이다. 표준국어대사전이 드는 예는 「할아버지, <b>아버지가</b> 아직 안 왔습니다」다.</p>
+    <p><strong>그런데 국립국어원 『표준 언어 예절』(2011)은 이것을 가정과 사제 간에 한정한다.</strong> 직장 같은 사회적 관계에서 압존법을 쓰는 것은 <strong>전통 예절이 아니라고</strong> 본다. 그래서 「사장님, <b>총무과장님이</b> 이 일을 <b>하셨습니다</b>」처럼 <strong>「-시-」를 넣어 높이는 쪽</strong>을 권한다.</p>
+    <p><strong>규범이 바뀐 것이 아니라 적용 범위가 좁아진 것</strong>이다. 「전통이니까 지켜야 한다」는 말이 <strong>무엇을 전통으로 보느냐에 따라 반대 결론</strong>에 이를 수 있다는 사례이기도 하다.</p>
+  </div>
+
+  <div class="interactive">
+    <h3>★ 전사본의 상대 높임 — 흔들림을 세어 본다</h3>
+    <p class="interactive-desc">3주차 전사본 아동 발화 60개의 실측치입니다. <strong>같은 상대(치료사)에게 말하는데도</strong> 등급이 어떻게 오가는지 보세요.</p>
+    <div class="ibody">
+      <div class="btnrow" id="hs-btns"></div>
+      <div class="metgrid" id="hs-grid"></div>
+      <div class="barset" id="hs-bars"></div>
+      <div class="ipanel" id="hs-panel"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ §Ⅴ ============ -->
+<section id="tense" class="section">
+  <div class="section-header">
+    <span class="section-number">§ Ⅴ</span>
+    <h2>시제와 상 — 언제, 그리고 어떻게 펼쳐지는가<span class="ko-en">Tense and Aspect</span></h2>
+    <span class="src-badge main">이봉원 13장 · 개론서 08장 4절</span>
+  </div>
+
+  <div class="prose">
+    <p><em class="term">시제</em>(tense)는 <strong>두 시점의 앞뒤 관계</strong>다. <strong>발화시</strong>(말하는 때)와 <strong>사건시</strong>(일이 일어난 때)를 축 위에 놓고, 어느 쪽이 앞인지를 따진다.</p>
+  </div>
+
+  <div class="interactive">
+    <h3>★ 시간 축</h3>
+    <p class="interactive-desc">시제를 골라 <strong>발화시와 사건시의 배치</strong>를 확인하세요.</p>
+    <div class="ibody">
+      <div class="btnrow" id="tx-btns"></div>
+      <div id="tx-fig"></div>
+      <div class="ipanel" id="tx-panel"></div>
+    </div>
+  </div>
+
+  <div class="callout warning">
+    <span class="callout-label">열린 쟁점 — 「-겠-」은 시제인가</span>
+    <p><strong>전통적 견해</strong> — 학교 문법은 시제를 <strong>과거·현재·미래 셋</strong>으로 놓고, 미래의 표지로 <strong>「-겠-」</strong>과 <strong>「-(으)ㄹ 것이-」</strong>를 든다.</p>
+    <p><strong>도전</strong> — 그런데 「-겠-」은 <strong>미래가 아닌 자리</strong>에 너무 자주 나온다.</p>
+    <div class="ex" style="background:#0000000d">
+      가. 내일 비가 <b>오겠다</b> &nbsp;<span style="opacity:.6">— 추측 (미래)</span><br>
+      나. 제가 <b>하겠습니다</b> &nbsp;<span style="opacity:.6">— 의지 (미래)</span><br>
+      다. 지금쯤 도착했<b>겠다</b> &nbsp;<span style="opacity:.6">— 추측 (현재·과거)</span><br>
+      라. 그때 참 <b>좋았겠다</b> &nbsp;<span style="opacity:.6">— 추측 (<b>과거</b>)</span>
+    </div>
+    <p>(라)가 결정적이다. <strong>「-았-」 뒤에 「-겠-」이 붙어 과거를 말한다.</strong> 「-겠-」이 미래 시제 표지라면 이 결합이 설명되지 않는다.</p>
+    <p><strong>지금은</strong> — 「-겠-」을 <strong>시제가 아니라 <em class="term">양태</em>(modality)</strong>로 보는 견해가 널리 받아들여진다. 양태는 <strong>명제에 대한 화자의 태도</strong>(추측·의지·가능성)를 나타낸다. 그러면 한국어의 시제는 <strong>과거와 비과거 둘</strong>이 되고, 미래는 시제가 아니라 <strong>양태로 표현되는 것</strong>이 된다.</p>
+    <p><strong>임상적 함의</strong> — 「미래 시제 산출」을 목표로 잡을 때 <strong>「-겠-」과 「-ㄹ 거야」를 한 항목으로 묶으면 안 된다.</strong> 둘은 형태도 뜻도 다르고, 「-겠-」은 <strong>추측이라는 인지적 조작</strong>을 더 요구한다.</p>
+    <p>전사본도 같은 모습을 보인다(「-ㄹ 거야」 3회 · 「-겠-」 0회). <strong>다만 이 전사본은 그런 모습을 담으려고 구성한 자료이므로, 이것을 증거로 삼으면 순환이다</strong> — <strong>예시일 뿐 근거가 아니다.</strong></p>
+  </div>
+
+  <div class="callout clinical">
+    <span class="callout-label">전사본에서 — 「-겠-」이 한 번도 없다</span>
+    <p>· 과거 「-았/었/였-」 <strong>25회</strong> &nbsp;· 「-(으)ㄹ 것이-」 <strong>3회</strong>(C03 만들 거야 · C06 할 거야 · C60 갈 거예요) &nbsp;· <strong>「-겠-」 0회</strong></p>
+    <p>9주차에서 선어말어미를 세었을 때 나온 바로 그 수치다(「-겠-」 0회). <strong>미래를 말하지 못하는 것이 아니다</strong> — C03·C06·C60에서 앞일을 분명히 말한다. <strong>「-ㄹ 거야」로 말할 뿐</strong>이다.</p>
+    <p>그리고 셋 다 <strong>자기 의도</strong>다. 「비가 오겠다」류의 <strong>남의 일에 대한 추측</strong>은 한 번도 나오지 않는다 — C28 「슬펐을 거 같아요」가 추측이지만, 이것도 「-겠-」이 아니라 <strong>「-을 거 같다」</strong>다.</p>
+  </div>
+
+  <div class="prose">
+    <h3>절대 시제와 상대 시제</h3>
+    <p>안긴 절의 시제는 <strong>무엇을 기준으로 재는가.</strong> 두 가지로 잴 수 있다.</p>
+
+    <div class="ex">
+      나는 어제 <b>청소하는</b> 동생을 도왔다.
+    </div>
+
+    <p>「청소하는」의 「-는」은 <strong>현재</strong> 관형사형이다. 그런데 청소한 것은 <strong>어제</strong>다. 모순인가.</p>
+
+    <p>아니다. <strong>기준이 다른 것</strong>이다.</p>
+    <p>· <em class="term">절대 시제</em> — <strong>발화시</strong>를 기준으로 잰다. 그러면 청소는 <strong>과거</strong>다.<br>
+       · <em class="term">상대 시제</em> — <strong>안은문장의 사건시</strong>를 기준으로 잰다. 도운 그 시점에서 보면 청소는 <strong>동시</strong>, 곧 현재다.</p>
+    <p><strong>안긴 절의 시제는 상대 시제로 읽는다.</strong> 11주차에서 관형절을 세면서 「-는」을 만났는데, 그 「-는」이 <strong>발화시 기준의 현재가 아니라는</strong> 것이 여기서 밝혀진다.</p>
+  </div>
+
+  <div class="prose">
+    <h3>동작상 — 일이 펼쳐지는 모습</h3>
+    <p><em class="term">동작상</em>(aspect)은 시제와 다르다. <strong>언제 일어났는가</strong>가 아니라 <strong>그 일이 어떻게 펼쳐지는가</strong>를 본다 — 아직 시작되지 않았는가, 진행 중인가, 끝났는가, 끝난 상태가 남아 있는가. 각각 <strong>예정 · 진행 · 완료 · 결과 지속</strong>이라 부른다.</p>
+    <p style="opacity:.86;font-size:.94rem">시제는 <strong>사건을 시간 축 위 어디에 놓는가</strong>이고, 상은 <strong>그 사건 안쪽의 어디를 보는가</strong>이다. 그래서 둘은 겹쳐 쓸 수 있다 — 「어제 비가 오려고 했다」는 <strong>과거 시제 + 예정상</strong>이다.</p>
+    <p>한국어의 상은 주로 <strong>보조용언 구성</strong>으로 나타낸다. 8주차에서 본 「본용언 + 보조용언」이 여기서 문법 범주를 짊어진다.</p>
+  </div>
+
+  <div class="interactive">
+    <h3>★ 「-고 있다」는 두 가지다</h3>
+    <p class="interactive-desc">보조용언 구성을 눌러 보세요. <strong>같은 꼴이 두 뜻으로 읽히는 자리</strong>가 있습니다.</p>
+    <div class="ibody">
+      <div class="btnrow" id="as-btns"></div>
+      <div class="ipanel" id="as-panel"></div>
+    </div>
+  </div>
+
+  <div class="callout clinical">
+    <span class="callout-label">전사본에서 — 진행이 0회다</span>
+    <p>· <strong>「-고 있다」(진행) 0회</strong> &nbsp;· <strong>「-어 있다」(결과 지속) 1회</strong> — C34 「눈이 <b>감겨 있잖아요</b>」</p>
+    <p>진행이 하나도 없다는 것을 어떻게 읽어야 하는가. <strong>표집 상황을 먼저 보라.</strong> 이 전사본의 세 상황은 자유놀이·그림책·경험 이야기다. <strong>진행상을 요구하는 질문이 한 번도 없었다</strong> — 「지금 뭐 하고 있어?」 같은 질문이 없다.</p>
+    <p><strong>0회의 뜻이 다르다</strong>는 11주차의 이야기가 또 나온다. 명사절 0회는 <strong>아직 안 쓰는 것</strong>이었고, 부사절 0회는 <strong>세는 방식의 문제</strong>였다. 진행상 0회는 <strong>쓸 자리가 없었던 것</strong>일 가능성이 크다. <strong>0을 근거로 삼으려면 왜 0인지 말할 수 있어야 한다.</strong></p>
+    <p>거꾸로 C34의 「감겨 있다」는 값진 자료다. <strong>피동 + 결과 지속</strong>이 겹쳐 있고, 아이는 그것을 <strong>그림 속 상태를 설명하려고</strong> 썼다. 형태가 맥락에서 나왔다.</p>
+  </div>
+</section>
+
+<!-- ============ §Ⅵ ============ -->
+<section id="neg" class="section">
+  <div class="section-header">
+    <span class="section-number">§ Ⅵ</span>
+    <h2>부정 — 아니라고 말하는 두 가지 길<span class="ko-en">Negation</span></h2>
+    <span class="src-badge main">이봉원 13장 · 개론서 08장 5절</span>
+  </div>
+
+  <div class="prose">
+    <p>한국어의 부정은 <strong>두 축</strong>으로 갈린다.</p>
+    <p>· <strong>무엇을 부정하는가</strong> — 「안」 부정과 「못」 부정<br>
+       · <strong>어디에 놓는가</strong> — 짧은 꼴(단형)과 긴 꼴(장형)</p>
+  </div>
+
+  <table class="data-table">
+    <thead><tr><th style="width:14%"></th><th style="width:24%">짧은 꼴 (단형)</th><th style="width:24%">긴 꼴 (장형)</th><th>무엇을 부정하는가</th></tr></thead>
+    <tbody>
+      <tr><td class="ko">「안」 부정</td><td>안 먹는다</td><td>먹지 <strong>않는다</strong></td><td><strong>단순 부정</strong>(그렇지 않다) 또는 <strong>의지 부정</strong>(안 하겠다)</td></tr>
+      <tr><td class="ko">「못」 부정</td><td>못 먹는다</td><td>먹지 <strong>못한다</strong></td><td><strong>능력 부정</strong>(할 수 없다) 또는 <strong>외적 조건</strong>에 의한 불가능</td></tr>
+      <tr><td class="ko">「말다」 부정</td><td><span class="bad">✕</span></td><td>먹지 <strong>마라</strong> · 먹지 <strong>말자</strong></td><td><strong>명령·청유</strong>에서만 쓰인다</td></tr>
+    </tbody>
+  </table>
+
+  <div class="prose">
+    <p><strong>「말다」 부정에 짧은 꼴이 없다</strong>는 데 주목하라. 「<span class="bad">*</span>안 먹어라」는 명령의 부정이 되지 못한다. <strong>명령·청유는 「말다」로만 부정된다</strong> — 문장 종류가 부정의 방식을 정하는 것이다(10주차 §Ⅶ).</p>
+
+    <h3>짧은 꼴이 안 되는 자리</h3>
+    <p>짧은 꼴은 <strong>제약이 많다.</strong> 긴 꼴은 거의 다 되는데 짧은 꼴은 자주 막힌다.</p>
+
+    <div class="ex">
+      <span class="bad">✕</span> 안 공부하다 &nbsp;→&nbsp; 공부 <b>안</b> 하다 &nbsp;<span style="opacity:.6">— 「명사+하다」는 사이를 벌려야 한다</span><br>
+      <span class="bad">?</span> 안 아름답다 &nbsp;→&nbsp; 아름답지 <b>않다</b> &nbsp;<span style="opacity:.6">— 긴 용언은 짧은 꼴이 어색하다</span><br>
+      <span class="bad">✕</span> 안 알다 &nbsp;→&nbsp; <b>모르다</b> &nbsp;<span style="opacity:.6">— 아예 다른 단어가 자리를 차지하고 있다</span><br>
+      <span class="bad">✕</span> 못 예쁘다 &nbsp;<span style="opacity:.6">— 「못」은 <b>능력</b>을 부정하는데 상태에는 능력이 없다</span>
+    </div>
+
+    <p>마지막 것이 중요하다. <strong>「못」 부정은 형용사와 잘 어울리지 않는다.</strong> 다만 긴 꼴 「예쁘지 못하다」는 <strong>기대에 못 미친다</strong>는 뜻으로 쓰인다 — <strong>같은 「못」인데 짧은 꼴과 긴 꼴의 쓰임이 다르다.</strong></p>
+
+    <h3>부정문의 중의성</h3>
+    <p>부정은 <strong>어디까지 걸리는지</strong>가 모호할 때가 많다. 이것을 부정의 <em class="term">작용역</em>(scope)이라 한다.</p>
+  </div>
+
+  <div class="interactive">
+    <h3>★ 부정문 중의성 해소</h3>
+    <p class="interactive-desc">문장을 고르고 <strong>해석</strong>을 하나씩 눌러 보세요. <strong>부정이 걸리는 자리</strong>가 색으로 표시됩니다.</p>
+    <div class="ibody">
+      <div class="btnrow" id="ng-btns"></div>
+      <div class="tsent" id="ng-sent"></div>
+      <div class="btnrow" id="ng-reads"></div>
+      <div class="ipanel" id="ng-panel"></div>
+    </div>
+  </div>
+
+  <div class="callout clinical">
+    <span class="callout-label">전사본에서 — 「-지 않다」·「-지 못하다」가 0회다</span>
+    <p>· 「안」 짧은 꼴 <strong>3회</strong> — C09 「이거 <b>안</b> 돼」 · C13 「이제 <b>안</b> 무너지지」 · C36 「빌려 가면 <b>안</b> 돼요?」<br>
+       · 「못」 짧은 꼴 <strong>2회</strong> — C16 「문이 너무 작아서 <b>못</b> 들어가」 · C50 「아직 두 발은 <b>못</b> 타」<br>
+       · <strong>긴 꼴 「-지 않다」·「-지 못하다」 0회</strong><br>
+       · 「말다」 부정 <strong>1회</strong> — C55 「<b>하지 말</b>라고 했어요」<br>
+       · 「아니다」 <strong>2회</strong> — C33 「아니다」 · C54 「나 애기 <b>아닌데</b>」</p>
+    <p><strong>짧은 꼴이 먼저 나온다</strong>는 것은 여러 발달 연구가 보고하는 방향과 맞는다. 짧은 꼴은 <strong>부사 하나를 앞에 놓으면 되지만</strong>, 긴 꼴은 <strong>「-지」로 절을 만들고 보조용언을 붙여야</strong> 하기 때문이다.</p>
+    <p>그런데 <strong>C55에는 긴 꼴이 하나 있다.</strong> 「하지 말라고」 — 짧은 꼴이 아예 없는 「말다」 부정이라 <strong>선택의 여지가 없었던</strong> 자리다. <strong>「긴 꼴을 못 쓴다」고 말할 수 없는 이유</strong>가 여기 있다.</p>
+  </div>
+
+  <div class="callout warning">
+    <span class="callout-label">「안 돼」를 부정으로 셀 것인가</span>
+    <p>C09·C36의 「안 돼」는 <strong>「되다」의 부정</strong>인가, 아니면 <strong>「안되다」라는 한 단어</strong>인가. 표준국어대사전에는 「안되다」가 <strong>두 표제어</strong>로 실려 있다 — 동사 「안되다1」(「일, 현상, 물건 따위가 좋게 이루어지지 않다」)과 형용사 「안되다2」.</p>
+    <p>이 자료는 <strong>띄어 쓴 「안 돼」를 부정 표현으로 세었다.</strong> 붙여 쓴 「안되다」로 보면 부정 표현이 <strong>3회에서 1회로</strong> 준다.</p>
+    <p><strong>또 기준의 문제다.</strong> 그리고 이번에는 <strong>띄어쓰기가 곧 문법 판정</strong>이 되는 자리다 — 3주차에서 문자언어의 규약이 분석을 좌우한다고 한 그 이야기다.</p>
+  </div>
+</section>
+
+<!-- ============ §Ⅶ ============ -->
+<section id="stack" class="section">
+  <div class="section-header">
+    <span class="section-number">§ Ⅶ</span>
+    <h2>다섯을 겹치면<span class="ko-en">Stacking the Operations</span></h2>
+    <span class="src-badge main">오늘의 종합 · 8주차 어미의 자리</span>
+  </div>
+
+  <div class="prose">
+    <p>다섯 조작은 <strong>한 문장에 겹쳐 쓸 수 있다.</strong> 그리고 겹칠 때 <strong>순서가 정해져 있다.</strong> 8주차에서 「어미의 자리가 정해져 있다」고 한 그 규칙이 여기서 문법 범주 전체로 확장된다.</p>
+
+    <div class="ex">
+      어간 &nbsp;+&nbsp; <b>피동/사동</b> &nbsp;+&nbsp; <b>주체높임 -시-</b> &nbsp;+&nbsp; <b>시제 -았/었-</b> &nbsp;+&nbsp; <b>상대높임·종결어미</b><br>
+      <span class="mono">먹 - 이 - 시 - 었 - 습니다</span> &nbsp;→&nbsp; 먹이셨습니다
+    </div>
+
+    <p><strong>순서를 바꿀 수 없다.</strong> 「<span class="bad">*</span>먹었이십니다」는 말이 되지 않는다. <strong>파생 접미사가 어간에 가장 가깝고, 종결어미가 가장 멀다</strong> — 5주차 §Ⅱ에서 「<strong>조어가 먼저이고 굴절이 나중</strong>이다」라고 한 그 순서다. 거기서도 예가 「먹이었다」였다.</p>
+
+    <p>부정은 어디에 들어가는가. <strong>짧은 꼴은 어절 앞에, 긴 꼴은 어간 뒤에</strong> 들어간다 — 그래서 부정은 이 줄 위에 놓이지 않고 <strong>따로 논다.</strong> 「안 먹이셨습니다」와 「먹이지 않으셨습니다」를 견주어 보라. 긴 꼴에서는 <strong>시제가 「않다」 쪽으로 넘어간다</strong>는 것까지 함께 보아야 한다.</p>
+  </div>
+
+  <div class="interactive">
+    <h3>★ 문장 변형기</h3>
+    <p class="interactive-desc">기본 문장에 조작을 <strong>하나씩 켜고 끄면서</strong> 형태가 어떻게 쌓이는지 보세요.</p>
+    <div class="ibody">
+      <div class="btnrow" id="tf-ops"></div>
+      <div class="tlegend">
+        <span><b style="background:#e8b6472e;border-bottom:2px solid #e8b647">이번에 더해진 것</b></span>
+      </div>
+      <div class="tsent" id="tf-out"></div>
+      <div class="ipanel" id="tf-panel"></div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <span class="callout-label">전사본에서 — 실제로 겹친 자리</span>
+    <p>C42 「할머니가 떡볶이 <b>해 주셨어요</b>」 하나에 세 가지가 겹쳐 있다.</p>
+    <p>· <strong>보조용언 「-어 주다」</strong> — 수혜자를 도입한다(§Ⅰ)<br>
+       · <strong>주체 높임 「-시-」</strong> — 할머니를 높인다(§Ⅳ)<br>
+       · <strong>과거 「-었-」</strong> — 지난 주말의 일이다(§Ⅴ)<br>
+       · <strong>상대 높임 해요체 「-어요」</strong> — 치료사에게 말한다(§Ⅳ)</p>
+    <p><span class="mono">하 - 아 주 - 시 - 었 - 어요</span> &nbsp;→&nbsp; <span class="mono">해 주셨어요</span>. <strong>4;6 아동이 네 층을 한 어절에 쌓았다.</strong></p>
+    <p>다만 <strong>「할머니가」</strong>다 — <strong>「할머니께서」가 아니다.</strong> 주체 높임의 어미는 붙였으나 조사는 붙이지 않았다. <strong>부분적 실현</strong>이고, 이 나이에 흔한 모습이다.</p>
+  </div>
+</section>
+
+<!-- ============ 분석 실습실 ============ -->
+<section id="lab" class="section">
+  <div class="section-header">
+    <span class="section-number">실습</span>
+    <h2>분석 실습실<span class="ko-en">Analysis Lab</span></h2>
+  </div>
+
+  <div class="lab">
+    <div class="lab-head">
+      <span class="tag">TYPE 4 · 조사 — 수업 중 실습</span>
+      <h3>규범과 어긋나는 높임법 열 사례</h3>
+      <p>이번 주는 제출 과제가 없습니다. 대신 <strong>수업 시간에 함께</strong> 모으고 판정합니다.</p>
+    </div>
+    <div class="lab-body">
+      <div class="prose">
+        <p><strong>준비.</strong> 지난 한 주 동안 <strong>듣거나 본</strong> 높임 표현 가운데 <strong>규범과 어긋나 보이는 것</strong>을 모아 오십시오. 카페·편의점·병원 접수대·안내 방송·배달 앱 알림·전화 상담 — 어디든 좋습니다.</p>
+        <p><strong>중요.</strong> 사례를 <strong>들은 그대로</strong> 적으십시오. 고쳐 적으면 판정할 것이 사라집니다. 그리고 <strong>누가 누구에게 한 말인지</strong>를 반드시 함께 적으십시오 — 그것 없이는 「누구를 높였는가」를 물을 수 없습니다.</p>
+      </div>
+
+      <div class="htablewrap">
+      <table class="worksheet" style="min-width:640px">
+        <thead>
+          <tr><th style="width:5%">№</th><th style="width:26%">들은 그대로</th><th style="width:14%">누가 → 누구에게</th><th style="width:13%">어느 높임법</th><th style="width:20%">무엇이 어긋났나</th><th>왜 그렇게 말하는가</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="num">예</td><td class="w">커피 나오셨습니다</td><td>점원 → 손님</td><td>주체 높임</td><td>주체가 「커피」인데 「-시-」를 붙였다 — 간접 높임의 과잉 확대</td><td>손님을 높이려는 의도가 서술어로 옮겨 붙었다</td></tr>
+          <tr><td class="num">1</td><td class="w"><input type="text" aria-label="사례 1 원문"></td><td><input type="text" aria-label="사례 1 관계"></td><td><input type="text" aria-label="사례 1 갈래"></td><td><input type="text" aria-label="사례 1 판정"></td><td><input type="text" aria-label="사례 1 이유"></td></tr>
+          <tr><td class="num">2</td><td class="w"><input type="text" aria-label="사례 2 원문"></td><td><input type="text" aria-label="사례 2 관계"></td><td><input type="text" aria-label="사례 2 갈래"></td><td><input type="text" aria-label="사례 2 판정"></td><td><input type="text" aria-label="사례 2 이유"></td></tr>
+          <tr><td class="num">3</td><td class="w"><input type="text" aria-label="사례 3 원문"></td><td><input type="text" aria-label="사례 3 관계"></td><td><input type="text" aria-label="사례 3 갈래"></td><td><input type="text" aria-label="사례 3 판정"></td><td><input type="text" aria-label="사례 3 이유"></td></tr>
+          <tr><td class="num">4</td><td class="w"><input type="text" aria-label="사례 4 원문"></td><td><input type="text" aria-label="사례 4 관계"></td><td><input type="text" aria-label="사례 4 갈래"></td><td><input type="text" aria-label="사례 4 판정"></td><td><input type="text" aria-label="사례 4 이유"></td></tr>
+          <tr><td class="num">5</td><td class="w"><input type="text" aria-label="사례 5 원문"></td><td><input type="text" aria-label="사례 5 관계"></td><td><input type="text" aria-label="사례 5 갈래"></td><td><input type="text" aria-label="사례 5 판정"></td><td><input type="text" aria-label="사례 5 이유"></td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <div class="prose">
+        <h3>함께 따질 것 넷</h3>
+        <p><strong>1. 갈래를 먼저 가른다.</strong> 주체인가 객체인가 상대인가. 「-시-」가 보이면 주체, 「께」나 「드리다」류면 객체, 종결어미 등급이면 상대다.</p>
+        <p><strong>2. 「어긋났다」의 뜻을 정한다.</strong> 규범과 어긋난 것인가, 아니면 <strong>상황에 안 맞는</strong> 것인가. 「-십시다」를 사장에게 쓰는 것은 규범 위반이 아니라 <strong>적절성</strong>의 문제다.</p>
+        <p><strong>3. 왜 퍼지는지를 설명한다.</strong> 「무식해서」는 설명이 아니다. <strong>말하는 사람이 무엇을 하려던 것인지</strong>를 재구성하십시오 — 사물 존대의 경우 답은 「손님을 높이려던 것」이다.</p>
+        <p><strong>4. 임상에 옮겨 본다.</strong> 이 사례를 대상자가 말했다면 <strong>보고서에 어떻게 적겠는가.</strong> 「높임법 오류」라고만 적으면 <strong>세 갈래 중 무엇인지, 규범 문제인지 능력 문제인지</strong>가 사라진다.</p>
+      </div>
+
+      <div class="callout">
+        <span class="callout-label">15주차의 예고이기도 하다</span>
+        <p>여기서 모은 사례는 <strong>대부분 특정 직군·특정 상황에 몰려 있을 것</strong>이다. 서비스업, 그리고 젊은 화자. <strong>말의 차이가 사람의 무리와 짝을 이룬다</strong>는 것 — 그것이 15주차 사회언어학의 출발점이다.</p>
+        <p>그때 다시 물을 것이다. <strong>이것은 「틀린 말」인가, 「다른 말」인가, 「바뀌고 있는 말」인가.</strong></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="prose">
+    <h3>이번 주의 개인 과제 — 제출하지 않음</h3>
+    <p>피동사와 사동사가 <strong>같은 꼴인 단어</strong>를 사전에서 다섯 개 더 찾으십시오. <strong>표준국어대사전에서 표제어 번호가 어떻게 갈리는지</strong>를 확인하고, 각각에 대해 <strong>문맥에서 구별하는 절차</strong>를 한 줄로 적으면 됩니다. 다음 주 수업 도입에서 몇 개를 함께 봅니다.</p>
+  </div>
+</section>
+
+<!-- ============ 임상 적용 ============ -->
+<section id="clinical" class="section">
+  <div class="section-header">
+    <span class="section-number">임상</span>
+    <h2>임상 적용<span class="ko-en">Clinical Application</span></h2>
+  </div>
+
+  <div class="prose">
+    <h3>왜 피동문이 능동문보다 어려운가</h3>
+    <p>언어 이해 검사에 <strong>피동문이 빠지지 않는다.</strong> 이유가 있다. 피동문은 <strong>어순과 의미역이 어긋나는</strong> 구조이기 때문이다.</p>
+  </div>
+
+  <table class="data-table">
+    <thead><tr><th style="width:26%"></th><th style="width:37%">능동문</th><th>피동문</th></tr></thead>
+    <tbody>
+      <tr><td class="ko">문장</td><td>고양이가 쥐를 쫓았다</td><td>쥐가 고양이에게 쫓겼다</td></tr>
+      <tr><td class="ko">첫 명사구</td><td>고양이 = <strong>행위주</strong></td><td>쥐 = <strong>대상</strong></td></tr>
+      <tr><td class="ko">어순 전략으로 읽으면</td><td>맞는다 ✓</td><td><span class="bad">틀린다 ✕</span> — 「쥐가 쫓았다」로 읽힌다</td></tr>
+      <tr><td class="ko">단서는 어디에</td><td>어순·격조사가 모두 같은 답을 준다</td><td><strong>격조사와 서술어의 꼴</strong>이 어순과 <strong>반대 답</strong>을 준다</td></tr>
+    </tbody>
+  </table>
+
+  <div class="prose">
+    <p>아이들은 <strong>「먼저 나온 명사구가 행위주」</strong>라는 전략을 일찍 세운다. 대부분의 문장에서 잘 통하기 때문이다(영어권 문헌에서 <strong>명사-동사-명사 전략</strong>이라 부르는 것으로, Bever(1970)가 처음 정리했다). 그런데 피동문은 <strong>바로 그 전략이 틀리도록</strong> 만들어져 있다.</p>
+    <p>그래서 피동문 이해 과제는 <strong>어휘를 묻는 것이 아니라 전략을 묻는다.</strong> 아이가 「쥐가 고양이에게 쫓겼다」를 그림에서 잘못 고를 때, <strong>단어를 모르는 것이 아니라 어순 전략을 버리지 못한 것</strong>이다.</p>
+
+    <h3>다만 한국어를 영어처럼 설명하면 안 된다</h3>
+    <p>영어권 문헌은 여기에 「서술어가 뒤에 있어 끝까지 들어야 한다」는 설명을 덧붙이기 쉽다. <strong>한국어에서는 사정이 조금 다르다.</strong></p>
+    <p><strong>격조사가 서술어보다 먼저 나와 역을 미리 알려 준다.</strong> 「쥐<b>가</b> 고양이<b>에게</b>」까지만 들어도 「쥐」가 행위주가 아닐 가능성이 열린다 — 「에게」가 붙은 명사구는 능동문의 목적어 자리가 아니기 때문이다. 실제로 <strong>한국어·일본어 화자는 어순보다 격표지를 우선 단서로 쓴다</strong>는 보고가 여럿이다(경쟁 모형 계열 연구).</p>
+    <p>그러면 <strong>한국어 아동의 피동문 오류는 어순 전략만으로 설명되지 않는다.</strong> 갈라야 할 것이 둘이다.</p>
+    <p>· <strong>격조사를 아직 단서로 쓰지 못하는 단계</strong>인가 — 9주차에서 조사 산출률이 목적어 자리에서 크게 떨어졌던 그 문제와 이어진다.<br>
+       · <strong>격조사는 읽는데 어순 전략이 그것을 눌러 버리는</strong> 것인가.</p>
+    <p><strong>검사 결과를 「어순 전략」 하나로 적으면 이 구별이 사라진다.</strong> 그리고 이 구별은 중재 목표를 바꾼다 — 앞이면 조사를, 뒤면 문장 처리 전략을 다루어야 한다.</p>
+
+    <h3>부정문이 검사에 자주 나오는 까닭</h3>
+    <p>부정문 이해도 단골 항목이다. 이유는 셋이다.</p>
+    <p><strong>1. 부정은 뒤집는 조작이다.</strong> 「공이 상자 안에 없다」를 이해하려면 <strong>「있다」를 먼저 표상하고 뒤집어야</strong> 한다. 한 단계가 더 든다.</p>
+    <p><strong>2. 작용역이 모호하다.</strong> §Ⅵ에서 본 「다 안 왔다」가 그것이다. <strong>어른도 갈리는 문장</strong>이므로, 검사 문항으로 쓸 때는 <strong>어느 해석을 정답으로 잡았는지</strong>가 문항 자체에 밝혀져 있어야 한다.</p>
+    <p><strong>3. 짧은 꼴과 긴 꼴의 난이도가 다르다.</strong> 「안 먹어」와 「먹지 않아」는 같은 뜻이지만 형태 부담이 다르다. <strong>「부정문 이해」라고만 적힌 목표는 무엇을 재는지 알 수 없다.</strong></p>
+
+    <h3>높임법을 목표로 삼을 때</h3>
+    <p><strong>세 갈래를 나누지 않으면 목표가 되지 않는다.</strong> 「높임말 사용하기」는 목표가 아니라 영역 이름이다.</p>
+  </div>
+
+  <table class="data-table">
+    <thead><tr><th style="width:16%">갈래</th><th style="width:26%">무엇을 보는가</th><th style="width:26%">전사본에서</th><th>목표로 쓸 때</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="ko">상대 높임</td>
+        <td>종결어미 등급을 <strong>상대에 맞게 유지</strong>하는가</td>
+        <td>등급이 드러난 55발화 중 <strong>높임 29 · 안높임 26</strong>. 인접쌍 54개 중 <strong>35회 전환</strong></td>
+        <td><strong>산출 여부가 아니라 유지</strong>가 목표다. 다만 <strong>몇 살에 안정되는지는 이 자료로 알 수 없다</strong> — 규준 연구를 찾아 확인해야 한다</td>
+      </tr>
+      <tr>
+        <td class="ko">주체 높임</td>
+        <td><strong>「-시-」와 「께서」</strong>가 함께 실현되는가</td>
+        <td><strong>「-시-」 3회</strong>(C07·C38·C42). <strong>「께서」 0회</strong> — C42는 「할머니<b>가</b>」</td>
+        <td>이 아동은 <strong>어미만 실현하고 조사는 실현하지 않았다.</strong> 부분 실현을 「오류」로만 적으면 무엇이 되고 무엇이 안 되는지가 사라진다 — 다만 <strong>「어미가 조사보다 먼저」인지는 이 자료로 확인할 수 없다</strong></td>
+      </tr>
+      <tr>
+        <td class="ko">객체 높임</td>
+        <td>특수 어휘와 <strong>「께」</strong>를 쓰는가</td>
+        <td><strong>0회.</strong> C56은 「엄마<b>한테</b>」 — 「께」가 아니다</td>
+        <td><strong>0을 곧바로 「미습득」으로 읽지 말라.</strong> 이 표집에는 <strong>쓸 맥락 자체가 없었다.</strong> 어휘를 통째로 익혀야 한다는 점(드리다·여쭙다)에서 늦으리라 짐작할 수는 있으나, <strong>근거는 이 자료 밖에서 찾아야 한다</strong></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout clinical">
+    <span class="callout-label">전사본의 등급 흔들림을 어떻게 적을 것인가</span>
+    <p>같은 치료사에게 말하면서 <strong>인접한 두 발화의 등급이 다른 경우가 54쌍 중 35쌍(64.8%)</strong>이다. C08 「그거요」 → C09 「이거 안 돼」 → C10 「자꾸 무너져요」 → C11 「그런가 봐」처럼 <strong>한 칸씩 오간다.</strong></p>
+    <p><strong>이것을 「일관성 부족」이라고 적으면 안 된다.</strong> 세 가지를 함께 적어야 뜻이 통한다.</p>
+    <p>· <strong>나이</strong> — 4;6이라는 사실을 함께 적어야 한다. <strong>몇 살에 안정되는지는 규준 연구에서 확인할 일</strong>이고, 이 자료가 답하지 못한다.<br>
+       · <strong>맥락</strong> — 상황 ①(자유놀이) 44.4% · 상황 ②(그림책) 66.7% · 상황 ③(경험 이야기) 50.0%다. <strong>아이가 활동을 주도할 때 반말이 늘어나는 것처럼 보인다</strong> — 다만 상황마다 15~22발화뿐이므로 <strong>방향을 예시할 뿐 값을 믿을 수는 없다.</strong><br>
+       · <strong>무엇이 흔들리는가</strong> — 등급을 <b>모르는</b> 것이 아니다. 해요체 종결어미를 <strong>24회</strong> 정확히 쓴다. <strong>고른 등급을 유지하는 힘</strong>이 아직 약한 것이다.</p>
+    <p>전사본 §5도 이 자리를 짚어 두었다 — C02 「블록이요」와 C03 「만들 거야」가 잇달아 나오는 대목이다.</p>
+  </div>
+
+  <div class="callout warning">
+    <span class="callout-label">이 수치를 규준으로 쓰지 말 것</span>
+    <p>위의 모든 값은 <strong>교육용으로 구성한 전사본 한 명분</strong>이다. 규준이 아니고, 표본도 아니다.</p>
+    <p>게다가 <strong>등급 판정 자체가 기준에 달렸다.</strong> 이 자료는 <strong>보조사 「요」로만 높인 다섯(C02·C08·C18·C22·C37)을 높임 쪽에 넣었다.</strong> 종결어미가 아니므로 상대 높임의 실현으로 보지 않는 견해도 있고, 그러면 <strong>높임 24 · 안높임 26으로 뒤집힌다.</strong></p>
+    <p>이 문제는 <strong>활용표 안에도 들어와 있다.</strong> 해요체 감탄 「가는군요」는 표준국어대사전에 <strong>표제어가 없다</strong> — 사전은 「-는군」(해체)에 보조사 「요」가 붙은 것으로 본다. <strong>해요체를 하나의 등급으로 세울 것인가, 「해체 + 요」로 볼 것인가</strong>가 표를 그리는 방식에 이미 담겨 있는 셈이다.</p>
+    <p><strong>기준 하나가 결론의 방향을 바꾼다</strong> — 6주차 TTR, 9주차 조사 산출률, 11주차 절 밀도에서 반복해 온 그 이야기다.</p>
+  </div>
+</section>
+
+<!-- ============ 확인 문제 ============ -->
+<section id="check" class="section">
+  <div class="section-header">
+    <span class="section-number">점검</span>
+    <h2>확인 문제<span class="ko-en">Check Your Understanding</span></h2>
+  </div>
+  <div id="check-items"></div>
+  <div class="quiz-score" id="check-score">15문항 · 하나씩 골라 보세요.</div>
+</section>
+
+<!-- ============ 참고 문헌 ============ -->
+<section id="refs" class="section">
+  <div class="section-header">
+    <span class="section-number">자료</span>
+    <h2>참고 문헌과 자료<span class="ko-en">References</span></h2>
+  </div>
+
+  <div class="prose"><h3>오늘의 교재</h3></div>
+  <table class="data-table">
+    <tbody>
+      <tr><td style="width:30%" class="ko">★ 이봉원(2015)</td><td>『언어치료사를 위한 한국어 문법』 개정판, 학지사. <span style="opacity:.65">— <b>13장 「문법 범주」</b>(높임·시제·상·부정)와 <b>14장 「피동과 사동」</b>. 14장 앞머리의 논항·격·의미역이 §Ⅰ의 토대다.</span></td></tr>
+      <tr><td class="ko">★ 홍종선 외(2022)</td><td>『쉽게 읽는 한국어학의 이해』 개정2판, 한국문화사. <span style="opacity:.65">— <b>08장 「문법 요소」</b>(변정민·유혜원). <b>이 장의 배열(피동 → 사동 → 높임 → 시제·상·양태 → 부정)이 오늘 구성의 원본</b>이다.</span></td></tr>
+    </tbody>
+  </table>
+
+  <div class="prose"><h3>사전과 규범 자료</h3></div>
+  <table class="data-table">
+    <tbody>
+      <tr><td style="width:30%" class="ko">국립국어원 『표준국어대사전』</td><td><span class="mono">stdict.korean.go.kr</span> <span style="opacity:.65">— §Ⅲ 동형 사전의 표제어 처리는 전부 여기서 확인한 것이다(2026년 조회). <b>표제어 번호가 갈리는 방식</b>을 직접 보는 것이 이 절의 목적이다.</span></td></tr>
+      <tr><td class="ko">국립국어원(2011)</td><td>『표준 언어 예절』, 국립국어원. <span style="opacity:.65">— <b>압존법의 적용 범위</b>(가정·사제 간에 한정)와 직장에서의 높임 표현. §Ⅳ.</span></td></tr>
+      <tr><td class="ko">국립국어원 『온라인 가나다』</td><td><span class="mono">korean.go.kr</span> <span style="opacity:.65">— 사물 존대와 직장 내 압존법에 관한 답변들. <b>어문 규정이 다루지 않는 자리</b>이므로 국어원도 「옳고 그름을 판단하기 어렵다」고 답하는 경우가 있다 — 그 사실 자체가 §Ⅳ의 열린 쟁점을 뒷받침한다.</span></td></tr>
+      <tr><td class="ko">고려대 한국어대사전</td><td><span style="opacity:.65">— 이 과목의 기본 사전. 뜻풀이와 용례는 이쪽을, <b>규범 확인은 표준국어대사전</b>을 쓴다.</span></td></tr>
+    </tbody>
+  </table>
+
+  <div class="prose"><h3>수치의 출처</h3></div>
+  <table class="data-table">
+    <tbody>
+      <tr><td style="width:30%" class="ko">전사본 실측</td><td><strong>3주차 배부 전사본</strong>(교육용 구성 자료)의 아동 발화 60개를 직접 태깅해 산출.
+        <br><span style="opacity:.65">
+        <b>상대 높임</b> — 등급이 드러난 55발화 중 높임 29 · 안높임 26. 높임 29 = 종결어미 해요체 24 + 보조사 「요」 5(C02·C08·C18·C22·C37). 등급이 드러나지 않은 넷은 C04·C05·C23·C32(서술어가 없거나 「거」로 끝남), 미완 하나는 C25. 인접쌍 54개 중 등급 전환 35회(64.8%). 상황별 높임 비율 — ① 18중 8(44.4%) · ② 15중 10(66.7%) · ③ 22중 11(50.0%).<br>
+        <b>주체 높임</b> — 「-시-」 3회(C07 오세요 · C38 빌려주세요 · C42 해 주셨어요). <b>「께서」 0회.</b> <b>객체 높임</b> — 0회(C56은 「엄마한테」).<br>
+        <b>시제</b> — 과거 「-았/었/였-」 <b>25회</b>(9주차 집계와 일치). 「-겠-」 <b>0회</b>. 「-(으)ㄹ 것이-」 3회(C03·C06·C60).<br>
+        <b>상</b> — 「-고 있다」 0회 · 「-어 있다」 1회(C34).<br>
+        <b>부정</b> — 「안」 단형 3(C09·C13·C36) · 「못」 단형 2(C16·C50) · <b>장형 「-지 않다」·「-지 못하다」 0</b> · 「말다」 장형 1(C55) · 「아니다」 2(C33·C54).<br>
+        <b>피동</b> 2회(C34·C35, 둘 다 「감기다」) · <b>사동</b> 1회(C48 「태우다」), 판정이 갈리는 것 1(C17).<br><br>
+        <b>판정 기준 — 밝히지 않으면 위 값은 재현되지 않는다</b><br>
+        ① 보조사 「요」만 붙은 다섯을 <b>높임 쪽에 넣었다.</b> 종결어미가 아니라는 이유로 빼면 <b>높임 24 · 안높임 26으로 뒤집힌다.</b><br>
+        ② 「안 돼」(C09·C36)를 <b>띄어 쓴 부정 표현</b>으로 보았다. 한 단어 「안되다」로 보면 「안」 부정이 3회에서 1회로 준다.<br>
+        ③ C17 「크게 만들어야」를 <b>사동으로 세지 않았다</b> — 「만들다」가 본동사로 살아 있다고 보았다. 「-게 만들다」 사동으로 보면 통사적 사동 1회가 더해진다.<br>
+        ④ 「무너지다」(C10·C13)를 <b>피동으로 세지 않았다</b> — 대응하는 「*무너다」가 없기 때문이다.<br>
+        ⑤ 「놀리다」(C52)를 <b>사동으로 세지 않았다</b> — 표준국어대사전의 「놀리다1」(짓궂게 굴다)은 「놀다」의 사동사가 아니라 별개 표제어다. 「놀다」의 사동사는 「놀리다3」이다.<br>
+        ⑥ 「-어 주다」(C42·C48)는 <b>수혜의 보조용언</b>으로 보아 사동에 넣지 않았다.<br><br>
+        <b>이 여섯 중 하나만 바꿔도 값이 달라진다</b> — 그래서 교육용 자료이고 규준이 아니다.</span></td></tr>
+    </tbody>
+  </table>
+
+  <div class="prose"><h3>더 볼 사람에게</h3></div>
+  <table class="data-table">
+    <tbody>
+      <tr><td style="width:30%" class="ko">★ 남기심·고영근·유현경·최형용(2019)</td><td>『새로 쓴 표준 국어문법론』, 한국문화사. <span style="opacity:.65">— 문법 범주 전반의 표준적 서술. <b>상대 높임 6등급 표</b>가 여기서 왔다. 다만 피동·사동은 <b>파생/통사 이분</b>이 기본이고, <b>어휘적 갈래(-되다·-시키다)를 셋째로 세우는 삼분은 개론서 08장</b>의 처리다.</span></td></tr>
+      <tr><td class="ko">★ 고영근·구본관(2018)</td><td>『우리말 문법론』 개정판, 집문당. <span style="opacity:.65">— 피동·사동 접미사가 붙는 어간의 목록과 그 불규칙성을 상세히 다룬다. §Ⅱ의 「규칙이 아니라 목록」을 더 볼 사람에게.</span></td></tr>
+      <tr><td class="ko">박재연(2006)</td><td>『한국어 양태 어미 연구』, 태학사. <span style="opacity:.65">— 「-겠-」을 비롯한 양태 어미를 본격적으로 다룬 연구서. §Ⅴ의 열린 쟁점.</span></td></tr>
+      <tr><td class="ko">Sohn, H.-M. (1999)</td><td><em>The Korean Language</em>, Cambridge University Press. <span style="opacity:.65">— 한국어의 높임·피동·사동을 영어로 기술한다. 유형론적 비교에 유용하다.</span></td></tr>
+      <tr><td class="ko">Bever, T. G. (1970)</td><td>The cognitive basis for linguistic structures. In J. R. Hayes (Ed.), <em>Cognition and the Development of Language</em>, Wiley, 279–362. <span style="opacity:.65">— <b>명사-동사-명사 전략</b>을 정리한 원 논문. §임상의 「어순 전략」이 여기서 왔다. <b>영어 자료에 근거한 것</b>임을 유의할 것.</span></td></tr>
+      <tr><td class="ko">MacWhinney, B. &amp; Bates, E. (Eds.) (1989)</td><td><em>The Crosslinguistic Study of Sentence Processing</em>, Cambridge University Press. <span style="opacity:.65">— <b>경쟁 모형</b>(Competition Model). 언어마다 어순·격표지·생물성 중 어느 단서가 우세한지를 비교한다. <b>한국어·일본어에서 격표지가 어순보다 우세하다</b>는 §임상의 서술이 이 계열의 보고다.</span></td></tr>
+    </tbody>
+  </table>
+
+  <div class="prose"><h3>직접 써 볼 자료</h3></div>
+  <div class="mini-grid">
+    <div class="mini">
+      <span class="mtag">이전 주차</span>
+      <h5>8주차 §Ⅰ 어미의 자리</h5>
+      <p>「선어말어미의 자리가 정해져 있다」던 그 규칙이 §Ⅶ에서 <strong>문법 범주 전체의 순서</strong>로 확장됩니다.</p>
+    </div>
+    <div class="mini">
+      <span class="mtag">이전 주차</span>
+      <h5>9주차 §Ⅳ 어미 계층</h5>
+      <p>선어말어미 28회의 내역(었14·았7·였4·시3)이 오늘 §Ⅳ·§Ⅴ의 근거입니다. <strong>「-겠-」 0회</strong>도 거기서 나왔습니다.</p>
+    </div>
+    <div class="mini">
+      <span class="mtag">이전 주차</span>
+      <h5>10주차 §Ⅲ 자릿수</h5>
+      <p>피동은 자리를 줄이고 사동은 늘립니다. <strong>격틀 탐색기</strong>를 다시 열어 두고 §Ⅱ·§Ⅲ을 보십시오.</p>
+    </div>
+    <div class="mini">
+      <span class="mtag">이번 주 · 필수</span>
+      <h5>표준국어대사전</h5>
+      <p><span class="mono">stdict.korean.go.kr</span>에서 <strong>보이다 · 읽히다 · 업히다 · 안기다 · 잡히다 · 감기다</strong>를 직접 검색해 보십시오. <strong>표제어 번호</strong>가 답입니다.</p>
+    </div>
+  </div>
+
+  <div class="week-nav">
+    <div>
+      <span class="lbl">이전</span>
+      <b>제11주 — 문장의 확대</b>
+      <p>내포와 접속. 절 밀도와 C-unit. 오늘의 §Ⅴ 상대 시제가 그 주의 관형절을 다시 읽습니다.</p>
+    </div>
+    <div>
+      <span class="lbl">다음</span>
+      <b>제13주 — 의미론</b>
+      <p>BLOCK E가 시작됩니다. 오늘의 <strong>의미역</strong>이 거기서 <strong>성분 분석</strong>으로 이어집니다.</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="colophon">
+    <p class="mn">한국어학 · 제12주 · BLOCK D 통사 · 나사렛대학교 언어치료학과</p>
+    <p>이봉원(2015) 『언어치료사를 위한 한국어 문법』 개정판 13·14장<br>홍종선 외(2022) 『쉽게 읽는 한국어학의 이해』 개정2판 08장</p>
+    <p class="epigraph">"다섯은 서로 다른 것을 하는 것처럼 보이지만, 하는 일은 같다 — 문장 하나를 받아 새 문장을 내놓는다."<br>— §Ⅶ, 다섯을 겹치면</p>
+    <p style="font-size:.72rem;opacity:.55;margin-top:1rem">전사본 수치는 교육용 구성 자료의 것이므로 규준이 아니다. 태깅 기준을 바꾸면 값이 달라진다.</p>
+  </div>
+</footer>
+
+<script>
+/* ===== §Ⅰ 의미역 배당기 ===== */
+/* parts: [텍스트, 의미역 또는 ''] */
+const SRS=[
+ {btn:'나는 따뜻하다',
+  parts:[['나는','경험주'],['따뜻하다','']],
+  n:'주어가 <b>따뜻함을 느끼는 쪽</b>이다. 「따뜻하다」가 <b>감각</b>을 뜻하는 쓰임이다.'},
+ {btn:'잔이 따뜻하다',
+  parts:[['잔이','대상'],['따뜻하다','']],
+  n:'주어가 <b>따뜻함을 지닌 쪽</b>이다. 잔은 느끼지 않는다. 같은 서술어인데 <b>주어의 역이 다르다.</b>'},
+ {btn:'옷이 따뜻하다',
+  parts:[['옷이','도구'],['따뜻하다','']],
+  n:'주어가 <b>따뜻하게 해 주는 쪽</b>이다. 옷 자체가 따뜻한 것이 아니라 <b>사람을 따뜻하게 하는 수단</b>이다. <b>셋 다 주격조사가 붙은 주어인데 역이 셋 다 다르다</b> — 격으로는 이 차이를 잡을 수 없다.'},
+ {btn:'C48 오빠가 자전거 태워 줬어',
+  parts:[['오빠가','행위주'],['(나를)','피사동주'],['자전거','처소 / 착점'],['태워 줬어','']],
+  n:'<b>사동</b>이므로 행위주가 하나 늘어 있다. 「타다」의 주체는 <b>나</b>인데, 「태우다」가 되면서 <b>오빠</b>가 앞에 섰다 — 「나」는 <b>행위주에서 밀려난 자리</b>이고 이것을 <b>피사동주</b>라 한다. 그리고 <b>「-어 주다」가 수혜의 뜻을 얹었다</b> — 내가 덕을 본 쪽이다.<br><br><b>「자전거」는 판정이 갈린다.</b> 「자전거<b>에</b> 태우다」로 조사를 되살리면 <b>착점</b>으로 볼 근거가 생기고(사전의 「태우다2」가 「탈것…<b>에</b> 몸을 얹게 하다」다), 「타고 있는 동안 있는 곳」을 앞세우면 <b>처소</b>다. <b>둘 다 근거가 있다</b> — §Ⅰ 배당 기준 ②를 보라.'},
+ {btn:'C39 할머니 집에 갔어요',
+  parts:[['(나는)','행위주'],['할머니 집에','착점'],['갔어요','']],
+  n:'주어가 생략되었으나 <b>행위주</b>다. 「에」는 <b>착점</b>을 표시한다 — 움직임이 가 닿는 곳이다. 같은 「에」가 「집<b>에</b> 있다」에서는 <b>처소</b>가 된다. <b>서술어가 역을 정한다.</b>'},
+ {btn:'C42 할머니가 떡볶이 해 주셨어요',
+  parts:[['할머니가','행위주'],['(나에게)','수혜자'],['떡볶이','대상'],['해 주셨어요','']],
+  n:'<b>수혜자</b>가 표면에 없다. 그런데 <b>「-어 주다」가 그 자리를 요구한다</b> — 누군가를 위해 한 것이다. 10주차 §임상의 <b>「논항 생략 판정 절차」</b>가 여기서 의미역으로 작동한다.<br><br>「-시-」가 붙었으므로 <b>할머니를 높인다</b>(§Ⅳ). 다만 조사는 「께서」가 아니라 「가」다.'}
+];
+const srBtns=document.getElementById('sr-btns'),srLine=document.getElementById('sr-line'),srPanel=document.getElementById('sr-panel');
+SRS.forEach((x,i)=>{
+  const b=document.createElement('button');
+  b.className='ibtn'+(i===0?' active':'');b.textContent=x.btn;
+  b.onclick=()=>{[...srBtns.children].forEach(c=>c.classList.remove('active'));b.classList.add('active');renderSr(x);};
+  srBtns.appendChild(b);
+});
+function renderSr(x){
+  srLine.innerHTML=x.parts.map(p=>p[1]
+    ? '<span class="rchip"><small>'+p[1]+'</small>'+p[0]+'</span>'
+    : '<span style="opacity:.75">'+p[0]+'</span>').join(' ');
+  srPanel.innerHTML='<p class="note">'+x.n+'</p>';
+}
+renderSr(SRS[0]);
+
+/* ===== §Ⅱ 피동 세 갈래 ===== */
+/* w: [텍스트, ''|'add'|'mv'|'gone'] */
+const PVS=[
+ {btn:'파생적 피동 — 접미사',
+  ttl:'-이 · -히 · -리 · -기',
+  a:[['아이가','mv'],[' 문을','mv'],[' 닫았다','']],
+  b:[['문이','mv'],[' (아이에게)','mv'],[' 닫','' ],['히','add'],['었다','']],
+  n:'<b>짧은 피동</b>이라고도 한다. 목적어 「문을」이 <b>주어 「문이」</b>가 되고, 주어 「아이가」는 <b>부사어 「아이에게」</b>로 밀려나거나 아예 빠진다.<br><br><b>어떤 동사에 어떤 접미사가 붙는지는 예측할 수 없다</b> — 닫다→닫히다, 열다→열리다, 먹다→먹히다, 안다→안기다. <b>규칙이 아니라 목록</b>이다.'},
+ {btn:'통사적 피동 — -어지다',
+  ttl:'-아/어지다',
+  a:[['사람들이','mv'],[' 다리를','mv'],[' 만들었다','']],
+  b:[['다리가','mv'],[' 만들어','' ],['지','add'],['었다','']],
+  n:'<b>긴 피동</b>이다. 접미사와 달리 <b>거의 모든 타동사에 붙는다</b> — 생산성이 훨씬 높다.<br><br>그래서 <b>접미사 피동이 없는 동사</b>도 이 방법으로는 피동이 된다. 「마시다」에는 붙는 접미사가 없지만 「마셔지다」는 된다.<br><br><b>주의</b> — 「-어지다」가 붙었다고 다 피동은 아니다. 「예뻐지다·좋아지다」는 <b>형용사에 붙어 상태 변화</b>를 뜻한다. <b>어간이 타동사인지부터 보라.</b>'},
+ {btn:'어휘적 피동 — 되다·당하다·받다',
+  ttl:'명사 + 되다/당하다/받다',
+  a:[['경찰이','gone'],[' 범인을','mv'],[' 체포했다','']],
+  b:[['범인이','mv'],[' 체포','' ],['당했다','add']],
+  n:'주로 <b>한자어 명사</b>에 붙는다. 능동은 「-하다」, 피동은 「-되다·-당하다·-받다」다.<br><br>셋의 뜻이 조금씩 다르다 — <b>「-되다」는 중립</b>(사용되다), <b>「-당하다」는 부정적</b>(무시당하다), <b>「-받다」는 중립이거나 긍정적</b>(사랑받다). <b>같은 피동이라도 화자의 평가가 실린다.</b><br><br>이것을 피동으로 볼 것인지는 갈린다 — <b>파생 접미사가 아니라 별개의 용언</b>이기 때문이다.'},
+ {btn:'전사본 C34 · C35',
+  ttl:'감기다 — 유일한 피동',
+  a:[['(누가)','gone'],[' 눈을','mv'],[' 감았다','']],
+  b:[['눈이','mv'],[' 감','' ],['기','add'],['어 있잖아요','']],
+  n:'전사본의 <b>피동 두 번이 모두 이 단어</b>다(C34 「감겨 있잖아요」, C35 「감겼어」).<br><br>주목할 것 둘. ① <b>행위주가 아예 없다</b> — 그림 속 거북이가 스스로 감은 것이므로 「누구에게」를 넣을 자리가 없다. ② <b>「-어 있다」가 붙어 결과 지속</b>까지 나타낸다(§Ⅴ). <b>피동과 상이 겹친 자리</b>다.<br><br>그리고 「감기다」는 <b>사동사이기도 하다.</b> 다음 절에서 본다.'}
+];
+const pvBtns=document.getElementById('pv-btns'),pvA=document.getElementById('pv-a'),
+      pvB=document.getElementById('pv-b'),pvPanel=document.getElementById('pv-panel');
+PVS.forEach((x,i)=>{
+  const b=document.createElement('button');
+  b.className='ibtn'+(i===0?' active':'');b.textContent=x.btn;
+  b.onclick=()=>{[...pvBtns.children].forEach(c=>c.classList.remove('active'));b.classList.add('active');renderPv(x);};
+  pvBtns.appendChild(b);
+});
+function tline(w){return w.map(p=>'<span class="tk'+(p[1]?' '+p[1]:'')+'">'+p[0]+'</span>').join('');}
+function renderPv(x){
+  pvA.innerHTML='<span style="font-family:var(--mono);font-size:.68rem;opacity:.5;letter-spacing:.1em">능동 &nbsp;</span>'+tline(x.a);
+  pvB.innerHTML='<span style="font-family:var(--mono);font-size:.68rem;opacity:.5;letter-spacing:.1em">피동 &nbsp;</span>'+tline(x.b);
+  pvPanel.innerHTML='<h4>'+x.ttl+'</h4><p class="note">'+x.n+'</p>';
+}
+renderPv(PVS[0]);
+
+/* ===== §Ⅲ 사동 세 갈래 ===== */
+const CVS=[
+ {btn:'파생적 사동 — 접미사',
+  ttl:'-이 · -히 · -리 · -기 · -우 · -구 · -추',
+  a:[['아이가','mv'],[' 밥을','' ],[' 먹었다','']],
+  b:[['엄마가','add'],[' 아이에게','mv'],[' 밥을','' ],[' 먹','' ],['이','add'],['었다','']],
+  n:'<b>주어가 하나 새로 생긴다.</b> 원래 주어 「아이가」는 <b>부사어 「아이에게」</b>로 한 칸 밀려난다. 자릿수가 <b>2에서 3으로</b> 는다.<br><br>피동 접미사보다 <b>셋이 많다</b> — 「-우-·-구-·-추-」가 더 있다(태우다·달구다·낮추다). <b>겹치는 넷(-이·-히·-리·-기)이 문제를 만든다.</b><br><br><b>직접·간접 두 뜻으로 다 읽힌다</b> — 엄마가 <b>직접 떠먹였을</b> 수도 있고 <b>먹으라고 시켰을</b> 수도 있다.'},
+ {btn:'통사적 사동 — -게 하다',
+  ttl:'-게 하다',
+  a:[['아이가','mv'],[' 밥을','' ],[' 먹었다','']],
+  b:[['엄마가','add'],[' 아이','mv'],['에게',''],[' 밥을','' ],[' 먹','' ],['게 했다','add']],
+  n:'거의 <b>모든 용언에 붙는다</b> — 생산성이 높다. 접미사 사동이 없는 동사도 이 방법으로는 사동이 된다.<br><br>그리고 <b>뜻이 다르다.</b> 「-게 하다」는 대체로 <b>간접</b>으로만 읽힌다 — 엄마가 <b>시켰다</b>는 뜻이지, 직접 떠먹였다는 뜻이 아니다.<br><br><b>이것이 두 사동을 가르는 핵심</b>이다. 파생적 사동은 직접·간접 둘 다, 통사적 사동은 <b>간접</b>이 기본이다.'},
+ {btn:'어휘적 사동 — 시키다',
+  ttl:'명사 + 시키다',
+  a:[['아이가','mv'],[' 공부를','' ],[' 했다','']],
+  b:[['엄마가','add'],[' 아이에게','mv'],[' 공부를','' ],[' ','' ],['시켰다','add']],
+  n:'한자어 명사에 「-하다」 대신 <b>「-시키다」</b>를 붙인다. 「-되다」가 피동 쪽이라면 「-시키다」가 사동 쪽이다.<br><br><b>과잉 사용에 주의</b> — 「소개시키다·교육시키다」처럼 <b>사동의 뜻이 없는데도</b> 「-시키다」를 쓰는 일이 흔하다. 「친구를 소개시켰다」는 「소개했다」로 충분하다. 규범 쪽에서 지적하는 대표적 자리다.'},
+ {btn:'직접 vs 간접 — 나란히',
+  ttl:'같은 사건, 다른 뜻',
+  a:[['엄마가',''],[' 아이에게',''],[' 옷을',''],[' 입','' ],['혔','add'],['다','']],
+  b:[['엄마가',''],[' 아이에게',''],[' 옷을',''],[' 입','' ],['게 했','add'],['다','']],
+  n:'위는 <b>파생적</b>, 아래는 <b>통사적</b> 사동이다.<br><br>· 위 「입혔다」 — <b>엄마가 직접 입혀 주었다</b>로도, <b>입으라고 시켰다</b>로도 읽힌다. <b>중의적</b>이다.<br>· 아래 「입게 했다」 — <b>시켰다</b>는 뜻만 남는다.<br><br><b>형태가 짧을수록 사건이 가깝다</b>는 것 — 언어에서 널리 관찰되는 경향이다. 접미사는 어간에 붙어 <b>한 사건</b>처럼 굳고, 「-게 하다」는 <b>두 사건</b>으로 갈라진다.<br><br><b>다만 늘 그런 것은 아니다.</b> 파생적 사동이 <b>어휘마다 다르다</b> — 「먹이다·입히다」는 중의적이지만 <b>「읽히다」는 간접에 가깝고 「높이다·넓히다」는 직접뿐</b>이다. <b>「-게 하다」가 간접 쪽으로 기운다는 것이 더 안정된 관찰</b>이고, 파생 쪽은 <b>단어마다 확인해야 한다.</b> 여기서도 규칙이 아니라 목록이다.'},
+ {btn:'전사본 C48',
+  ttl:'태우다 — 유일한 사동',
+  a:[['(내가)','mv'],[' 자전거를','' ],[' 탔다','']],
+  b:[['오빠가','add'],[' (나를)','mv'],[' 자전거','' ],[' 태','' ],['우','add'],['어 줬어','']],
+  n:'「타다」에 <b>「-우-」</b>가 붙은 파생적 사동이다. 표준국어대사전의 「태우다」는 <b>일곱 표제어이고 전부 사동사</b>인데, 그 일곱은 <b>서로 다른 일곱 개의 「타다」</b>에서 각각 나왔다. C48은 <b>「태우다2」</b>(탈것에 몸을 얹게 하다)다. <b>피동은 하나도 없으므로 헷갈릴 여지가 없다.</b><br><br>「-어 주다」가 더 붙어 <b>수혜</b>의 뜻이 얹혔다. <b>사동 + 수혜</b>가 겹친 자리다.<br><br>전사본의 사동은 이것 하나다. C17 「크게 만들어야」는 <b>판정이 갈린다</b> — 아이가 블록으로 실제로 짓고 있으므로 「만들다」가 본동사일 수 있다.'}
+];
+const cvBtns=document.getElementById('cv-btns'),cvA=document.getElementById('cv-a'),
+      cvB=document.getElementById('cv-b'),cvPanel=document.getElementById('cv-panel');
+CVS.forEach((x,i)=>{
+  const b=document.createElement('button');
+  b.className='ibtn'+(i===0?' active':'');b.textContent=x.btn;
+  b.onclick=()=>{[...cvBtns.children].forEach(c=>c.classList.remove('active'));b.classList.add('active');renderCv(x);};
+  cvBtns.appendChild(b);
+});
+function renderCv(x){
+  const la=x.btn.indexOf('직접')===0?'파생':'주동', lb=x.btn.indexOf('직접')===0?'통사':'사동';
+  cvA.innerHTML='<span style="font-family:var(--mono);font-size:.68rem;opacity:.5;letter-spacing:.1em">'+la+' &nbsp;</span>'+tline(x.a);
+  cvB.innerHTML='<span style="font-family:var(--mono);font-size:.68rem;opacity:.5;letter-spacing:.1em">'+lb+' &nbsp;</span>'+tline(x.b);
+  cvPanel.innerHTML='<h4>'+x.ttl+'</h4><p class="note">'+x.n+'</p>';
+}
+renderCv(CVS[0]);
+
+/* ===== §Ⅲ 피동사·사동사 동형 사전 ===== */
+/* rows: [표제어, 갈래, 뜻풀이 요약, 예문] */
+const HMS=[
+ {btn:'감기다 ★',base:'감다 (눈을)',both:true,
+  rows:[['감기다1','피동','눈꺼풀이 내려와 눈동자가 덮이다','전사본 C34 「눈이 <b>감겨</b> 있잖아요」'],
+        ['감기다3','사동','다른 사람의 눈꺼풀을 내려 눈동자가 덮이게 하다','엄마가 아이 눈을 <b>감겼다</b>']],
+  n:'표준국어대사전은 <b>「감기다」를 다섯 표제어</b>로 나눈다. 그중 <b>1이 피동, 3이 사동</b>이고 <b>어간이 같은 「감다」(눈을 감다)</b>다. 나머지는 다른 「감다」(실을 감다 · 머리를 감다)에서 나온 것들이다.<br><br><b>전사본이 준 선물</b>이다 — 아이가 쓴 단어 하나가 오늘 절의 핵심 사례가 되었다.'},
+ {btn:'보이다',base:'보다',both:true,
+  rows:[['보이다1','피동','눈으로 대상의 존재나 형태적 특징을 알게 되다','산이 <b>보인다</b>'],
+        ['보이다2','사동','눈으로 대상의 존재나 형태적 특징을 알게 하다','사진을 <b>보였다</b>']],
+  n:'뜻풀이가 <b>「알게 되다」와 「알게 하다」</b>로 딱 한 글자만 다르다. 사전이 피동과 사동을 어떻게 구별해 적는지 보여 주는 <b>가장 깔끔한 예</b>다.<br><br>문맥에서 가르는 법 — <b>주어가 보는 쪽인가 보게 하는 쪽인가.</b> 「산이 보인다」의 산은 <b>보이는 대상</b>이고, 「사진을 보였다」의 주어는 <b>보게 한 사람</b>이다. 여기서는 목적어 유무도 함께 간다.'},
+ {btn:'읽히다',base:'읽다',both:true,
+  rows:[['읽히다1','피동','글이나 글자가 그 음대로 소리 내어 말로 나타내지다','이 책은 잘 <b>읽힌다</b>'],
+        ['읽히다2','사동','글이나 글자를 보고 그 음대로 나타내게 하다','아이에게 책을 <b>읽혔다</b>']],
+  n:'사동 쪽은 <b>자리가 셋</b>이다(누가 · 누구에게 · 무엇을). 피동 쪽은 <b>하나</b>다. <b>자릿수를 세면 갈린다</b> — 10주차의 격틀이 판별 도구가 된다.'},
+ {btn:'업히다',base:'업다',both:true,
+  rows:[['업히다1','피동','다른 사람의 등에 매달려 붙어 있게 되다','아기가 <b>업혔다</b>'],
+        ['업히다2','사동','어떤 사람이 다른 사람에게 또 다른 사람을 업게 하다','엄마가 언니에게 아기를 <b>업혔다</b>']],
+  n:'사동 쪽 뜻풀이에 <b>사람이 셋</b> 나온다는 데 주목하라 — 시키는 사람 · 업는 사람 · 업히는 사람. <b>사동은 참여자를 늘린다.</b>'},
+ {btn:'안기다',base:'안다',both:true,
+  rows:[['안기다1','피동','끌어당겨지거나 그렇게 되어 품 안에 있게 되다','아이가 엄마에게 <b>안겼다</b>'],
+        ['안기다2','사동','두 팔로 감싸게 하거나 품 안에 있게 하다','아이를 할머니에게 <b>안겼다</b>']],
+  n:'<b>같은 조사 「에게」가 양쪽에 다 나온다</b>는 것이 함정이다. 피동에서는 <b>행위주</b>(안는 사람), 사동에서는 <b>피사동주</b>(안게 되는 사람)다. <b>조사만 보아서는 안 된다</b> — 목적어와 함께 <b>주어가 당하는 쪽인지</b>를 보아야 한다.'},
+ {btn:'잡히다',base:'잡다',both:true,
+  rows:[['잡히다2','피동','붙들려 손에 넣어지다','범인이 <b>잡혔다</b>'],
+        ['잡히다3','사동','손으로 움키고 놓지 않게 하다','아이에게 손잡이를 <b>잡혔다</b>']],
+  n:'번호가 <b>2와 3</b>이다 — 「잡히다1」은 <b>「얼음이 얼기 시작하다」</b>로, 「잡다」와 무관한 <b>별개의 동음이의어</b>다. <b>번호가 이어져 있다고 관련이 있는 것이 아니다.</b><br><br><b>그리고 이것이 「목적어가 있으면 사동」의 반례다.</b> 「도둑이 경찰에게 <b>손목을</b> 잡혔다」 — 목적어가 있는데 <b>피동</b>이다. 도둑은 시킨 사람이 아니라 <b>당한 사람</b>이다. <b>주어가 당하는 쪽인지부터 보아야 한다.</b>'},
+ {btn:'닫히다 — 피동만',base:'닫다',both:false,
+  rows:[['닫히다','피동','열린 문짝·뚜껑·서랍 따위가 도로 제자리로 가 막히다','문이 <b>닫혔다</b>'],
+        ['—','사동','<span style="opacity:.5">표제어가 없다</span>','<span class="bad">✕</span> 사동은 「닫게 하다」로 만든다']],
+  n:'<b>모든 동사가 양쪽을 다 갖지는 않는다.</b> 「닫히다」는 피동뿐이다. 사동이 필요하면 <b>통사적 사동 「-게 하다」</b>를 써야 한다.<br><br><b>빈칸이 있다는 것이 중요하다</b> — 파생은 규칙이 아니라 목록이라는 §Ⅱ의 이야기가 여기서도 확인된다.'},
+ {btn:'먹이다 · 태우다 — 사동만',base:'먹다 · 타다',both:false,
+  rows:[['먹이다','사동','음식 따위를 입을 통하여 뱃속에 들여보내게 하다','아이에게 밥을 <b>먹였다</b>'],
+        ['태우다1~7','사동','<b>일곱 개의 「타다」</b> 각각의 사동사 — C48은 「태우다2」','전사본 C48 「자전거 <b>태워</b> 줬어」'],
+        ['—','피동','<span style="opacity:.5">표제어가 없다</span>','<span class="bad">✕</span> 「먹다」의 피동은 <b>「먹히다」</b>로 꼴이 다르다']],
+  n:'거꾸로 <b>사동만 있는</b> 경우다. 「먹다」는 피동과 사동이 <b>다른 꼴</b>을 쓴다 — 피동 「먹히다」, 사동 「먹이다」. <b>접미사가 갈라져 있으면 헷갈릴 일이 없다.</b><br><br><b>「태우다」는 전사본의 사동</b>인데, 피동이 아예 없으므로 <b>판정이 흔들리지 않는다.</b> C48이 다루기 쉬운 예인 이유다.'}
+];
+const hmBtns=document.getElementById('hm-btns'),hmPanel=document.getElementById('hm-panel');
+HMS.forEach((x,i)=>{
+  const b=document.createElement('button');
+  b.className='ibtn'+(i===0?' active':'');b.textContent=x.btn;
+  b.onclick=()=>{[...hmBtns.children].forEach(c=>c.classList.remove('active'));b.classList.add('active');renderHm(x);};
+  hmBtns.appendChild(b);
+});
+function renderHm(x){
+  let t='<table class="itable"><thead><tr><th style="width:16%">표제어</th><th style="width:10%">갈래</th><th style="width:36%">뜻풀이 요약 (표준국어대사전)</th><th>예</th></tr></thead><tbody>';
+  x.rows.forEach(r=>{
+    const col=r[1]==='피동'?'#8fb8d8':(r[1]==='사동'?'#e8b647':'#a8a8a8');
+    t+='<tr><td class="mono" style="opacity:.85">'+r[0]+'</td><td style="color:'+col+';font-weight:700">'+r[1]+'</td><td>'+r[2]+'</td><td>'+r[3]+'</td></tr>';
+  });
+  t+='</tbody></table>';
+  hmPanel.innerHTML='<h4>'+x.btn.replace(' ★','')+' <span style="font-family:var(--mono);font-size:.72rem;opacity:.55">← '+x.base+'</span></h4>'+t+
+    '<p class="note">'+x.n+'</p>';
+}
+renderHm(HMS[0]);
+
+/* ===== §Ⅳ 상대 높임법 활용표 ===== */
+const HLV=[['하십시오체','격식 · 아주높임'],['하오체','격식 · 예사높임'],['하게체','격식 · 예사낮춤'],
+           ['해라체','격식 · 아주낮춤'],['해요체','비격식 · 두루높임'],['해체','비격식 · 두루낮춤']];
+const HMOOD=['평서','의문','명령','청유','감탄'];
+const HGS=[
+ {btn:'가다 (동사)',type:'V',
+  cells:{
+   '하십시오체':['갑니다','갑니까?','가십시오','가십시다','✕'],
+   '하오체':['가오','가오?','가오','갑시다','가는구려'],
+   '하게체':['가네','가는가?','가게','가세','가는구먼'],
+   '해라체':['간다','가느냐?','가라','가자','가는구나'],
+   '해요체':['가요','가요?','가요','가요','가는군요'],
+   '해체':['가','가?','가','가','가는군']},
+  n:'<b>동사이므로 다섯 칸이 대체로 채워진다.</b> 그런데 <b>하십시오체 감탄만 비어 있다</b>(✕) — 이 등급에는 감탄형 종결어미가 아예 없다. <b>등급 쪽 사정</b>이다.<br><br>그리고 <b>해요체와 해체를 보라</b> — 평서·의문·명령·청유가 <b>형태상 똑같다.</b> 무엇이 가르는가. <b>억양</b>이다(2주차 §Ⅴ). 비격식체는 <b>형태를 줄이고 운율에 맡긴다.</b><br><br>청유의 「가십시다」에는 단서가 붙는다 — 사전은 이 어미를 <b>「비교적 격의 없는 상대에게」</b>라고 풀이한다. 아주 높여야 할 상대에게는 <b>「가시지요」</b> 쪽이 낫다.<br><br><b>두 칸에는 틀 표시가 필요하다.</b><br>· <b>하게체 감탄 「가는구먼」</b> — 학교 문법의 6등급 표는 여기에 「-구먼」을 놓지만, <b>표준국어대사전은 「-구먼」을 「-군」의 본말로 처리하고 「-군」을 「해할 자리」로 푼다</b>. 사전 기준이면 <b>해체</b>다. 이 표는 학교 문법 쪽을 따랐다.<br>· <b>해요체 감탄 「가는군요」</b> — <b>사전에 표제어가 없다.</b> 사전은 「-는군」(해체)에 <b>보조사 「요」</b>가 붙은 것으로 본다. <b>전사본 계수에서 문제 삼은 바로 그 「요」</b>가 활용표 안에도 들어와 있는 것이다 — 해요체를 하나의 등급으로 세울지, <b>「해체 + 요」</b>로 볼지가 <b>표를 그리는 방식에 이미 담겨 있다.</b>'},
+ {btn:'예쁘다 (형용사)',type:'A',
+  cells:{
+   '하십시오체':['예쁩니다','예쁩니까?','△','△','✕'],
+   '하오체':['예쁘오','예쁘오?','△','△','예쁘구려'],
+   '하게체':['예쁘네','예쁜가?','△','△','예쁘구먼'],
+   '해라체':['예쁘다','예쁘냐?','△','△','예쁘구나'],
+   '해요체':['예뻐요','예뻐요?','△','△','예쁘군요'],
+   '해체':['예뻐','예뻐?','△','△','예쁘군']},
+  n:'<b>명령과 청유가 세로로 통째로 빈다</b> — <b>△</b>다. 「-어라」와 「-자」는 <b>엄연히 있는데</b> 형용사 어간에 붙지 못하는 것이다. 상태는 시켜서 되는 것이 아니기 때문이다. 8주차 §Ⅴ의 활용표에서 본 빈칸이 문장 층위에서 다시 나타난 것이다.<br><br>하십시오체 감탄 칸만 <b>✕</b>다 — 이쪽은 <b>어미 자체가 없다.</b> 동사로 바꿔도 그 칸은 빈다.<br><br><b>△와 ✕를 한 기호로 뭉개면 안 된다.</b> 세로줄과 가로줄이 서로 다른 이유로 비어 있다.<br><br>「건강하세요」 같은 말은 예외로 보인다. 이것은 <b>덕담이라는 특수한 쓰임</b>이지 형용사 명령형이 살아난 것이 아니다.'},
+ {btn:'C42 (해) 주시다',type:'V',hit:['해요체',0],
+  cells:{
+   '하십시오체':['해 주십니다','해 주십니까?','해 주십시오','해 주십시다','✕'],
+   '하오체':['해 주시오','해 주시오?','해 주시오','해 주십시다','해 주시는구려'],
+   '하게체':['해 주시네','해 주시는가?','—','—','해 주시는구먼'],
+   '해라체':['해 주신다','해 주시느냐?','—','—','해 주시는구나'],
+   '해요체':['해 주세요','해 주세요?','해 주세요','해 주세요','해 주시는군요'],
+   '해체':['해 주셔','해 주셔?','—','—','해 주시는군']},
+  n:'전사본 C42 「해 주셨어요」는 <b>과거 · 해요체 · 평서</b> 칸이다 — <b>노랗게 표시된 칸</b>이 그 자리다(표는 현재형으로 보이고 있다).<br><br>여기서 <b>주체 높임 「-시-」와 상대 높임 등급이 부딪힌다.</b> 하게체·해라체·해체의 명령·청유 칸에 「—」를 넣은 이유가 그것이다 — <b>「-시-」로 높여 놓고 낮춤으로 명령하는 것</b>은 앞뒤가 맞지 않는다. 문법이 막는 것이 아니라 <b>쓸 상황이 없다.</b><br><br><b>두 칸을 눈여겨보라.</b><br>· <b>하오체 청유와 하십시오체 청유가 같은 꼴이 되었다</b>(「해 주십시다」). 「-시-」가 이미 어간에 있으면 하오체 「-ㅂ시다」와 하십시오체 「-십시다」가 <b>합류한다</b> — <b>높임 표지가 겹치면 등급이 흐려진다.</b><br>· <b>해요체 네 칸이 「해 주세요」로 같다.</b> 「-세요」는 「-시어요」의 준말이고 <b>「-셔요」와 복수 표준</b>이다. 「해요체는 평서·의문·명령·청유가 형태상 같다」는 이야기가 「-시-」가 붙어도 그대로 유지된다.'}
+];
+let hgIdx=0;
+const hgBtns=document.getElementById('hg-btns'),hgTable=document.getElementById('hg-table'),hgPanel=document.getElementById('hg-panel');
+HGS.forEach((x,i)=>{
+  const b=document.createElement('button');
+  b.className='ibtn'+(i===0?' active':'');b.textContent=x.btn;
+  b.onclick=()=>{[...hgBtns.children].forEach(c=>c.classList.remove('active'));b.classList.add('active');hgIdx=i;drawHg();};
+  hgBtns.appendChild(b);
+});
+function drawHg(){
+  const x=HGS[hgIdx];
+  let t='<thead><tr><th class="rowh">등급</th>';
+  HMOOD.forEach(m=>{t+='<th>'+m+'</th>';});
+  t+='</tr></thead><tbody>';
+  HLV.forEach(lv=>{
+    t+='<tr><th class="rowh">'+lv[0]+'<br><span style="font-family:var(--mono);font-size:.56rem;opacity:.5">'+lv[1]+'</span></th>';
+    x.cells[lv[0]].forEach((c,j)=>{
+      const gap=(c==='✕'||c==='△'||c==='—');
+      const hit=x.hit&&x.hit[0]===lv[0]&&x.hit[1]===j;
+      t+='<td'+(gap?' class="gap"':(hit?' class="hit"':''))+'>'+c+'</td>';
+    });
+    t+='</tr>';
+  });
+  hgTable.innerHTML=t+'</tbody>';
+  hgPanel.innerHTML='<p class="note">'+x.n+'</p>';
+}
+drawHg();
+
+/* ===== §Ⅳ 경어법 빌더 ===== */
+const HBS={
+  subj:[{key:'friend',label:'친구가'},{key:'teacher',label:'할머니께서'}],
+  obj:[{key:'friend',label:'친구에게'},{key:'teacher',label:'선생님께'}],
+  hear:[{key:'hae',label:'해체'},{key:'haeyo',label:'해요체'},{key:'hasib',label:'하십시오체'}]
+};
+let hbS=0,hbO=0,hbH=1;
+function mkRow(id,list,cur,set){
+  const el=document.getElementById(id);el.innerHTML='';
+  list.forEach((v,i)=>{
+    const b=document.createElement('button');
+    b.className='ibtn'+(i===cur?' active':'');b.textContent=v.label;
+    b.onclick=()=>{set(i);drawHb();};
+    el.appendChild(b);
+  });
+}
+const HBVERB={
+  'friend-friend':{hae:'줬어',haeyo:'줬어요',hasib:'줬습니다'},
+  'friend-teacher':{hae:'드렸어',haeyo:'드렸어요',hasib:'드렸습니다'},
+  'teacher-friend':{hae:'주셨어',haeyo:'주셨어요',hasib:'주셨습니다'},
+  'teacher-teacher':{hae:'드리셨어',haeyo:'드리셨어요',hasib:'드리셨습니다'}
+};
+function drawHb(){
+  const S=HBS.subj[hbS],O=HBS.obj[hbO],H=HBS.hear[hbH];
+  mkRow('hb-subj',HBS.subj,hbS,i=>hbS=i);
+  mkRow('hb-obj',HBS.obj,hbO,i=>hbO=i);
+  mkRow('hb-hear',HBS.hear,hbH,i=>hbH=i);
+  const verb=HBVERB[S.key+'-'+O.key][H.key];
+  const parts=[[S.label,hbS?'add':''],[' '+O.label,hbO?'add':''],[' 선물을',''],[' '+verb,'add']];
+  document.getElementById('hb-out').innerHTML=tline(parts);
+  const bits=[];
+  bits.push(hbS? '<b>주체 높임 ○</b> — 조사 <b>「께서」</b>와 어미 <b>「-시-」</b>가 함께 실현되었다.' : '<b>주체 높임 ✕</b> — 「친구」는 높일 대상이 아니다.');
+  bits.push(hbO? '<b>객체 높임 ○</b> — 조사 <b>「께」</b>와 특수 어휘 <b>「드리다」</b>. <b>어미가 없다</b>는 것이 주체 높임과 다르다.' : '<b>객체 높임 ✕</b> — 「주다」를 그대로 쓴다.');
+  bits.push('<b>상대 높임 — '+H.label+'</b> · 종결어미가 등급을 정한다. <b>이 축은 끌 수 없다</b> — 어느 칸을 골라도 하나는 켜져 있다.');
+  let extra='';
+  if(hbS&&hbO) extra='<b>주체와 객체를 동시에 높였다.</b> 「드리-시-었-다 → 드리셨다」로 <b>객체 높임 어휘에 주체 높임 어미가 얹힌다</b> — 순서가 정해져 있다(§Ⅶ).';
+  else if(!hbS&&!hbO&&hbH===2) extra='<b>상대만 높인 상태다.</b> 문장 속 인물은 아무도 높이지 않으면서 <b>듣는 사람에게는 아주 높인다</b> — 세 축이 서로 독립적이라는 증거다.';
+  else if(hbS&&!hbO&&hbH===0) extra='<b>할머니를 높이면서 듣는 사람에게는 반말이다.</b> 어색하지 않다 — 친구에게 할머니 이야기를 할 때 이렇게 말한다. <b>주체와 상대는 다른 사람이다.</b> 전사본 C42가 이것의 해요체판이다.';
+  else if(!hbS&&hbO) extra='<b>객체만 높였다.</b> 주는 사람은 안 높이고 받는 사람만 높인다 — <b>목적어·부사어 쪽을 높이는 것</b>이 객체 높임이다.';
+  hbPanelSet(bits,extra);
+}
+const hbPanel=document.getElementById('hb-panel');
+function hbPanelSet(bits,extra){
+  hbPanel.innerHTML='<p style="font-family:var(--sans);font-size:.85rem;line-height:1.9">'+bits.join('<br>')+'</p>'+
+    (extra?'<p class="note">'+extra+'</p>':'');
+}
+drawHb();
+
+/* ===== §Ⅳ 전사본 상대 높임 계량 ===== */
+const HSCOL={'높임':'#9dd39a','안높임':'#e8b647','등급 없음':'#a8a8a8','미완':'#e0836a',
+ '상황 ① 자유놀이':'#8fb8d8','상황 ② 그림책':'#c0a8d8','상황 ③ 경험 이야기':'#d4a862'};
+const HSS=[
+ {btn:'등급의 분포',
+  cards:[['55','등급이 드러난 발화'],['29','높임'],['26','안높임'],['52.7%','높임 비율']],
+  bars:{'높임':29,'안높임':26,'등급 없음':4,'미완':1},
+  n:'<b>거의 반반이다.</b> 같은 상대(치료사)에게 60발화를 말하면서 <b>절반은 높이고 절반은 높이지 않았다.</b><br><br>높임 29 = <b>종결어미 해요체 24 + 보조사 「요」 5</b>(C02 블록이요 · C08 그거요 · C18 잠깐만요 · C22 거요 · C37 언제요). <b>뒤의 다섯은 종결어미가 아니다</b> — 9주차에서 <b>보조사(JX)</b>로 태깅했던 그 「요」다. 상대 높임의 실현으로 볼지가 여기서 갈리고, 빼면 <b>높임 24 · 안높임 26으로 뒤집힌다.</b><br><br>등급이 드러나지 않은 넷은 C04·C05(「큰 집」)와 C23·C32(「~하는 거」)이고, C25는 연결어미로 끝난 미완이다.'},
+ {btn:'상황에 따라',
+  cards:[['44.4%','① 자유놀이'],['66.7%','② 그림책'],['50.0%','③ 경험 이야기'],['22%p','최대 차이']],
+  bars:{'상황 ① 자유놀이':44.4,'상황 ② 그림책':66.7,'상황 ③ 경험 이야기':50.0},
+  n:'<b>아이가 활동을 주도할 때 반말이 늘어난다.</b> 상황 ①은 아이가 무엇을 할지 고르고 지시까지 하는 자리다(C07 「갖고 오세요」는 오히려 높임이지만, 전체로는 낮다).<br><br>상황 ②는 <b>치료사가 묻고 아이가 답하는</b> 구조라 높임이 가장 높다. 상황 ③은 그 중간이다.<br><br><b>등급은 상대만이 아니라 활동이 정한다.</b> 같은 사람에게 말하는데 상황에 따라 22%p가 움직였다. 14주차 화용에서 이것을 <b>말투 조절</b>(register)로 다시 볼 것이다.<br><br><b>다만 표본이 하나이고 상황마다 15~22발화</b>다. 방향을 볼 수는 있어도 값을 믿을 수는 없다.'},
+ {btn:'★ 흔들림',
+  cards:[['54','인접쌍'],['35','등급 전환'],['64.8%','전환 비율'],['6','연속 교대 최장(발화)']],
+  bars:{},
+  n:'<b>등급이 드러난 발화를 순서대로 놓고, 이웃한 둘의 등급이 다른 경우를 셌다.</b> 54쌍 중 <b>35쌍</b>이 다르다.<br><br>가장 긴 자리는 <b>C54~C59</b>다 — 아닌데(안높임) → 했어요(높임) → 말했어(안높임) → 혼냈어요(높임) → 좋았어(안높임) → 놀았어요(높임). <b>여섯 발화가 연달아 교대한다</b>(전환 5회). 상황 ③ 경험 이야기의 절정부다.<br><br>C08~C11도 <b>네 발화가 연달아 오간다</b>(전환 3회).<br><br><b>이것을 어떻게 읽을 것인가.</b> 「등급을 모른다」가 아니다 — 해요체를 24회 정확히 쓴다. <b>고른 등급을 끝까지 유지하는 힘</b>이 아직 약한 것이다. 4;6에는 흔한 모습이고, 전사본 §5도 이 자리를 짚어 두었다.<br><br><b>임상 기록에 「일관성 부족」이라고만 적으면 안 된다</b> — 나이 · 맥락 · 무엇이 흔들리는지를 함께 적어야 뜻이 통한다.'},
+ {btn:'주체 · 객체',
+  cards:[['3','주체 높임 -시-'],['0','주격조사 께서'],['0','객체 높임'],['0','높임 특수 어휘']],
+  bars:{},
+  n:'<b>주체 높임 「-시-」 3회</b> — C07 「오세요」 · C38 「빌려주세요」 · C42 「해 주셨어요」. 앞의 둘은 <b>청자인 치료사</b>가 주체이고, C42만 <b>제3자인 할머니</b>가 주체다.<br><br><b>「께서」는 0회</b>다. C42는 「할머니<b>가</b>」다 — <b>어미는 붙였는데 조사는 안 붙였다.</b> 주체 높임의 <b>부분적 실현</b>이고, 이 나이에 흔하다.<br><br><b>객체 높임은 0회</b>다. 「드리다·여쭙다·모시다·뵙다」가 한 번도 없고, C56은 「엄마<b>한테</b>」로 「께」가 아니다.<br><br><b>순서가 보인다</b> — 상대(가장 이른 것) → 주체 어미 → 주체 조사 → 객체. 다만 <b>이 자료 하나로 발달 순서를 주장할 수는 없다.</b> 객체 높임은 <b>쓸 맥락 자체가 없었을</b> 가능성이 크다.'}
+];
+const hsBtns=document.getElementById('hs-btns'),hsGrid=document.getElementById('hs-grid'),
+      hsBars=document.getElementById('hs-bars'),hsPanel=document.getElementById('hs-panel');
+HSS.forEach((x,i)=>{
+  const b=document.createElement('button');
+  b.className='ibtn'+(i===0?' active':'');b.textContent=x.btn;
+  b.onclick=()=>{[...hsBtns.children].forEach(c=>c.classList.remove('active'));b.classList.add('active');renderHs(x);};
+  hsBtns.appendChild(b);
+});
+function renderHs(x){
+  hsGrid.innerHTML=x.cards.map(c=>'<div class="met"><span class="n">'+c[0]+'</span><span class="l">'+c[1]+'</span></div>').join('');
+  const keys=Object.keys(x.bars);
+  if(!keys.length){hsBars.innerHTML='';}
+  else{
+    const mx=Math.max.apply(null,keys.map(k=>x.bars[k]))||1;
+    const pct=x.btn==='상황에 따라';
+    hsBars.innerHTML=keys.map(k=>{
+      const v=x.bars[k],w=v/mx*100,col=HSCOL[k]||'#aaa';
+      return '<div class="barrow"><span>'+k+'</span><div class="bartrack"><div class="barfill" style="width:'+w+'%;background:'+col+'"></div></div>'+
+             '<span class="barval">'+(pct?v.toFixed(1)+'%':v+'개')+'</span></div>';
+    }).join('');
+  }
+  hsPanel.innerHTML='<p class="note">'+x.n+'</p>';
+}
+renderHs(HSS[0]);
+
+/* ===== §Ⅴ 시간 축 ===== */
+/* ev: 사건시 위치(0~100), 라벨 */
+const TXS=[
+ {btn:'과거',ev:26,mk:'-았/었/였-',ex:'전사본 C39 「할머니 집에 <b>갔어요</b>」',
+  n:'<b>사건시가 발화시보다 앞선다.</b> 전사본에서 가장 많이 나온 시제로 <b>25회</b>다.<br><br>상황별로는 <b>① 1회 · ② 9회 · ③ 15회</b>다 — <b>가장 많은 15회가 상황 ③ 경험 이야기에 몰려 있다.</b> 눈앞에 없는 지난 일을 말하려면 과거 표지가 필요하기 때문이다. 자유놀이에서 1회뿐인 것도 같은 이유다 — <b>지금 눈앞에서 벌어지는 일에는 과거가 필요 없다.</b>'},
+ {btn:'현재',ev:62,mk:'-는-/-ㄴ- (동사) · ∅ (형용사)',ex:'전사본 C31 「<b>된다</b>고 했어요」',
+  n:'<b>사건시와 발화시가 겹친다.</b> 동사에는 「-는-/-ㄴ-」이 붙고 <b>형용사와 「이다」에는 아무것도 붙지 않는다</b> — 「예쁘다」가 이미 현재다.<br><br>그런데 <b>구어에서는 「-는-」이 잘 안 보인다.</b> 「먹는다」보다 「먹어」가 흔하고, 「먹어」에는 현재 표지가 따로 없다. 전사본의 「된다」도 <b>인용절 안</b>이라 나온 것이다(C31).'},
+ {btn:'미래 — -겠-',ev:88,mk:'-겠-',ex:'<span class="bad">전사본 0회</span>',
+  n:'<b>사건시가 발화시보다 뒤에 온다</b> — 학교 문법의 설명이다.<br><br>그런데 <b>「-겠-」은 이 그림에 잘 맞지 않는다.</b> 「그때 참 좋았겠다」에서는 사건시가 <b>과거</b>인데도 「-겠-」이 쓰인다. 그래서 「-겠-」을 <b>시제가 아니라 양태</b>로 보는 견해가 유력하다 — <b>시간이 아니라 화자의 태도(추측·의지)를 나타낸다는 것이다.</b><br><br><b>전사본에 한 번도 없다.</b> 추측과 의지라는 인지적 조작을 요구하므로 늦게 나타난다.'},
+ {btn:'미래 — -ㄹ 것이-',ev:88,mk:'-(으)ㄹ 것이-',ex:'전사본 C60 「다음에 또 <b>갈 거예요</b>」',
+  n:'<b>같은 미래인데 형태가 아주 다르다.</b> 「-겠-」은 선어말어미 하나인데, 이것은 <b>관형사형 어미 + 의존명사 「것」 + 서술격조사</b>가 뭉친 구성이다.<br><br>11주차에서 「-ㄹ 거다」를 <b>하나로 굳은 양태 표현</b>으로 볼 것인지 물었던 그것이다 — 관형절로 셀 것인지가 갈렸던 자리다.<br><br><b>전사본에 3회</b>(C03 만들 거야 · C06 할 거야 · C60 갈 거예요). 셋 다 <b>자기 의도</b>다. <b>「-겠-」보다 먼저 나온다</b> — 형태는 더 복잡한데 먼저 나오는 것이 흥미롭다. <b>형태의 복잡함과 습득 순서가 늘 같이 가지는 않는다.</b>'},
+ {btn:'상대 시제',ev:-1,mk:'안긴 절의 시제',ex:'나는 어제 <b>청소하는</b> 동생을 도왔다',
+  n:'<b>안긴 절의 시제는 기준이 다르다.</b> 「청소하는」의 「-는」은 현재 관형사형인데, 청소한 것은 어제다.<br><br>· <b>절대 시제</b> — 발화시를 기준으로 재면 <b>과거</b>다.<br>· <b>상대 시제</b> — 안은문장의 사건시(도운 때)를 기준으로 재면 <b>동시</b>, 곧 현재다.<br><br><b>안긴 절은 상대 시제로 읽는다.</b> 11주차에서 관형절 11회를 세면서 만난 「-는」이 <b>발화시 기준의 현재가 아니었다</b>는 것이 여기서 밝혀진다 — C22 「토끼가 <b>나오는</b> 거요」의 「-는」도 그렇다.'}
+];
+const txBtns=document.getElementById('tx-btns'),txFig=document.getElementById('tx-fig'),txPanel=document.getElementById('tx-panel');
+TXS.forEach((x,i)=>{
+  const b=document.createElement('button');
+  b.className='ibtn'+(i===0?' active':'');b.textContent=x.btn;
+  b.onclick=()=>{[...txBtns.children].forEach(c=>c.classList.remove('active'));b.classList.add('active');renderTx(x);};
+  txBtns.appendChild(b);
+});
+function renderTx(x){
+  if(x.ev<0){
+    txFig.innerHTML='<svg class="axsvg" viewBox="0 0 660 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="상대 시제 그림">'+
+      '<line x1="40" y1="92" x2="620" y2="92" stroke="#f5f1e8" stroke-width="1.3" opacity=".5"/>'+
+      '<polygon points="620,92 610,88 610,96" fill="#f5f1e8" opacity=".5"/>'+
+      '<line x1="230" y1="70" x2="230" y2="114" stroke="#8fb8d8" stroke-width="2.4"/>'+
+      '<text x="230" y="60" fill="#8fb8d8" font-size="12" text-anchor="middle">도왔다 (안은문장 사건시)</text>'+
+      '<line x1="230" y1="122" x2="230" y2="132" stroke="#e8b647" stroke-width="1"/>'+
+      '<text x="230" y="145" fill="#e8b647" font-size="11.5" text-anchor="middle">청소하는 — 이 시점 기준으로 &lt;현재&gt;</text>'+
+      '<line x1="540" y1="70" x2="540" y2="114" stroke="#f5f1e8" stroke-width="2.4"/>'+
+      '<text x="540" y="60" fill="#f5f1e8" font-size="12" text-anchor="middle">발화시 (지금)</text>'+
+      '<text x="540" y="132" fill="#f5f1e8" font-size="11" text-anchor="middle" opacity=".6">이 기준이면 &lt;과거&gt;</text>'+
+      '</svg>';
+  }else{
+    const ex=40+x.ev/100*580, sp=40+0.62*580;
+    txFig.innerHTML='<svg class="axsvg" viewBox="0 0 660 132" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="'+x.btn+' 시간 축">'+
+      '<line x1="40" y1="80" x2="620" y2="80" stroke="#f5f1e8" stroke-width="1.3" opacity=".5"/>'+
+      '<polygon points="620,80 610,76 610,84" fill="#f5f1e8" opacity=".5"/>'+
+      '<text x="628" y="98" fill="#f5f1e8" font-size="10" text-anchor="end" opacity=".45">시간 →</text>'+
+      '<line x1="'+sp+'" y1="58" x2="'+sp+'" y2="102" stroke="#f5f1e8" stroke-width="2.4"/>'+
+      '<text x="'+sp+'" y="48" fill="#f5f1e8" font-size="12" text-anchor="middle">발화시</text>'+
+      (Math.abs(ex-sp)<8
+        ? '<circle cx="'+ex+'" cy="80" r="9" fill="none" stroke="#e8b647" stroke-width="2.6"/><text x="'+ex+'" y="120" fill="#e8b647" font-size="12" text-anchor="middle">사건시 (겹침)</text>'
+        : '<circle cx="'+ex+'" cy="80" r="7" fill="#e8b647"/><text x="'+ex+'" y="120" fill="#e8b647" font-size="12" text-anchor="middle">사건시</text>')+
+      '</svg>';
+  }
+  txPanel.innerHTML='<h4>'+x.btn+' <span style="font-family:var(--mono);font-size:.76rem;opacity:.6">'+x.mk+'</span></h4>'+
+    '<p>'+x.ex+'</p><p class="note">'+x.n+'</p>';
+}
+renderTx(TXS[0]);
+
+/* ===== §Ⅴ 동작상 ===== */
+const ASS=[
+ {btn:'-고 있다 ★ 두 가지',ttl:'진행 · 결과 지속',
+  rows:[['밥을 <b>먹고 있다</b>','진행','지금 먹는 중이다 — <b>이 뜻만</b> 있다'],
+        ['옷을 <b>입고 있다</b>','<span style="color:#e0836a">둘 다</span>','① 지금 입는 <b>중</b>이다 ② 이미 입은 <b>상태</b>다'],
+        ['안경을 <b>쓰고 있다</b>','<span style="color:#e0836a">둘 다</span>','같은 중의성']],
+  n:'<b>「-고 있다」가 늘 진행인 것은 아니다.</b> 「입다·쓰다·신다·차다」처럼 <b>몸에 붙이는 동작</b>은 동작이 끝난 뒤에도 <b>그 결과가 주어의 모습으로 남는다.</b> 그래서 진행으로도 결과 지속으로도 읽힌다.<br><br><b>왜 「먹다」는 안 그런가.</b> 먹고 나면 <b>주어에게 남는 상태가 없기 때문</b>이다. 「책을 읽고 있다」도 마찬가지다 — 책은 사라지지 않지만 <b>읽은 결과가 주어의 모습으로 남지 않는다.</b> <b>대상이 사라지느냐가 아니라 주어에 상태가 남느냐</b>가 가른다.<br><br><b>임상에서</b> — 「옷을 입고 있는 그림을 고르세요」는 <b>중의적인 지시</b>다. 두 그림을 다 놓으면 아이가 어느 쪽을 골라도 틀렸다고 할 수 없다.'},
+ {btn:'-어 있다',ttl:'결과 지속',
+  rows:[['의자에 <b>앉아 있다</b>','결과 지속','앉는 동작이 끝나고 그 상태가 이어진다'],
+        ['눈이 <b>감겨 있다</b>','결과 지속','전사본 C34 — <b>피동 + 결과 지속</b>'],
+        ['<span class="bad">✕</span> 밥을 <b>먹어 있다</b>','—','<b>타동사에는 안 붙는다</b>'],
+        ['<span class="bad">✕</span> 아이가 <b>뛰어 있다</b>','—','<b>자동사라도 결과 상태가 없으면 안 붙는다</b>']],
+  n:'<b>「-어 있다」는 자동사에 붙되, 자동사면 다 되는 것은 아니다.</b> 「앉다·서다·눕다·남다」처럼 <b>끝난 뒤 남는 상태가 있어야</b> 한다. 「뛰다·울다·웃다」는 자동사인데도 안 된다 — <b>자동사는 필요조건이지 충분조건이 아니다.</b><br><br>「감기다」는 <b>피동사라 자동사</b>다. 그래서 「-어 있다」가 붙을 수 있었다 — <b>피동이 자동사를 만들고, 그 자동사에 결과 지속이 얹힌 것</b>이다. C34 하나에 두 조작이 겹쳐 있다.<br><br><b>전사본의 유일한 상 표현</b>이다.'},
+ {btn:'-어 버리다 · -고 나다',ttl:'완료',
+  rows:[['다 <b>먹어 버렸다</b>','완료 + 태도','끝났다는 뜻에 <b>아쉬움이나 후련함</b>이 얹힌다'],
+        ['숙제를 <b>하고 나서</b>','완료','끝난 뒤에 — <b>다음 일로 이어진다</b>'],
+        ['<span class="bad">전사본 0회</span>','—','둘 다 나타나지 않았다']],
+  n:'<b>「-어 버리다」는 순수한 상 표지가 아니다.</b> 완료에 <b>화자의 감정</b>이 실린다 — 그래서 <b>양태</b> 쪽으로 보는 견해도 있다. 「밥을 먹어 버렸다」와 「밥을 다 먹었다」는 사실은 같은데 태도가 다르다.<br><br><b>상과 양태의 경계가 흐리다</b>는 것 — 오늘 여러 번 나오는 이야기다. 「-겠-」이 시제와 양태 사이에 있었듯이.'},
+ {btn:'-려고 하다',ttl:'예정',
+  rows:[['비가 <b>오려고 한다</b>','예정','아직 시작되지 않았으나 <b>곧 일어날 참</b>이다'],
+        ['해가 <b>지려고 한다</b>','예정','지는 일이 임박했다'],
+        ['어제 비가 <b>오려고 했다</b>','과거 + 예정','<b>과거와도 결합한다</b> — 시제와 상이 다른 층이라는 증거'],
+        ['<span class="bad">전사본 0회</span>','—','나타나지 않았다']],
+  n:'상은 셋이 아니라 <b>넷</b>이다 — 진행 · 완료 · 결과 지속에 <b>예정</b>이 더해진다. 일이 <b>아직 시작되지 않은 국면</b>을 가리킨다.<br><br><b>미래 시제와 헷갈리기 쉬우니 갈라 두어야 한다.</b> 「내일 떠날 거야」는 <b>발화시보다 뒤</b>라는 것을 말한다(시제, 혹은 §Ⅴ에서 보았듯 양태). 「비가 오려고 한다」는 <b>지금</b>의 일인데 그 일이 <b>시작 직전 국면</b>에 있다는 것을 말한다 — 시간 축의 위치가 아니라 <b>사건 내부의 어디</b>를 보는가의 문제다. 그래서 셋째 줄처럼 <b>과거와도 결합한다.</b><br><br><b>예문을 무정 주어로 든 데는 이유가 있다.</b> 사람이 주어면 「나는 떠나려고 했다」가 <b>의도</b>로 읽힌다 — 그러면 상이 아니라 양태다. <b>주어가 무엇이냐에 따라 같은 형식이 다른 범주로 읽힌다.</b><br><br>C60 「다음에 또 놀 거예요」의 「-ㄹ 것이-」는 <b>예정상이 아니다</b> — §Ⅴ에서 다룬 대로 양태 쪽으로 읽는다. <b>같은 「앞으로의 일」이라도 어느 범주로 세는가가 다르다.</b><br><br><b>「-게 되다」는 여기 넣지 않았다.</b> 「내일 떠나게 되었다」는 사건 내부의 국면이 아니라 <b>「그렇게 정해졌다」는 상태 변화</b>를 말하므로, 예정상보다 <b>피동·기동(起動)</b> 쪽으로 보는 처리가 많다. <b>판정이 갈리는 자리라 이 자료는 빼 두었다.</b>'},
+ {btn:'전사본 — 진행이 0회',ttl:'0을 읽는 법',
+  rows:[['「-고 있다」','<span class="bad">0회</span>','진행'],
+        ['「-어 있다」','1회','C34 감겨 있잖아요'],
+        ['「-어 버리다」·「-고 나다」','<span class="bad">0회</span>','완료'],
+        ['「-려고 하다」','<span class="bad">0회</span>','예정']],
+  n:'<b>진행이 하나도 없다.</b> 그런데 이것을 「진행상 미습득」으로 적으면 안 된다.<br><br><b>표집 상황을 보라.</b> 자유놀이 · 그림책 · 경험 이야기 셋 다 <b>진행을 물을 자리가 없었다.</b> 「지금 뭐 하고 있어?」 같은 질문이 한 번도 없다.<br><br><b>0의 뜻이 여럿이다</b> — 11주차에서 안긴 절의 0회를 갈라 읽었던 그 이야기다. ① 아직 못 쓰는 것 ② 세는 방식의 문제 ③ <b>쓸 자리가 없었던 것.</b> 진행상 0회는 ③일 가능성이 크다.<br><br><b>0을 근거로 삼으려면 왜 0인지 말할 수 있어야 한다.</b>'}
+];
+const asBtns=document.getElementById('as-btns'),asPanel=document.getElementById('as-panel');
+ASS.forEach((x,i)=>{
+  const b=document.createElement('button');
+  b.className='ibtn'+(i===0?' active':'');b.textContent=x.btn;
+  b.onclick=()=>{[...asBtns.children].forEach(c=>c.classList.remove('active'));b.classList.add('active');renderAs(x);};
+  asBtns.appendChild(b);
+});
+function renderAs(x){
+  let t='<table class="itable"><thead><tr><th style="width:30%">예</th><th style="width:16%">상</th><th>읽는 법</th></tr></thead><tbody>';
+  x.rows.forEach(r=>{t+='<tr><td>'+r[0]+'</td><td style="font-weight:700;opacity:.9">'+r[1]+'</td><td>'+r[2]+'</td></tr>';});
+  t+='</tbody></table>';
+  asPanel.innerHTML='<h4>'+x.ttl+'</h4>'+t+'<p class="note">'+x.n+'</p>';
+}
+renderAs(ASS[0]);
+
+/* ===== §Ⅵ 부정문 중의성 ===== */
+const NGS=[
+ {btn:'학생이 다 안 왔다',
+  words:['학생이','다','안','왔다'],
+  reads:[
+   {lbl:'전체 부정',hit:[1,3],n:'<b>아무도 안 왔다.</b> 부정이 「다」까지 삼킨다 — 「온 학생이 전혀 없다」는 뜻이다.'},
+   {lbl:'부분 부정',hit:[1],n:'<b>일부만 왔다.</b> 부정이 「다」에만 걸린다 — 「전부는 아니다」는 뜻이다. 온 학생도 있다.'}],
+  n:'<b>「다·모두·전부」 같은 말이 부정과 만나면 거의 언제나 중의적</b>이다. 무엇이 가르는가 — <b>억양</b>이다. 「다」에 힘을 주면 부분 부정 쪽으로 기운다.<br><br><b>글로 적으면 이 단서가 사라진다.</b> 3주차에서 「문자언어는 운율을 잃는다」고 한 그 손실이 여기서 문법적 모호성으로 나타난다.'},
+ {btn:'나는 그를 안 때렸다',
+  words:['나는','그를','안','때렸다'],
+  reads:[
+   {lbl:'주어를 부정',hit:[0,2],n:'<b>때린 사람이 내가 아니다.</b> 「내가 안 때렸다 — 다른 사람이 때렸다」'},
+   {lbl:'목적어를 부정',hit:[1,2],n:'<b>때린 대상이 그가 아니다.</b> 「그를 안 때렸다 — 다른 사람을 때렸다」'},
+   {lbl:'서술어를 부정',hit:[2,3],n:'<b>때리는 일을 안 했다.</b> 「때린 게 아니다 — 다른 일을 했다」'}],
+  n:'<b>부정이 어느 성분에 걸리느냐로 셋이 된다.</b> 이것을 부정의 <b>작용역</b>이라 한다.<br><br>실제로는 <b>강세가 가른다.</b> 「<b>나는</b> 안 때렸다」처럼 힘을 준 자리가 부정의 초점이 된다. 그리고 뒤에 「~가 때렸지」처럼 <b>이어 붙이면</b> 확정된다.<br><br><b>검사 문항으로 쓸 때는 위험하다</b> — 어른도 갈리는 문장이기 때문이다.'},
+ {btn:'짧은 꼴 vs 긴 꼴',
+  words:['학생이','다','오지','않았다'],
+  reads:[
+   {lbl:'긴 꼴도 중의적',hit:[1,3],n:'<b>긴 꼴로 바꿔도 중의성은 남는다.</b> 「다 오지 않았다」도 전체 부정과 부분 부정 둘로 읽힌다.<br><br>다만 <b>긴 꼴이 부분 부정 쪽으로 조금 더 기운다</b>는 관찰이 있다 — 부정이 서술어에 붙어 「다」와 떨어지기 때문이다. <b>절대적인 것은 아니다.</b>'}],
+  n:'<b>중의성은 형태의 문제가 아니라 작용역의 문제</b>다. 짧은 꼴을 긴 꼴로 바꾸는 것으로는 해소되지 않는다.<br><br><b>해소하려면 문장을 바꿔야 한다</b> — 「학생이 아무도 안 왔다」(전체) / 「학생이 다 오지는 않았다」(부분). 뒤의 것에서 <b>보조사 「는」</b>이 부분 부정을 못 박는다는 데 주목하라. 9주차 §Ⅲ의 대조의 「는」이다.'}
+];
+let ngIdx=0,ngRead=0;
+const ngBtns=document.getElementById('ng-btns'),ngSent=document.getElementById('ng-sent'),
+      ngReads=document.getElementById('ng-reads'),ngPanel=document.getElementById('ng-panel');
+NGS.forEach((x,i)=>{
+  const b=document.createElement('button');
+  b.className='ibtn'+(i===0?' active':'');b.textContent=x.btn;
+  b.onclick=()=>{[...ngBtns.children].forEach(c=>c.classList.remove('active'));b.classList.add('active');ngIdx=i;ngRead=0;drawNg();};
+  ngBtns.appendChild(b);
+});
+function drawNg(){
+  const x=NGS[ngIdx],r=x.reads[ngRead];
+  ngSent.innerHTML=x.words.map((w,i)=>'<span class="tk'+(r.hit.indexOf(i)>=0?' add':'')+'">'+w+'</span>').join(' ');
+  ngReads.innerHTML='';
+  x.reads.forEach((rd,i)=>{
+    const b=document.createElement('button');
+    b.className='ibtn'+(i===ngRead?' active':'');b.textContent=rd.lbl;
+    b.onclick=()=>{ngRead=i;drawNg();};
+    ngReads.appendChild(b);
+  });
+  ngPanel.innerHTML='<h4>'+r.lbl+'</h4><p>'+r.n+'</p><p class="note">'+x.n+'</p>';
+}
+drawNg();
+
+/* ===== §Ⅶ 문장 변형기 ===== */
+/* 조작을 누적해서 켠다 */
+const TFOPS=[
+ {lbl:'기본',key:'base'},
+ {lbl:'+ 사동',key:'caus'},
+ {lbl:'+ 주체 높임',key:'hon'},
+ {lbl:'+ 과거',key:'past'},
+ {lbl:'+ 상대 높임',key:'pol'},
+ {lbl:'+ 부정',key:'neg'}
+];
+const TFSTEPS=[
+ {parts:[['아이가',''],[' 밥을',''],[' 먹',''],['는다','']],
+  ttl:'기본 — 주동 · 안 높임 · 현재 · 해라체',
+  n:'출발점이다. <b>아이가 스스로 먹는다.</b> 자릿수는 <b>2자리</b>(누가 · 무엇을).<br><br>「-는-」이 현재, 「-다」가 해라체 평서다. <b>상대 높임은 이미 켜져 있다</b> — 끌 수 없는 축이기 때문이다(§Ⅳ).'},
+ {parts:[['할머니가','add'],[' 아이에게','add'],[' 밥을',''],[' 먹',''],['이','add'],['ㄴ다','']],
+  ttl:'+ 사동 — 시키는 사람이 생겼다',
+  n:'<b>주어가 새로 생기고 원래 주어가 밀려났다.</b> 자릿수가 <b>2에서 3으로</b> 늘었다.<br><br>접미사 <b>「-이-」</b>가 어간 바로 뒤에 붙는다. 그리고 어미가 「-는다」에서 <b>「-ㄴ다」</b>로 바뀌었다 — 어간이 「먹-」에서 「먹이-」로 <b>모음으로 끝나게</b> 되었기 때문이다(8주차 §Ⅴ의 이형태).'},
+ {parts:[['할머니께서','add'],[' 아이에게',''],[' 밥을',''],[' 먹',''],['이',''],['시','add'],['ㄴ다','']],
+  ttl:'+ 주체 높임 — 할머니를 높인다',
+  n:'<b>두 곳이 함께 바뀐다</b> — 조사 「가」가 <b>「께서」</b>로, 그리고 <b>「-시-」</b>가 붙었다.<br><br><b>「-시-」의 자리에 주목하라.</b> 사동 접미사 <b>바깥</b>이다. 파생 접미사가 어간에 더 가깝고 선어말어미가 그 바깥에 온다 — 5주차의 「굴절은 파생 바깥에」가 그대로다.<br><br>전사본 C42는 <b>여기까지만 갔다</b> — 「할머니<b>가</b> … 해 주셨어요」로 <b>어미는 붙이고 조사는 안 붙였다.</b>'},
+ {parts:[['할머니께서',''],[' 아이에게',''],[' 밥을',''],[' 먹',''],['이',''],['시',''],['었','add'],['다','']],
+  ttl:'+ 과거 — 지난 일이 되었다',
+  n:'<b>「-었-」이 「-시-」 바깥에 붙는다.</b> 순서가 정해져 있다 — <span class="mono">먹-이-시-었-다</span>. 바꿀 수 없다.<br><br>「-ㄴ다」의 현재 표지가 <b>사라졌다</b>는 데 주목하라. 과거 표지가 들어오면 현재 표지는 자리를 내준다. <b>한 자리에 하나만 올 수 있다</b> — 9주차 §Ⅳ의 어미 계층이다.<br><br>줄이면 <span class="mono">먹이셨다</span>.'},
+ {parts:[['할머니께서',''],[' 아이에게',''],[' 밥을',''],[' 먹',''],['이',''],['시',''],['었',''],['습니다','add']],
+  ttl:'+ 상대 높임 — 듣는 사람을 높인다',
+  n:'<b>종결어미만 바꾸면 된다.</b> 해라체 「-다」가 하십시오체 <b>「-습니다」</b>로 갔다.<br><br><b>이 축은 새로 켠 것이 아니라 옮긴 것</b>이다. 처음부터 해라체가 켜져 있었다 — 상대 높임은 <b>끌 수 없는 축</b>이라서, 조작이라기보다 <b>선택지 중 하나를 고르는 일</b>에 가깝다.<br><br><span class="mono">먹-이-시-었-습니다</span> → <b>먹이셨습니다.</b> 어절 하나에 <b>네 층</b>이 쌓였다.'},
+ {parts:[['할머니께서',''],[' 아이에게',''],[' 밥을',''],[' 안','add'],[' 먹',''],['이',''],['시',''],['었',''],['습니다','']],
+  ttl:'+ 부정 — 줄 밖에서 들어온다',
+  n:'<b>부정은 이 줄에 끼어들지 않는다.</b> 짧은 꼴 「안」은 <b>서술어 앞에 따로 선다</b> — 어미도 접사도 아니라 <b>부사</b>이기 때문이다.<br><br>긴 꼴로 바꾸면 자리가 달라진다 — <b>「먹이지 않으셨습니다」</b>. 「-지」가 어간에 붙고, <b>시제 「-었-」과 종결어미가 「않다」 쪽으로 넘어간다.</b> <span class="bad">*</span>「먹였지 않습니다」가 안 되는 것이 그 증거다.<br><br><b>다만 「-시-」는 어느 쪽에도 붙을 수 있다</b> — 「먹이<b>시</b>지 않았습니다」도, 「먹이지 않으<b>시</b>었습니다」도, 양쪽에 다 붙이기도 한다. <b>시제는 자리가 하나로 정해지고 주체 높임은 그렇지 않다</b>는 차이가 여기서 드러난다.<br><br><b>같은 부정인데 형태론적 처리가 완전히 다르다.</b> 이것이 §Ⅵ에서 짧은 꼴과 긴 꼴을 나눈 이유다.'}
+];
+let tfStep=0;
+const tfOps=document.getElementById('tf-ops'),tfOut=document.getElementById('tf-out'),tfPanel=document.getElementById('tf-panel');
+TFOPS.forEach((o,i)=>{
+  const b=document.createElement('button');
+  b.className='ibtn'+(i===0?' active':'');b.textContent=o.lbl;
+  b.onclick=()=>{tfStep=i;drawTf();};
+  tfOps.appendChild(b);
+});
+function drawTf(){
+  [...tfOps.children].forEach((c,i)=>c.classList.toggle('active',i===tfStep));
+  const s=TFSTEPS[tfStep];
+  tfOut.innerHTML=tline(s.parts);
+  tfPanel.innerHTML='<h4>'+s.ttl+'</h4><p class="note">'+s.n+'</p>';
+}
+drawTf();
+
+/* ===== 확인 문제 ===== */
+function buildQuiz(itemsId,scoreId,items){
+  const wrap=document.getElementById(itemsId),scoreEl=document.getElementById(scoreId);
+  let done=0,right=0;
+  items.forEach((it,idx)=>{
+    const d=document.createElement('div');d.className='quiz-item';
+    const q=document.createElement('div');q.className='quiz-q';
+    q.innerHTML='<span class="num">'+String(idx+1).padStart(2,'0')+'</span>'+it.q;
+    d.appendChild(q);
+    const optWrap=document.createElement('div');optWrap.className='quiz-opts';
+    d.appendChild(optWrap);
+    const fb=document.createElement('div');fb.className='quiz-fb';
+    d.appendChild(fb);
+    it.opts.forEach((label,i)=>{
+      const b=document.createElement('button');
+      b.className='quiz-opt';b.type='button';b.textContent=label;
+      b.onclick=()=>{
+        if(fb.classList.contains('show'))return;
+        const ok=i===it.a;
+        [...optWrap.children].forEach((c,j)=>{
+          c.disabled=true;
+          if(j===it.a)c.classList.add('correct');
+          else if(j===i)c.classList.add('wrong');
+        });
+        fb.innerHTML='<b>'+(ok?'정답':'다시 보기')+'</b> · '+it.fb;
+        fb.classList.add('show');
+        done++;if(ok)right++;
+        scoreEl.textContent=done+'문항 풀이 · 정답 '+right+'개 ('+Math.round(right/done*100)+'%)'+
+          (done===items.length?(right===items.length?' — 완벽합니다.':' — 틀린 문항의 해설을 다시 읽어 보세요.'):'');
+      };
+      optWrap.appendChild(b);
+    });
+    wrap.appendChild(d);
+  });
+}
+
+buildQuiz('check-items','check-score',[
+ {q:'「나는 따뜻하다」·「잔이 따뜻하다」·「옷이 따뜻하다」에서 <b>주어의 의미역</b>은?',
+  opts:['셋 다 행위주다','차례로 경험주 · 대상 · 도구다','셋 다 대상이다','의미역은 격이 정한다'],a:1,
+  fb:'셋 다 <b>주격조사가 붙은 주어</b>인데 역이 다르다. 느끼는 쪽(경험주) · 지닌 쪽(대상) · 따뜻하게 해 주는 쪽(도구)이다. <b>격만으로는 이 차이를 잡을 수 없어서</b> 의미역을 따로 둔다. → §Ⅰ'},
+ {q:'피동이 되면 <b>자릿수</b>는 어떻게 되는가?',
+  opts:['는다','줄어든다','그대로다','서술어에 따라 다르다'],a:1,
+  fb:'목적어가 주어가 되고 원래 주어는 <b>부사어로 밀려나거나 사라진다.</b> 「아이가 문을 닫았다」(2자리) → 「문이 닫혔다」(1자리). <b>사동은 반대로 는다.</b><br>다만 <b>목적어가 남는 피동문</b>(「나는 개에게 다리를 물렸다」)은 그렇게 줄지 않는다 — <b>「대개 준다」가 정확하다.</b> → §Ⅱ·§Ⅲ'},
+ {q:'전사본 C10 「자꾸 <b>무너져요</b>」의 「무너지다」가 <b>피동이 아닌</b> 이유는?',
+  opts:['「-어지다」가 아니라서','대응하는 능동사 「*무너다」가 없어서','형용사라서','자동사는 피동이 될 수 없어서'],a:1,
+  fb:'피동은 <b>대응하는 능동문이 있어야</b> 성립한다. 「<span class="bad">*</span>아이가 블록을 무너다」가 없으므로 피동이 아니다. 표준국어대사전도 「무너-지다」를 <b>하나의 자동사</b>로 싣는다.<br>타동 짝은 「무너뜨리다」인데, 이것은 <b>자·타 대응쌍</b>이지 사동 접미사가 아니다. → §Ⅱ'},
+ {q:'피동 접미사와 사동 접미사가 <b>겹치는</b> 것은?',
+  opts:['-우 · -구 · -추','-되 · -당하 · -받','-이 · -히 · -리 · -기','-어지 · -게 하'],a:2,
+  fb:'넷이 겹친다. <b>「-우-·-구-·-추-」는 사동에만</b> 있다(태우다·달구다·낮추다). 겹치는 넷 때문에 <b>같은 꼴이 피동사이기도 사동사이기도 한</b> 일이 생긴다. → §Ⅲ'},
+ {q:'표준국어대사전에서 <b>「감기다」</b>는 어떻게 처리되는가?',
+  opts:['하나의 표제어에 피동·사동 뜻이 함께 실린다','다섯 표제어로 나뉘고, 그중 1이 피동 · 3이 사동이다','피동사로만 실린다','사동사로만 실린다'],a:1,
+  fb:'「감기다1」은 「감다」(눈을 감다)의 <b>피동사</b>, 「감기다3」은 같은 「감다」의 <b>사동사</b>다. 나머지는 다른 「감다」(실을 감다 · 머리를 감다)에서 나왔다.<br><b>전사본 C34 「눈이 감겨 있잖아요」가 감기다1</b>이다. → §Ⅲ'},
+ {q:'「엄마가 아이에게 옷을 <b>입혔다</b>」와 「<b>입게 했다</b>」의 차이는?',
+  opts:['앞은 직접·간접 둘 다 읽히고 뒤는 간접만 읽힌다','뜻이 완전히 같다','앞이 간접, 뒤가 직접이다','앞은 사동이고 뒤는 피동이다'],a:0,
+  fb:'<b>「먹이다·입히다」 같은 낱말에서는 파생적 사동이 중의적</b>이다 — 직접 입혀 주었을 수도, 입으라고 시켰을 수도 있다. <b>통사적 「-게 하다」는 간접</b>이 기본이다.<br>다만 파생 쪽은 <b>어휘마다 다르므로 단어별로 확인해야 한다</b>(「읽히다」는 간접에 가깝고 「높이다」는 직접뿐이다). 더 안정된 관찰은 <b>「-게 하다」가 간접 쪽으로 기운다</b>는 것이다. → §Ⅲ'},
+ {q:'한국어 높임법 세 갈래 중 <b>반드시 실현되는</b> 것은?',
+  opts:['주체 높임','객체 높임','셋 다 선택적이다','상대 높임'],a:3,
+  fb:'주체·객체 높임은 높일 사람이 없으면 안 쓰면 그만인데, <b>상대 높임은 문장을 끝맺는 순간 등급이 정해진다.</b> 「밥 먹어 / 먹어요 / 먹습니다」 중 하나를 반드시 골라야 한다. → §Ⅳ'},
+ {q:'상대 높임 활용표에서 <b>하십시오체 감탄 칸</b>이 비는 이유는?',
+  opts:['그 등급에 감탄형 종결어미가 없어서','동사가 형용사라서','주어가 청자가 아니라서','감탄은 높임과 안 어울려서'],a:0,
+  fb:'<b>등급 쪽 사정</b>이라 <b>✕</b>다 — 동사를 무엇으로 바꿔도 그 칸은 빈다.<br>형용사에서 명령·청유가 비는 것은 <b>품사 쪽 사정(△)</b>이다 — 「-어라」와 「-자」는 있는데 형용사 어간에 붙지 못한다. 「-시-」로 높여 놓고 해라체로 명령하지 못하는 것은 <b>쓸 상황 쪽 사정(—)</b>이다. <b>세 기호가 세 이유를 가리킨다.</b> → §Ⅳ'},
+ {q:'윗사람에게 「같이 <b>갑시다</b>」라고 하면 왜 곤란한가?',
+  opts:['비문이라서','「-읍시다」가 하오체, 곧 예사높임이라서','청유형이 없어서','명령으로 들려서'],a:1,
+  fb:'표준국어대사전은 「-읍시다」를 <b>「하오할 자리에 쓰여」</b>로 푼다. 아주 높여야 할 상대에게는 등급이 모자란다.<br>하십시오체 청유 「-십시다」가 있기는 하나 사전이 <b>「비교적 격의 없는 상대에게」</b>라는 단서를 달았다. 실제로는 <b>「가시지요」</b>처럼 돌려 말한다. → §Ⅳ'},
+ {q:'「커피 <b>나오셨습니다</b>」가 규범상 오류인 이유는?',
+  opts:['「-시-」는 과거에 못 쓴다','존댓말은 명사에만 쓴다','주체가 사물인데 「-시-」를 붙였다','「나오다」에는 「-시-」가 안 붙는다'],a:2,
+  fb:'「-시-」는 <b>주체를 높이는</b> 어미인데 주체가 「커피」다. 국립국어원은 <b>「커피 나왔습니다」</b>를 바른 표현으로 든다.<br>다만 <b>왜 퍼지는지</b>도 물어야 한다 — 말하는 사람은 <b>손님을 높이려는 것</b>이다. 규범은 오류라 하고 현실은 늘고 있다. → §Ⅳ'},
+ {q:'「그때 참 <b>좋았겠다</b>」가 보여 주는 것은?',
+  opts:['「-겠-」이 과거와도 결합하므로 미래 시제 표지로만 볼 수 없다','「-겠-」이 과거 시제 표지다','비문이다','「-겠-」과 「-았-」은 같은 뜻이다'],a:0,
+  fb:'「-았-」 뒤에 「-겠-」이 붙어 <b>과거</b>를 말한다. 「-겠-」이 미래 시제 표지라면 설명되지 않는다.<br>그래서 「-겠-」을 <b>양태</b>(추측·의지)로 보는 견해가 유력하고, 그러면 한국어 시제는 <b>과거와 비과거 둘</b>이 된다. → §Ⅴ'},
+ {q:'「나는 어제 <b>청소하는</b> 동생을 도왔다」에서 「-는」이 현재형인 까닭은?',
+  opts:['오류다','안긴 절이라 시제가 없다','발화시 기준으로 현재라서','안은문장의 사건시를 기준으로 재는 상대 시제라서'],a:3,
+  fb:'· <b>절대 시제</b>(발화시 기준)로 재면 <b>과거</b>다.<br>· <b>상대 시제</b>(도운 시점 기준)로 재면 <b>동시</b>, 곧 현재다.<br><b>안긴 절은 상대 시제로 읽는다.</b> 11주차의 관형절 「-는」이 발화시 기준의 현재가 아니었던 이유다. → §Ⅴ'},
+ {q:'「옷을 <b>입고 있다</b>」가 중의적인데 「밥을 <b>먹고 있다</b>」는 그렇지 않은 이유는?',
+  opts:['「입다」가 형용사라서','「먹다」는 동작이 끝나면 남는 상태가 없어서','「입다」에만 「-고 있다」가 붙어서','억양이 달라서'],a:1,
+  fb:'「입다·쓰다·신다」는 동작이 끝난 뒤에도 <b>상태가 남으므로</b> 진행과 결과 지속 둘로 읽힌다. 「먹다」는 <b>주어에게 남는 상태가 없다.</b> 「책을 읽고 있다」도 마찬가지다 — <b>대상이 사라지느냐가 아니라 주어에 상태가 남느냐</b>가 가른다.<br><b>서술어의 의미가 상의 해석을 정한다.</b> 그리고 「옷을 입고 있는 그림을 고르세요」는 <b>중의적인 지시</b>가 된다. → §Ⅴ'},
+ {q:'「말다」 부정에 <b>짧은 꼴이 없는</b> 것과 관련된 사실은?',
+  opts:['「말다」는 명령·청유에서만 쓰이고, 「*안 먹어라」는 명령의 부정이 되지 못한다','「말다」가 형용사라서','짧은 꼴은 원래 드물어서','「말다」는 부정이 아니라서'],a:0,
+  fb:'명령·청유는 <b>「말다」로만 부정된다.</b> <b>문장 종류가 부정의 방식을 정하는 것</b>이다(10주차 §Ⅶ).<br>전사본 C55 「하지 말라고」가 유일한 긴 꼴인데, <b>선택의 여지가 없던 자리</b>다 — 그래서 「긴 꼴을 못 쓴다」고 말할 수 없다. → §Ⅵ'},
+ {q:'피동문 이해가 능동문보다 어려운 <b>핵심 이유</b>는?',
+  opts:['단어가 어려워서','문장이 길어서','피동사를 몰라서','첫 명사구가 행위주가 아니어서 어순 전략이 틀리기 때문'],a:3,
+  fb:'아이들은 <b>「먼저 나온 명사구가 행위주」</b>라는 전략을 일찍 세우는데, 피동문은 <b>바로 그 전략이 틀리도록</b> 되어 있다(Bever 1970).<br><b>다만 한국어를 영어처럼 설명하면 안 된다.</b> 격조사가 서술어보다 먼저 나오므로 「쥐<b>가</b> 고양이<b>에게</b>」까지만 들어도 단서가 열린다. 그래서 오류를 어순 전략 하나로 적으면 안 되고, <b>격조사를 단서로 못 쓰는 것</b>인지 <b>어순 전략이 그것을 눌러 버리는 것</b>인지를 갈라야 한다 — 이 구별이 중재 목표를 바꾼다. → §임상'},
+ {q:'어떤 의미가 <b>문법 범주</b>인지를 가르는 핵심 기준은?',
+  opts:['그 의미가 중요한가','문법 형태로 규칙적·의무적으로 표시되는가','사전에 등재되어 있는가','다른 언어에도 있는가'],a:1,
+  fb:'핵심은 <b>의무성</b>이다 — 안 고를 수가 없는가. 한국어의 상대 높임은 모든 문장이 반드시 한 등급을 고르므로 문법 범주이고, <b>수(數)는 「-들」을 안 붙여도 되므로 문법 범주가 아니다.</b> 영어는 정반대다. <b>어떤 의미가 문법 범주가 되는가는 언어마다 다르다.</b> → 들어가며'},
+ {q:'「비가 <b>오려고 한다</b>」와 「내일 비가 <b>올 것이다</b>」의 차이로 가장 적절한 것은?',
+  opts:['앞은 예정상, 뒤는 미래 시제 또는 양태','둘 다 미래 시제다','앞은 진행상, 뒤는 완료상','앞이 더 공손한 표현이다'],a:0,
+  fb:'상은 <b>사건 안쪽의 어디를 보는가</b>이고 시제는 <b>시간 축 위 어디에 놓는가</b>이다. 「오려고 한다」는 <b>지금</b>의 일인데 그 일이 시작 직전 국면에 있다는 것 — 그래서 「어제 비가 오려고 했다」처럼 과거와도 결합한다.<br>다만 <b>주어가 사람이면 「-려고 하다」는 의도로 읽혀</b> 양태 쪽으로 넘어간다. 예정상을 볼 때 무정 주어로 예를 드는 이유다. → §Ⅴ'},
+ {q:'「해결되어진다」 같은 <b>이중 피동</b>에 대한 설명으로 적절하지 <b>않은</b> 것은?',
+  opts:['규범적으로는 중복이므로 오류로 본다','학술 문장과 공문서에서 사용이 늘고 있다','평가 보고서에는 「해결된다」로 쓰는 편이 맞다','아동 발화에 나오면 반드시 오류로 세어야 한다'],a:3,
+  fb:'<b>성인 언어에서 흔한 형태를 아동에게만 오류로 세면 기준이 어긋난다.</b> 규범이 금지하는데도 세력이 커지는 형태라는 점에서 <b>사물 존대</b>(「커피 나오셨습니다」)와 성격이 같고, 15주차 §Ⅵ의 「오류인가 변이인가」로 이어진다. → §Ⅱ'}
+]);
+
+/* ===== 스크롤 스파이 ===== */
+const navLinks=[...document.querySelectorAll('.nav-link')].filter(a=>document.querySelector(a.getAttribute('href')));
+const navSecs=navLinks.map(a=>document.querySelector(a.getAttribute('href')));
+function spy(){
+  let cur=0;
+  navSecs.forEach((s,i)=>{if(s.getBoundingClientRect().top<=220)cur=i;});
+  navLinks.forEach((a,i)=>a.classList.toggle('active',i===cur));
+}
+window.addEventListener('scroll',spy,{passive:true});spy();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1278 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>문장의 확대 — 한국어학 제11주</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Noto+Serif+KR:wght@300;400;500;600;700;900&family=Noto+Sans+KR:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1a1814;
+  --paper:#f5f1e8;
+  --paper-warm:#ede5d3;
+  --accent:#2d5a3d;        /* forest — BLOCK D */
+  --accent-soft:#7a9e88;
+  --moss:#4a5d3a;
+  --terracotta:#c85a3e;
+  --rule:#1a181433;
+  --highlight:#e8b647;
+  --serif:'Noto Serif KR','Fraunces',Georgia,serif;
+  --sans:'Noto Sans KR',sans-serif;
+  --mono:'JetBrains Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--serif);background:var(--paper);color:var(--ink);
+  line-height:1.75;font-size:16px;
+  background-image:
+    radial-gradient(circle at 20% 30%, #00000008 1px, transparent 1px),
+    radial-gradient(circle at 80% 70%, #00000008 1px, transparent 1px);
+  background-size:40px 40px,60px 60px;
+}
+.masthead{border-bottom:3px double var(--ink);padding:1.8rem 3rem 1.3rem;background:rgba(245,241,232,.95);position:sticky;top:0;z-index:100;backdrop-filter:blur(8px)}
+.masthead-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:auto 1fr auto;gap:2rem;align-items:end}
+.issue-tag{font-family:var(--mono);font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);border:1px solid var(--accent);padding:.3rem .6rem;align-self:start}
+.title-block h1{font-weight:900;font-size:clamp(1.9rem,4.6vw,3.3rem);line-height:.98;letter-spacing:-.02em}
+.title-block .subtitle{font-style:italic;font-weight:300;font-size:1rem;margin-top:.5rem;opacity:.7}
+.meta-info{text-align:right;font-family:var(--mono);font-size:.7rem;line-height:1.6;opacity:.7}
+
+.toc-nav{border-bottom:1px solid var(--rule);background:var(--paper-warm);padding:.8rem 3rem;position:sticky;top:141px;z-index:99}
+.toc-nav-inner{max-width:1200px;margin:0 auto;display:flex;gap:.4rem;flex-wrap:wrap;font-family:var(--sans);font-size:.78rem}
+.toc-nav a{color:var(--ink);text-decoration:none;padding:.3rem .7rem;border:1px solid transparent;transition:all .2s;font-weight:500}
+.toc-nav a:hover{border-color:var(--ink);background:var(--paper)}
+.toc-nav a.active{background:var(--ink);color:var(--paper)}
+
+main{max-width:1200px;margin:0 auto;padding:3rem}
+
+.hero{display:grid;grid-template-columns:1.35fr 1fr;gap:3rem;margin-bottom:4rem;align-items:start}
+.hero-text .lead{font-size:1.16rem;line-height:1.95}
+.hero-text .lead::first-letter{float:left;font-size:4.3rem;line-height:.82;font-weight:900;margin:.1rem .6rem 0 0;color:var(--accent)}
+.hero-text p+p{margin-top:1.2rem}
+.hero-aside{background:var(--paper-warm);border:1px solid var(--rule);padding:1.6rem 1.8rem}
+.hero-aside h3{font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem;font-weight:500}
+.hero-aside ol{list-style:none;counter-reset:g}
+.hero-aside li{counter-increment:g;position:relative;padding-left:1.9rem;margin-bottom:.75rem;font-size:.92rem;line-height:1.6}
+.hero-aside li::before{content:counter(g);position:absolute;left:0;top:.2rem;font-family:var(--mono);font-size:.68rem;color:var(--paper);background:var(--accent);width:1.3rem;height:1.3rem;display:flex;align-items:center;justify-content:center;border-radius:50%}
+
+.section{margin-bottom:4.5rem;scroll-margin-top:200px}
+.section-header{border-bottom:2px solid var(--ink);padding-bottom:.6rem;margin-bottom:1.6rem}
+.section-number{font-family:var(--mono);font-size:.72rem;letter-spacing:.16em;color:var(--accent);display:block;margin-bottom:.3rem}
+.section-header h2{font-size:clamp(1.4rem,2.8vw,2.05rem);font-weight:700;letter-spacing:-.01em}
+.ko-en{font-family:var(--sans);font-size:.8rem;font-weight:400;opacity:.55;margin-left:.6rem}
+.src-badge{display:inline-block;font-family:var(--mono);font-size:.63rem;letter-spacing:.06em;border:1px solid var(--rule);padding:.15rem .45rem;margin:.5rem .3rem 0 0;opacity:.72}
+.src-badge.main{border-color:var(--accent);color:var(--accent)}
+.prose p{margin-bottom:1.2rem}
+.prose h3{font-size:1.24rem;font-weight:700;margin:2.2rem 0 .8rem;padding-left:.7rem;border-left:3px solid var(--accent)}
+em.term{font-style:normal;font-weight:600;border-bottom:2px solid var(--highlight);padding-bottom:1px}
+.ex{font-family:var(--sans);background:var(--paper-warm);padding:.9rem 1.2rem;margin:1.1rem 0;font-size:.93rem;line-height:2}
+.mono{font-family:var(--mono)}
+.bad{color:var(--terracotta)}
+
+.concept-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:1rem;margin:1.8rem 0}
+.concept-card{border:1px solid var(--rule);padding:1.2rem;background:#fff9;transition:transform .2s}
+.concept-card:hover{transform:translateY(-3px)}
+.concept-card .card-num{font-family:var(--mono);font-size:.65rem;letter-spacing:.13em;color:var(--accent);display:block;margin-bottom:.45rem}
+.concept-card h4{font-size:1rem;margin-bottom:.15rem}
+.concept-card .ko{font-family:var(--sans);font-size:.72rem;opacity:.55;display:block;margin-bottom:.5rem}
+.concept-card p{font-size:.85rem;line-height:1.62;opacity:.87}
+
+.interactive{background:var(--ink);color:var(--paper);padding:2.1rem 2.3rem;margin:2rem 0;position:relative}
+.interactive::before{content:'';position:absolute;top:8px;left:8px;right:8px;bottom:8px;border:1px solid #f5f1e830;pointer-events:none}
+.interactive h3{font-family:var(--serif);font-size:1.18rem;margin-bottom:.35rem;position:relative}
+.interactive-desc{font-family:var(--sans);font-size:.81rem;opacity:.6;margin-bottom:1.5rem;position:relative}
+.ibody{position:relative}
+.btnrow{display:flex;flex-wrap:wrap;gap:.45rem;margin-bottom:1.3rem}
+.ibtn{font-family:var(--sans);font-size:.8rem;background:transparent;color:var(--paper);border:1px solid #f5f1e850;padding:.4rem .85rem;cursor:pointer;transition:all .18s}
+.ibtn:hover{background:#f5f1e820}
+.ibtn.active{background:var(--paper);color:var(--ink);border-color:var(--paper)}
+.ibtn:disabled{opacity:.3;cursor:default}
+.ipanel{min-height:110px;font-size:.9rem;line-height:1.75}
+.ipanel h4{font-size:1.12rem;margin-bottom:.3rem}
+.ipanel p{margin-bottom:.75rem}
+.ibody .note{font-family:var(--sans);font-size:.82rem;opacity:.75;border-left:2px solid var(--accent-soft);padding-left:.8rem;margin-top:.9rem}
+.itable{width:100%;border-collapse:collapse;color:var(--paper);font-size:.85rem;margin:.3rem 0 1rem}
+.itable th{font-family:var(--mono);font-size:.62rem;letter-spacing:.09em;text-align:left;padding:.4rem .55rem;border-bottom:1px solid #f5f1e850;font-weight:500;opacity:.7}
+.itable td{padding:.42rem .55rem;border-bottom:1px solid #f5f1e820;vertical-align:top;line-height:1.55}
+
+/* 복문 구조 하이라이트 */
+.cxsent{font-family:var(--sans);font-size:1.22rem;line-height:2.6;margin:.5rem 0 1.1rem}
+.cx{display:inline-block;padding:.1rem .12rem}
+.cx.emb{background:#e8b6472e;border-bottom:2px solid var(--highlight);padding:.15rem .3rem}
+.cx.mk{color:#e0836a;font-weight:700}
+.cxlegend{display:flex;gap:1.2rem;flex-wrap:wrap;font-family:var(--sans);font-size:.76rem;opacity:.8;margin-bottom:.8rem}
+.cxlegend b{display:inline-block;padding:.05rem .3rem;margin-right:.25rem}
+
+/* 연결어미 격자 */
+.cegrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:.35rem;margin-bottom:1.1rem}
+.cebtn{font-family:var(--sans);font-size:.86rem;background:transparent;color:var(--paper);border:1px solid #f5f1e840;padding:.42rem .2rem;cursor:pointer;transition:all .15s;appearance:none;-webkit-appearance:none;border-radius:0}
+.cebtn:hover{background:#f5f1e818}
+.cebtn.on{background:var(--paper);color:var(--ink)}
+.cebtn small{display:block;font-size:.58rem;opacity:.55;font-family:var(--mono)}
+
+/* 수형도 */
+.treesvg{width:100%;height:auto;max-width:700px;display:block;margin:0 auto}
+.treesvg text{font-family:'Noto Sans KR',sans-serif}
+
+/* 계량 비교 */
+.metgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(128px,1fr));gap:.6rem;margin:1rem 0}
+.met{border:1px solid #f5f1e830;padding:.8rem .6rem;text-align:center}
+.met .n{font-family:var(--mono);font-size:1.5rem;display:block;color:var(--highlight);line-height:1.2}
+.met .l{font-family:var(--sans);font-size:.7rem;opacity:.62;display:block;margin-top:.25rem;line-height:1.4}
+.barset{margin:.4rem 0 1.1rem}
+.barrow{display:grid;grid-template-columns:96px 1fr 104px;gap:.7rem;align-items:center;margin-bottom:.5rem;font-family:var(--sans);font-size:.83rem}
+.bartrack{background:#f5f1e818;height:19px;position:relative;overflow:hidden}
+.barfill{height:100%;transition:width .5s cubic-bezier(.4,0,.2,1)}
+.barval{font-family:var(--mono);font-size:.75rem;text-align:right;opacity:.85;white-space:nowrap}
+
+.data-table{width:100%;border-collapse:collapse;margin:1.5rem 0;font-size:.85rem}
+.data-table th{font-family:var(--mono);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;text-align:left;padding:.6rem .7rem;border-bottom:2px solid var(--ink);font-weight:500}
+.data-table td{padding:.6rem .7rem;border-bottom:1px solid var(--rule);vertical-align:top;line-height:1.55}
+.data-table tr:hover td{background:var(--paper-warm)}
+.data-table .ko{font-weight:600}
+.data-table td.num{font-family:var(--mono);text-align:right;white-space:nowrap}
+
+.callout{border-left:3px solid var(--accent);background:var(--paper-warm);padding:1.2rem 1.5rem;margin:1.7rem 0}
+.callout-label{font-family:var(--mono);font-size:.65rem;letter-spacing:.13em;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:.5rem}
+.callout p{font-size:.92rem;line-height:1.78;margin-bottom:.7rem}
+.callout p:last-child{margin-bottom:0}
+.callout.clinical{border-left-color:var(--moss)}
+.callout.clinical .callout-label{color:var(--moss)}
+.callout.warning{border-left-color:var(--terracotta)}
+.callout.warning .callout-label{color:var(--terracotta)}
+
+.quiz-item{border:1px solid var(--rule);padding:1.1rem 1.3rem;margin-bottom:.9rem;background:#fff9}
+.quiz-q{font-size:.97rem;margin-bottom:.75rem;line-height:1.7}
+.quiz-q .num{font-family:var(--mono);font-size:.7rem;color:var(--accent);margin-right:.5rem}
+.quiz-opts{display:flex;flex-wrap:wrap;gap:.4rem}
+.quiz-opt{font-family:var(--sans);font-size:.82rem;background:var(--paper);border:1px solid var(--rule);padding:.35rem .8rem;cursor:pointer;transition:all .16s;color:var(--ink)}
+.quiz-opt:hover{border-color:var(--ink)}
+.quiz-opt.correct{background:var(--moss);color:var(--paper);border-color:var(--moss)}
+.quiz-opt.wrong{background:var(--terracotta);color:var(--paper);border-color:var(--terracotta)}
+.quiz-opt:disabled{cursor:default}
+.quiz-fb{font-family:var(--sans);font-size:.85rem;line-height:1.7;margin-top:.75rem;padding-top:.7rem;border-top:1px dotted var(--rule);display:none}
+.quiz-fb.show{display:block;animation:fade .3s}
+@keyframes fade{from{opacity:0;transform:translateY(-3px)}to{opacity:1;transform:none}}
+.quiz-score{font-family:var(--mono);font-size:.8rem;padding:.7rem 1rem;background:var(--paper-warm);border:1px solid var(--rule);margin-top:1rem}
+
+.lab{border:2px solid var(--ink);padding:0;margin:2rem 0}
+.lab-head{background:var(--ink);color:var(--paper);padding:1.1rem 1.6rem}
+.lab-head .tag{font-family:var(--mono);font-size:.65rem;letter-spacing:.14em;color:var(--highlight);display:block;margin-bottom:.25rem}
+.lab-head h3{font-size:1.25rem;font-weight:700}
+.lab-head p{font-family:var(--sans);font-size:.83rem;opacity:.72;margin-top:.35rem}
+.lab-body{padding:1.6rem}
+.worksheet{width:100%;border-collapse:collapse;font-size:.88rem;margin:1.2rem 0}
+.worksheet th,.worksheet td{border:1px solid var(--rule);padding:.5rem .6rem;text-align:left}
+.worksheet th{font-family:var(--mono);font-size:.62rem;letter-spacing:.08em;background:var(--paper-warm);font-weight:500}
+.worksheet td.w{font-family:var(--sans);font-size:.95rem;width:28%}
+.worksheet input{width:100%;font-family:var(--sans);font-size:.88rem;border:none;background:transparent;color:var(--ink);padding:.15rem}
+.worksheet input:focus{outline:1px solid var(--accent)}
+
+.mini-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:1rem;margin:1.6rem 0}
+.mini{border:1px solid var(--rule);padding:1.1rem 1.2rem;background:#fff9;transition:transform .2s}
+.mini:hover{transform:translateY(-3px)}
+.mini h5{font-size:.98rem;margin-bottom:.4rem}
+.mini .mtag{font-family:var(--mono);font-size:.63rem;letter-spacing:.1em;color:var(--accent);display:block;margin-bottom:.35rem}
+.mini p{font-size:.83rem;line-height:1.62;opacity:.87}
+
+.week-nav{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:3.5rem;padding-top:2rem;border-top:1px solid var(--rule)}
+.week-nav div{border:1px solid var(--rule);padding:1.1rem 1.3rem;background:#fff9}
+.week-nav .lbl{font-family:var(--mono);font-size:.63rem;letter-spacing:.13em;color:var(--accent);display:block;margin-bottom:.35rem}
+.week-nav b{font-size:1rem;display:block;margin-bottom:.25rem}
+.week-nav p{font-size:.83rem;opacity:.75;line-height:1.6}
+
+footer{border-top:3px double var(--ink);margin-top:4rem;padding:2.5rem 3rem 3.5rem}
+.colophon{max-width:640px;margin:0 auto;text-align:center;font-size:.82rem;line-height:1.9;opacity:.72}
+.colophon .mn{font-family:var(--mono);font-size:.7rem;letter-spacing:.08em}
+.colophon .epigraph{font-style:italic;margin-top:1.2rem;opacity:.8}
+
+@media(max-width:900px){
+  .masthead,.toc-nav,main,footer{padding-left:1.4rem;padding-right:1.4rem}
+  .masthead-inner{grid-template-columns:1fr;gap:.8rem}
+  .meta-info{text-align:left}
+  .toc-nav{position:static}
+  .hero{grid-template-columns:1fr;gap:2rem}
+  .week-nav{grid-template-columns:1fr}
+  .interactive{padding:1.5rem 1.2rem}
+  .lab-head,.lab-body{padding-left:1.2rem;padding-right:1.2rem}
+  .cxsent{font-size:1.04rem;line-height:2.4}
+  .barrow{grid-template-columns:78px 1fr 92px;gap:.5rem;font-size:.78rem}
+}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <span class="issue-tag">제11주 · BLOCK D</span>
+    <div class="title-block">
+      <h1>문장의 확대</h1>
+      <p class="subtitle"><em>Sentences within Sentences</em> — 내포와 접속</p>
+    </div>
+    <div class="meta-info">
+      나사렛대학교<br>언어치료학과<br>학부 과정<br>이봉원 12장 · 개론서 07장
+    </div>
+  </div>
+</header>
+
+<nav class="toc-nav">
+  <div class="toc-nav-inner">
+    <a href="#intro" class="nav-link">들어가며</a>
+    <a href="#two" class="nav-link">§Ⅰ 두 가지 방식</a>
+    <a href="#embed" class="nav-link">§Ⅱ 내포 다섯</a>
+    <a href="#adn" class="nav-link">§Ⅲ 관형절</a>
+    <a href="#conj" class="nav-link">§Ⅳ 접속</a>
+    <a href="#tree" class="nav-link">§Ⅴ 복문 수형도</a>
+    <a href="#ellip" class="nav-link">§Ⅵ 생략과 접속의 범위</a>
+    <a href="#measure" class="nav-link">§Ⅶ 무엇으로 잴 것인가</a>
+    <a href="#lab" class="nav-link">분석 실습실</a>
+    <a href="#clinical" class="nav-link">임상 적용</a>
+    <a href="#check" class="nav-link">확인 문제</a>
+    <a href="#refs" class="nav-link">참고 문헌</a>
+  </div>
+</nav>
+
+<main>
+
+<!-- ============ 들어가며 ============ -->
+<section id="intro" class="section">
+  <div class="hero">
+    <div class="hero-text">
+      <p class="lead">10주차에서 단문만 다뤘다. 그런데 3주차 전사본을 세어 보면 <strong>단문은 스물넷뿐이고 복문이 스물아홉</strong>이다. 조각 다섯을 뺀 <strong>서술어를 갖춘 발화 쉰다섯 가운데 절반이 넘게 복문</strong>인 셈이다.</p>
+
+      <p>문장은 두 가지 방식으로 커진다. 하나는 <strong>문장 안에 문장을 집어넣는 것</strong>(내포), 다른 하나는 <strong>문장과 문장을 잇는 것</strong>(접속)이다. 그리고 그 일을 하는 것이 9주차에 배운 <strong>전성어미와 연결어미</strong>다.</p>
+
+      <p>오늘 이 과목에서 가장 어려운 대목을 지난다. <strong>주교재에서 서술 밀도가 가장 높은 장</strong>이고, <strong>학교 문법과 저자의 견해가 부딪히는 자리</strong>가 반복된다. 그 충돌을 감추지 않겠다 — <strong>충돌 자체가 배울 거리</strong>이기 때문이다.</p>
+    </div>
+
+    <aside class="hero-aside">
+      <h3>이번 주 학습 목표</h3>
+      <ol>
+        <li><strong>내포</strong>와 <strong>접속</strong>을 구별한다</li>
+        <li>안긴 절 <strong>다섯</strong>을 판정한다</li>
+        <li><strong>관계 관형절</strong>과 <strong>동격 관형절</strong>을 가른다</li>
+        <li><strong>대등 접속</strong>과 <strong>종속 접속</strong>을 판별한다</li>
+        <li>종속적 연결어미의 <strong>의미 관계</strong>를 안다</li>
+        <li><strong>복문 수형도</strong>를 그린다</li>
+        <li><strong>C-unit·T-unit</strong>의 한국어 적용 문제를 안다</li>
+        <li><strong>절 밀도</strong>를 산출한다</li>
+      </ol>
+    </aside>
+  </div>
+
+  <div class="callout warning">
+    <span class="callout-label">오늘 다룰 충돌을 미리 적어 둔다</span>
+    <p>· <strong>한 단어 관형절</strong> — 「큰 집」의 「큰」을 <strong>절</strong>로 볼 것인가? 학교 문법은 대체로 <strong>관형절로 인정</strong>하는데, 이 자료는 세지 않았다. 세면 전사본의 <strong>총 절이 89에서 92로</strong> 는다.<br>
+       · <strong>부사절과 종속절</strong> — 「크게 만들다」의 「크게」는 부사절인가 종속적으로 이어진 절인가? <strong>9주차에서 이미 만난 문제</strong>다.<br>
+       · <strong>서술절</strong> — 「코끼리는 코가 길다」를 안은문장으로 볼 것인가, 이중주어문으로 볼 것인가?<br>
+       · <strong>C-unit</strong> — 영어를 위해 만든 단위를 한국어에 그대로 쓸 수 있는가?</p>
+    <p>넷 다 <strong>정답이 없다.</strong> 그러니 오늘의 목표는 「올바르게 판정하기」가 아니라 <strong>「어느 기준을 택했는지 말할 수 있기」</strong>다. 9주차·10주차에서 계속 해 온 그 이야기다.</p>
+  </div>
+</section>
+
+<!-- ============ §Ⅰ ============ -->
+<section id="two" class="section">
+  <div class="section-header">
+    <span class="section-number">§ Ⅰ</span>
+    <h2>문장이 커지는 두 방식<span class="ko-en">Embedding and Conjoining</span></h2>
+    <span class="src-badge main">이봉원 12장 · 개론서 07장 2절</span>
+  </div>
+
+  <div class="prose">
+    <p>10주차에서 <strong>절</strong>을 정의했다 — <strong>주어와 서술어를 갖추었으나 문장의 일부로 쓰이는 것.</strong> 절이 하나면 단문, 둘 이상이면 <em class="term">복문</em>이다.</p>
+
+    <div class="concept-grid">
+      <div class="concept-card">
+        <span class="card-num">방식 01</span>
+        <h4>내포</h4>
+        <span class="ko">內包 · embedding</span>
+        <p>문장 <strong>안에</strong> 문장이 들어간다. 안긴 절이 <strong>문장 성분</strong>이 된다. 그래서 <strong>안은문장</strong>이라 한다. 도구는 <strong>전성어미</strong>와 <strong>인용의 부사격조사</strong>.</p>
+      </div>
+      <div class="concept-card">
+        <span class="card-num">방식 02</span>
+        <h4>접속</h4>
+        <span class="ko">接續 · conjoining</span>
+        <p>문장과 문장을 <strong>나란히</strong> 잇는다. 안기는 것이 아니라 <strong>연결</strong>된다. 그래서 <strong>이어진문장</strong>이라 한다. 도구는 <strong>연결어미</strong>.</p>
+      </div>
+      <div class="concept-card">
+        <span class="card-num">가르는 법</span>
+        <h4>성분이 되는가</h4>
+        <span class="ko">판정 기준</span>
+        <p>안긴 절은 <strong>주어·목적어·관형어·부사어·서술어</strong> 중 하나가 된다. 이어진 절은 <strong>성분이 되지 않는다</strong> — 그냥 앞에 놓인다.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="interactive">
+    <h3>★ 복문 구조 탐색기</h3>
+    <p class="interactive-desc">3주차 전사본의 복문입니다. <strong>절</strong>과 <strong>결합 표지</strong>가 표시됩니다 — 내포면 안긴 절, 접속이면 선행절입니다.</p>
+    <div class="ibody">
+      <div class="btnrow" id="cx-btns"></div>
+      <div class="cxlegend">
+        <span><b style="background:#e8b6472e;border-bottom:2px solid #e8b647">절 — 안긴 절 또는 선행절</b></span>
+        <span><b style="color:#e0836a">결합 표지 (어미·조사)</b></span>
+      </div>
+      <div class="cxsent" id="cx-sent"></div>
+      <div class="ipanel" id="cx-panel"></div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <span class="callout-label">전사본의 복문 — 미리 보는 숫자</span>
+    <p>아동 발화 60개를 판정하면 이렇게 나온다. <strong>조각 5 · 단문 24 · 복문 29 · 판정이 갈리는 것 2</strong>(C13은 한 발화에 두 문장, C25는 연결어미로 끝난 미완).</p>
+    <p>10주차에서는 <strong>복문을 31개</strong>로 적었다. 오늘의 29와 어긋나 보이지만 <strong>같은 자료다</strong> — 10주차는 C13·C25를 복문 쪽에 넣어 세었고, 오늘은 <strong>판정 보류로 따로 뺐다</strong>(31 = 29 + 2). 「단문은 스물넷 남짓, 판정 기준에 따라 두엇이 오간다」고 한 그 두엇이 이 둘이다.</p>
+    <p><strong>수치가 흔들리는 자리를 미리 알아 두는 것</strong>이 [제출 과제 6]의 준비다.</p>
+  </div>
+</section>
+
+<!-- ============ §Ⅱ ============ -->
+<section id="embed" class="section">
+  <div class="section-header">
+    <span class="section-number">§ Ⅱ</span>
+    <h2>내포 — 안긴 절 다섯<span class="ko-en">Five Embedded Clauses</span></h2>
+    <span class="src-badge main">이봉원 12장 「안은 문장」</span>
+  </div>
+
+  <div class="prose">
+    <p>안긴 절은 <strong>어떤 성분이 되는가</strong>로 다섯으로 나눈다. 그리고 <strong>각각을 만드는 어미가 정해져 있다</strong> — 9주차에서 배운 그 어미들이다.</p>
+  </div>
+
+  <div class="interactive">
+    <h3>★ 성분절 5종 대응표</h3>
+    <p class="interactive-desc">갈래를 골라 보세요. <strong>안은 문장</strong>과 <strong>안긴 문장</strong>을 나란히 보여 줍니다. 전사본에 나온 횟수도 함께 표시됩니다.</p>
+    <div class="ibody">
+      <div class="btnrow" id="eb-btns"></div>
+      <div class="ipanel" id="eb-panel"></div>
+    </div>
+  </div>
+
+  <div class="callout clinical">
+    <span class="callout-label">임상 연결 — 무엇이 없는지가 말해 준다</span>
+    <p>전사본에서 안긴 절은 <strong>관형절 11회 · 인용절 5회</strong>다. 그리고 <strong>명사절·부사절·서술절은 0회</strong>다.</p>
+    <p>이것을 「셋을 못 만든다」로 읽으면 안 된다. 그러나 <strong>기록해 둘 만한 관찰</strong>이기는 하다 — 특히 <strong>명사절 「-음/-기」</strong>는 9주차에서도 0회였고, 문어와 학령기 언어에서 급격히 늘어나는 형식이다. <strong>학령기로 넘어가는 아동에게 이 형식이 여전히 없다면</strong> 그때는 다른 이야기가 된다.</p>
+    <p>다만 <strong>세 상황 60발화</strong>로 말할 수 있는 것은 여기까지다. 6주차의 <strong>대표성</strong>이 여기서도 같은 한계를 긋는다.</p>
+  </div>
+</section>
+
+<!-- ============ §Ⅲ ============ -->
+<section id="adn" class="section">
+  <div class="section-header">
+    <span class="section-number">§ Ⅲ</span>
+    <h2>관형절 — 두 종류<span class="ko-en">Relative vs. Complement Clauses</span></h2>
+    <span class="src-badge main">이봉원 12장 · 개론서 07장</span>
+  </div>
+
+  <div class="prose">
+    <p>관형절은 전사본에서 가장 많이 나온 안긴 절이다(11회). 그런데 <strong>안이 두 종류</strong>다.</p>
+  </div>
+
+  <div class="interactive">
+    <h3>관계 관형절과 동격 관형절</h3>
+    <p class="interactive-desc">둘을 가르는 기준은 <strong>「빠진 자리가 있는가」</strong>입니다.</p>
+    <div class="ibody">
+      <div class="btnrow" id="rl-btns"></div>
+      <div class="ipanel" id="rl-panel"></div>
+    </div>
+  </div>
+
+  <div class="callout warning">
+    <span class="callout-label">충돌 ① — 「큰 집」의 「큰」은 절인가</span>
+    <p>전사본 C04·C05 「큰 집」, C12 「큰 거」의 「큰」을 어떻게 볼 것인가.</p>
+    <p>· <strong>절로 보면</strong> — 「[(집이) 크-]ㄴ 집」이므로 <strong>관계 관형절</strong>이다. 주어가 생략된 것뿐이다.<br>
+       · <strong>절로 보지 않으면</strong> — 그냥 형용사의 <strong>관형사형</strong>이고, 「큰 집」은 명사구다.</p>
+    <p><strong>주의 — 절로 세어도 「큰 집」이 복문이 되지는 않는다.</strong> 주절의 서술어가 없기 때문이다. C04·C05는 <strong>절 하나를 품은 조각</strong>이 될 뿐이고, 조각 수는 다섯 그대로다. 늘어나는 것은 <strong>절의 총수</strong>다.</p>
+    <p>학교 문법은 대체로 <strong>절로 인정</strong>한다 — 주어가 복원되기 때문이다. 이 자료의 집계는 <strong>「-ㄴ/-는/-ㄹ」이 붙은 용언 뒤에 체언이 오면 관형절로 세되, 「큰 집」처럼 관형사형 한 단어만으로 된 것은 절로 세지 않는</strong> 방식을 택했다. 관형사형 14회 가운데 <strong>11회는 관형절로 세었고, 셋(C04·C05·C12)만 제외</strong>했다.</p>
+    <p>세면 <strong>총 절 89 → 92</strong>, 밀도 <strong>1.48 → 1.53</strong>이다. <strong>값의 변화는 작다.</strong> 그런데도 이것이 문제가 되는 이유는, C04·C05가 <strong>「절을 품은 조각」이라는 새 칸</strong>을 요구해 <strong>분류표의 모양 자체가 달라지기</strong> 때문이다 — 조각·단문·복문 셋으로는 담기지 않는다.</p>
+    <p><strong>중요한 것은 어느 쪽을 택하느냐가 아니라 택한 것을 밝히느냐다.</strong> 밝히지 않으면 다른 사람이 같은 값을 낼 수 없다 — 6주차의 결론.</p>
+  </div>
+</section>
+
+<!-- ============ §Ⅳ ============ -->
+<section id="conj" class="section">
+  <div class="section-header">
+    <span class="section-number">§ Ⅳ</span>
+    <h2>접속 — 이어진문장<span class="ko-en">Coordination and Subordination</span></h2>
+    <span class="src-badge main">이봉원 12장 「이어진 문장」 · 9주차 연결어미</span>
+  </div>
+
+  <div class="prose">
+    <p>9주차에서 연결어미를 <strong>대등적·종속적·보조적</strong> 셋으로 나누었다. 오늘은 그것이 만드는 <strong>문장</strong>을 본다.</p>
+  </div>
+
+  <div class="interactive">
+    <h3>대등인가 종속인가 — 세 가지 시험</h3>
+    <p class="interactive-desc">시험을 하나씩 적용해 보세요. <strong>셋 다 같은 답을 주면 확실합니다.</strong></p>
+    <div class="ibody">
+      <div class="btnrow" id="cd-btns"></div>
+      <div class="ipanel" id="cd-panel"></div>
+    </div>
+  </div>
+
+  <div class="interactive">
+    <h3>★ 연결어미 의미 탐색 — 열아홉</h3>
+    <p class="interactive-desc">어미를 눌러 의미 관계를 확인하세요. <strong>전사본에 나온 것</strong>에는 발화 번호를 붙였습니다.<br>열아홉 가운데 <strong>「-지만」은 학교 문법에서 대등적 연결어미</strong>(대조)이고 <strong>「-면서」도 대등으로 보는 견해</strong>가 있으며, <strong>「-고」는 나열이면 대등·계기면 종속</strong>입니다. 나머지가 종속적 연결어미입니다.</p>
+    <div class="ibody">
+      <div class="cegrid" id="ce-grid"></div>
+      <div class="ipanel" id="ce-panel"></div>
+    </div>
+  </div>
+
+  <div class="callout warning">
+    <span class="callout-label">충돌 ② — 부사절과 종속절</span>
+    <p>「문을 <u>크게</u> 만들어야 돼요」(C17)의 「크게」를 어떻게 볼 것인가.</p>
+    <p>· <strong>부사절</strong>로 보면 — 「-게」는 <strong>부사형 전성어미</strong>이고 「크게」는 <strong>안긴 절</strong>이다. 내포다.<br>
+       · <strong>종속절</strong>로 보면 — 「-게」는 <strong>종속적 연결어미</strong>이고 「크게 만들다」는 <strong>이어진문장</strong>이다. 접속이다.</p>
+    <p>9주차 §Ⅳ에서 이 문제를 이미 말했다 — <strong>7차 교육과정이 「-게·-도록」을 부사형 어미로 설정했지만 같은 어미가 종속적 연결어미로도 분류되어 한 형태가 두 자리에 걸친다.</strong> 학교 문법 자체가 정리하지 못한 자리다.</p>
+    <p>이 자료는 9주차와 마찬가지로 <strong>연결어미 쪽에 넣어</strong> 세었다. 그래서 §Ⅱ의 부사절이 0회다. <strong>부사절로 세면 1회가 된다.</strong></p>
+  </div>
+</section>
+
+<!-- ============ §Ⅴ ============ -->
+<section id="tree" class="section">
+  <div class="section-header">
+    <span class="section-number">§ Ⅴ</span>
+    <h2>복문 수형도<span class="ko-en">Trees for Complex Sentences</span></h2>
+    <span class="src-badge main">개론서 07장 · 10주차 §Ⅵ의 확장</span>
+  </div>
+
+  <div class="prose">
+    <p>10주차의 구절 구조 규칙에 <strong>두 줄을 더하고 두 줄을 넓히면</strong> 복문이 그려진다. 그리고 <strong>그 네 줄 가운데 셋의 오른쪽에 S가 다시 나타난다.</strong></p>
+
+    <div class="ex">
+      <span class="mono">S → (NP) VP</span> &nbsp;<span style="opacity:.5">10주차 그대로</span><br>
+      <span class="mono">NP → (AdnP) N (P)</span> &nbsp;<span style="opacity:.5">10주차 그대로</span><br>
+      <span class="mono">AdnP → <b style="color:var(--accent)">S<sub>관형절</sub></b> | N | 관형사 | 관형사형</span> &nbsp;<span style="opacity:.6">★<b>확장</b> — 10주차 규칙의 오른쪽에 S를 더했다</span><br>
+      <span class="mono">AdvP → <b style="color:var(--accent)">S<sub>인용절</sub></b> P &nbsp;|&nbsp; NP P</span> &nbsp;<span style="opacity:.6">★<b>확장</b> — 10주차의 <span class="mono">AdvP → NP P</span> 자리에 절도 온다</span><br>
+      <span class="mono">S → <b style="color:var(--accent)">S<sub>선행절</sub></b> &nbsp;S<sub>후행절</sub></span> &nbsp;<span style="opacity:.6">★<b>새 규칙</b> — 문장이 문장 둘로</span><br>
+      <span class="mono">VP → V EC</span> &nbsp;<span style="opacity:.6"><b>새 규칙</b> — 연결어미가 서술어에 붙는다</span>
+    </div>
+
+    <p><strong>넓힌 두 줄을 보라.</strong> 10주차에서는 관형어 자리에 <strong>관형사·관형사형</strong>이, 부사어 자리에 <strong>명사구</strong>가 들어갔다. 오늘은 그 <strong>같은 자리에 절이 들어간다.</strong> 새 자리를 만든 것이 아니라 <strong>있던 자리에 더 큰 것을 넣은 것</strong>이다.</p>
+
+    <p><strong>그 결과 S가 규칙의 오른쪽에 다시 나타난다.</strong> 이것을 <em class="term">재귀</em>(recursion)라 하는데, 1주차에서는 <strong>「귀환」</strong>이라는 이름으로 나왔다. 1주차가 <strong>생산성을 만드는 장치</strong>로 든 <strong>조합과 귀환</strong> 가운데 귀환이 이것이다. <strong>규칙이 유한한데 문장이 무한한 이유</strong>가 여기 있다.</p>
+  </div>
+
+  <div class="interactive">
+    <h3>★ 복문 수형도 빌더</h3>
+    <p class="interactive-desc">문장을 고르고 <strong>「한 단계 펼치기」</strong>를 누르세요. <strong>초록 마디</strong>가 안긴 절 또는 선행절이며, 그 안에 다시 S가 들어 있습니다.</p>
+    <div class="ibody">
+      <div class="btnrow" id="tb-btns"></div>
+      <div id="tb-fig" style="margin:0 0 1rem"></div>
+      <div class="btnrow" style="margin-bottom:1rem">
+        <button class="ibtn" id="tb-step">한 단계 펼치기</button>
+        <button class="ibtn" id="tb-all">끝까지</button>
+        <button class="ibtn" id="tb-reset">처음으로</button>
+      </div>
+      <div class="ipanel" id="tb-panel"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ §Ⅵ ============ -->
+<section id="ellip" class="section">
+  <div class="section-header">
+    <span class="section-number">§ Ⅵ</span>
+    <h2>생략과 접속의 범위<span class="ko-en">Ellipsis and Scope</span></h2>
+    <span class="src-badge main">이봉원 12장</span>
+  </div>
+
+  <div class="prose">
+    <h3>같은 성분은 생략된다</h3>
+    <p>절이 이어질 때 <strong>겹치는 성분은 대개 하나만 남는다.</strong></p>
+
+    <div class="ex">
+      「토끼가 빨리 가다가 (토끼가) 나무 밑에서 잤어요」 &nbsp;<span style="opacity:.55">C26 — 뒤 절의 주어 생략</span><br>
+      「그래도 (오빠가) 계속 놀려서 (내가) 엄마한테 말했어」 &nbsp;<span style="opacity:.55">C56 — 두 절 모두 주어 생략</span>
+    </div>
+
+    <p>C56에 주목하라. <strong>두 절의 주어가 서로 다른데 둘 다 생략</strong>되었다. 그런데 아이가 말한 순서와 맥락으로 <strong>정확히 복원된다.</strong> 10주차 §임상의 <strong>③단계</strong>가 하는 일이 이것이다.</p>
+
+    <h3>문 접속과 구 접속</h3>
+    <p>「와/과」로 이어진 것에는 두 가지 해석이 있다.</p>
+  </div>
+
+  <div class="interactive">
+    <h3>「와/과」의 두 얼굴</h3>
+    <p class="interactive-desc">같은 문장이 <strong>두 구조</strong>로 읽힙니다. 어느 쪽인지는 <strong>서술어</strong>가 정합니다.</p>
+    <div class="ibody">
+      <div class="btnrow" id="ph-btns"></div>
+      <div class="ipanel" id="ph-panel"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ §Ⅶ ============ -->
+<section id="measure" class="section">
+  <div class="section-header">
+    <span class="section-number">§ Ⅶ</span>
+    <h2>무엇으로 잴 것인가<span class="ko-en">Units of Measurement</span></h2>
+    <span class="src-badge main">이봉원 12장 — 주교재가 정면으로 비판하는 대목</span>
+  </div>
+
+  <div class="prose">
+    <p>아동의 <strong>구문 발달</strong>을 재려면 단위가 필요하다. 4주차의 MLU는 <strong>길이</strong>를 잴 뿐 <strong>복잡성</strong>을 재지 못한다 — 「엄마가 밥을 먹었어요」와 「밥 먹고 놀고 잤어」는 길이가 비슷하지만 구조가 다르다.</p>
+
+    <p>영어권에서 이 문제를 풀려고 만든 단위가 <strong>T-unit</strong>과 <strong>C-unit</strong>이다.</p>
+  </div>
+
+  <div class="interactive">
+    <h3>세 가지 단위</h3>
+    <p class="interactive-desc">각 단위를 눌러 보세요. <strong>왜 만들어졌는지</strong>가 중요합니다.</p>
+    <div class="ibody">
+      <div class="btnrow" id="un-btns"></div>
+      <div class="ipanel" id="un-panel"></div>
+    </div>
+  </div>
+
+  <div class="interactive">
+    <h3>★ 계량 비교기 — 전사본으로 확인하기</h3>
+    <p class="interactive-desc">3주차 전사본 아동 발화 60개의 실측치입니다. <strong>단위를 바꾸면 값이 얼마나 달라지는지</strong> 보세요.</p>
+    <div class="ibody">
+      <div class="btnrow" id="mt-btns"></div>
+      <div class="metgrid" id="mt-grid"></div>
+      <div class="barset" id="mt-bars"></div>
+      <div class="ipanel" id="mt-panel"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 분석 실습실 ============ -->
+<section id="lab" class="section">
+  <div class="lab">
+    <div class="lab-head">
+      <span class="tag">분석 실습실 · TYPE 1+3 태깅+계량 · [제출 과제 6]</span>
+      <h3>전사본의 복문 전수 분류와 절 밀도</h3>
+      <p>10주차에서 단문을 봤습니다. 이번엔 <strong>나머지 전부</strong>입니다. 그리고 <strong>C-unit이 한국어에서 쓸모가 있는지</strong>를 직접 검증합니다.</p>
+    </div>
+    <div class="lab-body">
+      <div class="prose">
+        <p><strong>대상.</strong> 아동 발화 60개(C01–C60) 전체.</p>
+        <p><strong>절차.</strong> ① 각 발화를 <strong>조각 / 단문 / 복문</strong>으로 가른다 → ② 복문을 <strong>내포(5종) · 접속(대등/종속)</strong>으로 분류한다 → ③ <strong>총 절 수</strong>를 센다 → ④ <strong>절 밀도</strong>를 산출한다 → ⑤ 같은 자료를 <strong>C-unit 기준</strong>과 <strong>문장(발화) 기준</strong>으로 각각 세어 비교한다.</p>
+      </div>
+
+      <table class="worksheet">
+        <thead>
+          <tr><th style="width:28%">항목</th><th style="width:24%">값</th><th>판정 기준을 어떻게 정했는가</th></tr>
+        </thead>
+        <tbody id="ws-body"></tbody>
+      </table>
+
+      <div class="callout">
+        <span class="callout-label">함께 답할 것 — A4 두 쪽</span>
+        <p><strong>1. 판정 기준을 먼저 쓰라.</strong> 시작하기 전에 네 가지를 정하고 적으라 — ① <strong>「큰 집」의 「큰」</strong>을 절로 셀 것인가 ② <strong>「크게 만들다」의 「-게」</strong>를 부사절로 볼 것인가 종속절로 볼 것인가 ③ <strong>보조용언 구성</strong>(「해 주다」)을 한 절로 볼 것인가 ④ <strong>C13·C25</strong>를 어떻게 처리할 것인가. <strong>이 넷이 결과를 크게 바꾼다.</strong></p>
+        <p><strong>2. C-unit 검증 (핵심).</strong> C-unit 수와 발화 수를 각각 세어 비교하라. <strong>차이가 몇 개인가?</strong> 그리고 그 차이가 어디서 났는지 발화 번호로 적으라. 이 결과로 <strong>「한국어에서 C-unit은 문장과 별 차이가 없다」는 주교재의 주장을 검증</strong>하라 — 지지되는가, 반박되는가?</p>
+        <p><strong>3.</strong> 안긴 절 다섯 가운데 <strong>나타나지 않은 것</strong>을 찾고, 각각에 대해 <strong>「쓸 맥락이 없었는가, 아직 못 쓰는가」</strong>를 판단하라. 판단 근거를 적을 것.</p>
+        <p><strong>4.</strong> 절이 <strong>셋인 발화</strong>를 모두 찾아 수형도를 그리라. 그리고 그 발화들이 <strong>어느 상황</strong>(놀이/책/이야기)에 몰려 있는지 확인하고 이유를 설명하라.</p>
+      </div>
+
+      <div class="callout warning">
+        <span class="callout-label">제출 요건</span>
+        <p><strong>분류표 + 워크시트 + A4 두 쪽.</strong> 분류표에는 <strong>60개 발화가 모두</strong> 들어가야 합니다 — 조각과 단문도 포함해서.</p>
+        <p><strong>2번 문항이 이 과제의 중심입니다.</strong> 값을 내는 것이 아니라 <strong>「이 단위를 한국어에 쓸 수 있는가」에 자기 답을 내는 것</strong>이 목표입니다. 지지든 반박이든 <strong>숫자로 말하십시오.</strong></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 임상 적용 ============ -->
+<section id="clinical" class="section">
+  <div class="section-header">
+    <span class="section-number">§ 임상</span>
+    <h2>임상 적용 — 빌려 온 단위를 어떻게 쓸 것인가<span class="ko-en">Clinical Application</span></h2>
+  </div>
+
+  <div class="prose">
+    <p>주교재는 이 대목에서 <strong>드물게 강한 어조로</strong> 문제를 제기한다. 그 논지를 그대로 옮기면 이렇다.</p>
+  </div>
+
+  <div class="callout warning">
+    <span class="callout-label">한국어에 그대로 쓸 수 있는가 — 제기되는 문제</span>
+    <p>T-unit과 C-unit은 <strong>영어 자료를 나누려고 만들어진 단위</strong>다. 영어 구어에서는 「and… and… and…」로 끝없이 이어지는 아동 발화를 어디서 끊을지가 실무적 난제였고, 그 끊는 자리를 <strong>절의 구성으로 정의</strong>한 것이 이 단위들이다.</p>
+    <p>그런데 <strong>한국어에는 종결어미가 있다.</strong> 「-다·-어·-어요·-니」가 붙으면 거기서 문장이 끝난다. <strong>문장 경계를 알려 주는 형태적 표지가 어미에 얹혀 있는 것이다.</strong></p>
+    <p>그렇다면 C-unit을 쓰는 것이 무슨 의미가 있는가? <strong>거의 문장과 같아진다면, 굳이 새 단위를 도입할 이유가 없다</strong>는 것이 이 비판의 요지다.</p>
+    <p style="font-size:.85rem;opacity:.8"><strong>다만 이 대비를 너무 세게 잡으면 곤란하다.</strong> 영어에도 문장 경계 표지가 아주 없는 것은 아니고(어순·조동사 도치 등), 한국어에도 <strong>종결어미로 끝나지 않는 발화</strong>가 흔하다 — 전사본 C25는 연결어미 「-어서」로 끝나 <strong>어디까지가 한 문장인지 판정을 보류</strong>했고, 「-는데」로 말끝을 흐리는 발화는 성인 구어에도 넘친다. <strong>한국어라고 경계가 늘 분명한 것은 아니다.</strong></p>
+  </div>
+
+  <div class="prose">
+    <p>이 주장은 <strong>검증 가능하다.</strong> 실제로 세어 보면 된다. 전사본으로 해 보면 <strong>C-unit 62 · 발화 60 — 차이 두 개(3.3%)</strong>다(C13은 한 발화에 두 문장, C14는 대등 접속).</p>
+
+    <p><strong>다만 이 값 자체가 기준에 달렸다.</strong> 발화 안에 들어 있는 응답어 「응·네·아니」(C06·C08·C38·C50)를 Loban의 원 정의대로 <strong>따로 세면 C-unit은 66, 차이는 6(10%)</strong>이 된다. 이 자료는 따로 세지 않았고, 그 사실을 「수치의 출처」 기준 ⑦에 밝혀 두었다. <strong>C-unit 논쟁을 검증하겠다면서 C-unit을 세는 기준을 밝히지 않으면 검증이 되지 않는다.</strong></p>
+
+    <p>그러면 <strong>대안은 무엇인가.</strong> 주교재가 제시하는 것이 <em class="term">절 밀도</em>(clause density)다.</p>
+
+    <div class="ex">
+      <strong>절 밀도 = 총 절 수 ÷ 총 발화(또는 C-unit) 수</strong><br>
+      <span style="opacity:.65">전사본 — 89 ÷ 60 = <strong>1.48</strong> (조각 제외하면 89 ÷ 55 = <strong>1.62</strong>, C-unit 기준이면 89 ÷ 62 = <strong>1.44</strong>)</span>
+    </div>
+
+    <p>절 밀도는 <strong>단위를 새로 만들지 않는다.</strong> 있는 문장을 그대로 세고, <strong>그 안에 절이 몇 개 들어 있는지</strong>만 본다. 한국어처럼 문장 경계 표지가 뚜렷한 언어에서는 이쪽이 자연스럽다.</p>
+
+    <p style="font-size:.85rem;opacity:.8"><strong>용어에 주의하라.</strong> 영어권 문헌의 <em class="term">종속절 지표</em>(subordination index, SI)가 이것과 거의 같은 값인데, <strong>원 정의의 분모는 C-unit</strong>이다. 그러니 「절 밀도 1.48」이라고만 쓰면 분모가 무엇인지 알 수 없다 — <strong>발화 60인지, 조각 뺀 55인지, C-unit 62인지</strong>를 반드시 밝혀야 한다. 덧붙여 <strong>SALT의 실제 운용은 서술어가 없는 C-unit을 분모에서 뺀다</strong> — 그러니 위 셋 가운데 SI에 가장 가까운 것은 1.44가 아니라 <strong>조각을 뺀 1.62</strong> 쪽이다.</p>
+  </div>
+
+  <div class="callout clinical">
+    <span class="callout-label">절 밀도를 쓸 때 조심할 것</span>
+    <p><strong>1. 절의 정의를 밝혀야 한다.</strong> 「큰 집」의 「큰」을 절로 세면 값이 달라진다. 전사본의 관형사형 14회 가운데 <strong>11회는 이미 관형절로 세어져 있으므로</strong> 새로 더해지는 것은 <strong>셋뿐</strong>이고, 총 절 89 → 92 · 밀도 1.48 → <strong>1.53</strong>이다. 값의 변화는 작지만 <strong>C04·C05가 「절을 품은 조각」이 되어 분류표에 없던 칸이 필요해진다.</strong> 세는 기준이 없으면 값을 재현할 수 없다.</p>
+    <p><strong>2. 조각을 어떻게 할지 정해야 한다.</strong> 분모에 넣으면 1.48, 빼면 1.62다. <strong>0.14의 차이가 기준 하나에서 나온다.</strong></p>
+    <p><strong>3. 길이 지표와 함께 보라.</strong> 절 밀도는 <strong>복잡성</strong>을, MLU는 <strong>길이</strong>를 잰다. 둘은 다른 것을 보므로 함께 봐야 한다. 전사본의 어절 수는 <strong>발화당 3.72</strong>인데(전사본 §4), 이 값은 4주차의 용어로는 <strong>MLU-c</strong>(어절 단위)에 해당한다 — 형태소 단위 MLU-m은 이 자료에서 산출하지 않았다. <strong>전사본 §4는 같은 값을 「MLU-w」로 적어 두었으니 4주차 용어로 고쳐 읽으라.</strong> <strong>같은 「MLU」라도 단위를 밝히지 않으면 비교할 수 없다</strong>는 4주차의 이야기가 여기서도 그대로다.</p>
+    <p><strong>4. 그리고 규준이 없다.</strong> 절 밀도의 한국어 규준은 아직 충분하지 않다. 그러니 <strong>또래와 비교하는 용도가 아니라 같은 아동의 변화를 추적하는 용도</strong>로 쓰는 편이 안전하다. 6주차 TTR에서 한 이야기와 같다.</p>
+  </div>
+
+  <div class="prose">
+    <h3>복문 발달의 순서</h3>
+    <p>어떤 복문이 먼저 나타나는가. 국내 연구에서 반복 보고되는 대강은 이렇다 — <strong>다만 연구마다 방법과 대상이 달라 시기는 크게 차이 난다.</strong></p>
+  </div>
+
+  <table class="data-table">
+    <thead><tr><th style="width:22%">순서</th><th style="width:26%">무엇이 나타나는가</th><th>전사본에서 확인</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="ko">먼저</td>
+        <td><strong>접속</strong> — 특히 나열 「-고」와 이유 「-서」</td>
+        <td>서희선·이승환(1999)에서 <strong>2;0~2;5</strong>부터. 전사본에 이유 「-어서」 5회(그중 C25는 판정 보류라 복문 집계에는 4회). 「-고」는 <strong>셋뿐</strong>이다(나열 C14, 계기·수단 C07·C41) — <strong>셋으로는 우열을 말할 수 없다.</strong></td>
+      </tr>
+      <tr>
+        <td class="ko">그다음</td>
+        <td><strong>내포 중 관형절과 인용절</strong></td>
+        <td>전사본에 관형절 11회·인용절 5회. <strong>4;6에 이미 활발하다.</strong></td>
+      </tr>
+      <tr>
+        <td class="ko">늦게</td>
+        <td><strong>명사절 「-음/-기」</strong>, 그리고 종속 접속 중 <strong>양보·목적</strong></td>
+        <td>전사본에 명사절 <strong>0회</strong>, 목적의 「-려고/-러」 <strong>0회</strong>, 양보 「-어도」 0회. <strong>예상과 맞는다.</strong></td>
+      </tr>
+      <tr>
+        <td class="ko">가장 늦게</td>
+        <td><strong>절이 셋 이상</strong>인 문장</td>
+        <td>전사본에 <strong>네 개</strong>뿐이다(C17·C31·C46·C59). 넷 중 <strong>둘</strong>이 경험 이야기(상황 ③)에 있고, C17은 자유놀이(①), C31은 그림책(②)이다 — 실습 4번 문항이 이 배치를 묻는다.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout warning">
+    <span class="callout-label">이 표를 규준으로 쓰지 말 것</span>
+    <p>위 표는 <strong>순서에 관한 대강</strong>이고, <strong>시기는 담지 않았다.</strong> 연결어미만 서희선·이승환(1999)의 수치를 달았고 나머지는 방향만 적었다.</p>
+    <p>이유가 있다. <strong>복문 발달의 국내 규준 자료가 충분하지 않고</strong>, 있는 것도 방법에 따라 값이 크게 갈리기 때문이다 — 9주차에서 목적격 조사 산출률이 <strong>77.5%와 46.6%</strong>로 갈렸던 그 문제가 여기서도 그대로다.</p>
+    <p><strong>그러므로 이 표를 보고서나 논문에 인용하지 말라.</strong> 이것은 강의에서 순서 감각을 잡기 위해 여러 서술을 정리한 것이지 <strong>어느 한 연구의 결과가 아니다.</strong> 실제 판단에는 <strong>원 연구를 직접 찾아 대상 연령·표집 상황·절의 정의를 확인한 뒤</strong> 그 연구를 인용해야 한다. 「전사본에서 확인」 칸은 <strong>교육용 구성 자료 한 명의 값</strong>이므로 더더욱 근거가 되지 않는다.</p>
+  </div>
+</section>
+
+<!-- ============ 확인 문제 ============ -->
+<section id="check" class="section">
+  <div class="section-header">
+    <span class="section-number">§ 정리</span>
+    <h2>확인 문제<span class="ko-en">Self-Check</span></h2>
+  </div>
+
+  <div class="prose">
+    <p>점수는 반영되지 않습니다. 틀린 문항의 해설을 읽고 해당 절로 돌아가 확인하세요.</p>
+  </div>
+
+  <div id="check-items"></div>
+  <div class="quiz-score" id="check-score">아직 푼 문항이 없습니다.</div>
+
+  <div class="callout" style="margin-top:2rem">
+    <span class="callout-label">이번 주 과제</span>
+    <p><strong>[제출 과제 6]</strong> — 전사본 복문 전수 분류 + 절 밀도 + C-unit 검증. 분류표와 워크시트, A4 두 쪽.</p>
+    <p><strong>읽어 올 것</strong> — 이봉원 13장(문법 요소). 개론서 08장 「의미론」 앞부분은 13주차용이니 아직 읽지 않아도 됩니다.</p>
+  </div>
+
+  <div class="week-nav">
+    <div>
+      <span class="lbl">지난주 · 제10주</span>
+      <b>문장의 구성</b>
+      <p>어절·구·절, 문장 성분 일곱, 서술어의 자릿수와 논항, 기본 문형, 핵-끝머리 어순, 수형도, 문장 종결법.</p>
+    </div>
+    <div>
+      <span class="lbl">다음 주 · 제12주</span>
+      <b>문법 요소의 기능과 의미</b>
+      <p><strong>BLOCK D의 마지막</strong>입니다. 문장을 변형하는 조작들 — <strong>피동·사동·높임·시제와 상·부정</strong>. 8주차 활용표의 빈칸, 9주차 선어말어미, 10주차 종결법이 여기서 하나로 모입니다. 그리고 전사본의 「감겨」(피동)와 「태워」(사동)를 드디어 정면으로 다룹니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 참고 문헌 ============ -->
+<section id="refs" class="section">
+  <div class="section-header">
+    <span class="section-number">§ 자료</span>
+    <h2>참고 문헌과 더 읽을거리<span class="ko-en">References</span></h2>
+  </div>
+
+  <div class="prose"><h3>교재</h3></div>
+
+  <table class="data-table">
+    <tbody>
+      <tr>
+        <td style="width:30%" class="ko">이봉원(2015)</td>
+        <td><strong>『언어치료사를 위한 한국어 문법』 개정판.</strong> 서울: 학지사.<br>
+        <span style="opacity:.72">12장 전체. <strong>주교재에서 서술 밀도가 가장 높은 장</strong>이고, §Ⅶ과 §임상의 <strong>C-unit 비판</strong>이 이 장의 것이다. 학교 문법과 저자 견해가 부딪히는 자리가 반복되므로, 이 자료는 그 충돌을 감추지 않고 <strong>「충돌 ①·②」로 명시</strong>했다.</span></td>
+      </tr>
+      <tr>
+        <td class="ko">홍종선 외 19인(2022)</td>
+        <td><strong>『쉽게 읽는 한국어학의 이해』 개정2판.</strong> 서울: 한국문화사.<br>
+        <span style="opacity:.72">07장 2절 「내포와 접속」. §Ⅴ의 복문 구절 구조 규칙이 여기서 왔다.</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="prose"><h3>§Ⅶ — 계량 단위의 출처</h3></div>
+
+  <table class="data-table">
+    <tbody>
+      <tr><td style="width:30%" class="ko">Hunt, K. W. (1965)</td><td><em>Grammatical Structures Written at Three Grade Levels.</em> NCTE Research Report No. 3. Champaign, IL: National Council of Teachers of English. <span style="opacity:.65">— <b>T-unit</b>(minimal terminable unit)을 제안한 원 연구. <b>문어</b>를 대상으로 했다는 점이 중요하다.</span></td></tr>
+      <tr><td class="ko">Loban, W. (1963)</td><td><em>The Language of Elementary School Children.</em> NCTE Research Report No. 1. Champaign, IL: NCTE. <span style="opacity:.65">— <b>C-unit</b>(communication unit)을 제안한 원 연구. <b>T-unit(1965)보다 앞선다</b> — 흔히 「T-unit을 구어용으로 고친 것」이라 하지만 연대는 반대다.</span></td></tr>
+      <tr><td class="ko">Loban, W. (1976)</td><td><em>Language Development: Kindergarten through Grade Twelve.</em> NCTE <b>Committee on Research</b> Report No. 18. Urbana, IL: NCTE. <span style="opacity:.65">— 유치원~12학년 종단 자료. C-unit 기준 발달 수치가 널리 인용되는 출처다.</span></td></tr>
+      <tr><td class="ko">서희선·이승환(1999)</td><td>「2~5세 정상 아동의 연결어미 발달」, 『언어청각장애연구』 4, 167–185. <span style="opacity:.65">— §임상 발달 표의 첫 줄. 9주차에서 이미 쓴 연구다.</span></td></tr>
+    </tbody>
+  </table>
+
+  <div class="prose"><h3>수치의 출처</h3></div>
+
+  <table class="data-table">
+    <tbody>
+      <tr><td style="width:30%" class="ko">전사본 실측</td><td><strong>3주차 배부 전사본</strong>(교육용 구성 자료)의 아동 발화 60개를 직접 분류해 산출.<br><span style="opacity:.65"><b>조각 5 · 단문 24 · 복문 29 · 판정 보류 2</b>(C13 한 발화 두 문장, C25 연결어미 종결) = 60.<br>복문 유형(중복 계산) — <b>종속접속 16 · 관형절 11 · 인용절 5 · 대등접속 1</b>, <b>명사절·부사절·서술절 0</b>. 내포 <b>16</b> · 접속 <b>17</b>.<br><b>검산</b> — 결합 표지 33개이므로 복문의 절은 29+33=<b>62</b>. 여기에 단문 24 + C13의 2 + C25의 1 = <b>총 절 89</b>.<br>절 밀도 <b>1.48</b>(÷60) / <b>1.62</b>(조각 제외 ÷55) / <b>1.44</b>(C-unit ÷62). C-unit <b>62</b> vs 발화 60 (차이 2 = 3.3%). 절이 셋인 발화 4개(<b>C17·C31·C46·C59</b>).<br><br><b>판정 기준 — 이것을 밝히지 않으면 위 값은 재현되지 않는다</b><br>① 「큰 집」류 <b>한 단어 관형사형은 절로 세지 않았다</b>(C04·C05·C12). 세면 총 절 92 · 밀도 1.53이 된다. 다만 C04·C05는 <b>주절 서술어가 없어 복문이 되지 못하므로 조각 수는 5 그대로</b>이고, 대신 <b>「절을 품은 조각」이라는 칸</b>이 새로 필요해진다.<br>② 「-게」는 <b>연결어미</b>로 처리했다(9주차와 같음).<br>③ 보조용언 구성은 <b>한 절</b>로 보았다(8주차 §Ⅲ).<br>④ 한 발화에 두 문장이 든 것은 <b>C13·C33 둘</b>이다. C13은 <b>판정 보류</b>로 따로 두었고, C33 「아니다, 이건 자는 거 같애」는 앞의 「아니다」를 <b>자기 수정</b>으로 보아 뒤 문장만 세었다(4주차의 결정을 따름). C25는 연결어미로 끝난 미완이라 역시 따로 두었다.<br>⑤ 「-고」의 <b>계기·수단</b> 용법(C07 「갖고 오세요」·C41 「타고 갔어」)을 <b>종속 접속</b>으로, 곧 <b>절 둘</b>로 세었다. 대등으로 보면 대등 3 · 종속 14가 되고, 「갖고 오다·타고 가다」를 <b>하나의 서술어</b>로 보면 총 절 87 · 밀도 1.45가 된다.<br>⑥ 「-대요」(C30)를 「-다고 해요」의 축약으로 보아 <b>인용절로 세었다.</b> 「-대」를 독립된 종결어미로 보면 <b>인용절 4 · 총 절 88 · 밀도 1.47</b>이다. 전사본 §5의 안내가 인용절을 넷으로 적은 것은 이 축약을 세지 않은 것이다.<br>⑦ <b>C-unit</b>은 독립절 + 딸린 종속절로 세고, <b>홀로 선 답변 조각도 각각 하나</b>로 세었다. 다만 <b>발화 안에 들어 있는 응답어(「응·네·아니」)는 따로 세지 않았다</b> — Loban의 원 정의대로 갈라 세면 C06·C08·C38·C50이 각각 둘이 되어 <b>C-unit 66 · 차이 6(10%)</b>이 된다. <b>이 기준 하나가 §Ⅶ의 결론을 3.3%에서 10%로 바꾼다.</b><br>⑧ <b>조각 다섯은 C04·C05·C08·C18·C37</b>이다. 「블록이요」(C02)는 서술격조사 「이-」가 드러나므로 <b>단문</b>(10주차 문형 ③)으로, 「그거요」(C08)는 보조사 「요」만 붙은 것으로 보아 <b>조각</b>으로 세었다. C02까지 조각으로 잡으면 조각 6 · 단문 23이다.<br><br><b>이 여덟 중 하나만 바꿔도 값이 달라진다</b> — 그래서 교육용 자료이고 규준이 아니다.</span></td></tr>
+    </tbody>
+  </table>
+
+  <div class="prose"><h3>더 볼 사람에게</h3></div>
+
+  <table class="data-table">
+    <tbody>
+      <tr><td style="width:30%" class="ko">★ 남기심·고영근·유현경·최형용(2019)</td><td>『새로 쓴 표준 국어문법론』, 한국문화사. <span style="opacity:.65">— 안은문장과 이어진문장의 표준적 서술. §Ⅱ·§Ⅳ가 여기서 왔다.</span></td></tr>
+      <tr><td class="ko">★ 고영근·구본관(2018)</td><td>『우리말 문법론』 개정판, 집문당. <span style="opacity:.65">— 관계 관형절과 동격 관형절, 그리고 「한 단어 관형절」 문제를 상세히 다룬다. §Ⅲ의 충돌 ①을 더 볼 사람에게.</span></td></tr>
+      <tr><td class="ko">이은경(2000)</td><td>『국어의 연결 어미 연구』, 태학사. <span style="opacity:.65">— 대등/종속의 판별과 연결어미의 의미 분류를 본격적으로 다룬 연구서. §Ⅳ.</span></td></tr>
+      <tr><td class="ko">Sohn, H.-M. (1999)</td><td><em>The Korean Language</em>, Cambridge University Press. <span style="opacity:.65">— 한국어의 내포와 접속을 영어로 기술한다.</span></td></tr>
+    </tbody>
+  </table>
+
+  <div class="prose"><h3>직접 써 볼 자료</h3></div>
+
+  <div class="mini-grid">
+    <div class="mini">
+      <span class="mtag">실물</span>
+      <h5>3주차 전사본</h5>
+      <p>[제출 과제 6]의 대상. <strong>60개 발화가 모두</strong> 분류표에 들어가야 합니다. 판정 기준을 먼저 정하고 시작하십시오.</p>
+    </div>
+    <div class="mini">
+      <span class="mtag">사전</span>
+      <h5>고려대 한국어대사전</h5>
+      <p>연결어미의 의미를 확인할 때. <strong>어미도 표제어로 실려 있고</strong> 용례가 풍부합니다.</p>
+    </div>
+    <div class="mini">
+      <span class="mtag">이전 주차</span>
+      <h5>9주차 §Ⅴ 연결어미</h5>
+      <p>오늘의 §Ⅳ가 그것의 확장입니다. 전사본의 연결어미 24회·14가지가 거기 정리되어 있습니다 — 그중 <strong>보조적 연결어미</strong>는 오늘 기준 ③(보조용언 구성은 한 절)에 따라 절로 세지 않았으므로, 오늘의 접속 표지 17회와 바로 대응하지 않습니다.</p>
+    </div>
+    <div class="mini">
+      <span class="mtag">이전 주차</span>
+      <h5>10주차 §Ⅵ 수형도</h5>
+      <p>오늘의 §Ⅴ는 거기에 <strong>두 줄을 더하고 두 줄을 넓힌 것</strong>입니다. 규칙 다섯을 먼저 복습하고 오십시오.</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="colophon">
+    <strong>문장의 확대</strong> — 한국어학 제11주 강의자료<br>
+    <span class="mn">주교재 이봉원(2015) 『언어치료사를 위한 한국어 문법』 개정판, 학지사</span><br>
+    <span class="mn">부교재 홍종선 외 19인(2022) 『쉽게 읽는 한국어학의 이해』 개정2판, 한국문화사</span><br>
+    <span class="mn">Set in Noto Serif KR &amp; JetBrains Mono</span>
+    <p class="epigraph">"규칙이 유한한데 문장이 무한한 이유가 여기 있다."<br>— §Ⅴ, 재귀</p>
+    <p style="font-size:.72rem;opacity:.55;margin-top:1rem">전사본 수치는 교육용 구성 자료의 것이므로 규준이 아니다. 절의 판정 기준을 바꾸면 값이 달라진다.</p>
+  </div>
+</footer>
+
+<script>
+/* ===== §Ⅰ 복문 구조 탐색기 ===== */
+/* w: [텍스트, 'emb'|'mk'|''] */
+const CXS=[
+ {btn:'C22',t:'관형절 (내포)',
+  w:[['토끼가 나오','emb'],['는','mk'],[' 거요','']],
+  n:'<b>안긴 절</b>이 「거」를 꾸민다. 결합 표지는 <b>관형사형 어미 「-는」</b>이다. 안긴 절이 <b>관형어</b>가 되었으므로 이것은 <b>내포</b>다.'},
+ {btn:'C28',t:'관형절 (내포)',
+  w:[['슬프','emb'],['었','emb'],['을','mk'],[' 거 같아요','']],
+  n:'「슬펐-」에 <b>관형사형 어미 「-을」</b>이 붙어 「거」를 꾸민다. 「-았/었-」은 <b>선어말어미</b>라 절 안에 있고, 결합 표지는 <b>맨 뒤의 「-을」</b>이다. <b>어미의 자리가 정해져 있다</b>는 8주차 §Ⅰ의 이야기가 여기서 쓰인다.<br><br><b>전사본 §5는 이것을 「명사절 상당 구성」이라 불렀다.</b> 「-ㄹ 거 같다」 전체를 하나로 굳은 구성으로 보는 시각인데(§Ⅱ 관형절 카드), 이 자료는 <b>관형절로 세었다.</b> 이름이 다르면 값도 달라진다.'},
+ {btn:'C53',t:'인용절 (내포)',
+  w:[['애기','emb'],['라고','mk'],[' 했어','']],
+  n:'<b>인용절</b>이다. 결합 표지는 <b>「라고」</b> — 어미가 아니라 <b>조사</b>다. 학교 문법은 이것을 <b>인용의 부사격조사</b>로 보므로 안긴 절은 「했어」의 <b>부사어</b>가 된다. 생성 문법에서는 「하다」의 보충어(목적어)로 보는 쪽이 많고, 세종 태그셋은 이 조사에 <b>인용격(JKQ)</b>이라는 형태 태그를 따로 준다(9주차 §Ⅰ).'},
+ {btn:'C31',t:'인용절 + 종속접속',
+  w:[['다음에 이기','emb'],['면','mk'],[' ',''],['된다','emb'],['고','mk'],[' 했어요','']],
+  n:'<b>절이 셋</b>인 발화다. 「이기면」이 <b>종속 접속</b>, 「된다고」가 <b>인용절</b>. 결합 표지가 <b>어미 「-면」</b>과 <b>조사 「고」</b>로 성격이 다르다. 전사본에서 절이 셋인 발화는 <b>네 개</b>뿐이다.'},
+ {btn:'C11',t:'종속 접속',
+  w:[['밑에가 좁','emb'],['아서','mk'],[' 그런가 봐','']],
+  n:'<b>안긴 것이 아니라 이어진 것</b>이다. 「밑에가 좁-」은 문장 성분이 되지 않고 <b>앞에 놓일 뿐</b>이다. 결합 표지는 <b>연결어미 「-아서」</b>. 이것이 <b>접속</b>이다.'},
+ {btn:'C14',t:'대등 접속',
+  w:[['여기는 문이','emb'],['고','mk'],[' 여기는 창문이야','']],
+  n:'<b>전사본에서 유일한 대등 접속</b>이다. 앞뒤를 바꿔도 뜻이 크게 변하지 않는다 — 「여기는 창문이고 여기는 문이야」. 그래서 <b>C-unit으로 세면 2개</b>가 된다. §Ⅶ에서 이 발화가 결정적 역할을 한다.'},
+ {btn:'C59',t:'인용절 + 종속접속',
+  w:[['근데 오빠가 ',''],['미안하다','emb'],['고','mk'],[' ',''],['해','emb'],['서','mk'],[' 같이 또 놀았어요','']],
+  n:'역시 <b>절이 셋</b>이다. 「미안하다고」가 인용절, 「해서」가 종속 접속. <b>인용절이 다시 종속절 안에 들어 있다</b> — 「[[미안하다]고 하]여서」. <b>재귀</b>가 실제로 작동하는 모습이다(§Ⅴ).'},
+ {btn:'C04 — 판정이 갈린다',t:'한 단어 관형사형',
+  w:[['크','emb'],['ㄴ','mk'],[' 집','']],
+  n:'<b>이것을 절로 셀 것인가.</b> 절로 보면 「[(집이) 크-]ㄴ 집」으로 <b>관계 관형절</b>이고, 안 보면 그냥 <b>명사구</b>다. <b>이 자료는 절로 세지 않았다.</b><br><br>절로 세더라도 <b>복문이 되지는 않는다</b> — 주절 서술어가 없기 때문이다. C04는 「조각」에 머무르되 <b>절 하나를 품은 조각</b>이 된다. §Ⅲ 충돌 ①.'}
+];
+const cxBtns=document.getElementById('cx-btns'),cxSent=document.getElementById('cx-sent'),cxPanel=document.getElementById('cx-panel');
+CXS.forEach((x,i)=>{
+  const b=document.createElement('button');
+  b.className='ibtn'+(i===0?' active':'');b.textContent=x.btn;
+  b.onclick=()=>{[...cxBtns.children].forEach(c=>c.classList.remove('active'));b.classList.add('active');renderCx(x);};
+  cxBtns.appendChild(b);
+});
+function renderCx(x){
+  cxSent.innerHTML=x.w.map(p=>p[0]===''?'':'<span class="cx '+(p[1]||'')+'">'+p[0]+'</span>').join('');
+  cxPanel.innerHTML='<h4>'+x.btn+' <span style="font-family:var(--sans);font-size:.86rem;color:var(--highlight)">'+x.t+'</span></h4>'+
+    '<p class="note">'+x.n+'</p>';
+}
+renderCx(CXS[0]);
+
+/* ===== §Ⅱ 성분절 5종 ===== */
+const EMB=[
+ {btn:'명사절',mk:'-음 / -기',role:'주어 · 목적어 · 부사어',cnt:'전사본 0회',
+  host:'그가 <b>온다</b>는 것을 알았다 → 그가 <b>왔음</b>을 알았다',
+  ex:['비가 <b>오기</b>를 기다렸다 <span style="opacity:.55">(목적어)</span>','그가 <b>왔음</b>이 분명하다 <span style="opacity:.55">(주어)</span>'],
+  n:'<b>전사본에 한 번도 없다.</b> 9주차에서 명사형 어미가 0회였던 그 이야기다. 명사절은 <b>문어와 학령기 언어에서 급격히 늘어나는</b> 형식이라, 4;6에 없는 것은 자연스럽다. 다만 <b>학령기로 넘어가서도 없다면</b> 그때는 기록할 만하다.'},
+ {btn:'관형절 ★',mk:'-ㄴ / -는 / -ㄹ / -던',role:'관형어',cnt:'전사본 <b>11회</b> — 가장 많다',
+  host:'토끼가 <b>나온다</b> + 거 → <b>토끼가 나오는</b> 거',
+  ex:['C22 「<b>토끼가 나오는</b> 거요」','C32 「<b>거북이가 물 마시는</b> 거」','C23 「<b>토끼랑 거북이랑 달리기 하는</b> 거」','<span style="opacity:.6">판정이 갈리는 것 —</span> C20 「인형이 <b>들어갈</b> 수 있어요」 · C45 「<b>먹을</b> 수 있어」 · C60 「<b>갈</b> 거예요」'],
+  n:'전사본의 안긴 절 가운데 <b>압도적으로 많다.</b> 그리고 <b>의존명사 「거·수」와 짝을 이루는</b> 것이 대부분이다 — 7주차에서 「거」가 체언 1위(9회)였던 이유가 여기 있다.<br><br><b>다만 열한 회 가운데 여덟은 「-ㄹ 수 있다」·「-ㄹ 거다」·「-ㄴ 거 같다」</b>(C03·C06·C20·C28·C33·C45·C49·C60)다. 이것을 <b>하나로 굳은 양태 표현</b>으로 보는 견해를 따르면 순수한 관형절은 C22·C23·C32 <b>셋</b>뿐이고, 절 밀도도 크게 내려간다(총 절 89 → 81, 밀도 1.48 → 1.35). <b>[제출 과제 6]의 1번이 이 결정을 요구한다.</b>'},
+ {btn:'부사절',mk:'-게 / -도록 / -이',role:'부사어',cnt:'전사본 0회 <span style="opacity:.6">(판정에 따라 1회)</span>',
+  host:'문이 <b>크다</b> + 만들다 → 문을 <b>크게</b> 만들다',
+  ex:['C17 「문을 <b>크게</b> 만들어야 돼요」 <span style="opacity:.55">— 이 자료는 연결어미로 셌다</span>','비가 <b>소리도 없이</b> 내린다'],
+  n:'<b>충돌 ②의 자리다.</b> 「-게」를 부사형 전성어미로 보면 부사절, 종속적 연결어미로 보면 이어진문장이다. 학교 문법 자체가 정리하지 못했다. 이 자료는 9주차와 같이 <b>연결어미 쪽</b>에 넣었다 — 그래서 0회다.'},
+ {btn:'서술절',mk:'<b>표지가 없다</b>',role:'서술어',cnt:'전사본 0회',
+  host:'코끼리는 <b>[코가 길다]</b>',
+  ex:['코끼리는 <b>코가 길다</b>','토끼는 <b>귀가 크다</b>'],
+  n:'<b>다섯 중 유일하게 표지가 없다.</b> 그래서 「이것이 정말 절인가」가 논쟁거리다 — <b>이중주어문</b>으로 보는 견해도 있다(9주차 §Ⅲ ③). 표지가 없으니 <b>기계로 찾을 수도 없다.</b> 전사본에는 나타나지 않았다.'},
+ {btn:'인용절',mk:'-고 / -라고',role:'부사어 <span style="opacity:.6">(학교 문법) / 목적어로 보기도 한다</span>',cnt:'전사본 <b>5회</b>',
+  host:'「괜찮아」 + 하다 → <b>괜찮다고</b> 하다',
+  ex:['C31 「<b>다음에 이기면 된다</b>고 했어요」','C53 「<b>애기</b>라고 했어」','C55 「<b>하지 말</b>라고 했어요」','C59 「<b>미안하다</b>고 해서」','C30 「우리 엄마가 <b>괜찮</b>대요」 <span style="opacity:.55">— 「-대요」는 「-다고 해요」의 축약</span>'],
+  n:'결합 표지가 <b>어미가 아니라 조사</b>인 유일한 갈래다(9주차 §Ⅰ). <b>틀이 셋이니 셋을 각각 밝힌다.</b><br>· <b>학교 문법</b> — 「고/라고」는 <b>인용의 부사격조사</b>. 따라서 인용절은 <b>부사어</b>다. 이 자료는 이쪽을 따른다.<br>· <b>생성 문법</b> — 「하다」의 <b>보충어(목적어)</b>로 보는 쪽이 많다.<br>· <b>세종 태그셋</b> — 이 조사에 <b>인용격(JKQ)</b>이라는 형태 태그를 따로 준다(9주차). 이는 <b>조사의 하위 부류를 가르는 결정</b>이지 문장 성분을 정하는 결정이 아니다. <b>남의 말을 옮기는</b> 장치이므로 <b>화자와 청자를 구별할 수 있어야</b> 쓸 수 있다 — 그래서 이것이 나온다는 것은 담화 능력의 신호이기도 하다(14주차).<br><br>C30의 <b>「-대요」</b>에 주목하라. 「-다고 해요」가 줄어든 것이라 <b>표면에는 인용 표지가 안 보인다.</b> 이런 것을 놓치면 인용절 수가 줄어든다.'},
+ {btn:'다섯을 모아 보면',mk:'—',role:'—',cnt:'—',
+  host:'—',
+  ex:['<b>관형절 11 · 인용절 5 · 나머지 셋 0</b>'],
+  n:'<b>다섯 중 둘만 나타났다.</b> 그런데 그 둘이 <b>가장 이르게 발달하는 것</b>이라는 점이 중요하다. 명사절은 늦고, 부사절은 판정이 갈리고, 서술절은 표지가 없어 애초에 세기 어렵다.<br><br><b>그러니 「0회」의 뜻이 셋 다 다르다</b> — 명사절은 <b>아직 안 쓰는 것</b>, 부사절은 <b>세는 방식의 문제</b>, 서술절은 <b>쓸 맥락이 없었던 것</b>일 수 있다. 실습 3번 문항이 이 구별을 묻는다.'}
+];
+const ebBtns=document.getElementById('eb-btns'),ebPanel=document.getElementById('eb-panel');
+EMB.forEach((x,i)=>{
+  const b=document.createElement('button');
+  b.className='ibtn'+(i===1?' active':'');b.textContent=x.btn;
+  b.onclick=()=>{[...ebBtns.children].forEach(c=>c.classList.remove('active'));b.classList.add('active');renderEb(x);};
+  ebBtns.appendChild(b);
+});
+function renderEb(x){
+  let head='';
+  if(x.mk!=='—'){
+    head='<table class="itable"><thead><tr><th style="width:26%">결합 표지</th><th style="width:26%">되는 성분</th><th>전사본</th></tr></thead><tbody><tr>'+
+      '<td style="font-family:var(--sans);color:var(--highlight)">'+x.mk+'</td><td>'+x.role+'</td><td>'+x.cnt+'</td></tr></tbody></table>'+
+      '<div style="font-family:var(--sans);font-size:.95rem;opacity:.8;margin-bottom:.7rem">'+x.host+'</div>';
+  }
+  ebPanel.innerHTML='<h4>'+x.btn+'</h4>'+head+
+    '<div style="font-family:var(--sans);font-size:.95rem;line-height:2">'+x.ex.join('<br>')+'</div>'+
+    '<p class="note">'+x.n+'</p>';
+}
+renderEb(EMB[1]);
+
+/* ===== §Ⅲ 관계 vs 동격 ===== */
+const RELC=[
+ {btn:'관계 관형절',
+  d:'안긴 절의 <b>한 성분이 머리명사와 같아서 생략</b>된다. 그래서 절 안에 <b>빈 자리</b>가 생긴다.',
+  rows:[['내가 <b>(책을)</b> 읽은 <b>책</b>','「책」이 안긴 절의 <b>목적어</b> — 그 자리가 비었다'],
+        ['<b>(아이가)</b> 우는 <b>아이</b>','「아이」가 안긴 절의 <b>주어</b> — 그 자리가 비었다'],
+        ['C04 「<b>(집이)</b> 큰 <b>집</b>」','절로 본다면 이것도 관계 관형절이다 — 충돌 ①']],
+  n:'<b>머리명사를 절 안에 되돌려 넣을 수 있다</b>는 것이 시금석이다. 「내가 책을 읽었다」로 복원된다.'},
+ {btn:'동격 관형절',
+  d:'안긴 절이 <b>머리명사의 내용 자체</b>다. 절 안에 <b>빈 자리가 없다.</b>',
+  rows:[['비가 온다는 <b>사실</b>','「사실」이 곧 「비가 온다」는 내용이다 — 절 안에 「사실」이 들어갈 자리가 없다'],
+        ['그가 떠났다는 <b>것</b>','같은 구조. 「것」이 내용을 받는다'],
+        ['C22 「토끼가 나오는 <b>거</b>」','<b>판정이 갈린다</b> — 「거」를 「책·그림」으로 보면 <span class="mono">「(그 책)에 토끼가 나온다」</span>로 되돌아가므로 <b>관계</b>다']],
+  n:'<b>머리명사를 절 안에 되돌려 넣을 수 없다</b>는 것이 시금석이다 — <span class="bad">*</span>「비가 사실을 온다」는 안 된다. <b>보문 관형절</b>이라고도 한다.<br><br><b>다만 C22·C32처럼 「거」가 무언가를 가리키는 경우는 관계 관형절로 보아야 한다.</b> <span class="bad">*</span>「토끼가 거를 나온다」가 안 되는 것은 격을 잘못 준 탓이지 되돌릴 자리가 없어서가 아니다 — 「나오다」는 목적어를 취하지 않는다. <b>되돌릴 때는 격까지 맞춰 보아야 한다.</b>'},
+ {btn:'가르는 법',
+  d:'<b>머리명사를 절 안으로 되돌려 보라.</b>',
+  rows:[['되면','<b>관계 관형절</b> — 그 자리가 비어 있었던 것'],
+        ['안 되면','<b>동격 관형절</b> — 절이 이미 완결되어 있다'],
+        ['헷갈리면','<b>격을 맞춰 되돌려 보라.</b> 「것·거」는 <b>둘 다</b> 이끈다 — 「먹을 <b>것</b>」은 관계(먹다의 목적어), 「떠났다는 <b>것</b>」은 동격이다. <b>「-다는/-라는」이 붙으면 거의 확실히 동격</b>이다']],
+  n:'전사본의 관형절 11회는 <b>대부분 의존명사를 머리명사로 삼는다</b> — 「거」와 「수」다. 그런데 <b>관계인지 동격인지는 「거」가 무엇을 가리키느냐에 달렸다</b> — 그림이나 책을 가리키면 관계, 이야기 내용 자체면 동격이다. <b>「의존명사면 동격」이라는 요령은 믿을 수 없다</b>(「내가 아는 <b>바</b>」는 관계다).'}
+];
+const rlBtns=document.getElementById('rl-btns'),rlPanel=document.getElementById('rl-panel');
+RELC.forEach((x,i)=>{
+  const b=document.createElement('button');
+  b.className='ibtn'+(i===0?' active':'');b.textContent=x.btn;
+  b.onclick=()=>{[...rlBtns.children].forEach(c=>c.classList.remove('active'));b.classList.add('active');renderRl(x);};
+  rlBtns.appendChild(b);
+});
+function renderRl(x){
+  let t='<table class="itable"><tbody>';
+  x.rows.forEach(r=>{t+='<tr><td style="width:40%;font-family:var(--sans);font-size:1rem">'+r[0]+'</td><td>'+r[1]+'</td></tr>';});
+  rlPanel.innerHTML='<h4>'+x.btn+'</h4><p>'+x.d+'</p>'+t+'</tbody></table><p class="note">'+x.n+'</p>';
+}
+renderRl(RELC[0]);
+
+/* ===== §Ⅳ 대등/종속 판별 ===== */
+const CDT=[
+ {btn:'시험 ① 순서 바꾸기',
+  d:'앞뒤 절의 <b>자리를 바꿔</b> 보라.',
+  rows:[['<b>대등</b>','여기는 문이고 여기는 창문이야 → 여기는 창문이고 여기는 문이야 <span style="opacity:.6">— 뜻이 크게 안 변한다</span>'],
+        ['<b>종속</b>','밑에가 좁아서 그런가 봐 → <span class="bad">*</span>그런가 봐서 밑에가 좁아 <span style="opacity:.6">— 아예 다른 말이 되거나 안 된다</span>']],
+  n:'<b>가장 직관적인 시험</b>이다. 대등 접속은 두 절이 <b>같은 자격</b>이므로 순서가 자유롭고, 종속 접속은 앞절이 뒤절에 <b>딸려</b> 있으므로 그렇지 않다.'},
+ {btn:'시험 ② 앞절 이동',
+  d:'앞절을 <b>뒤절 안으로</b> 넣어 보라.',
+  rows:[['<b>대등</b>','<span class="bad">*</span>여기는, 여기는 문이고, 창문이야 <span style="opacity:.6">— 안 된다</span>'],
+        ['<b>종속</b>','밑에가 좁아서 이게 안 돼 → 이게, 밑에가 좁아서, 안 돼 <span style="opacity:.6">— 선행절이 뒤 절의 주어와 서술어 <b>사이</b>로 들어갔다</span>']],
+  n:'<b>종속절은 뒤절 안으로 들어갈 수 있다.</b> 이것은 종속절이 사실상 <b>부사어처럼</b> 기능한다는 증거이고, 그래서 <b>종속 접속과 부사절 내포의 경계가 흐려진다</b> — 충돌 ②가 여기서도 나온다.'},
+ {btn:'시험 ③ 서법의 작용역',
+  d:'문장을 <b>의문이나 명령</b>으로 바꾸고, 그 서법이 <b>어느 절까지 걸리는지</b> 보라.',
+  rows:[['<b>대등</b>','여기는 문이고 여기는 창문이야? <span style="opacity:.6">— 물음이 <b>두 절 모두</b>에 걸린다</span>'],
+        ['<b>대등</b>','손도 씻고 이도 닦아라 <span style="opacity:.6">— 명령이 <b>두 절 모두</b>에 걸린다</span>'],
+        ['<b>종속</b>','밑에가 좁아서 그런가? <span style="opacity:.6">— 물음은 <b>뒤 절에만</b>. 「밑이 좁은지」를 묻는 것이 아니다</span>'],
+        ['<b>종속</b>','배가 아파서 좀 쉬어라 <span style="opacity:.6">— 명령은 <b>뒤 절에만</b>. 「아프라」는 뜻이 아니다</span>']],
+  n:'<b>「되느냐 안 되느냐」가 아니라 「어디까지 걸리느냐」를 보는 시험이다.</b> 대등절은 두 절이 같은 자격이라 서법이 <b>둘 다에</b> 걸리고, 종속절은 뒤 절에 <b>딸린 부속 정보</b>라 서법에 묶이지 않는다.<br><br><b>접속부사로 받는 방식은 시험이 되지 않는다</b> — 대등에도 「그리고·그러나」가, 종속에도 「그래서·그러면」이 다 있기 때문이다. 다만 전사본 C27 「<b>그래서</b>」처럼 <b>아이가 접속부사로 문장을 나누어 말하는 것</b> 자체는 관찰할 만하다(C57 「그랬더니」는 「그렇-」에 연결어미 「-었더니」가 붙은 것이라, 이 자료는 접속부사가 아니라 <b>절</b>로 세었다).'},
+ {btn:'셋을 종합하면',
+  d:'세 시험이 <b>같은 답</b>을 주면 확실하다.',
+  rows:[['전사본 C14','① 바꿔도 된다 ② 안 들어간다 ③ 서법이 두 절 모두에 걸린다 → <b>대등</b>'],
+        ['전사본의 종속 접속 16회','세 시험이 모두 <b>종속</b>을 가리킨다 — 「-아서/-어서」 <b>4회</b>가 대표적이다(C25는 판정 보류라 집계 밖)'],
+        ['전사본 C07·C41','「-고」인데 <b>계기·수단</b>이다 — <b>갈린다</b>']],
+  n:'<b>「-고」가 문제다.</b> 나열이면 대등, 계기면 종속에 가깝다. 전사본의 「-고」 셋 중 <b>C14만 나열</b>이고 C07 「갖고 오세요」·C41 「타고 갔어」는 <b>계기·수단</b>이다.<br><br>이 자료는 <b>뒤 둘을 종속으로 세었다</b> — 그래서 <b>대등 1 · 종속 16</b>이다. 대등으로 세면 <b>대등 3 · 종속 14</b>가 되고, 총 절 수는 그대로다.<br><br><b>더 근본적인 갈림이 하나 더 있다</b> — 「갖고 오다」·「타고 가다」를 <b>하나의 서술어</b>로 보면 절이 애초에 둘이 아니다. 그러면 총 절 89 → <b>87</b>, 밀도 1.48 → <b>1.45</b>다. <b>어느 쪽이든 기준을 밝혀야 한다.</b>'}
+];
+const cdBtns=document.getElementById('cd-btns'),cdPanel=document.getElementById('cd-panel');
+CDT.forEach((x,i)=>{
+  const b=document.createElement('button');
+  b.className='ibtn'+(i===0?' active':'');b.textContent=x.btn;
+  b.onclick=()=>{[...cdBtns.children].forEach(c=>c.classList.remove('active'));b.classList.add('active');renderCd(x);};
+  cdBtns.appendChild(b);
+});
+function renderCd(x){
+  let t='<table class="itable"><tbody>';
+  x.rows.forEach(r=>{t+='<tr><td style="width:22%;color:var(--highlight)">'+r[0]+'</td><td style="font-family:var(--sans)">'+r[1]+'</td></tr>';});
+  cdPanel.innerHTML='<h4>'+x.btn+'</h4><p>'+x.d+'</p>'+t+'</tbody></table><p class="note">'+x.n+'</p>';
+}
+renderCd(CDT[0]);
+
+/* ===== §Ⅳ 연결어미 19종 ===== */
+const CONNE=[
+ ['-아서/어서','이유·원인','앞이 뒤의 <b>까닭</b>','비가 와서 못 갔다','C11 좁아서 · C16 작아서 · C25 자서 · C56 놀려서 · C59 해서 <b>(5회)</b>'],
+ ['-니까','이유·근거','앞이 뒤의 <b>근거</b> — 「-아서」보다 화자의 판단이 강하다','네가 오니까 좋다','—'],
+ ['-므로','이유(문어)','문어체의 이유','시간이 없으므로 줄인다','—'],
+ ['-기에','이유(근거)','앞이 뒤 판단의 근거','날이 좋기에 나왔다','—'],
+ ['-면','조건·가정','앞이 <b>조건</b>','비가 오면 안 갈래','C12 놓으면 · C31 이기면 · C36 가면 · C46 먹으면 <b>(4회)</b>'],
+ ['-거든','조건(구어)','구어의 조건','오거든 알려 줘','—'],
+ ['-어야','필수 조건','앞이 <b>반드시</b> 있어야 뒤가 성립','먹어야 산다','C17 만들어야 · C46 먹어야 <b>(2회)</b>'],
+ ['-어도','양보','앞에도 <b>불구하고</b>','비가 와도 간다','—'],
+ ['-지만','대립(대등)','앞뒤가 <b>맞선다</b> — <b>학교 문법은 대등적 연결어미</b>(대조)로 분류한다','작지만 튼튼하다','—'],
+ ['-는데','배경·대립','뒤를 위한 <b>배경</b>을 깐다','졌는데 슬펐어','C29 졌는데 <b>(1회)</b>'],
+ ['-려고','목적·의도','앞이 뒤의 <b>목적</b>','자려고 누웠다','<b>0회</b>'],
+ ['-러','이동의 목적','뒤에 <b>이동동사</b>가 온다','밥 먹으러 간다','<b>0회</b>'],
+ ['-도록','목적·결과·정도','앞이 뒤가 <b>이르러야 할 지점</b>. 「밤이 새도록」처럼 <b>시간의 한계</b>를 나타내는 용법도 있다','잘 보이도록 크게 썼다','—'],
+ ['-게','결과·방식','뒤의 <b>방식</b>이나 결과 — <b>부사절로 보기도 한다</b>','크게 만들다','C17 크게 <b>(1회)</b> · 충돌 ②'],
+ ['-다가','전환','하던 일을 <b>그만두고</b> 다른 일로','가다가 잤어요','C26 가다가 <b>(1회)</b>'],
+ ['-면서','동시','두 일이 <b>함께</b> 일어난다','노래하면서 걷는다','나타나지 않았다. <span style="opacity:.7">다만 앞뒤를 바꾸어도 뜻이 유지되는 경우가 있어 <b>대등적 특성</b>을 인정하는 논의가 있다(이은경 2000). 다만 <b>학교 문법의 대등적 연결어미 목록</b>(나열 -고/-며, 대조 -지만/-나, 선택 -거나/-든지)에는 들어가지 않는다</span>'],
+ ['-자','계기(즉시)','앞이 끝나<b>자마자</b>. 구어에서는 <b>「-자마자」가 훨씬 흔하다</b>','문이 열리자 나갔다','—'],
+ ['-더니','회상·계기','<b>과거에 겪은 일</b>을 되돌아보고 그에 이어 일어난 일을 잇는다 — 앞뒤가 <b>대비</b>되기도 한다','어제는 조용하더니 오늘은 시끄럽다','C57 그랬더니 <b>(1회)</b> — 다만 이것은 <b>「-었더니」</b>로, 앞 절 주어가 <b>1인칭</b>이라는 점이 「-더니」와 다르다'],
+ ['-고','계기·나열','앞이 먼저 일어나고 뒤가 이어진다 — <b>나열이면 대등, 계기면 종속</b>','밥 먹고 잤다','C14 나열 <b>(대등)</b> · C07 갖고 · C41 타고 <b>(계기·수단 → 이 자료는 종속으로 셈)</b> — 다만 「갖고 오다·타고 가다」를 <b>하나의 서술어</b>로 보면 절이 둘이 아니게 된다']
+];
+const ceGrid=document.getElementById('ce-grid'),cePanel=document.getElementById('ce-panel');
+ceGrid.innerHTML=CONNE.map((u,i)=>'<button class="cebtn'+(i===0?' on':'')+'" data-i="'+i+'">'+u[0]+'<small>'+u[1].split('·')[0]+'</small></button>').join('');
+ceGrid.querySelectorAll('.cebtn').forEach(b=>{
+  b.onclick=()=>{ceGrid.querySelectorAll('.cebtn').forEach(x=>x.classList.remove('on'));b.classList.add('on');showCe(+b.dataset.i);};
+});
+function showCe(i){
+  const u=CONNE[i];
+  cePanel.innerHTML='<h4><span style="color:var(--highlight);font-size:1.35rem;margin-right:.4rem">'+u[0]+'</span>'+
+    '<span style="font-family:var(--sans);font-size:.88rem;opacity:.7">'+u[1]+'</span></h4>'+
+    '<p>'+u[2]+'</p>'+
+    '<div style="font-family:var(--sans);font-size:1.02rem;margin:.5rem 0 .7rem">'+u[3]+'</div>'+
+    '<p class="note">전사본 — '+(u[4]==='—'?'나타나지 않았다.':u[4])+'</p>';
+}
+showCe(0);
+
+/* ===== §Ⅴ 복문 수형도 ===== */
+const TREES=[
+ {btn:'C22 토끼가 나오는 거요',
+  root:{l:'S',k:[{l:'VP',k:[{l:'NP',k:[{l:'AdnP',t:'관형절',s:1,k:[{l:'S',t:'안긴 절',s:1,k:[{l:'NP',k:[{l:'토끼가'}]},{l:'VP',k:[{l:'나오는'}]}]}]},{l:'N',k:[{l:'거'}]}]},{l:'V',t:'서술격 축약',k:[{l:'(이에)요'}]}]}]},
+  steps:['<span class="mono">S → VP</span> — 주어가 생략되었다.',
+         '<span class="mono">VP → NP V</span> — 「거」에 서술격조사 「이다」가 붙어(「-예요/이에요」로 축약) <b>서술어</b>를 이룬다. 10주차 문형 ③ 「무엇이 무엇이다」의 구조다. <b>「거」는 보어가 아니다</b> — 보어는 「되다·아니다」 앞에만 온다(10주차 §Ⅱ).',
+         '<span class="mono">NP → AdnP N</span> — 관형어와 머리명사 「거」.',
+         '<span class="mono">AdnP → S</span> — <b>여기서 S가 다시 나온다.</b> 관형어 자리에 <b>절</b>이 들어간 것이다.',
+         '안긴 S가 다시 <span class="mono">S → NP VP</span>로 갈린다.',
+         '마지막 단계에서 <b>단어까지 내려왔다.</b> 안긴 절의 주어 「토끼가」는 <b>머리명사 「거」와 다른 것</b>을 가리킨다 — 그래서 이 절의 성격을 두고 §Ⅲ에서 판정이 갈렸다.'],
+  concl:'<b>재귀가 일어나는 자리를 보라</b> — AdnP 아래에 S가 다시 나타났다. 이 한 번의 재귀로 문장이 두 배 복잡해진다. <b>규칙은 늘지 않았는데 문장은 커졌다.</b>'},
+ {btn:'C11 밑에가 좁아서 그런가 봐',
+  root:{l:'S',k:[{l:'S',t:'선행절',s:1,k:[{l:'NP',k:[{l:'밑에가'}]},{l:'VP',k:[{l:'V',k:[{l:'좁-'}]},{l:'EC',t:'연결어미',k:[{l:'-아서'}]}]}]},
+                 {l:'S',t:'후행절',k:[{l:'VP',k:[{l:'그런가 봐'}]}]}]},
+  steps:['<span class="mono">S → S S</span> — <b>문장이 문장 둘로 갈린다.</b> 이것이 접속이다.',
+         '선행절 <span class="mono">S → NP VP</span> — 주어 「밑에가」와 서술부.',
+         '<span class="mono">VP → V EC</span> — 서술어와 <b>연결어미</b>. 연결어미가 두 절을 잇는 표지다.',
+         '단어까지 내려왔다 — 「좁-」에 연결어미 「-아서」가 붙어 두 절을 잇는다. 후행절은 주어가 생략되어 <span class="mono">S → VP</span>뿐이라 더 갈리지 않았다.'],
+  concl:'<b>내포와 모양이 다르다.</b> 안긴 절은 <b>NP나 AdnP 아래</b>에 들어가지만, 이어진 절은 <b>S 바로 아래에 나란히</b> 놓인다. <b>성분이 되지 않는다</b>는 §Ⅰ의 판정 기준이 그림으로 확인된다.'},
+ {btn:'C31 다음에 이기면 된다고 했어요',
+  root:{l:'S',k:[{l:'S',t:'선행절',s:1,k:[{l:'AdvP',k:[{l:'다음에'}]},{l:'VP',k:[{l:'V',k:[{l:'이기-'}]},{l:'EC',k:[{l:'-면'}]}]}]},
+                 {l:'S',t:'후행절',k:[{l:'VP',k:[{l:'AdvP',t:'인용절',s:1,k:[{l:'S',t:'안긴 절',s:1,k:[{l:'VP',k:[{l:'된다'}]}]},{l:'P',t:'부사격(인용)',k:[{l:'고'}]}]},{l:'V',k:[{l:'했어요'}]}]}]}]},
+  steps:['<span class="mono">S → S S</span> — 「이기면」에서 갈린다. <b>접속</b>이다.',
+         '선행절 <span class="mono">S → AdvP VP</span>, 후행절 <span class="mono">S → VP</span>.',
+         '선행절 아래 <span class="mono">VP → V EC</span>, 후행절 아래 <span class="mono">VP → AdvP V</span> — 「했어요」 앞에 부사어가 하나 있다.',
+         '<span class="mono">AdvP → S P</span> — <b>그 부사어가 인용절이다.</b> 표지는 조사 「고」. <b>목적어가 아니라 부사어</b>인 것은 학교 문법이 「고」를 <b>인용의 부사격조사</b>로 보기 때문이다(§Ⅱ).',
+         '안긴 S가 <span class="mono">S → VP</span>로 갈린다 — 주어 없이 서술어뿐이다.',
+         '단어까지 내려왔다. <b>「고」가 절 하나를 통째로 부사어로 만들었다.</b>'],
+  concl:'<b>접속과 내포가 한 문장에 함께 있다.</b> 바깥은 접속(S→S S), 안은 내포(AdvP→S P). 전사본에서 절이 셋인 발화 넷 중 하나다. <b>4;6에 이 정도 구조가 나온다는 것</b>이 관찰거리다.'},
+ {btn:'C04 큰 집 — 절로 센다면',
+  root:{l:'NP',k:[{l:'AdnP',t:'관형절?',s:1,k:[{l:'S',t:'안긴 절?',s:1,k:[{l:'NP',t:'생략',k:[{l:'(집이)'}]},{l:'VP',k:[{l:'크-ㄴ'}]}]}]},{l:'N',k:[{l:'집'}]}]},
+  steps:['<span class="mono">NP → AdnP N</span> — 관형어와 명사.',
+         '<span class="mono">AdnP → S</span> — <b>여기가 갈림길이다.</b> 관형어 자리에 절을 넣을 것인가, 그냥 관형사형으로 둘 것인가.',
+         '절로 본다면 안긴 S가 <span class="mono">S → NP VP</span>로 갈린다.',
+         '그 주어는 「집이」이고, <b>머리명사와 같아 생략</b>되었다 — 되돌려 넣으면 「집이 크다」가 되므로 <b>관계 관형절</b>이다.'],
+  concl:'<b>충돌 ①이 그림으로 보인다.</b> 절로 세면 이 그림이 되고, 안 세면 AdnP 아래에 관형사형이 바로 온다.<br><b>뿌리가 S가 아니라 NP라는 데 주목하라</b> — 절을 품었어도 <b>문장은 아니다.</b> 그래서 「큰 집」은 절로 세더라도 복문이 되지 못하고 <b>조각인 채로 절을 하나 갖는다.</b> §Ⅲ 충돌 ①.'}
+];
+let tIdx=0,tDepth=1;
+const tbBtns=document.getElementById('tb-btns'),tbFig=document.getElementById('tb-fig'),tbPanel=document.getElementById('tb-panel');
+TREES.forEach((t,i)=>{
+  const b=document.createElement('button');
+  b.className='ibtn'+(i===0?' active':'');b.textContent=t.btn;
+  b.onclick=()=>{[...tbBtns.children].forEach(c=>c.classList.remove('active'));b.classList.add('active');tIdx=i;tDepth=1;drawTb();};
+  tbBtns.appendChild(b);
+});
+function maxDepth(n){return n.k?1+Math.max.apply(null,n.k.map(maxDepth)):1;}
+function layout(n,depth,limit,x0,x1,out,pid){
+  const x=(x0+x1)/2,y=30+(depth-1)*60,id=out.length;
+  const open=n.k&&depth<limit;
+  out.push({l:n.l,t:n.t||'',s:n.s||0,x:x,y:y,p:pid,leaf:!n.k,closed:!!(n.k&&!open)});
+  if(open){
+    const w=(x1-x0)/n.k.length;
+    n.k.forEach((c,i)=>layout(c,depth+1,limit,x0+w*i,x0+w*(i+1),out,id));
+  }
+  return out;
+}
+function drawTb(){
+  const T=TREES[tIdx],md=maxDepth(T.root);
+  const nodes=layout(T.root,1,tDepth,20,680,[],-1);
+  const h=30+(Math.min(tDepth,md)-1)*60+42;
+  let s='<svg class="treesvg" viewBox="0 0 700 '+h+'" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="'+T.btn+'의 수형도">';
+  nodes.forEach(n=>{if(n.p>=0){const p=nodes[n.p];
+    s+='<line x1="'+p.x+'" y1="'+(p.y+8)+'" x2="'+n.x+'" y2="'+(n.y-13)+'" stroke="#f5f1e8" stroke-width="1.2" opacity=".45"/>';}});
+  nodes.forEach(n=>{
+    const col=n.s?'#9dd39a':(n.leaf?'#f5f1e8':(n.closed?'#e8b647':'#c9c4b8'));
+    const fs=n.leaf?14:13.5;
+    s+='<g><text x="'+n.x+'" y="'+n.y+'" fill="'+col+'" font-size="'+fs+'" text-anchor="middle"'+(n.leaf?'':' font-family="JetBrains Mono, monospace"')+(n.s?' font-weight="700"':'')+'>'+n.l+'</text>';
+    if(n.t)s+='<text x="'+n.x+'" y="'+(n.y+13)+'" fill="'+col+'" font-size="9" text-anchor="middle" opacity=".6">'+n.t+'</text>';
+    s+='</g>';
+  });
+  tbFig.innerHTML=s+'</svg>';
+  const done=tDepth>=md;
+  document.getElementById('tb-step').disabled=done;
+  document.getElementById('tb-all').disabled=done;
+  const step=T.steps[Math.min(tDepth-2,T.steps.length-1)];
+  tbPanel.innerHTML='<h4>'+T.btn+' <span style="font-family:var(--mono);font-size:.76rem;opacity:.55">'+Math.min(tDepth,md)+'단계 / '+md+'단계</span></h4>'+
+    (tDepth===1?'<p>「한 단계 펼치기」를 눌러 시작하세요. <b>초록</b>이 안긴 절이나 선행절입니다.</p>':'<p>'+step+'</p>')+
+    (done?'<p class="note">'+T.concl+'</p>':'');
+}
+document.getElementById('tb-step').onclick=()=>{tDepth=Math.min(tDepth+1,maxDepth(TREES[tIdx].root));drawTb();};
+document.getElementById('tb-all').onclick=()=>{tDepth=maxDepth(TREES[tIdx].root);drawTb();};
+document.getElementById('tb-reset').onclick=()=>{tDepth=1;drawTb();};
+drawTb();
+
+/* ===== §Ⅵ 문 접속 vs 구 접속 ===== */
+const PHR=[
+ {btn:'구 접속',ex:'토끼<b>와</b> 거북이가 <b>만났다</b>',
+  d:'「토끼와 거북이」가 <b>한 덩어리 주어</b>다. 절이 하나이므로 <b>단문</b>이다.',
+  n:'서술어가 <b>「만나다·닮다·싸우다」처럼 둘 이상을 요구하는 말</b>이면 구 접속으로만 읽힌다 — <span class="bad">*</span>「토끼가 만났다. 거북이가 만났다」로 풀 수 없다.'},
+ {btn:'문 접속',ex:'토끼<b>와</b> 거북이가 <b>달렸다</b>',
+  d:'「토끼가 달렸다 + 거북이가 달렸다」로 <b>풀린다.</b>',
+  n:'서술어가 <b>혼자서도 성립하는 말</b>이면 문 접속으로 읽을 수 있다. 다만 <b>구 접속으로도 읽힌다</b> — 둘이 나란히 달린 것이라면. <b>중의적</b>이다.<br><br><b>여기서 틀을 밝혀야 한다.</b> 「절이 둘이므로 복문」이라는 처리는 <b>「토끼가 달렸다 + 거북이가 달렸다」라는 기저 구조를 상정하는 쪽</b>의 것이다. <b>학교 문법은 표면에 서술어가 하나뿐이므로 홑문장으로 처리하는 것이 보통이다.</b> 어느 쪽을 택하든 밝혀야 한다.'},
+ {btn:'전사본에서',ex:'C23 「토끼<b>랑</b> 거북이<b>랑</b> 달리기 하는 거」',
+  d:'「토끼랑 거북이랑」이 <b>한 덩어리</b>로 「달리기 하다」의 주어다.',
+  n:'「달리기 하다」는 <b>혼자서도 성립</b>하므로 이론상 문 접속으로도 읽힌다. 그런데 <b>맥락이 정한다</b> — 아이는 「토끼와 거북이가 <b>함께</b> 달리기하는 이야기」를 말하고 있으므로 <b>구 접속</b>이다.<br><br>C47 「사촌 오빠<b>랑</b> 놀았어요」는 다르다 — 여기 「랑」은 <b>접속조사가 아니라 부사격조사</b>(함께함)다. 9주차 §Ⅱ에서 본 구별이다.'},
+ {btn:'왜 이것을 따지나',ex:'같은 문장, 다른 절 수',
+  d:'문 접속으로 세면 <b>절이 하나 늘어난다.</b>',
+  n:'<b>절 밀도가 달라진다.</b> 「토끼와 거북이가 달렸다」를 문 접속으로 세면 2절, 구 접속으로 세면 1절이다 — 다만 문 접속을 절 둘로 세는 것은 <b>기저 구조를 상정하는 틀</b>의 처리이고, 학교 문법은 보통 홑문장으로 둔다. 전사본에는 「와/과·랑」으로 이어진 명사구가 <b>C23 하나</b>뿐이라 영향이 작지만, <b>기준은 밝혀야 한다</b> — [제출 과제 6]의 1번 문항이 그런 결정들을 요구한다.'}
+];
+const phBtns=document.getElementById('ph-btns'),phPanel=document.getElementById('ph-panel');
+PHR.forEach((x,i)=>{
+  const b=document.createElement('button');
+  b.className='ibtn'+(i===0?' active':'');b.textContent=x.btn;
+  b.onclick=()=>{[...phBtns.children].forEach(c=>c.classList.remove('active'));b.classList.add('active');renderPh(x);};
+  phBtns.appendChild(b);
+});
+function renderPh(x){
+  phPanel.innerHTML='<h4>'+x.btn+'</h4>'+
+    '<div style="font-family:var(--sans);font-size:1.15rem;color:var(--highlight);margin:.5rem 0 .8rem">'+x.ex+'</div>'+
+    '<p>'+x.d+'</p><p class="note">'+x.n+'</p>';
+}
+renderPh(PHR[0]);
+
+/* ===== §Ⅶ 세 단위 ===== */
+const UNITS=[
+ {btn:'MLU',full:'평균 발화 길이',who:'4주차에서 배웠다',
+  d:'발화당 <b>형태소 또는 어절</b>의 평균 수. <b>길이</b>를 잰다.',
+  n:'<b>복잡성을 재지 못한다.</b> 「밥 먹고 놀고 잤어」와 「엄마가 밥을 먹었어요」는 길이가 비슷하지만 구조가 다르다. 그리고 <b>일정 수준을 넘으면 더 이상 늘지 않는다</b> — 학령기에는 쓸모가 줄어든다.'},
+ {btn:'T-unit',full:'minimal terminable unit · 최소종결단위',who:'Hunt (1965)',
+  d:'<b>하나의 주절 + 거기 딸린 모든 종속절.</b> 대등 접속절은 각각 따로 센다.',
+  n:'<b>문어</b>를 대상으로 만들어졌다. 글에는 마침표가 있는데도 이 단위가 필요했던 이유는, <b>아동의 글이 「그리고」로 끝없이 이어지기</b> 때문이다. 마침표를 믿을 수 없었던 것이다.'},
+ {btn:'C-unit',full:'communication unit · 의사소통단위',who:'Loban (1963); 대규모 종단 자료는 Loban (1976)',
+  d:'독립절 하나 + 거기 딸린 모든 종속절, 여기에 <b>홀로 선 답변 조각</b>도 하나로 센다. 「응」·「토끼요」 같은 것.',
+  n:'<b>구어</b>를 위한 단위다. 흔히 「T-unit을 구어용으로 고친 것」이라 소개하지만 <b>연대는 반대</b>다 — C-unit(1963)이 T-unit(1965)보다 <b>앞선다.</b> 두 단위는 각각 구어와 문어를 겨냥해 <b>따로 제안되었고</b>, 결과적으로 정의가 비슷해졌다고 보는 편이 정확하다.'},
+ {btn:'그런데 한국어는',full:'종결어미가 있다',who:'주교재가 제기하는 문제',
+  d:'「-다·-어·-어요·-니」가 붙으면 <b>거기서 문장이 끝난다.</b> 문장 경계 표지가 어미에 얹혀 있다.',
+  n:'그렇다면 <b>C-unit을 도입할 이유가 무엇인가.</b> 거의 문장과 같아진다면 새 단위가 아니다. <b>검증 가능한 주장</b>이므로 실제로 세어 보면 된다 — 옆의 계량 비교기가 그것이다.<br><br>다만 <b>한국어라고 경계가 늘 분명하지는 않다</b> — 전사본 C25는 연결어미 「-어서」로 끝나 판정을 보류했고, 「-는데」로 흐리는 말끝은 성인 구어에도 흔하다.'},
+ {btn:'절 밀도',full:'clause density',who:'대안',
+  d:'<b>총 절 수 ÷ 총 발화(또는 C-unit) 수.</b> 단위를 새로 만들지 않고 <b>절이 몇 개 들어 있는지</b>만 본다.',
+  n:'<b>복잡성을 직접 잰다.</b> 문장 경계가 분명한 한국어에서는 이쪽이 자연스럽다. 다만 <b>「절」의 정의를 밝혀야</b> 하고(충돌 ①·②), <b>한국어 규준이 아직 충분하지 않다.</b>'}
+];
+const unBtns=document.getElementById('un-btns'),unPanel=document.getElementById('un-panel');
+UNITS.forEach((x,i)=>{
+  const b=document.createElement('button');
+  b.className='ibtn'+(i===0?' active':'');b.textContent=x.btn;
+  b.onclick=()=>{[...unBtns.children].forEach(c=>c.classList.remove('active'));b.classList.add('active');renderUn(x);};
+  unBtns.appendChild(b);
+});
+function renderUn(x){
+  unPanel.innerHTML='<h4>'+x.btn+' <span style="font-family:var(--sans);font-size:.85rem;opacity:.65">'+x.full+'</span></h4>'+
+    '<p style="font-family:var(--mono);font-size:.76rem;opacity:.55">'+x.who+'</p>'+
+    '<p>'+x.d+'</p><p class="note">'+x.n+'</p>';
+}
+renderUn(UNITS[0]);
+
+/* ===== §Ⅶ 계량 비교기 ===== */
+const MCOL={'조각':'#a8a8a8','단문':'#9dd39a','복문':'#e8b647','판정 보류':'#e0836a',
+ '종속접속':'#8fb8d8','관형절':'#e8b647','인용절':'#c0a8d8','대등접속':'#d4a862','명사절':'#e0836a','부사절':'#e0836a','서술절':'#e0836a'};
+const METS=[
+ {btn:'발화의 구성',
+  cards:[['60','전체 발화'],['24','단문'],['29','복문'],['5','조각'],['2','판정 보류']],
+  bars:{'단문':24,'복문':29,'조각':5,'판정 보류':2},
+  n:'<b>조각 5 · 단문 24 · 복문 29 · 판정 보류 2</b>(C13 한 발화 두 문장, C25 미완). 서술어를 갖춘 발화 55개 가운데 <b>복문이 29개</b>로 절반이 넘는다. 10주차에서 「판정 기준에 따라 두엇이 오간다」고 한 것이 이 둘이다.'},
+ {btn:'복문의 유형',
+  cards:[['16','내포'],['17','접속'],['11','관형절'],['5','인용절']],
+  bars:{'종속접속':16,'관형절':11,'인용절':5,'대등접속':1,'명사절':0,'부사절':0,'서술절':0},
+  n:'<b>내포 16 · 접속 17</b>로 거의 반반이다. 그런데 안을 보면 치우쳐 있다 — 내포는 <b>관형절과 인용절뿐</b>이고, 접속은 <b>거의 다 종속</b>(16:1)이다. <b>명사절·부사절·서술절은 0회.</b><br><br>대등 접속이 1회뿐인 것은 이 자료가 「-고」의 <b>계기</b> 용법(C07·C41)을 종속으로 세었기 때문이다 — 기준을 바꾸면 대등 3 · 종속 14가 된다.<br><br>검산 — 결합 표지 <b>33개</b>(관형 11 + 종속 16 + 대등 1 + 인용 5), 복문 29개이므로 복문의 절은 29+33=<b>62</b>. 여기에 단문 24 + C13의 2 + C25의 1을 더하면 <b>총 절 89</b>다.'},
+ {btn:'절 밀도',
+  cards:[['89','총 절 수'],['1.48','절 밀도<br>(전체 60)'],['1.62','절 밀도<br>(조각 제외 55)'],['1.44','절 밀도<br>(C-unit 62)']],
+  bars:{},
+  n:'<b>분모를 무엇으로 하느냐에 따라 1.44에서 1.62까지</b> 오간다. 차이가 0.18이다.<br><br>그리고 이것은 <b>「큰 집」류를 절로 세지 않은</b> 값이다. 세면 어떻게 되는가 — 전사본의 관형사형 14회 가운데 <b>11회는 이미 관형절로 세어져 있고</b>, 새로 더해지는 것은 <b>C04·C05·C12의 「큰」 셋뿐</b>이다. 총 절 89 → <b>92</b>, 밀도 1.48 → <b>1.53</b>(+3%).<br><br>값의 변화는 작지만 <b>분류표의 모양이 달라진다</b> — C04·C05는 절을 갖되 주절 서술어가 없으므로 <b>복문이 되지 못하고 「절을 품은 조각」</b>이 된다. 조각·단문·복문 셋으로는 담기지 않는 칸이 하나 생기는 것이다. <b>기준 하나가 표 전체를 흔든다.</b>'},
+ {btn:'★ C-unit 검증',
+  cards:[['60','발화(문장)'],['62','C-unit'],['2','차이'],['3.3%','차이 비율']],
+  bars:{},
+  n:'<b>차이가 두 개뿐이다.</b> C13(한 발화에 두 문장)과 C14(대등 접속). <b>3.3%.</b><br><br>이것이 주교재 주장의 검증이다 — <b>한국어에서 C-unit은 문장과 거의 같다.</b> 종결어미가 문장 경계를 이미 표시하고 있으므로, 영어에서처럼 새 단위를 만들 필요가 없는 것이다.<br><br><b>그런데 이 값도 기준에 달렸다.</b> 발화 안의 응답어 「응·네·아니」(C06·C08·C38·C50)를 Loban의 원 정의대로 따로 세면 <b>C-unit 66 · 차이 6(10%)</b>다. 방향은 그대로지만 <b>「거의 같다」의 강도가 달라진다.</b><br><br>게다가 <b>표본이 하나</b>이고 <b>60발화</b>다. [제출 과제 6]의 2번 문항이 이것을 직접 세어 보라고 요구하는 이유다 — <b>여러분의 값이 다르게 나올 수도 있다.</b>'}
+];
+const mtBtns=document.getElementById('mt-btns'),mtGrid=document.getElementById('mt-grid'),
+      mtBars=document.getElementById('mt-bars'),mtPanel=document.getElementById('mt-panel');
+METS.forEach((x,i)=>{
+  const b=document.createElement('button');
+  b.className='ibtn'+(i===0?' active':'');b.textContent=x.btn;
+  b.onclick=()=>{[...mtBtns.children].forEach(c=>c.classList.remove('active'));b.classList.add('active');renderMt(x);};
+  mtBtns.appendChild(b);
+});
+function renderMt(x){
+  mtGrid.innerHTML=x.cards.map(c=>'<div class="met"><span class="n">'+c[0]+'</span><span class="l">'+c[1]+'</span></div>').join('');
+  const ks=Object.keys(x.bars);
+  if(ks.length){
+    const mx=Math.max.apply(null,ks.map(k=>x.bars[k]))||1;
+    mtBars.innerHTML=ks.map(k=>
+      '<div class="barrow"><span>'+k+'</span>'+
+      '<div class="bartrack"><div class="barfill" style="width:'+(x.bars[k]/mx*100).toFixed(1)+'%;background:'+(MCOL[k]||'#aaa')+'"></div></div>'+
+      '<span class="barval">'+x.bars[k]+'회</span></div>').join('');
+  }else mtBars.innerHTML='';
+  mtPanel.innerHTML='<h4>'+x.btn+'</h4><p class="note">'+x.n+'</p>';
+}
+renderMt(METS[0]);
+
+/* ===== 실습실 워크시트 ===== */
+const LABW=['조각 수','단문 수','복문 수','총 절 수','절 밀도 (전체 기준)','절 밀도 (조각 제외)',
+ '내포 — 명사절','내포 — 관형절','내포 — 부사절','내포 — 서술절','내포 — 인용절',
+ '접속 — 대등','접속 — 종속','C-unit 수','발화 수와의 차이'];
+document.getElementById('ws-body').innerHTML=LABW.map(w=>
+  '<tr><td class="w">'+w+'</td>'+
+  '<td><input type="text" aria-label="'+w+' 값" placeholder="값"></td>'+
+  '<td><input type="text" aria-label="'+w+' 기준" placeholder="어떤 기준으로 세었는가"></td></tr>').join('');
+
+/* ===== 퀴즈 ===== */
+function buildQuiz(containerId,scoreId,items){
+  const wrap=document.getElementById(containerId),scoreEl=document.getElementById(scoreId);
+  let done=0,right=0;
+  items.forEach((it,i)=>{
+    const d=document.createElement('div');
+    d.className='quiz-item';
+    d.innerHTML='<div class="quiz-q"><span class="num">'+String(i+1).padStart(2,'0')+'</span>'+it.q+'</div>'+
+      '<div class="quiz-opts"></div><div class="quiz-fb"></div>';
+    const optWrap=d.querySelector('.quiz-opts'),fb=d.querySelector('.quiz-fb');
+    it.opts.forEach((label,j)=>{
+      const b=document.createElement('button');
+      b.className='quiz-opt';b.textContent=label;
+      b.onclick=()=>{
+        optWrap.querySelectorAll('.quiz-opt').forEach(x=>x.disabled=true);
+        const ok=j===it.a;
+        b.classList.add(ok?'correct':'wrong');
+        if(!ok)optWrap.querySelectorAll('.quiz-opt')[it.a].classList.add('correct');
+        fb.innerHTML='<b>'+(ok?'정답':'다시 보기')+'</b> · '+it.fb;
+        fb.classList.add('show');
+        done++;if(ok)right++;
+        scoreEl.textContent=done+'문항 풀이 · 정답 '+right+'개 ('+Math.round(right/done*100)+'%)'+
+          (done===items.length?(right===items.length?' — 완벽합니다.':' — 틀린 문항의 해설을 다시 읽어 보세요.'):'');
+      };
+      optWrap.appendChild(b);
+    });
+    wrap.appendChild(d);
+  });
+}
+
+buildQuiz('check-items','check-score',[
+ {q:'내포와 접속을 가르는 기준은?',
+  opts:['안긴 절이 문장 성분이 되는가','절의 개수','어미의 종류','문장의 길이'],a:0,
+  fb:'안긴 절은 <b>주어·목적어·관형어·부사어·서술어</b> 중 하나가 된다. 이어진 절은 성분이 되지 않고 그냥 앞에 놓인다. 수형도로 보면 안긴 절은 NP나 AdnP 아래에, 이어진 절은 S 바로 아래에 있다. → §Ⅰ·§Ⅴ'},
+ {q:'안긴 절 다섯 중 <b>결합 표지가 어미가 아닌</b> 것은?',
+  opts:['명사절','관형절','인용절','부사절'],a:2,
+  fb:'<b>인용절</b>의 표지는 <b>조사 「고/라고」</b>다 — 학교 문법의 이름으로는 <b>인용의 부사격조사</b>. 나머지 가운데 셋(명사절·관형절·부사절)은 <b>전성어미</b>가 만들고(-음/-기, -ㄴ/-는/-ㄹ, -게/-도록), <b>서술절은 아예 표지가 없다.</b> → §Ⅱ'},
+ {q:'전사본에서 안긴 절 가운데 <b>가장 많은</b> 것은?',
+  opts:['명사절','부사절','관형절','인용절'],a:2,
+  fb:'<b>관형절 11회</b>로 가장 많다. 인용절 5회가 뒤를 잇고 나머지 셋은 0회다. 그리고 관형절은 대부분 <b>의존명사 「거·수」를 머리명사로</b> 삼는다 — 7주차에서 「거」가 체언 1위였던 이유다. → §Ⅱ'},
+ {q:'관계 관형절과 동격 관형절을 가르는 <b>가장 확실한 시험</b>은?',
+  opts:['머리명사가 의존명사인지 본다','절의 길이를 잰다','관형사형 어미의 종류를 본다','머리명사를 격까지 맞춰 절 안에 되돌려 넣어 본다'],a:3,
+  fb:'「내가 읽은 <b>책</b>」은 「내가 <b>책을</b> 읽었다」로 되돌아가므로 <b>관계</b>이고, 「비가 온다는 <b>사실</b>」은 <span class="bad">*</span>「비가 사실을 온다」가 안 되므로 <b>동격</b>이다.<br>「의존명사면 동격」이라는 요령은 <b>믿을 수 없다</b> — 「내가 아는 <b>바</b>」·「먹을 <b>것</b>」은 관계다. 전사본 C22 「토끼가 나오는 거」도 「거」를 그림·책으로 보면 관계가 된다. → §Ⅲ'},
+ {q:'「큰 집」류를 <b>절로 세면</b> 전사본의 값은 어떻게 되는가?',
+  opts:['절 밀도가 1.48에서 2를 넘는다','밀도는 1.53으로 조금 오를 뿐이지만, C04·C05가 「절을 품은 조각」이 되어 분류표에 없던 칸이 필요해진다','아무것도 달라지지 않는다','복문이 절반으로 준다'],a:1,
+  fb:'전사본의 관형사형 14회 가운데 <b>11회는 이미 관형절로 세어져 있다.</b> 새로 더해지는 것은 <b>C04·C05·C12의 「큰」 셋뿐</b>이라 총 절은 89→92, 밀도는 1.48→<b>1.53</b>(+3%)이다.<br><b>주의</b> — 「큰 집」에는 주절 서술어가 없으므로 <b>복문이 되지 않는다.</b> 절 하나를 품은 조각이 될 뿐이다. <b>값은 조금 움직이는데 표의 모양이 달라진다</b> — 그래서 정의를 밝혀야 한다. → §Ⅲ 충돌 ①'},
+ {q:'대등 접속과 종속 접속을 가르는 <b>시험 ①</b>은?',
+  opts:['길이 비교','조사 확인','앞뒤 절의 순서 바꾸기','어미 개수 세기'],a:2,
+  fb:'대등 접속은 순서를 바꿔도 뜻이 크게 안 변하고(「여기는 문이고 여기는 창문이야」↔「여기는 창문이고 여기는 문이야」), 종속 접속은 그렇지 않다. 이 밖에 <b>앞절 이동</b> 시험과 <b>서법의 작용역</b> 시험(문장을 의문·명령으로 바꾸어 그 서법이 어느 절까지 걸리는지 보기)이 있다.<br>접속부사로 받아 보는 방식은 <b>시험이 되지 않는다</b> — 대등에도 「그리고·그러나」가, 종속에도 「그래서·그러면」이 다 있기 때문이다. → §Ⅳ'},
+ {q:'종속절이 <b>뒤절 안으로 들어갈 수 있다</b>는 사실이 뜻하는 바는?',
+  opts:['종속절이 짧아서','종속절이 사실상 부사어처럼 기능해서','대등절이라서','어미 때문에'],a:1,
+  fb:'그래서 <b>종속 접속과 부사절 내포의 경계가 흐려진다.</b> 「-게」를 부사형 전성어미로 볼지 종속적 연결어미로 볼지 갈리는 것(충돌 ②)이 이 문제의 한 갈래다. → §Ⅳ'},
+ {q:'복문 수형도에서 <b>재귀</b>가 일어나는 자리는?',
+  opts:['NP 아래에 NP가 올 때','규칙의 오른쪽에 S가 다시 나타날 때','조사가 붙을 때','어미가 겹칠 때'],a:1,
+  fb:'<span class="mono">AdnP → S</span>, <span class="mono">S → S S</span>, <span class="mono">AdvP → S P</span> — 오늘 더하거나 넓힌 네 줄 가운데 <b>셋</b>의 오른쪽에 S가 있다. 이 성질 때문에 <b>규칙은 유한한데 문장은 무한</b>해진다 — 1주차의 「생산성」이 여기서 나온다. → §Ⅴ'},
+ {q:'「토끼와 거북이가 <b>만났다</b>」가 단문인 이유는?',
+  opts:['「만나다」가 둘 이상을 요구해 구 접속으로만 읽혀서','짧아서','조사가 하나라서','주어가 하나라서'],a:0,
+  fb:'<span class="bad">*</span>「토끼가 만났다 + 거북이가 만났다」로 풀리지 않는다. 반면 「달렸다」는 풀리므로 <b>문 접속으로도 읽혀</b> 중의적이다. <b>서술어가 정한다.</b><br>다만 문 접속을 <b>절 둘</b>로 셀지는 틀에 달렸다 — 기저 구조를 상정하면 둘, 학교 문법은 표면의 서술어가 하나이므로 보통 홑문장으로 둔다. → §Ⅵ'},
+ {q:'T-unit과 C-unit의 관계에 대한 서술로 <b>옳은</b> 것은?',
+  opts:['C-unit은 T-unit을 구어용으로 고친 것이다','둘은 같은 사람이 같은 해에 제안했다','C-unit(1963)이 T-unit(1965)보다 앞선다 — 각각 구어와 문어를 겨냥해 따로 제안되었다','T-unit이 구어용, C-unit이 문어용이다'],a:2,
+  fb:'흔히 「C-unit은 T-unit의 구어판」이라 소개되지만 <b>연대는 반대</b>다. Loban(1963)이 먼저이고 Hunt(1965)가 나중이다. 정의가 비슷해진 것은 <b>결과</b>이지 한쪽이 다른 쪽을 고친 것이 아니다. → §Ⅶ'},
+ {q:'주교재가 C-unit의 한국어 적용에 문제를 제기하는 근거는?',
+  opts:['너무 복잡해서','한국어에는 종결어미라는 문장 경계 표지가 이미 있어서','영어 연구라서','계산이 어려워서'],a:1,
+  fb:'한국어는 <b>「-다·-어·-어요」가 붙으면 거기서 끝난다.</b> 경계 표지가 어미에 얹혀 있으니 새 단위를 도입할 이유가 없다는 것이다.<br>다만 <b>대비를 너무 세게 잡으면 안 된다</b> — 전사본 C25처럼 연결어미로 끝나 판정을 보류해야 하는 발화가 한국어에도 있다. → §Ⅶ·§임상'},
+ {q:'전사본에서 <b>C-unit 62 vs 발화 60</b>이라는 결과가 뜻하는 바는?',
+  opts:['C-unit이 더 정확하다','두 단위가 거의 같아 주교재의 주장이 지지된다','전사가 잘못되었다','아무 뜻도 없다'],a:1,
+  fb:'차이가 <b>두 개(3.3%)</b>뿐이다 — C13(한 발화 두 문장)과 C14(대등 접속). <b>한국어에서 C-unit은 문장과 거의 같다.</b><br>다만 발화 안의 응답어를 따로 세면 66 · 차이 6(10%)이 되고, 표본도 하나에 60발화다. 그래서 [제출 과제 6]에서 <b>기준을 밝혀 가며</b> 직접 세어 검증한다. → §Ⅶ·§임상'},
+ {q:'절 밀도를 보고할 때 <b>반드시 밝혀야</b> 하는 것은?',
+  opts:['아동의 나이','검사 장소','「절」의 정의와 분모가 무엇인지','치료사 이름'],a:2,
+  fb:'같은 전사본이 분모에 따라 <b>1.44(C-unit 62) · 1.48(발화 60) · 1.62(조각 제외 55)</b>로 갈린다. 여기에 「큰 집」류를 절로 세느냐까지 겹치면 값은 또 달라진다. <b>정의가 없으면 값이 무의미하다</b> — 6주차 TTR에서 한 이야기와 같다.<br>영어권의 <b>종속절 지표(SI)</b>는 원 정의의 분모가 <b>C-unit</b>이라는 점도 함께 알아 두어야 한다. → §임상'},
+ {q:'전사본에서 <b>명사절이 0회</b>인 것을 어떻게 읽어야 하는가?',
+  opts:['아동이 문법을 모른다','4;6에는 자연스러운 일이나, 학령기까지 없다면 기록할 만하다','전사가 잘못되었다','명사절은 원래 드물다'],a:1,
+  fb:'명사절 「-음/-기」는 <b>문어와 학령기 언어에서 급격히 늘어나는</b> 형식이라 4;6에 없는 것은 자연스럽다. 다만 <b>「0회」의 뜻이 세 안긴 절마다 다르다</b> — 부사절은 세는 방식의 문제이고, 서술절은 쓸 맥락이 없었을 수 있다. → §Ⅱ·§임상'},
+ {q:'절이 <b>셋인 발화</b> 네 개(C17·C31·C46·C59)의 상황별 분포를 옳게 읽은 것은?',
+  opts:['네 개가 모두 경험 이야기에 있다','네 개가 상황마다 고르게 하나씩 있다','자유놀이에 셋이 몰려 있다','자유놀이 1 · 그림책 1 · 경험 이야기 2 — 경험 이야기 쪽이 많지만 표본이 넷이라 단정할 수 없다'],a:3,
+  fb:'C17은 자유놀이(①), C31은 그림책(②), C46·C59가 경험 이야기(③)다. <b>눈앞에 없는 일을 말할 때 문장이 복잡해진다</b>는 방향은 읽히지만, <b>넷 중 둘</b>로는 근거가 되지 않는다 — 실습 4번 문항이 요구하는 것은 이 분포를 세어 보고 <b>무엇까지 말할 수 있는지</b>를 판단하는 일이다. → §임상'}
+]);
+
+/* ===== 스크롤 스파이 ===== */
+const navLinks=[...document.querySelectorAll('.nav-link')].filter(a=>document.querySelector(a.getAttribute('href')));
+const navSecs=navLinks.map(a=>document.querySelector(a.getAttribute('href')));
+function spy(){
+  let cur=0;
+  navSecs.forEach((s,i)=>{if(s.getBoundingClientRect().top<250)cur=i;});
+  navLinks.forEach((a,i)=>a.classList.toggle('active',i===cur));
+}
+window.addEventListener('scroll',spy);spy();
+</script>
+
+</body>
+</html>

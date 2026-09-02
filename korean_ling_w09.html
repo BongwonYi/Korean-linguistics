@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>조사와 어미 — 한국어학 제9주</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Noto+Serif+KR:wght@300;400;500;600;700;900&family=Noto+Sans+KR:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1a1814;
+  --paper:#f5f1e8;
+  --paper-warm:#ede5d3;
+  --accent:#7a2c5e;        /* plum — BLOCK C */
+  --accent-soft:#b87ba0;
+  --moss:#4a5d3a;
+  --terracotta:#c85a3e;
+  --rule:#1a181433;
+  --highlight:#e8b647;
+  --serif:'Noto Serif KR','Fraunces',Georgia,serif;
+  --sans:'Noto Sans KR',sans-serif;
+  --mono:'JetBrains Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--serif);background:var(--paper);color:var(--ink);
+  line-height:1.75;font-size:16px;
+  background-image:
+    radial-gradient(circle at 20% 30%, #00000008 1px, transparent 1px),
+    radial-gradient(circle at 80% 70%, #00000008 1px, transparent 1px);
+  background-size:40px 40px,60px 60px;
+}
+.masthead{border-bottom:3px double var(--ink);padding:1.8rem 3rem 1.3rem;background:rgba(245,241,232,.95);position:sticky;top:0;z-index:100;backdrop-filter:blur(8px)}
+.masthead-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:auto 1fr auto;gap:2rem;align-items:end}
+.issue-tag{font-family:var(--mono);font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);border:1px solid var(--accent);padding:.3rem .6rem;align-self:start}
+.title-block h1{font-weight:900;font-size:clamp(1.9rem,4.6vw,3.3rem);line-height:.98;letter-spacing:-.02em}
+.title-block .subtitle{font-style:italic;font-weight:300;font-size:1rem;margin-top:.5rem;opacity:.7}
+.meta-info{text-align:right;font-family:var(--mono);font-size:.7rem;line-height:1.6;opacity:.7}
+
+.toc-nav{border-bottom:1px solid var(--rule);background:var(--paper-warm);padding:.8rem 3rem;position:sticky;top:141px;z-index:99}
+.toc-nav-inner{max-width:1200px;margin:0 auto;display:flex;gap:.4rem;flex-wrap:wrap;font-family:var(--sans);font-size:.78rem}
+.toc-nav a{color:var(--ink);text-decoration:none;padding:.3rem .7rem;border:1px solid transparent;transition:all .2s;font-weight:500}
+.toc-nav a:hover{border-color:var(--ink);background:var(--paper)}
+.toc-nav a.active{background:var(--ink);color:var(--paper)}
+
+main{max-width:1200px;margin:0 auto;padding:3rem}
+
+.hero{display:grid;grid-template-columns:1.35fr 1fr;gap:3rem;margin-bottom:4rem;align-items:start}
+.hero-text .lead{font-size:1.16rem;line-height:1.95}
+.hero-text .lead::first-letter{float:left;font-size:4.3rem;line-height:.82;font-weight:900;margin:.1rem .6rem 0 0;color:var(--accent)}
+.hero-text p+p{margin-top:1.2rem}
+.hero-aside{background:var(--paper-warm);border:1px solid var(--rule);padding:1.6rem 1.8rem}
+.hero-aside h3{font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem;font-weight:500}
+.hero-aside ol{list-style:none;counter-reset:g}
+.hero-aside li{counter-increment:g;position:relative;padding-left:1.9rem;margin-bottom:.75rem;font-size:.92rem;line-height:1.6}
+.hero-aside li::before{content:counter(g);position:absolute;left:0;top:.2rem;font-family:var(--mono);font-size:.68rem;color:var(--paper);background:var(--accent);width:1.3rem;height:1.3rem;display:flex;align-items:center;justify-content:center;border-radius:50%}
+
+.section{margin-bottom:4.5rem;scroll-margin-top:200px}
+.section-header{border-bottom:2px solid var(--ink);padding-bottom:.6rem;margin-bottom:1.6rem}
+.section-number{font-family:var(--mono);font-size:.72rem;letter-spacing:.16em;color:var(--accent);display:block;margin-bottom:.3rem}
+.section-header h2{font-size:clamp(1.4rem,2.8vw,2.05rem);font-weight:700;letter-spacing:-.01em}
+.ko-en{font-family:var(--sans);font-size:.8rem;font-weight:400;opacity:.55;margin-left:.6rem}
+.src-badge{display:inline-block;font-family:var(--mono);font-size:.63rem;letter-spacing:.06em;border:1px solid var(--rule);padding:.15rem .45rem;margin:.5rem .3rem 0 0;opacity:.72}
+.src-badge.main{border-color:var(--accent);color:var(--accent)}
+.prose p{margin-bottom:1.2rem}
+.prose h3{font-size:1.24rem;font-weight:700;margin:2.2rem 0 .8rem;padding-left:.7rem;border-left:3px solid var(--accent)}
+em.term{font-style:normal;font-weight:600;border-bottom:2px solid var(--highlight);padding-bottom:1px}
+.ex{font-family:var(--sans);background:var(--paper-warm);padding:.9rem 1.2rem;margin:1.1rem 0;font-size:.93rem;line-height:2}
+.mono{font-family:var(--mono)}
+.bad{color:var(--terracotta)}
+
+.concept-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:1rem;margin:1.8rem 0}
+.concept-card{border:1px solid var(--rule);padding:1.2rem;background:#fff9;transition:transform .2s}
+.concept-card:hover{transform:translateY(-3px)}
+.concept-card .card-num{font-family:var(--mono);font-size:.65rem;letter-spacing:.13em;color:var(--accent);display:block;margin-bottom:.45rem}
+.concept-card h4{font-size:1rem;margin-bottom:.15rem}
+.concept-card .ko{font-family:var(--sans);font-size:.72rem;opacity:.55;display:block;margin-bottom:.5rem}
+.concept-card p{font-size:.85rem;line-height:1.62;opacity:.87}
+
+.interactive{background:var(--ink);color:var(--paper);padding:2.1rem 2.3rem;margin:2rem 0;position:relative}
+.interactive::before{content:'';position:absolute;top:8px;left:8px;right:8px;bottom:8px;border:1px solid #f5f1e830;pointer-events:none}
+.interactive h3{font-family:var(--serif);font-size:1.18rem;margin-bottom:.35rem;position:relative}
+.interactive-desc{font-family:var(--sans);font-size:.81rem;opacity:.6;margin-bottom:1.5rem;position:relative}
+.ibody{position:relative}
+.btnrow{display:flex;flex-wrap:wrap;gap:.45rem;margin-bottom:1.3rem}
+.ibtn{font-family:var(--sans);font-size:.8rem;background:transparent;color:var(--paper);border:1px solid #f5f1e850;padding:.4rem .85rem;cursor:pointer;transition:all .18s}
+.ibtn:hover{background:#f5f1e820}
+.ibtn.active{background:var(--paper);color:var(--ink);border-color:var(--paper)}
+.ibtn:disabled{opacity:.3;cursor:default}
+.ipanel{min-height:110px;font-size:.9rem;line-height:1.75}
+.ipanel h4{font-size:1.12rem;margin-bottom:.3rem}
+.ipanel p{margin-bottom:.75rem}
+.ibody .note{font-family:var(--sans);font-size:.82rem;opacity:.75;border-left:2px solid var(--accent-soft);padding-left:.8rem;margin-top:.9rem}
+.itable{width:100%;border-collapse:collapse;color:var(--paper);font-size:.85rem;margin:.3rem 0 1rem}
+.itable th{font-family:var(--mono);font-size:.62rem;letter-spacing:.09em;text-align:left;padding:.4rem .55rem;border-bottom:1px solid #f5f1e850;font-weight:500;opacity:.7}
+.itable td{padding:.42rem .55rem;border-bottom:1px solid #f5f1e820;vertical-align:top;line-height:1.55}
+
+/* 조사 태깅 문장 */
+.tagsent{font-family:var(--sans);font-size:1.15rem;line-height:2.6;margin:.4rem 0 1.1rem}
+.jt{display:inline-block;padding:.05rem .1rem}
+.jt .j{border-bottom:2px solid var(--highlight);cursor:pointer;padding-bottom:1px}
+.jt .j.on{background:var(--highlight);color:var(--ink)}
+.jt .om{color:#e0836a;opacity:.7;font-size:.85em}
+
+/* 어미 계층도 */
+.hier{margin:.4rem 0 1rem}
+.hrow{display:grid;grid-template-columns:118px 1fr;gap:.7rem;align-items:start;margin-bottom:.45rem;font-family:var(--sans);font-size:.87rem}
+.hlbl{font-family:var(--mono);font-size:.7rem;opacity:.65;padding-top:.35rem;text-align:right}
+.hbox{border:1px solid #f5f1e830;padding:.45rem .75rem;transition:all .2s;cursor:pointer}
+.hbox:hover{background:#f5f1e812}
+.hbox.on{border-color:var(--highlight);background:#e8b6471a}
+.hbox .hsub{font-size:.76rem;opacity:.6;margin-top:.15rem}
+.hkids{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:.45rem}
+
+/* 막대 */
+.barset{margin:.4rem 0 1.1rem}
+.barrow{display:grid;grid-template-columns:92px 1fr 108px;gap:.7rem;align-items:center;margin-bottom:.5rem;font-family:var(--sans);font-size:.83rem}
+.bartrack{background:#f5f1e818;height:19px;position:relative;overflow:hidden}
+.barfill{height:100%;transition:width .5s cubic-bezier(.4,0,.2,1)}
+.barval{font-family:var(--mono);font-size:.75rem;text-align:right;opacity:.85;white-space:nowrap}
+.toggles{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1rem}
+.tg{font-family:var(--sans);font-size:.78rem;background:transparent;color:var(--paper);border:1px solid #f5f1e850;padding:.35rem .75rem;cursor:pointer;transition:all .15s}
+.tg:hover{background:#f5f1e818}
+.tg.on{background:var(--highlight);color:var(--ink);border-color:var(--highlight)}
+
+/* 은는이가 판별 */
+.judge{border:1px solid #f5f1e830;padding:.85rem 1rem;margin-bottom:.55rem}
+.judge .jq{font-family:var(--sans);font-size:1.02rem;margin-bottom:.5rem;line-height:1.8}
+.judge .jbtns{display:flex;gap:.4rem;flex-wrap:wrap}
+.judge .jb{font-family:var(--sans);font-size:.8rem;background:transparent;color:var(--paper);border:1px solid #f5f1e850;padding:.3rem .8rem;cursor:pointer}
+.judge .jb:hover{background:#f5f1e820}
+.judge .jb.ok{background:#9dd39a;color:#1a1814;border-color:#9dd39a}
+.judge .jb.no{background:#e0836a;color:#1a1814;border-color:#e0836a}
+.judge .jb:disabled{cursor:default}
+.judge .jfb{font-family:var(--sans);font-size:.83rem;line-height:1.7;margin-top:.6rem;padding-top:.5rem;border-top:1px dotted #f5f1e830;display:none;opacity:.85}
+.judge .jfb.show{display:block}
+
+.data-table{width:100%;border-collapse:collapse;margin:1.5rem 0;font-size:.85rem}
+.data-table th{font-family:var(--mono);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;text-align:left;padding:.6rem .7rem;border-bottom:2px solid var(--ink);font-weight:500}
+.data-table td{padding:.6rem .7rem;border-bottom:1px solid var(--rule);vertical-align:top;line-height:1.55}
+.data-table tr:hover td{background:var(--paper-warm)}
+.data-table .ko{font-weight:600}
+.data-table td.num{font-family:var(--mono);text-align:right;white-space:nowrap}
+
+.callout{border-left:3px solid var(--accent);background:var(--paper-warm);padding:1.2rem 1.5rem;margin:1.7rem 0}
+.callout-label{font-family:var(--mono);font-size:.65rem;letter-spacing:.13em;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:.5rem}
+.callout p{font-size:.92rem;line-height:1.78;margin-bottom:.7rem}
+.callout p:last-child{margin-bottom:0}
+.callout.clinical{border-left-color:var(--moss)}
+.callout.clinical .callout-label{color:var(--moss)}
+.callout.warning{border-left-color:var(--terracotta)}
+.callout.warning .callout-label{color:var(--terracotta)}
+
+.quiz-item{border:1px solid var(--rule);padding:1.1rem 1.3rem;margin-bottom:.9rem;background:#fff9}
+.quiz-q{font-size:.97rem;margin-bottom:.75rem;line-height:1.7}
+.quiz-q .num{font-family:var(--mono);font-size:.7rem;color:var(--accent);margin-right:.5rem}
+.quiz-opts{display:flex;flex-wrap:wrap;gap:.4rem}
+.quiz-opt{font-family:var(--sans);font-size:.82rem;background:var(--paper);border:1px solid var(--rule);padding:.35rem .8rem;cursor:pointer;transition:all .16s;color:var(--ink)}
+.quiz-opt:hover{border-color:var(--ink)}
+.quiz-opt.correct{background:var(--moss);color:var(--paper);border-color:var(--moss)}
+.quiz-opt.wrong{background:var(--terracotta);color:var(--paper);border-color:var(--terracotta)}
+.quiz-opt:disabled{cursor:default}
+.quiz-fb{font-family:var(--sans);font-size:.85rem;line-height:1.7;margin-top:.75rem;padding-top:.7rem;border-top:1px dotted var(--rule);display:none}
+.quiz-fb.show{display:block;animation:fade .3s}
+@keyframes fade{from{opacity:0;transform:translateY(-3px)}to{opacity:1;transform:none}}
+.quiz-score{font-family:var(--mono);font-size:.8rem;padding:.7rem 1rem;background:var(--paper-warm);border:1px solid var(--rule);margin-top:1rem}
+
+.lab{border:2px solid var(--ink);padding:0;margin:2rem 0}
+.lab-head{background:var(--ink);color:var(--paper);padding:1.1rem 1.6rem}
+.lab-head .tag{font-family:var(--mono);font-size:.65rem;letter-spacing:.14em;color:var(--highlight);display:block;margin-bottom:.25rem}
+.lab-head h3{font-size:1.25rem;font-weight:700}
+.lab-head p{font-family:var(--sans);font-size:.83rem;opacity:.72;margin-top:.35rem}
+.lab-body{padding:1.6rem}
+.worksheet{width:100%;border-collapse:collapse;font-size:.88rem;margin:1.2rem 0}
+.worksheet th,.worksheet td{border:1px solid var(--rule);padding:.5rem .6rem;text-align:left}
+.worksheet th{font-family:var(--mono);font-size:.62rem;letter-spacing:.08em;background:var(--paper-warm);font-weight:500}
+.worksheet td.w{font-family:var(--sans);font-size:.95rem;width:26%}
+.worksheet input{width:100%;font-family:var(--sans);font-size:.88rem;border:none;background:transparent;color:var(--ink);padding:.15rem}
+.worksheet input:focus{outline:1px solid var(--accent)}
+
+.mini-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:1rem;margin:1.6rem 0}
+.mini{border:1px solid var(--rule);padding:1.1rem 1.2rem;background:#fff9;transition:transform .2s}
+.mini:hover{transform:translateY(-3px)}
+.mini h5{font-size:.98rem;margin-bottom:.4rem}
+.mini .mtag{font-family:var(--mono);font-size:.63rem;letter-spacing:.1em;color:var(--accent);display:block;margin-bottom:.35rem}
+.mini p{font-size:.83rem;line-height:1.62;opacity:.87}
+
+.week-nav{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:3.5rem;padding-top:2rem;border-top:1px solid var(--rule)}
+.week-nav div{border:1px solid var(--rule);padding:1.1rem 1.3rem;background:#fff9}
+.week-nav .lbl{font-family:var(--mono);font-size:.63rem;letter-spacing:.13em;color:var(--accent);display:block;margin-bottom:.35rem}
+.week-nav b{font-size:1rem;display:block;margin-bottom:.25rem}
+.week-nav p{font-size:.83rem;opacity:.75;line-height:1.6}
+
+footer{border-top:3px double var(--ink);margin-top:4rem;padding:2.5rem 3rem 3.5rem}
+.colophon{max-width:640px;margin:0 auto;text-align:center;font-size:.82rem;line-height:1.9;opacity:.72}
+.colophon .mn{font-family:var(--mono);font-size:.7rem;letter-spacing:.08em}
+.colophon .epigraph{font-style:italic;margin-top:1.2rem;opacity:.8}
+
+@media(max-width:900px){
+  .masthead,.toc-nav,main,footer{padding-left:1.4rem;padding-right:1.4rem}
+  .masthead-inner{grid-template-columns:1fr;gap:.8rem}
+  .meta-info{text-align:left}
+  .toc-nav{position:static}
+  .hero{grid-template-columns:1fr;gap:2rem}
+  .week-nav{grid-template-columns:1fr}
+  .interactive{padding:1.5rem 1.2rem}
+  .lab-head,.lab-body{padding-left:1.2rem;padding-right:1.2rem}
+  .barrow{grid-template-columns:74px 1fr 94px;gap:.5rem;font-size:.78rem}
+  .hrow{grid-template-columns:88px 1fr;gap:.5rem;font-size:.8rem}
+}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <span class="issue-tag">제09주 · BLOCK C</span>
+    <div class="title-block">
+      <h1>조사와 어미</h1>
+      <p class="subtitle"><em>The Machinery</em> — 한국어를 굴리는 문법형태소</p>
+    </div>
+    <div class="meta-info">
+      나사렛대학교<br>언어치료학과<br>학부 과정<br>이봉원 9장 · 개론서 04장·03장
+    </div>
+  </div>
+</header>
+
+<nav class="toc-nav">
+  <div class="toc-nav-inner">
+    <a href="#intro" class="nav-link">들어가며</a>
+    <a href="#case" class="nav-link">§Ⅰ 격조사</a>
+    <a href="#aux" class="nav-link">§Ⅱ 보조사</a>
+    <a href="#topic" class="nav-link">§Ⅲ 은/는 vs 이/가</a>
+    <a href="#endings" class="nav-link">§Ⅳ 어미의 계층</a>
+    <a href="#conn" class="nav-link">§Ⅴ 연결어미</a>
+    <a href="#issue" class="nav-link">§Ⅵ 조사는 단어인가</a>
+    <a href="#freq" class="nav-link">§Ⅶ 빈도와 이형태</a>
+    <a href="#lab" class="nav-link">분석 실습실</a>
+    <a href="#clinical" class="nav-link">임상 적용</a>
+    <a href="#check" class="nav-link">확인 문제</a>
+    <a href="#refs" class="nav-link">참고 문헌</a>
+  </div>
+</nav>
+
+<main>
+
+<!-- ============ 들어가며 ============ -->
+<section id="intro" class="section">
+  <div class="hero">
+    <div class="hero-text">
+      <p class="lead">사전에 조사는 <strong>181개</strong>, 어미는 <strong>811개</strong>뿐이다. 42만 표제어 가운데 0.3%도 안 된다. 그런데 <strong>이 992개가 한국어 문장을 굴린다.</strong></p>
+
+      <p>주어인지 목적어인지, 언제 일어난 일인지, 누구를 높이는지, 묻는 것인지 시키는 것인지 — 전부 여기 실려 있다. 6주차에서 본 대로 이 992개는 <strong>100% 고유어</strong>다. 한국어가 아무리 많은 한자어와 외래어를 받아들여도 <strong>문법의 뼈대는 건드려지지 않았다.</strong></p>
+
+      <p>그리고 오늘, <strong>5주차부터 미뤄 온 물음</strong>에 답한다. 「책이」는 한 단어인가 두 단어인가? 조사를 단어로 볼 것인가? 이것은 사소한 용어 문제가 아니다 — <strong>4주차에 MLU를 세던 그 결정</strong>이 여기서 근거를 얻는다.</p>
+    </div>
+
+    <aside class="hero-aside">
+      <h3>이번 주 학습 목표</h3>
+      <ol>
+        <li><strong>격조사 7종</strong>을 구별하고 각각이 표시하는 성분을 안다</li>
+        <li><strong>보조사</strong>가 격조사와 어떻게 다른지 설명한다</li>
+        <li><strong>'은/는'과 '이/가'</strong>의 선택을 맥락으로 판정한다</li>
+        <li>어미를 <strong>선어말·어말</strong>로, 어말을 <strong>종결·연결·전성</strong>으로 나눈다</li>
+        <li>연결어미의 <strong>의미 범주</strong>를 안다</li>
+        <li><strong>조사는 단어인가</strong>에 대한 세 체계를 비교한다</li>
+        <li>조사 <strong>생략</strong>이 언제 정상인지 판정한다</li>
+      </ol>
+    </aside>
+  </div>
+
+  <div class="callout warning">
+    <span class="callout-label">이 주차가 이 과목의 임상 최대 접점이다</span>
+    <p>언어치료에서 「문법형태소」라고 부르는 것이 바로 오늘 다루는 조사와 어미다. 아동의 문법 발달을 볼 때도, 실어증 환자의 산출을 볼 때도, 가장 먼저 확인하는 것이 이것이다.</p>
+    <p>그런데 <strong>한국어에는 고약한 사정이 하나 있다.</strong> 조사가 <strong>구어에서 아주 흔히 생략된다는 것</strong>이다. 그래서 「조사를 안 썼다」는 사실만으로는 아무것도 판정할 수 없다. <strong>언제 생략이 정상이고 언제 문제인가</strong> — 이것을 가르는 것이 오늘의 핵심이다.</p>
+  </div>
+</section>
+
+<!-- ============ §Ⅰ ============ -->
+<section id="case" class="section">
+  <div class="section-header">
+    <span class="section-number">§ Ⅰ</span>
+    <h2>격조사 — 자리를 표시한다<span class="ko-en">Case Particles</span></h2>
+    <span class="src-badge main">이봉원 9장 「조사」</span>
+    <span class="src-badge">개론서 04장</span>
+  </div>
+
+  <div class="prose">
+    <p><em class="term">격조사</em>는 앞의 체언이 문장에서 <strong>어떤 자격을 갖는지</strong>를 표시한다. 학교 문법은 <strong>일곱</strong>으로 나눈다 — 주격·목적격·보격·관형격·부사격·호격·서술격.</p>
+    <p>아래 탐색기에는 <strong>인용격을 여덟째로 덧붙였다.</strong> 학교 문법의 7종에는 들어가지 않지만, 이 과목이 태그로 쓰는 <strong>세종 말뭉치 태그셋</strong>이 인용격(JKQ)을 따로 두기 때문이다 — 마지막 버튼에서 그 사정을 설명한다.</p>
+  </div>
+
+  <div class="interactive">
+    <h3>★ 격조사 매트릭스 — 7종 + 인용격</h3>
+    <p class="interactive-desc">격을 골라 보세요. <strong>어떤 문장 성분을 표시하는가</strong>가 각 격의 정체입니다 — 10주차 성분 분석의 예습이기도 합니다.</p>
+    <div class="ibody">
+      <div class="btnrow" id="cs-btns"></div>
+      <div class="ipanel" id="cs-panel"></div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <span class="callout-label">「이/가」가 두 곳에 나온다 — 주격과 보격</span>
+    <p>같은 「이/가」인데 격이 다를 때가 있다.</p>
+    <div class="ex" style="background:#fff6;margin:.6rem 0">
+      물<strong>이</strong> 얼음<strong>이</strong> 되었다. &nbsp;<span style="opacity:.6">앞의 「이」는 주격, 뒤의 「이」는 보격</span><br>
+      그것은 사실<strong>이</strong> 아니다. &nbsp;<span style="opacity:.6">「이」는 보격</span>
+    </div>
+    <p>구별법은 하나다 — <strong>「되다·아니다」 바로 앞</strong>이면 보격이다. 이 두 용언만 보어를 요구한다. 8주차에서 「되다·아니다」가 자동사인데 두 자리를 요구한다고 한 것이 이 이야기다.</p>
+    <p>전사본에는 보격 조사가 <strong>한 번도 나오지 않는다.</strong> 그런데 「그래서 안 쓴다」고 결론지으면 안 된다. <strong>「되다」가 일곱 번 나오지만 본용언은 두 번뿐</strong>이고(C09 「안 돼」·C19 「됐다」), 나머지 다섯은 「-으면 되다」·「-어야 되다」의 <strong>보조동사</strong>다(C12·C17·C31·C36·C46). <strong>보조동사는 애초에 보어를 요구하지 않는다.</strong></p>
+    <p>더 중요한 것은 <strong>C54 「나 애기 아닌데」</strong>다. 「아니다」가 보어 「애기」를 취한 자리인데 <strong>보격조사가 생략되었다</strong> — 표준형이라면 「애기<u>가</u> 아닌데」다. 즉 <strong>보격을 쓸 맥락은 있었고, 아동은 조사를 생략했다.</strong> 「없다」와 「안 쓴다」와 「생략했다」는 전혀 다른 이야기다 — <strong>실습 3번 문항이 이 구별을 묻는다.</strong></p>
+  </div>
+</section>
+
+<!-- ============ §Ⅱ ============ -->
+<section id="aux" class="section">
+  <div class="section-header">
+    <span class="section-number">§ Ⅱ</span>
+    <h2>보조사 — 뜻을 더한다<span class="ko-en">Auxiliary Particles</span></h2>
+    <span class="src-badge main">이봉원 9장 「보조사」</span>
+  </div>
+
+  <div class="prose">
+    <p><em class="term">보조사</em>는 자격을 표시하는 것이 아니라 <strong>특별한 뜻을 더한다.</strong> 그래서 격조사와 성질이 다르다.</p>
+
+    <table class="data-table">
+      <thead><tr><th style="width:20%"></th><th style="width:34%">격조사</th><th>보조사</th></tr></thead>
+      <tbody>
+        <tr><td class="ko">하는 일</td><td>문장에서의 <strong>자격</strong>을 표시</td><td>특별한 <strong>뜻</strong>을 더함</td></tr>
+        <tr><td class="ko">붙는 자리</td><td><strong>주로 체언 뒤</strong><br><span style="opacity:.65;font-size:.86em">인용격 「고」는 어미 뒤에, 「에서의·에게로」처럼 조사 뒤에 붙기도 한다</span></td><td><strong>체언·부사·어미 뒤에도</strong> 붙는다 — 빨리<strong>도</strong> 간다, 먹어<strong>는</strong> 봤다</td></tr>
+        <tr><td class="ko">겹침</td><td>보통 하나만</td><td><strong>격조사 뒤에 겹쳐</strong> 붙는다 — 학교에<strong>서는</strong>, 너에게<strong>만</strong></td></tr>
+        <tr><td class="ko">생략</td><td>구어에서 <strong>자주</strong> 생략된다</td><td><strong>빼면 뜻이 달라진다</strong> — 「나<strong>도</strong> 갈래」에서 「도」를 빼면 다른 말이 된다</td></tr>
+      </tbody>
+    </table>
+
+    <h3>접속조사 — 셋째 갈래</h3>
+    <p>격조사도 보조사도 아닌 것이 하나 더 있다. <em class="term">접속조사</em>는 <strong>체언과 체언을 대등하게 잇는다</strong> — 와/과, 하고, (이)랑, (이)며.</p>
+    <div class="ex">
+      토끼<strong>랑</strong> 거북이<strong>랑</strong> 달리기 하는 거 &nbsp;<span style="opacity:.55">C23 — 접속조사</span><br>
+      사촌 오빠<strong>랑</strong> 놀았어요 &nbsp;<span style="opacity:.55">C47 — <strong>부사격</strong>조사(함께함)</span>
+    </div>
+    <p>같은 「랑」인데 하는 일이 다르다. <strong>앞뒤를 바꿔도 되면 접속조사, 안 되면 부사격조사</strong>다 — 「거북이랑 토끼랑」은 되지만 「<span class="bad">?</span>오빠랑 사촌 놀았어요」는 안 된다. 조명한(1982)에 따르면 접속조사는 <strong>아동에게 가장 먼저 나타나는 조사</strong>다.</p>
+
+    <p>마지막 줄을 조심해서 읽어야 한다. <strong>「보조사는 생략되지 않는다」는 빈도의 관찰이 아니다.</strong> 주제의 「는」은 구어에서 흔히 생략된다 — 「나는 갈래」를 「나 갈래」라고 한다. 정확히 말하면 <strong>보조사가 빠지면 뜻이 복원되지 않는다</strong>는 것이고, 그래서 <strong>보조사 생략은 격조사 생략과 다르게 읽어야 한다.</strong></p>
+  </div>
+
+  <div class="interactive">
+    <h3>전사본의 조사를 눌러 보기</h3>
+    <p class="interactive-desc">발화를 고르고 <strong>밑줄 친 조사</strong>를 누르면 유형과 기능이 나옵니다. <span style="color:#e0836a">붉은 ∅</span>는 <strong>조사가 생략된 자리</strong>입니다.</p>
+    <div class="ibody">
+      <div class="btnrow" id="jt-btns"></div>
+      <div class="tagsent" id="jt-sent"></div>
+      <div class="ipanel" id="jt-panel"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ §Ⅲ ============ -->
+<section id="topic" class="section">
+  <div class="section-header">
+    <span class="section-number">§ Ⅲ</span>
+    <h2>'은/는'과 '이/가'<span class="ko-en">Topic and Subject</span></h2>
+    <span class="src-badge">주교재가 얇게 다루는 대목 — 보강</span>
+  </div>
+
+  <div class="prose">
+    <p>둘 다 주어 자리에 붙는데 <strong>바꿔 쓸 수 없을 때가 많다.</strong> 한국어를 배우는 외국인이 가장 오래 헤매는 대목이고, 임상에서도 오류가 잦다.</p>
+
+    <p>가르는 기준은 문법이 아니라 <strong>맥락</strong>이다. 넷만 알면 대부분 풀린다.</p>
+  </div>
+
+  <div class="interactive">
+    <h3>네 가지 갈림길</h3>
+    <p class="interactive-desc">각 원리를 눌러 보세요. <strong>같은 문장인데 조사가 바뀌면 뜻이 바뀝니다.</strong></p>
+    <div class="ibody">
+      <div class="btnrow" id="tp-btns"></div>
+      <div class="ipanel" id="tp-panel"></div>
+    </div>
+  </div>
+
+  <div class="interactive">
+    <h3>★ 판별 연습</h3>
+    <p class="interactive-desc">빈칸에 무엇이 들어갈지 고르세요. <strong>답보다 근거가 중요합니다.</strong></p>
+    <div class="ibody">
+      <div id="jg-items"></div>
+      <div class="ipanel" id="jg-panel" style="margin-top:.6rem"></div>
+    </div>
+  </div>
+
+  <div class="callout clinical">
+    <span class="callout-label">임상 연결 — 이 구별은 늦게 발달한다</span>
+    <p>이승희·황민아(2002)는 3~6세 아동의 보조사 「은/는·만·도」 발달을 검토했다. <strong>보조사는 격조사보다 늦다.</strong></p>
+    <p>그리고 조명한(1982)에 따르면 아동은 「은/는」을 <strong>주제보다 대조의 뜻으로 먼저</strong> 산출한다. 「나<u>는</u> 안 먹어」(대조)가 「코끼리<u>는</u> 코가 길다」(주제)보다 이르다는 것이다. 여러 연구가 이 점에는 함께 동의한다.</p>
+    <p>전사본을 보라. 「는/은」이 여섯 번 나오는데(C07·C14×2·C33·C50·C51) <strong>대조의 쓰임이 두드러진다</strong> — C14 「<u>여기는</u> 문이고 <u>여기는</u> 창문이야」가 전형이다. 4;6에 이 정도면 자연스럽다.</p>
+  </div>
+</section>
+
+<!-- ============ §Ⅳ ============ -->
+<section id="endings" class="section">
+  <div class="section-header">
+    <span class="section-number">§ Ⅳ</span>
+    <h2>어미의 계층<span class="ko-en">The Ending Hierarchy</span></h2>
+    <span class="src-badge main">이봉원 9장 「어미」</span>
+  </div>
+
+  <div class="prose">
+    <p>8주차에서 「어미가 순서대로 붙는다」고 했다. 오늘 그 자리들에 이름을 붙인다.</p>
+  </div>
+
+  <div class="interactive">
+    <h3>★ 어미 계층도</h3>
+    <p class="interactive-desc">상자를 눌러 보세요. <strong>어말어미는 반드시 하나</strong>, <strong>선어말어미는 없어도 되고 여럿이어도 됩니다.</strong></p>
+    <div class="ibody">
+      <div class="hier" id="hi-tree"></div>
+      <div class="ipanel" id="hi-panel"></div>
+    </div>
+  </div>
+
+  <div class="callout warning">
+    <span class="callout-label">전성어미가 이 과목의 다리다</span>
+    <p>세 갈래 중 <strong>전성어미</strong>가 특히 중요하다. 용언을 <strong>명사·관형사·부사처럼</strong> 쓰이게 바꾸어, 문장을 다른 문장 안에 집어넣기 때문이다.</p>
+    <p>· <strong>명사형 -음/-기</strong> → 명사절 「그가 <u>왔음</u>을 알았다」<br>
+       · <strong>관형사형 -ㄴ/-는/-ㄹ/-던</strong> → 관형절 「토끼가 <u>나오는</u> 거」<br>
+       · <strong>부사형 -게/-도록</strong> → 부사절 「문을 <u>크게</u> 만들어야 돼요」<br>
+       <span style="opacity:.72;font-size:.9em">— 다만 <strong>부사형 전성어미는 학교 문법 안에서도 논쟁적</strong>이다. 7차 교육과정이 「-게·-도록」을 부사형 어미로 설정했지만 같은 어미가 <strong>종속적 연결어미</strong>로도 분류되어 한 형태가 두 자리에 걸친다. <strong>이 자료의 빈도표는 C17의 「-게」를 연결어미 쪽에 넣어 세었다.</strong></span></p>
+    <p><strong>11주차 「문장의 확대」가 전부 이것으로 이루어진다.</strong> 오늘 전성어미를 정확히 집어내지 못하면 11주차에서 안은문장을 못 찾는다.</p>
+    <p>전사본에서 관형사형은 <strong>14번</strong> 나오는데(ㄹ 5 · 는 4 · ㄴ 3 · 을 2) <strong>명사형은 한 번도 나오지 않는다.</strong> 4;6에 「-음/-기」가 없는 것은 자연스럽다 — 명사절은 늦게 발달한다.</p>
+  </div>
+</section>
+
+<!-- ============ §Ⅴ ============ -->
+<section id="conn" class="section">
+  <div class="section-header">
+    <span class="section-number">§ Ⅴ</span>
+    <h2>연결어미 — 절을 잇는다<span class="ko-en">Connective Endings</span></h2>
+    <span class="src-badge main">이봉원 9장 · 11주차 예고</span>
+  </div>
+
+  <div class="prose">
+    <p>7주차에서 「한국어에 접속사가 없다」고 했다. 절을 잇는 일은 <strong>연결어미</strong>가 맡기 때문이다. 그래서 연결어미의 목록이 곧 <strong>절과 절의 관계 목록</strong>이 된다.</p>
+
+    <p>먼저 세 갈래로 나눈다.</p>
+
+    <div class="concept-grid">
+      <div class="concept-card">
+        <span class="card-num">갈래 01</span>
+        <h4>대등적 연결어미</h4>
+        <span class="ko">앞뒤가 대등하다</span>
+        <p>-고, -며, -지만, -나. 앞뒤를 <strong>바꿔도 뜻이 크게 안 변한다</strong> — 「비가 오고 바람이 분다」.</p>
+      </div>
+      <div class="concept-card">
+        <span class="card-num">갈래 02</span>
+        <h4>종속적 연결어미</h4>
+        <span class="ko">앞이 뒤에 딸린다</span>
+        <p>-아서, -니까, -면, -는데, -다가. 앞뒤를 <strong>바꾸면 뜻이 달라진다</strong> — 「배가 아파서 못 갔다」.</p>
+      </div>
+      <div class="concept-card">
+        <span class="card-num">갈래 03</span>
+        <h4>보조적 연결어미</h4>
+        <span class="ko">보조용언을 부른다</span>
+        <p>-아/어, -게, -지, -고. 뒤에 <strong>보조용언</strong>이 온다 — 「해 <u>주다</u>」, 「하지 <u>말다</u>」. 8주차 §Ⅲ의 그 어미다.</p>
+      </div>
+    </div>
+
+    <p>그리고 연결어미는 <strong>의미</strong>로도 나뉜다. 대등적인 것(나열·대립)과 종속적인 것(이유·조건·전환·계기·목적)이 함께 들어가며, 이것이 11주차 이어진문장의 재료다.</p>
+  </div>
+
+  <div class="interactive">
+    <h3>연결어미의 의미 범주 — 열 갈래</h3>
+    <p class="interactive-desc">범주를 골라 보세요. <strong>전사본에 나온 것</strong>에는 발화 번호를 붙였습니다. <strong>범주의 수와 이름은 문법서마다 다릅니다</strong> — 여기서는 열로 잡았지만 여섯으로 줄이는 처리도, 스물 남짓으로 늘리는 처리도 있습니다. 중요한 것은 <strong>어느 목록을 썼는지 밝히는 것</strong>입니다.</p>
+    <div class="ibody">
+      <div class="btnrow" id="cn-btns"></div>
+      <div class="ipanel" id="cn-panel"></div>
+    </div>
+  </div>
+
+  <div class="callout clinical">
+    <span class="callout-label">임상 연결 — 연결어미는 가장 늦게 온다</span>
+    <p>서희선·이승환(1999)은 2~5세 아동 160명을 6개월 간격 여덟 연령군으로 나누어 연결어미 산출을 조사했다. <strong>「-고」는 나열·대립에서, 「-(아/어)서」는 계기·이유에서 이른 시기(2;0~2;5)부터</strong> 나타나고, 다섯 의미관계가 모두 안정되는 것은 <strong>4;6~4;11</strong>이다. 어린 연령에서는 「-고」를 계기·동시 자리에까지 <strong>과잉사용</strong>한다.</p>
+    <p>이희란 외(2008)의 종단 자료에서도 세 유형의 문법형태소 중 <strong>연결어미가 가장 늦다.</strong> 36개월에 종결어미는 평균 12개(15개 중), 조사는 9.67개(12개 중)를 산출하는데 <strong>연결어미는 2.15개(3개 중)</strong>다.</p>
+    <p>전사본에서 연결어미는 <strong>24회 · 14가지</strong>다. 종결어미(56회 · 17가지)보다 적지만 <strong>가짓수는 만만치 않다</strong> — 「-아서·-으면·-어야·-다가·-는데·-게·-고·-지」가 모두 나온다. 4;6에 절을 잇는 장치가 상당히 갖춰졌다는 뜻이다.</p>
+  </div>
+</section>
+
+<!-- ============ §Ⅵ ============ -->
+<section id="issue" class="section">
+  <div class="section-header">
+    <span class="section-number">§ Ⅵ</span>
+    <h2>조사는 단어인가 — 미뤄 온 물음<span class="ko-en">Are Particles Words?</span></h2>
+    <span class="src-badge">개론서 03장 굴절 논의 · 5주차·7주차에서 예고</span>
+  </div>
+
+  <div class="prose">
+    <p>5주차 §Ⅰ에서 「곡용」이라는 말에 걸렸고, 7주차 §Ⅶ에서 쟁점으로만 던져 두었다. <strong>오늘 정리한다.</strong></p>
+
+    <p>물음은 간단하다. <strong>「꽃이 피었다」는 몇 단어인가?</strong> 답은 셋이고, 각각 이름이 있다.</p>
+  </div>
+
+  <div class="interactive">
+    <h3>★ 세 가지 체계</h3>
+    <p class="interactive-desc">체계를 골라 보세요. <strong>어느 하나가 옳은 것이 아니라, 무엇을 단어로 볼 것인가에 대한 서로 다른 결정입니다.</strong></p>
+    <div class="ibody">
+      <div class="btnrow" id="sy-btns"></div>
+      <div class="ipanel" id="sy-panel"></div>
+    </div>
+  </div>
+
+  <div class="callout warning">
+    <span class="callout-label">그래서 이 과목은 어느 쪽인가</span>
+    <p><strong>학교 문법을 따른다 — 절충적 체계다.</strong> 조사는 단어로 세고 어미는 세지 않는다. 그래서 「책이」는 두 단어, 「먹었다」는 한 단어다.</p>
+    <p>그리고 <strong>4주차 MLU 계산이 이미 이 체계를 쓰고 있었다.</strong> 거기서 「조사를 단어로 센다」는 스위치를 켠 것이 절충적 체계이고, 끄면 종합적 체계가 되어 MLU-w가 어절 수와 같아진다. 그때 <strong>어느 쪽을 택하든 밝히기만 하면 된다</strong>고 한 이유가 이제 분명해졌을 것이다 — <strong>국어학 자체가 합의에 이르지 못한 문제</strong>이기 때문이다.</p>
+    <p><strong>임상에서 중요한 것은 일관성이다.</strong> 같은 아동의 두 회기를 다른 체계로 세면 비교가 무의미해진다. 6주차의 결론이 여기서도 같다.</p>
+  </div>
+</section>
+
+<!-- ============ §Ⅶ ============ -->
+<section id="freq" class="section">
+  <div class="section-header">
+    <span class="section-number">§ Ⅶ</span>
+    <h2>빈도와 이형태<span class="ko-en">Frequency and Allomorphs</span></h2>
+    <span class="src-badge">6주차 §Ⅵ의 방법을 적용</span>
+  </div>
+
+  <div class="prose">
+    <p>6주차에서 <strong>빈도표의 함정 ②</strong>를 배웠다 — <strong>이형태를 따로 세면 순위가 흩어진다.</strong> 조사와 어미가 바로 그 문제를 안고 있다. 전사본에서 직접 확인해 보자.</p>
+  </div>
+
+  <div class="interactive">
+    <h3>★ 조사·어미 빈도 탐색기</h3>
+    <p class="interactive-desc">3주차 전사본 아동 발화 60개의 실측치입니다. <strong>「이형태를 묶기」</strong>를 눌러 순위가 어떻게 바뀌는지 보세요.</p>
+    <div class="ibody">
+      <div class="btnrow" id="fq-btns"></div>
+      <div class="toggles" id="fq-tg"></div>
+      <div class="barset" id="fq-bars"></div>
+      <div class="ipanel" id="fq-panel"></div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <span class="callout-label">「가」가 14회, 「이」가 4회 — 이것을 어떻게 셀 것인가</span>
+    <p>주격조사 {이/가}는 <strong>앞말의 받침 유무</strong>로 갈린다. 그러니까 「가」가 「이」보다 세 배 많다는 것은 <strong>아동의 문법에 대해 아무것도 말해 주지 않는다</strong> — 앞에 온 명사가 어떤 소리로 끝났는지를 말할 뿐이다.</p>
+    <p>묶으면 <strong>주격 18회</strong>가 되고, 그것은 의미가 있다. 목적격 3회, 보조사 15회와 비교할 수 있기 때문이다. <strong>4주차의 이형태 개념이 통계에서 이렇게 쓰인다.</strong></p>
+  </div>
+</section>
+
+<!-- ============ 분석 실습실 ============ -->
+<section id="lab" class="section">
+  <div class="lab">
+    <div class="lab-head">
+      <span class="tag">분석 실습실 · TYPE 1 태깅 · [제출 과제 4]</span>
+      <h3>전사본의 모든 조사와 어미</h3>
+      <p>7주차 체언, 8주차 용언에 이어 마지막입니다. 셋을 합치면 <strong>전사본의 품사 전수 태깅이 완성</strong>됩니다.</p>
+    </div>
+    <div class="lab-body">
+      <div class="prose">
+        <p><strong>대상.</strong> 아동 발화 60개(C01–C60). 성인 발화는 제외합니다.</p>
+        <p><strong>절차.</strong> ① 조사를 모두 찾아 유형을 판정한다 → ② 어미를 모두 찾아 선어말/어말, 어말의 세 갈래를 판정한다 → ③ <strong>조사가 생략된 자리를 ∅로 표시</strong>하고 무슨 조사가 빠졌는지 적는다 → ④ 그 생략이 <strong>구어에서 정상인지</strong> 판단하고 근거를 쓴다.</p>
+      </div>
+
+      <table class="worksheet">
+        <thead>
+          <tr><th style="width:26%">항목</th><th style="width:22%">토큰 수</th><th style="width:22%">타입 수</th><th>가장 잦은 것</th></tr>
+        </thead>
+        <tbody id="ws-body"></tbody>
+      </table>
+
+      <div class="callout">
+        <span class="callout-label">함께 답할 것 — A4 두 쪽</span>
+        <p><strong>1. 생략 판정 (가장 중요).</strong> 조사가 생략된 자리를 전부 찾아 표로 만들고, 각각에 대해 <strong>「정상 / 판정 보류 / 문제 가능」</strong> 셋 중 하나로 판정하라. 판정 근거를 반드시 적을 것.</p>
+        <p><strong>2.</strong> <strong>주어 자리와 목적어 자리의 생략률을 각각 계산</strong>하고 비교하라. 왜 그런 차이가 나는가?</p>
+        <p><strong>3.</strong> 이 아동의 조사 목록에 <strong>없는 격</strong>이 셋 있다. 무엇이며, 없는 이유를 각각 설명하라. (「아직 못 배웠다」는 답은 근거가 필요하다 — 그 격을 쓸 <strong>맥락</strong>이 있었는지부터 확인하라)</p>
+        <p><strong>4.</strong> §Ⅵ의 세 체계 중 <strong>하나를 골라</strong> 전사본의 단어 수를 세라. 어느 체계를 골랐는지, 왜 골랐는지 밝힐 것. 그리고 다른 체계로 세면 값이 얼마나 달라지는지 계산하라.</p>
+      </div>
+
+      <div class="callout warning">
+        <span class="callout-label">제출 요건</span>
+        <p><strong>태깅 표 + A4 두 쪽.</strong> 태깅 표는 손으로 작성해도 되지만 <strong>발화 번호를 반드시 붙일 것</strong> — 그래야 다른 사람이 확인할 수 있다(3주차 전사 규약).</p>
+        <p><strong>채점은 답의 옳고 그름이 아니라 근거로 한다.</strong> 특히 1번 문항에서 「정상」이라고 판정했다면 <strong>왜 정상인지</strong>를 말해야 한다. 「원래 많이 생략하니까」는 근거가 아니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 임상 적용 ============ -->
+<section id="clinical" class="section">
+  <div class="section-header">
+    <span class="section-number">§ 임상</span>
+    <h2>임상 적용 — 문법형태소의 습득과 생략<span class="ko-en">Clinical Application</span></h2>
+  </div>
+
+  <div class="prose">
+    <h3>언제 나타나는가 — 국내 연구</h3>
+    <p>문법형태소의 습득 순서와 시기에 관해 국내에서 축적된 자료가 있다. <strong>다만 연구마다 방법이 달라 값이 크게 차이 난다는 점</strong>을 먼저 알아야 한다.</p>
+  </div>
+
+  <table class="data-table">
+    <thead><tr><th style="width:22%">연구</th><th style="width:24%">방법</th><th>결과</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="ko">조명한(1982)</td>
+        <td>5명 종단 · 자발화</td>
+        <td>조사는 <strong>1;9경</strong> 출현. 순서 — 접속조사(랑·하고·같이)와 보조사(도) → 처소격(에·로·한테) → <strong>주격(가)</strong> → 보조사(는) → <strong>목적격(을/를)</strong> → 도구격(로)</td>
+      </tr>
+      <tr>
+        <td class="ko">배소영(1997)</td>
+        <td>2~7세 60명 · 그림카드 <strong>이해</strong> 과제</td>
+        <td>「가·이·는」이 발달한 다음 「를」, 「도」가 <strong>가장 늦다</strong></td>
+      </tr>
+      <tr>
+        <td class="ko">서희선·이승환(1999)</td>
+        <td>2~5세 160명 · 6개월 간격 8개 연령군 · 연결어미 <strong>산출</strong></td>
+        <td>「-고」는 나열·대립에서, 「-(아/어)서」는 계기·이유에서 <strong>2;0~2;5</strong>부터. 다섯 의미관계가 모두 안정되는 것은 <strong>4;6~4;11</strong></td>
+      </tr>
+      <tr>
+        <td class="ko">이희란 외(2008)</td>
+        <td>323→276명 종단 · <strong>부모 보고</strong>(MCDI-K)<br>18·24·30·36개월</td>
+        <td>36개월 평균 산출 — 종결어미 <strong>12.0</strong>/15, 조사 <strong>9.67</strong>/12, 연결어미 <strong>2.15</strong>/3.<br>조사별 36개월 산출률 — 랑 88.7% · 한테/에게 86.5% · 하고 85.1% · 도 84.7% · 는(은) 82.9% · <strong>가(이) 81.5%</strong> · <strong>를(을) 77.5%</strong> · 만 76.4% · 에서 76.4% · 야 76.0% · 에 75.7% · <strong>로 64.8%</strong></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout warning">
+    <span class="callout-label">같은 목적격 조사, 두 배 넘게 다른 값</span>
+    <p>이희란 외(2008)는 36개월에 목적격 조사를 <strong>77.5%</strong>가 산출한다고 보고했다. 그런데 이순형(2000)은 같은 36개월에 <strong>46.6%</strong>라고 보고했다.</p>
+    <p>왜 이렇게 다른가. <strong>방법이 다르기 때문</strong>이다. 앞은 <strong>어머니가 체크리스트에 표시한 것</strong>이고 뒤는 <strong>아동에게 그림을 보고 직접 말하게 한 것</strong>이다. 논문 저자들 스스로 「어머니의 과잉평가가 작용했을 수 있다」고 밝힌다.</p>
+    <p><strong>6주차의 세 물음이 여기서 그대로 작동한다</strong> — 무엇을, 어떻게, 누구에게서 세었는가. <strong>규준을 인용할 때는 방법을 함께 인용해야 한다.</strong></p>
+  </div>
+
+  <div class="prose">
+    <h3>조사 생략 — 언제 정상인가</h3>
+    <p>이희란 외(2008)의 결론 부분에 이런 문장이 있다.</p>
+    <div class="ex">
+      "한국어의 특성상 많은 문법형태소들이 생략된 형태로 표현된다. 이러한 생략은 많은 경우 <strong>담화-화용적 특성</strong>을 지니므로 여느 한국어 문법 교과서도 이러한 생략의 규칙을 정확하게 설명해줄 수는 없다."
+    </div>
+    <p>그리고 결정적인 한 문장이 이어진다 — <strong>"문제는 이러한 한국어의 특성을 반영하더라도 일반적으로 대부분의 아동들은 담화-화용적인 생략 규칙을 정확하게 적용하여 생략과 표현의 규칙을 익히는 반면, 언어장애 아동들은 이러한 규칙이 더욱 더 문법형태소의 습득을 어렵게 하는 방해요인이 된다는 것이다."</strong></p>
+    <p>즉 <strong>생략했는가가 아니라 규칙에 맞게 생략했는가</strong>가 문제다. 아래가 그 규칙의 대강이다.</p>
+  </div>
+
+  <div class="interactive">
+    <h3>★ 생략 판정 — 전사본에서</h3>
+    <p class="interactive-desc">전사본의 생략 자리를 유형별로 봅니다. <strong>생략률이 격에 따라 극적으로 다릅니다.</strong></p>
+    <div class="ibody">
+      <div class="btnrow" id="om-btns"></div>
+      <div class="ipanel" id="om-panel"></div>
+    </div>
+  </div>
+
+  <div class="callout clinical">
+    <span class="callout-label">평가에서 쓸 수 있는 정리</span>
+    <p><strong>1. 생략률을 격별로 따로 내라.</strong> 「조사 생략이 많다」는 말은 의미가 없다. 전사본에서 주어 자리 21.7%, 목적어 자리 80.0%였다 — <strong>합치면 44.7%인데 그 수치는 아무것도 말해 주지 않는다.</strong></p>
+    <p><strong>2. 보조사 생략을 따로 보라.</strong> 격조사는 흔히 생략되지만 <strong>보조사는 잘 생략되지 않는다</strong>(§Ⅱ). 보조사가 빠져 뜻이 달라졌다면 그것은 다른 신호다.</p>
+    <p><strong>3. 대치 오류를 놓치지 마라.</strong> 생략보다 <strong>잘못 쓴 것</strong>이 더 중요한 정보다. 「학교<u>에게</u> 갔어」(유정/무정 혼동 — 7주차 §Ⅲ)나 「나<u>를</u> 갈래」 같은 대치는 생략과 성질이 다르다.</p>
+    <p><strong>4. 그래도 결론을 이 자료만으로 내지 마라.</strong> 전사본은 <strong>놀이·책 읽기·이야기</strong> 세 상황뿐이고 60발화다. 6주차에서 말한 <strong>대표성</strong>의 문제가 여기 그대로 있다.</p>
+  </div>
+</section>
+
+<!-- ============ 확인 문제 ============ -->
+<section id="check" class="section">
+  <div class="section-header">
+    <span class="section-number">§ 정리</span>
+    <h2>확인 문제<span class="ko-en">Self-Check</span></h2>
+  </div>
+
+  <div class="prose">
+    <p>점수는 반영되지 않습니다. 틀린 문항의 해설을 읽고 해당 절로 돌아가 확인하세요.</p>
+  </div>
+
+  <div id="check-items"></div>
+  <div class="quiz-score" id="check-score">아직 푼 문항이 없습니다.</div>
+
+  <div class="callout" style="margin-top:2rem">
+    <span class="callout-label">이번 주 과제</span>
+    <p><strong>[제출 과제 4]</strong> — 전사본의 조사·어미 전수 태깅 + 생략 판정. 태깅 표와 A4 두 쪽.</p>
+    <p><strong>읽어 올 것</strong> — 이봉원 11장(문장 성분), 12장(문장의 짜임). 개론서 06장 「통사론」 1~3절.</p>
+  </div>
+
+  <div class="week-nav">
+    <div>
+      <span class="lbl">지난주 · 제08주</span>
+      <b>품사 ② 용언과 부사</b>
+      <p>활용과 어간·어미, 동사/형용사 판별의 위계, 자동사·타동사, 본용언·보조용언, 불규칙 활용 9종, 활용표의 빈칸, 그리고 부사.</p>
+    </div>
+    <div>
+      <span class="lbl">다음 주 · 제10주</span>
+      <b>문장의 구성</b>
+      <p><strong>BLOCK D가 시작됩니다.</strong> 단어에서 문장으로 올라갑니다. 문장 성분 일곱, 서술어의 자릿수, 기본 문형, 그리고 <strong>문장 수형도</strong> — 5주차에 단어로 연습한 그 수형도를 이번엔 문장에 그립니다. <strong>[제출 과제 5]</strong>가 있습니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 참고 문헌 ============ -->
+<section id="refs" class="section">
+  <div class="section-header">
+    <span class="section-number">§ 자료</span>
+    <h2>참고 문헌과 더 읽을거리<span class="ko-en">References</span></h2>
+  </div>
+
+  <div class="prose"><h3>교재</h3></div>
+
+  <table class="data-table">
+    <tbody>
+      <tr>
+        <td style="width:30%" class="ko">이봉원(2015)</td>
+        <td><strong>『언어치료사를 위한 한국어 문법』 개정판.</strong> 서울: 학지사.<br>
+        <span style="opacity:.72">9장 전체. §Ⅲ의 「은/는 vs 이/가」는 주교재가 얇게 다루므로 보강했다 — 임상에서 오류가 잦은 대목이기 때문이다.</span></td>
+      </tr>
+      <tr>
+        <td class="ko">홍종선 외 19인(2022)</td>
+        <td><strong>『쉽게 읽는 한국어학의 이해』 개정2판.</strong> 서울: 한국문화사.<br>
+        <span style="opacity:.72">04장 「품사론」의 조사 부분, 그리고 <strong>03장 「형태론」의 굴절 논의</strong> — §Ⅵ의 세 체계가 여기서 왔다.</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="prose"><h3>§임상 — 문법형태소 습득 연구</h3></div>
+
+  <table class="data-table">
+    <tbody>
+      <tr><td style="width:30%" class="ko">★ 이희란·장유경·<br>최유리·이승복(2008)</td><td>「부모보고를 통해 종단관찰한 한국 아동의 초기 문법형태소 습득」, 『언어청각장애연구』 13(2), 159–173. <span style="opacity:.65">— MCDI-K(배소영, 2003)의 문법형태소 30개(종결어미 15 · 조사 12 · 연결어미 3)를 18~36개월 4회 종단 조사. 323명 시작, 276명 완료. <b>§임상의 표와 조사별 산출률이 여기서 왔다.</b> 원문이 공개되어 있으므로 직접 읽어 보기를 권한다.</span></td></tr>
+      <tr><td class="ko">조명한(1982)</td><td>『한국 아동의 언어획득 연구: 책략모형』, 서울대학교 출판부. <span style="opacity:.65">— 5명 종단 자발화. 조사 출현 순서의 고전적 보고. 「은/는」을 주제보다 <b>대조</b>로 먼저 산출한다는 관찰도 여기서 왔다.</span></td></tr>
+      <tr><td class="ko">배소영(1997)</td><td>「한국아동의 문법형태소 습득에 관한 연구: 조사 '가, 이, 는, 도, 를'」, 『말-언어장애연구』 2, 27–42. <span style="opacity:.65">— 2~7세 60명, 그림카드 이해 과제.</span></td></tr>
+      <tr><td class="ko">서희선·이승환(1999)</td><td>「2~5세 정상 아동의 연결어미 발달」, 『언어청각장애연구』 4, 167–185. <span style="opacity:.65">— 160명을 6개월 간격 8개 연령군으로 나누어 다섯 의미관계(나열·동시·계기·대립·이유인과)의 산출을 조사. §Ⅴ 임상 콜아웃의 근거.</span></td></tr>
+      <tr><td class="ko">이순형(2000)</td><td>「한국 아동이 초기에 획득한 문법적 형태소의 종류 및 획득 시기」, 『아동학회지』 21(4), 51–68. <span style="opacity:.65">— 구조화된 그림 자료로 <b>산출</b>을 유도. 목적격 조사 36개월 46.6%로, 부모보고 연구(77.5%)와 크게 다르다.</span></td></tr>
+      <tr><td class="ko">이승희·황민아(2002)</td><td>「3~6세 한국 아동의 보조사 발달에 관한 연구: 은/는, 만, 도」, 『언어청각장애연구』 7(2), 24–45. <span style="opacity:.65">— §Ⅲ 임상 콜아웃의 근거.</span></td></tr>
+      <tr><td class="ko">이희란(2004)</td><td>「2세 한국 아동의 주어 발달 특성」, 『언어청각장애연구』 9(2), 19–32. <span style="opacity:.65">— 주어 실현과 생략을 다룬다. 실습 2번 문항을 더 파고들 사람에게.</span></td></tr>
+      <tr><td class="ko">Clancy, P. M. (2000)</td><td>「한국어의 주격, 목적격 조사의 습득」, 조숙환 외 『인간은 언어를 어떻게 습득하는가』 제7장, 149–171쪽, 아카넷. <span style="opacity:.65">— 담화 맥락이 조사 실현을 어떻게 결정하는지 다룬다.</span></td></tr>
+    </tbody>
+  </table>
+
+  <div class="prose"><h3>수치의 출처</h3></div>
+
+  <table class="data-table">
+    <tbody>
+      <tr><td style="width:30%" class="ko">§들어가며 사전 통계</td><td><strong>국립국어원, 표준국어대사전 「사전 통계」 &gt; 품사별 현황</strong>(2026년 조회). <span style="opacity:.65">조사 181 · 어미 811 · 합계 992. 원어별 현황에서 이 992개는 <b>전부 고유어</b>다. 매달 갱신되므로 조회 시점을 밝혀야 한다.</span></td></tr>
+      <tr><td class="ko">§Ⅱ·§Ⅴ·§Ⅶ·§임상<br>전사본 수치</td><td><strong>3주차 배부 전사본</strong>(교육용 구성 자료)의 아동 발화 60개를 직접 태깅해 산출.<br><span style="opacity:.65"><b>조사 56토큰/18타입</b> — 주격 18 · 보조사 15 · 부사격 14 · 인용격 4 · 목적격 3 · 접속조사 2 · <b>보격·관형격·호격 0</b>. <b>서술격 「이다」 6회는 이 집계에 넣지 않았다</b> — 세종 태그셋이 「이다」를 조사가 아니라 VCP(긍정 지정사)로 처리하기 때문이다. 넣으면 62토큰이 된다.<br><b>어미 122토큰/35타입</b>(이형태 다섯 묶음을 묶으면 29타입) — 종결 56 · 선어말 28(었 14·았 7·였 4·시 3) · 연결 24 · 관형사형 14 · <b>명사형 0</b>. C17 「크게」의 「-게」는 <b>연결어미 쪽에</b> 넣어 세었다(부사형 전성어미로 보는 견해도 있다).<br><b>조사 생략</b> — 주어 자리 23 중 5(21.7%), 목적어 자리 15 중 12(80.0%).<br><b>교육용 자료이므로 규준으로 쓸 수 없다.</b> 그리고 위 판정 가운데 <b>인용의 「고/라고」, 「이다」, 「-게」, C49 「나 혼자서」 넷은 갈릴 수 있으므로</b>, 직접 세면 값이 다르게 나온다 — 그 차이를 찾는 것이 [제출 과제 4]다.</span></td></tr>
+    </tbody>
+  </table>
+
+  <div class="prose"><h3>더 볼 사람에게</h3></div>
+
+  <table class="data-table">
+    <tbody>
+      <tr><td style="width:30%" class="ko">★ 임홍빈(1998)</td><td>『국어 문법의 심층 2: 명사구와 조사구의 문법』, 태학사. <span style="opacity:.65">(전3권 중 제2권)</span> <span style="opacity:.65">— 조사를 정면으로 다룬 대표적 연구. §Ⅵ의 쟁점을 깊이 보려면 여기서 시작한다.</span></td></tr>
+      <tr><td class="ko">★ 이익섭·채완(1999)</td><td>『국어문법론강의』, 학연사. <span style="opacity:.65">— 조사와 어미를 균형 있게 정리한 문법서.</span></td></tr>
+      <tr><td class="ko">남기심·고영근 외(2019)</td><td>『표준 국어문법론』 전면개정판, 한국문화사. <span style="opacity:.65">— 격조사 7종과 어미 계층의 표준적 서술. §Ⅰ·§Ⅳ가 여기서 왔다.</span></td></tr>
+      <tr><td class="ko">이숭녕(1966)</td><td>「조사설정의 재검토」, 『동양문화』 5집, 대구대학교 동양문화연구소. <span style="opacity:.65">— §Ⅵ의 쟁점이 오래된 것임을 보여 주는 문헌. 조사를 단어로 볼 것인가는 60년 넘게 논의된 문제다. <b>이희란 외(2008)의 참고문헌에서 재인용한 것이며 원문 서지를 직접 확인하지 못했다</b> — 국문 목록은 「5집」, 영문 목록은 「Vol. 4」로 적혀 있어 그 자체가 어긋난다. <b>인용할 때는 실물을 확인해야 한다.</b></span></td></tr>
+    </tbody>
+  </table>
+
+  <div class="prose"><h3>직접 써 볼 자료</h3></div>
+
+  <div class="mini-grid">
+    <div class="mini">
+      <span class="mtag">사전</span>
+      <h5>고려대 한국어대사전</h5>
+      <p>이 과목의 기본 사전. 조사와 어미도 <strong>표제어로 실려 있다.</strong> 「가」를 찾아보면 주격조사와 보격조사가 나란히 나온다.</p>
+    </div>
+    <div class="mini">
+      <span class="mtag">논문</span>
+      <h5>이희란 외(2008) 원문</h5>
+      <p>§임상의 표가 나온 논문. <strong>e-csd.org</strong>에서 무료로 볼 수 있다. 조사 12개·어미 18개의 개월별 산출률 표가 그대로 실려 있다.</p>
+    </div>
+    <div class="mini">
+      <span class="mtag">말뭉치</span>
+      <h5>모두의 말뭉치</h5>
+      <p>실제 구어에서 조사가 얼마나 생략되는지 확인하고 싶다면. 6주차에서 소개한 그 자료다.</p>
+    </div>
+    <div class="mini">
+      <span class="mtag">실물</span>
+      <h5>3주차 전사본</h5>
+      <p>[제출 과제 4]의 대상. §Ⅱ·§Ⅴ·§Ⅶ·§임상의 수치가 전부 여기서 나왔다. <strong>직접 세면 값이 다를 수 있고, 그 차이가 과제의 핵심이다.</strong></p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="colophon">
+    <strong>조사와 어미</strong> — 한국어학 제9주 강의자료<br>
+    <span class="mn">주교재 이봉원(2015) 『언어치료사를 위한 한국어 문법』 개정판, 학지사</span><br>
+    <span class="mn">부교재 홍종선 외 19인(2022) 『쉽게 읽는 한국어학의 이해』 개정2판, 한국문화사</span><br>
+    <span class="mn">Set in Noto Serif KR &amp; JetBrains Mono</span>
+    <p class="epigraph">"생략했는가가 아니라 규칙에 맞게 생략했는가가 문제다."<br>— §임상, 조사 생략을 읽는 법</p>
+    <p style="font-size:.72rem;opacity:.55;margin-top:1rem">사전 통계는 조회 시점에 따라 달라진다. 전사본 수치는 교육용 구성 자료의 것이므로 규준이 아니다.</p>
+  </div>
+</footer>
+
+<script>
+/* ===== §Ⅰ 격조사 7종 ===== */
+const CASES=[
+ {btn:'주격',forms:'이 / 가 · 께서 · 에서',comp:'주어',
+  ex:['토끼<b>가</b> 나오는 거요 <span style="opacity:.55">C22</span>','할머니<b>께서</b> 오셨다 <span style="opacity:.55">(높임)</span>','정부<b>에서</b> 발표했다 <span style="opacity:.55">(단체)</span>'],
+  n:'전사본에서 <b>18회</b>로 가장 많다(가 14 · 이 4). 「께서」와 「에서」는 나오지 않는다 — <b>높임의 주격조사와 단체 주격</b>은 아동에게 늦다.'},
+ {btn:'목적격',forms:'을 / 를',comp:'목적어',
+  ex:['문<b>을</b> 크게 만들어야 돼요 <span style="opacity:.55">C17</span>','큰 거<b>를</b> 밑에 놓으면 돼 <span style="opacity:.55">C12</span>','토끼가 잠<b>을</b> 자서 <span style="opacity:.55">C25</span>'],
+  n:'<b>전사본에 3회뿐이다.</b> 그런데 목적어 자리는 15군데다 — <b>80%가 생략</b>되었다. 이것이 §임상의 핵심 관찰이다.'},
+ {btn:'보격',forms:'이 / 가',comp:'보어',
+  ex:['물이 얼음<b>이</b> 되었다','그것은 사실<b>이</b> 아니다','<b>「되다·아니다」 앞에서만</b> 나타난다'],
+  n:'형태는 주격과 <b>완전히 같다.</b> 갈라 주는 것은 <b>뒤에 오는 용언</b>뿐이다. 전사본에는 <b>0회</b>인데, 그 이유가 중요하다 — 아래 콜아웃을 보라.'},
+ {btn:'관형격',forms:'의',comp:'관형어',
+  ex:['나<b>의</b> 책','할머니<b>의</b> 집 <span style="opacity:.55">→ 전사본 C39는 「할머니 집」</span>'],
+  n:'전사본에 <b>0회</b>다. C39 「할머니 집에 갔어요」에서 「의」가 생략되었다. <b>구어에서 「의」는 극도로 자주 생략된다</b> — 오히려 넣으면 어색할 때가 많다. 문어의 조사에 가깝다.'},
+ {btn:'부사격',forms:'에 · 에서 · 로 · 와/과 · 한테/에게 · 처럼 · 보다 …',comp:'부사어',
+  ex:['할머니 집<b>에</b> 갔어요 <span style="opacity:.55">C39</span>','나무 밑<b>에서</b> 잤어요 <span style="opacity:.55">C26</span>','인형이 여기<b>로</b> 들어가 <span style="opacity:.55">C15</span>','엄마<b>한테</b> 말했어 <span style="opacity:.55">C56</span>','우리 집<b>처럼</b> 큰 집 <span style="opacity:.55">C05</span>'],
+  n:'<b>가장 종류가 많다.</b> 장소·시간·도구·자격·비교·동반 등을 다 맡는다. 전사본에서 <b>14회 7가지</b>로 격조사 중 가장 다양하다 — 이 아동이 <b>부사격을 잘 쓴다</b>는 뜻이다.'},
+ {btn:'호격',forms:'아 / 야 · (이)시여',comp:'독립어',
+  ex:['철수<b>야</b>, 이리 와','민수<b>아</b>!','신<b>이시여</b> <span style="opacity:.55">(예스러운 말투)</span>'],
+  n:'전사본에 <b>0회</b>다. 그런데 이유가 다르다 — C36 「<b>선생님</b> 이 책 나 빌려 가면 안 돼요?」처럼 <b>호격조사 없이 이름만 부른다.</b> 구어에서 아주 흔한 일이고, 「선생님아」라고 하면 오히려 이상하다 — <b>높임의 대상에는 「아/야」를 쓸 수 없다.</b>'},
+ {btn:'서술격',forms:'이다',comp:'서술어',
+  ex:['여기는 문<b>이고</b> 여기는 창문<b>이야</b> <span style="opacity:.55">C14</span>','다음에 또 갈 거<b>예요</b> <span style="opacity:.55">C60</span>','블록<b>이요</b> <span style="opacity:.55">C02</span>'],
+  n:'<b>유일하게 활용하는 조사</b>다. 7주차 §Ⅶ의 첫째 쟁점이 이것이었다 — 조사는 불변어인데 「이다」는 변한다. 전사본에서 <b>6회</b> 나온다(C02·C03·C06·C14×2·C60). <b>다만 §Ⅶ의 조사 빈도 집계 56에는 넣지 않았다</b> — 이 자료가 태그로 쓰는 세종 태그셋이 「이다」를 조사가 아니라 <b>VCP(긍정 지정사)</b>로 처리하기 때문이다. 넣으면 62가 된다. <b>어느 쪽이든 밝히면 된다.</b>'},
+ {btn:'인용격',forms:'고 · 라고',comp:'인용',
+  ex:['된다<b>고</b> 했어요 <span style="opacity:.55">C31</span>','애기<b>라고</b> 했어 <span style="opacity:.55">C53</span>','하지 말<b>라고</b> 했어요 <span style="opacity:.55">C55</span>','미안하다<b>고</b> 해서 <span style="opacity:.55">C59</span>'],
+  n:'<b>학교 문법의 격조사 7종에는 들어가지 않는다.</b> 표준국어대사전은 「고」·「라고」를 하위 명칭 없이 「격 조사」로만 싣고, 학교 문법은 대체로 <b>부사격조사</b>에 넣는다. 그런데 <b>세종 태그셋은 JKQ(인용격조사)를 따로 둔다</b> — 이 자료의 태그가 그것을 따른 것이다. <b>같은 형태를 두고 사전·문법서·태그셋이 셋 다 다르게 처리하는 자리</b>다. 전사본에 <b>4회</b> 나오며(C31·C53·C55·C59), <b>11주차 인용절</b>의 재료가 된다.'}
+];
+const csBtns=document.getElementById('cs-btns'),csPanel=document.getElementById('cs-panel');
+CASES.forEach((x,i)=>{
+  const b=document.createElement('button');
+  b.className='ibtn'+(i===0?' active':'');b.textContent=x.btn;
+  b.onclick=()=>{[...csBtns.children].forEach(c=>c.classList.remove('active'));b.classList.add('active');renderCs(x);};
+  csBtns.appendChild(b);
+});
+function renderCs(x){
+  csPanel.innerHTML='<h4>'+x.btn+'조사 <span style="font-family:var(--sans);font-size:.85rem;opacity:.6">— '+x.comp+'를 표시한다</span></h4>'+
+    '<div style="font-family:var(--sans);font-size:1.1rem;color:var(--highlight);margin:.5rem 0 .8rem">'+x.forms+'</div>'+
+    '<div style="font-family:var(--sans);font-size:.95rem;line-height:2">'+x.ex.join('<br>')+'</div>'+
+    '<p class="note">'+x.n+'</p>';
+}
+renderCs(CASES[0]);
+
+/* ===== §Ⅱ 전사본 조사 태깅 ===== */
+const JTYPE={
+ JKS:['주격조사','앞말이 <b>주어</b>임을 표시한다'],
+ JKO:['목적격조사','앞말이 <b>목적어</b>임을 표시한다'],
+ JKB:['부사격조사','앞말이 <b>부사어</b>임을 표시한다'],
+ JKQ:['인용격조사','앞말이 <b>인용된 말</b>임을 표시한다'],
+ JC:['접속조사','앞뒤 체언을 <b>대등하게 잇는다</b>'],
+ JX:['보조사','자격이 아니라 <b>뜻을 더한다</b>'],
+ OM:['생략','조사가 <b>실현되지 않았다</b>']
+};
+const JSENT=[
+ {btn:'C01',raw:[['나','',''],['','OM','는'],[' 이거','',''],['','OM','를'],[' 할래','','']],
+  n:'<b>조사가 하나도 없다.</b> 주어 자리와 목적어 자리가 둘 다 비었는데, 이런 발화는 구어에서 아주 흔하다 — 눈앞에 물건이 있고 상대가 누구인지 분명하기 때문이다.'},
+ {btn:'C22',raw:[['토끼','',''],['가','JKS',''],[' 나오는 거','',''],['요','JX','']],
+  n:'주격조사가 실현되었다. 이야기 속 인물을 <b>새로 도입</b>하는 자리라 「가」가 자연스럽다 — §Ⅲ의 신정보 원리다. 「요」는 <b>높임의 보조사</b>다.'},
+ {btn:'C14',raw:[['여기','',''],['는','JX',''],[' 문이고 여기','',''],['는','JX',''],[' 창문이야','','']],
+  n:'<b>「는」이 두 번</b> 나온다. 두 곳을 <b>대조</b>하고 있으므로 「가」가 아니라 「는」이다 — 「<span class="bad">?</span>여기가 문이고 여기가 창문이야」는 어색하다. 조명한(1982)이 말한 <b>대조의 「는」</b>이 이것이다.'},
+ {btn:'C26',raw:[['토끼','',''],['가','JKS',''],[' 빨리 가다가 나무 밑','',''],['에서','JKB',''],[' 잤어요','','']],
+  n:'주격 「가」와 부사격 「에서」가 함께 나왔다. <b>「에」가 아니라 「에서」</b>인 데 주목하라 — 「에」는 도착점, <b>「에서」는 행위가 일어난 장소</b>다. 아동이 이 둘을 가르고 있다.'},
+ {btn:'C42',raw:[['할머니','',''],['가','JKS',''],[' 떡볶이','',''],['','OM','를'],[' 해 주셨어요','','']],
+  n:'<b>주격은 있는데 목적격은 없다.</b> 전사본 전체가 이 모습이다 — 주어 자리 생략률 21.7%, 목적어 자리 80.0%. 왜 그런지가 실습 2번 문항이다.'},
+ {btn:'C29',raw:[['나','',''],['도','JX',''],[' 저번','',''],['에','JKB',''],[' 달리기','',''],['에서','JKB',''],[' 졌는데 슬펐어','','']],
+  n:'조사가 <b>셋</b>이나 붙은 긴 발화다. 「도」는 <b>보조사</b>로, 앞의 토끼 이야기와 자기 경험을 잇는다 — 이것이 빠지면 뜻이 달라진다. <b>보조사가 잘 생략되지 않는</b> 이유다.'},
+ {btn:'C56',raw:[['그래도 계속 놀려서 엄마','',''],['한테','JKB',''],[' 말했어','','']],
+  n:'「한테」는 <b>유정명사</b>에 붙는 부사격조사다(7주차 §Ⅲ). <span class="bad">*</span>「학교한테」는 안 된다. 아동이 유정성을 이미 지키고 있다.'}
+];
+const jtBtns=document.getElementById('jt-btns'),jtSent=document.getElementById('jt-sent'),jtPanel=document.getElementById('jt-panel');
+let jtIdx=0;
+JSENT.forEach((x,i)=>{
+  const b=document.createElement('button');
+  b.className='ibtn'+(i===0?' active':'');b.textContent=x.btn;
+  b.onclick=()=>{[...jtBtns.children].forEach(c=>c.classList.remove('active'));b.classList.add('active');jtIdx=i;drawJt();};
+  jtBtns.appendChild(b);
+});
+function drawJt(){
+  const S=JSENT[jtIdx];
+  jtSent.innerHTML=S.raw.map((p,i)=>{
+    if(p[1]==='OM')return '<span class="jt"><span class="j om" data-i="'+i+'">∅'+p[2]+'</span></span>';
+    if(p[1])return '<span class="jt"><span class="j" data-i="'+i+'">'+p[0]+'</span></span>';
+    return '<span class="jt">'+p[0]+'</span>';
+  }).join('');
+  jtSent.querySelectorAll('.j').forEach(el=>{
+    el.onclick=()=>{
+      jtSent.querySelectorAll('.j').forEach(x=>x.classList.remove('on'));
+      el.classList.add('on');
+      const p=S.raw[+el.dataset.i],t=JTYPE[p[1]];
+      jtPanel.innerHTML='<h4>'+(p[1]==='OM'?'∅ '+p[2]:p[0])+' <span style="font-family:var(--sans);font-size:.85rem;color:var(--highlight)">'+t[0]+'</span></h4>'+
+        '<p>'+t[1]+'</p><p class="note">'+S.n+'</p>';
+    };
+  });
+  jtPanel.innerHTML='<h4>'+S.btn+'</h4><p>밑줄 친 조사나 <span class="bad">∅</span> 자리를 눌러 보세요.</p><p class="note">'+S.n+'</p>';
+}
+drawJt();
+
+/* ===== §Ⅲ 은/는 vs 이/가 ===== */
+const TOPIC=[
+ {btn:'① 신정보와 구정보',
+  a:['옛날에 임금<b>이</b> 살았어요.','<b>이/가</b> — 처음 나오는 것(신정보)'],
+  b:['그 임금<b>은</b> 아들이 셋이었어요.','<b>은/는</b> — 이미 나온 것(구정보)'],
+  n:'이야기의 <b>첫 문장</b>에 「은/는」을 쓰면 어색하다 — <span class="bad">?</span>「옛날에 임금은 살았어요」. 반대로 이미 나온 것을 계속 「이/가」로 받으면 <b>계속 새로 소개하는 것처럼</b> 들린다. <b>담화가 이어지는 방식</b>을 조사가 나른다.'},
+ {btn:'② 대조',
+  a:['나<b>는</b> 사과, 동생<b>은</b> 배.','<b>은/는</b> — 둘을 견준다'],
+  b:['누가 사과 먹었어? — 내<b>가</b>.','<b>이/가</b> — 여럿 중 하나를 집는다'],
+  n:'전사본 C14 「<b>여기는</b> 문이고 <b>여기는</b> 창문이야」가 대조의 전형이다. 조명한(1982)에 따르면 아동은 <b>주제보다 대조를 먼저</b> 익힌다.'},
+ {btn:'③ 주제 — 코끼리는 코가 길다',
+  a:['코끼리<b>는</b> 코<b>가</b> 길다.','<b>은/는</b>이 주제, <b>이/가</b>가 주어'],
+  b:['코끼리<b>가</b> 코<b>가</b> 길다.','<b>이/가</b>가 둘 — 이중주어문의 전형'],
+  n:'한 문장에 <b>주어가 둘</b>인 이 구조를 <b>이중주어문</b>(주격 중출문)이라 한다 — 11주차 서술절에서 다룬다. <b>둘 다 문법적이다.</b> 다른 것은 <b>정보 구조</b>다 — 「코끼리는」은 문장 전체의 화제를 세우고(「~로 말하자면」으로 바꿔 보면 확인된다), 「코끼리가」는 <b>「무슨 동물이 코가 길어?」처럼 코끼리 자체가 새 정보일 때</b> 쓰인다.'},
+ {btn:'④ 안긴 절 안에서',
+  a:['내<b>가</b> 가면 너도 갈래?','안긴 절의 주어는 <b>이/가</b>가 무표적'],
+  b:['돈<b>은</b> 없어도 마음<b>은</b> 편하다.','다만 <b>대조</b>의 「은/는」은 들어간다'],
+  n:'앞의 세 원리보다 <b>제약이 세지만 예외 없는 규칙은 아니다.</b> 「은/는」이 <b>주제</b>로 쓰일 때는 관형절·명사절 같은 안긴 절 안에 들어가기 어렵다 — <span class="bad">*</span>「토끼는 나오는 거」. 그러나 <b>대조</b>로 쓰일 때는 종속적으로 이어진 절 안에 자유롭게 나타난다 — 「돈<u>은</u> 없어도」, 「철수<u>는</u> 오면 좋겠다」. <b>절의 종류와 「은/는」의 기능이 함께 작용한다.</b> 11주차에서 다시 만난다.'}
+];
+const tpBtns=document.getElementById('tp-btns'),tpPanel=document.getElementById('tp-panel');
+TOPIC.forEach((x,i)=>{
+  const b=document.createElement('button');
+  b.className='ibtn'+(i===0?' active':'');b.textContent=x.btn;
+  b.onclick=()=>{[...tpBtns.children].forEach(c=>c.classList.remove('active'));b.classList.add('active');renderTp(x);};
+  tpBtns.appendChild(b);
+});
+function renderTp(x){
+  tpPanel.innerHTML='<h4>'+x.btn+'</h4>'+
+    '<table class="itable"><tbody>'+
+    '<tr><td style="width:52%;font-family:var(--sans);font-size:1.02rem">'+x.a[0]+'</td><td>'+x.a[1]+'</td></tr>'+
+    '<tr><td style="font-family:var(--sans);font-size:1.02rem">'+x.b[0]+'</td><td>'+x.b[1]+'</td></tr>'+
+    '</tbody></table><p class="note">'+x.n+'</p>';
+}
+renderTp(TOPIC[0]);
+
+/* ===== §Ⅲ 판별 연습 ===== */
+const JUDGE=[
+ {q:'(이야기 첫 문장) 옛날에 할머니 한 분( ) 살았어요.',opts:['이','은'],a:0,
+  fb:'<b>「이」.</b> 처음 나오는 인물이므로 <b>신정보</b>다. 「할머니 한 분은」이라고 하면 <b>이미 아는 할머니</b>를 가리키는 것처럼 들린다. → 원리 ①'},
+ {q:'(앞 문장에 이어) 그 할머니( ) 혼자 사셨대요.',opts:['가','는'],a:1,
+  fb:'<b>「는」.</b> 앞에서 소개된 인물이므로 <b>구정보</b>다. 계속 「가」로 받으면 매번 새로 소개하는 것처럼 들린다. → 원리 ①'},
+ {q:'누가 창문 깼어? — 내( ) 안 그랬어요.',opts:['가','는'],a:0,
+  fb:'<b>「가」.</b> 「누가」라는 물음에 답하는 자리다 — <b>여럿 중 하나를 집어 지정</b>한다. 「나는 안 그랬어요」도 쓰이지만 그때는 <b>「다른 사람은 몰라도」</b>라는 대조가 얹힌다. → 원리 ②'},
+ {q:'(사물의 특징을 말하며) 기린( ) 목( ) 길다.',opts:['이 / 은','은 / 이'],a:1,
+  fb:'<b>「기린은 목이」.</b> 앞이 주제, 뒤가 주어다. 「기린이 목이 길다」도 <b>비문은 아니지만</b> — 「무슨 동물이 목이 길어?」에 답할 때 쓴다 — 특징을 말하는 자리에서는 <b>주제의 「은/는」</b>이 자연스럽다. → 원리 ③'},
+ {q:'비( ) 오면 안 갈 거야.',opts:['가','는'],a:0,
+  fb:'<b>「가」.</b> 「비 오면」은 안긴 절이고, 여기 「비」는 <b>주제가 아니라 그저 주어</b>다. 「비는 오면」이라고 하면 <b>다른 것과 대조</b>하는 뜻이 얹혀 어색해진다. 대조의 뜻이 있으면 안긴 절에도 「은/는」이 들어간다 — 「돈<u>은</u> 없어도 마음<u>은</u> 편하다」. → 원리 ④'},
+ {q:'(전사본 C22) 토끼( ) 나오는 거요.',opts:['가','는'],a:0,
+  fb:'<b>「가」.</b> 실제 전사본이 그렇다. 이야기 속 인물을 <b>처음 도입</b>하는 자리이고, 「나오는」이라는 <b>관형절 안</b>이기도 하다 — 원리 ①과 ④가 함께 작동한다.'}
+];
+const jgItems=document.getElementById('jg-items'),jgPanel=document.getElementById('jg-panel');
+let jgDone=0,jgRight=0;
+jgItems.innerHTML=JUDGE.map((j,i)=>
+  '<div class="judge" data-i="'+i+'"><div class="jq">'+j.q+'</div>'+
+  '<div class="jbtns">'+j.opts.map((o,k)=>'<button class="jb" data-a="'+k+'">'+o+'</button>').join('')+'</div>'+
+  '<div class="jfb"></div></div>').join('');
+jgItems.querySelectorAll('.judge').forEach(d=>{
+  const i=+d.dataset.i,fb=d.querySelector('.jfb');
+  d.querySelectorAll('.jb').forEach(b=>{
+    b.onclick=()=>{
+      d.querySelectorAll('.jb').forEach(x=>x.disabled=true);
+      const ok=+b.dataset.a===JUDGE[i].a;
+      b.classList.add(ok?'ok':'no');
+      if(!ok)d.querySelectorAll('.jb')[JUDGE[i].a].classList.add('ok');
+      fb.innerHTML=JUDGE[i].fb;fb.classList.add('show');
+      jgDone++;if(ok)jgRight++;
+      jgPanel.innerHTML='<p><b>'+jgDone+'문항 · 정답 '+jgRight+'개</b></p>'+
+        (jgDone===JUDGE.length?'<p class="note">여섯 문항에 <b>네 원리</b>가 다 나왔다. <b>넷 다 「되느냐 안 되느냐」가 아니라 「어느 쪽이 자연스러운가」의 문제</b>라는 점이 중요하다 — ④가 제약이 가장 세지만 그것도 절대적이지는 않다. 그래서 아동이 이 구별을 못 지킨다고 해서 곧바로 문법 오류로 판정할 수 없고, <b>맥락을 함께 봐야</b> 한다.</p>':'<p class="note">답을 고르기 전에 <b>어느 원리가 작동하는지</b>를 먼저 말해 보세요.</p>');
+    };
+  });
+});
+jgPanel.innerHTML='<p>여섯 문항입니다.</p><p class="note">답을 고르기 전에 <b>어느 원리가 작동하는지</b>를 먼저 말해 보세요.</p>';
+
+/* ===== §Ⅳ 어미 계층도 ===== */
+const HIER=[
+ {id:'ep',lbl:'선어말어미',sub:'어간과 어말어미 사이 · 없어도 되고 여럿이어도 된다',
+  kids:[['주체높임 -시-','C07 오<b>시</b>어요 · C42 주<b>시</b>었어요 · C38 주<b>시</b>어요'],['시제 -았/었/였-','전사본 25회 — 가장 잦은 선어말어미'],['추측·의지 -겠-','<b>전사본 0회</b> — 대신 「-ㄹ 거야」를 쓴다']],
+  n:'전사본의 선어말어미는 <b>28회 4가지</b>뿐이다 — 「었」 14 · 「았」 7 · 「였」 4 · 「시」 3. 앞의 셋은 <b>같은 형태소의 이형태</b>라 묶으면 <b>25회</b>다(「했어요」의 「했」이 「하였」의 축약이므로 「였」에 든다). 종류가 적은 대신 <b>「-았/었/였-」이 압도적</b>이고, <b>「-겠-」은 하나도 없다</b>(8주차 §Ⅴ).'},
+ {id:'ef',lbl:'종결어미',sub:'문장을 끝맺는다 · 문장의 종류와 상대높임을 정한다',
+  kids:[['평서 -다/-어/-어요','C19 됐<b>다</b> · C47 놀았<b>어요</b>'],['의문 -니/-냐/-ㄹ까','전사본에는 드물다'],['명령 -어라/-세요','C07 오세<b>요</b> · C38 빌려주세<b>요</b>'],['청유 -자','<b>전사본 0회</b>']],
+  n:'전사본에서 <b>56회 17가지</b>로 가장 많고 가장 다양하다. 최빈은 「어요」 18회 — <b>해요체</b>가 주된 말투다. 문장의 종류와 높임을 동시에 나르므로 두 번 다시 만난다 — <b>문장 종결법은 10주차</b>, <b>상대높임은 12주차</b>다.'},
+ {id:'ec',lbl:'연결어미',sub:'절을 잇는다 · 문장을 끝내지 않는다',
+  kids:[['대등 -고/-며/-지만','C41 타<b>고</b> · C14 문이<b>고</b>'],['종속 -아서/-면/-는데','C11 좁아<b>서</b> · C31 이기<b>면</b>'],['보조적 -아/-고/-지','C42 해 주셨어요 · C55 하<b>지</b> 말라고']],
+  n:'전사본에서 <b>24회 14가지</b>다. 종결어미보다 적지만 <b>가짓수는 만만치 않다.</b> §Ⅴ에서 자세히 본다.'},
+ {id:'et',lbl:'전성어미',sub:'용언을 다른 품사처럼 쓰이게 한다 · 11주차의 재료',
+  kids:[['명사형 -음/-기','<b>전사본 0회</b> — 명사절은 늦다'],['관형사형 -ㄴ/-는/-ㄹ/-던','C22 나오<b>는</b> · C20 들어갈(-<b>ㄹ</b>)'],['부사형 -게/-도록','C17 크<b>게</b> 만들어야']],
+  n:'<b>이 세 갈래가 11주차 안은문장의 전부다.</b> 전사본에서 관형사형이 <b>14회</b>(ㄹ 5·는 4·ㄴ 3·을 2)인데 <b>명사형은 0회</b>다. 관형절은 쓰는데 명사절은 아직 안 쓴다는 뜻이다.'}
+];
+const hiTree=document.getElementById('hi-tree'),hiPanel=document.getElementById('hi-panel');
+function drawHi(sel){
+  hiTree.innerHTML=
+   '<div class="hrow"><span class="hlbl">어간 +</span><div class="hbox'+(sel==='ep'?' on':'')+'" data-id="ep">'+
+   '<b>선어말어미</b><div class="hsub">0개 이상 — 없어도 된다</div></div></div>'+
+   '<div class="hrow"><span class="hlbl">+ 어말어미</span><div class="hkids">'+
+   HIER.slice(1).map(h=>'<div class="hbox'+(sel===h.id?' on':'')+'" data-id="'+h.id+'"><b>'+h.lbl+'</b><div class="hsub">'+h.sub.split(' · ')[0]+'</div></div>').join('')+
+   '</div></div>'+
+   '<p style="font-family:var(--sans);font-size:.8rem;opacity:.55;margin-top:.5rem">어말어미는 <b>셋 중 반드시 하나</b>가 온다.</p>';
+  hiTree.querySelectorAll('.hbox').forEach(b=>{b.onclick=()=>drawHi(b.dataset.id);});
+  const h=HIER.find(z=>z.id===sel);
+  if(!h){hiPanel.innerHTML='<p>상자를 눌러 보세요.</p>';return;}
+  let t='<table class="itable"><tbody>';
+  h.kids.forEach(k=>{t+='<tr><td style="width:36%;color:var(--highlight)">'+k[0]+'</td><td>'+k[1]+'</td></tr>';});
+  hiPanel.innerHTML='<h4>'+h.lbl+' <span style="font-family:var(--sans);font-size:.82rem;opacity:.6">— '+h.sub+'</span></h4>'+
+    t+'</tbody></table><p class="note">'+h.n+'</p>';
+}
+drawHi('ep');
+
+/* ===== §Ⅴ 연결어미 의미 범주 ===== */
+const CONN=[
+ {btn:'나열',ex:'-고 · -며',s:'C07 「갖<b>고</b> 오세요」 · C14 「문이<b>고</b>」 · C41 「차 타<b>고</b> 오래 갔어」',
+  n:'가장 이르게 나타나는 연결어미다 — 서희선·이승환(1999)에서 <b>2;0~2;5</b>에 출현. 전사본에도 3회 있다.'},
+ {btn:'이유·원인',ex:'-아서 · -니까 · -므로',s:'C11 「좁<b>아서</b>」 · C16 「작<b>아서</b>」 · C25 「자<b>서</b>」 · C56 「놀려<b>서</b>」 · C59 「해<b>서</b>」',
+  n:'「-고」와 함께 <b>가장 먼저</b> 나타난다. 전사본에서 <b>5회</b>다 — <b>이유를 대는 말</b>을 이 아동이 잘 쓴다는 뜻이다.'},
+ {btn:'조건·가정',ex:'-면 · -거든 · -어야',s:'C12 「놓<b>으면</b> 돼」 · C31 「이기<b>면</b>」 · C36 「가<b>면</b>」 · C46 「먹<b>으면</b>」 · C17 「만들어<b>야</b>」 · C46 「먹어<b>야</b>」',
+  n:'전사본에서 <b>6회</b>로 가장 많다. 「-면」 4회(C12·C31·C36·C46), 「-어야」 2회(C17·C46). <b>아직 일어나지 않은 일</b>을 말하는 장치라, 이것이 나오면 <b>가상 상황을 다룰 수 있다</b>는 신호다.<br><br>다만 C17·C46의 「-어야 <b>되다</b>」는 <b>8주차 §Ⅲ에서 보조용언 구성으로도 다루었다</b> — 표준국어대사전이 「되다」의 보조동사 뜻풀이에 「-어야 되다」 구성을 싣는다. <b>연결어미로 셀 것인가 보조용언 구성의 일부로 볼 것인가</b>가 갈리는 자리이므로, 과제에서는 어느 쪽으로 세었는지 밝혀야 한다.'},
+ {btn:'대립·양보',ex:'-지만 · -는데 · -어도 · -더라도',s:'C29 「졌<b>는데</b> 슬펐어」',
+  n:'서희선·이승환(1999)에서 「-고」·「-서」보다 <b>늦게</b> 자리 잡는 것으로 보고된다. 전사본에 「-는데」가 <b>연결어미로 1회</b>뿐이다. (「-는데」는 <b>종결어미로도 쓰인다</b> — C21 「읽었<b>는데</b>」, C49 「있<b>는데</b>」, C54 「아<b>닌데</b>」. 표준국어대사전도 「-는데」를 연결어미와 종결어미 <b>두 표제어</b>로 싣는다. <b>같은 꼴, 다른 자리</b>다.)'},
+ {btn:'전환·계기',ex:'-다가 · -더니',s:'C26 「가<b>다가</b> 나무 밑에서 잤어요」 · C57 「그랬<b>더니</b> 엄마가 오빠 혼냈어요」',
+  n:'「-다가」는 <b>하던 일을 그만두고 다른 일로 넘어감</b>을, 「-더니」는 <b>앞의 일에 이어 뒤의 일이 일어남</b>을 나타낸다. 각 1회씩. 둘 다 <b>사건이 바뀌는 자리</b>를 표시하므로 이야기를 이어 가는 데 쓰인다 — 상황 ③의 경험 이야기에서 나왔다는 점에 주목하라.'},
+ {btn:'목적·의도',ex:'-려고 · -러 · -고자',s:'<b>전사본 0회</b>',
+  n:'전사본에 <b>없다.</b> 그런데 이 아동은 「-ㄹ 거야」로 의도를 말한다(C03·C06·C60). <b>같은 뜻을 다른 형식으로 나르는</b> 것이다 — 8주차 §Ⅴ에서 「-겠-」을 두고 한 이야기와 같다.'},
+ {btn:'동시·즉시',ex:'-으면서 · -자 · -자마자',s:'<b>전사본 0회</b>',
+  n:'두 일이 <b>같은 시간에</b> 일어나거나(-으면서) <b>곧바로 이어짐</b>(-자마자)을 나타낸다. 「밥을 먹<b>으면서</b> 텔레비전을 봤다」.<br><br>전사본에 없는데, 이것은 <b>말할 일이 없었다</b>고만 보기 어렵다. 동시성을 표시하려면 <b>두 사건을 시간 축 위에 겹쳐 놓을 수 있어야</b> 하므로, 인지적으로 나열(-고)보다 늦게 자리 잡는다. 「-다가」(전환)와 짝지어 보면 차이가 분명하다 — <b>-다가는 앞의 일을 그만두고, -으면서는 그만두지 않는다.</b>'},
+ {btn:'선택',ex:'-거나 · -든지 · -든가',s:'<b>전사본 0회</b>',
+  n:'둘 이상 가운데 <b>어느 것이라도 좋음</b>을 나타낸다. 「밥을 먹<b>거나</b> 빵을 먹<b>거나</b> 해라」.<br><br>접속조사 「(이)나」와 <b>같은 뜻을 다른 층위에서</b> 나른다는 데 주목하라 — §Ⅱ에서 본 「사과<b>나</b> 배」는 단어를 잇고, 「먹<b>거나</b>」는 절을 잇는다. <b>같은 의미 관계가 조사와 어미 양쪽에 나뉘어 있는</b> 것이 한국어 교착어 구조의 특징이다.'},
+ {btn:'비례·정도',ex:'-을수록 · -도록 · -게',s:'C17 「문을 <b>크게</b> 만들어야 돼요」 — 판정 갈림',
+  n:'앞의 일이 더해질수록 뒤의 일도 더해짐(-을수록), 또는 <b>어느 정도에 이르기까지</b>(-도록)를 나타낸다. 「먹<b>을수록</b> 맛있다」, 「밤새<b>도록</b> 울었다」. 전사본에 「-을수록」·「-도록」은 <b>0회</b>다.<br><br>C17의 「-게」가 여기 걸리는데 <b>판정이 갈린다</b> — 정도·결과의 연결어미로 볼 수도 있고, <b>부사형 전성어미</b>로 볼 수도 있다. §Ⅳ에서 밝힌 대로 <b>이 자료의 빈도표는 이것을 연결어미 쪽에 넣어 세었다</b> — 그래서 이 칸이 <b>1회</b>로 채워진다. 부사형으로 빼면 이 칸도 0이 되고 연결어미 총계가 23으로 준다. 11주차 §Ⅱ에서 이 문제를 「부사절이냐 이어진문장이냐」로 다시 다룬다. <b>같은 형태를 어느 칸에 넣느냐가 절의 수를 바꾼다.</b>'},
+ {btn:'첨가·배경',ex:'-을뿐더러 · -는데(배경)',s:'C49 「있<b>는데</b>」 — 종결어미로 판정',
+  n:'앞말에 <b>덧붙여</b>(-을뿐더러), 또는 뒤에 올 말의 <b>바탕을 깔아 주는</b>(-는데) 기능이다. 「비가 오<b>는데</b> 우산이 없다」의 「-는데」는 대립이 아니라 <b>배경</b>이다.<br><br><b>그러니 「-는데」는 이 표에서 두 칸에 걸친다</b> — 대립·양보(C29)와 배경. 형태 하나가 의미 범주 둘에 걸치는 것은 흔한 일이고, 그래서 <b>연결어미를 셀 때는 형태가 아니라 그 자리의 의미를 봐야</b> 한다. 위 「대립·양보」 칸에서 「-는데」가 <b>종결어미로도 쓰인다</b>고 한 것까지 합하면, 이 형태 하나가 세 갈래로 갈린다.'},
+ {btn:'정리 — 전사본의 연결어미',ex:'24회 · 14가지',s:'—',
+  n:'조건 6 · 이유 5 · 나열 3 · 대립 1 · 전환 1 · 계기 1 · 「-게」 1(C17 — §Ⅳ의 결정에 따라 연결어미로 셈), 그리고 <b>보조적 연결어미</b>(-아/어 4, -여 1, -지 1) 6이 나머지다 — 합 24.<br><br>열 범주 가운데 <b>넷이 비어 있다</b> — 목적·의도 · 동시·즉시 · 선택 · 첨가·배경. (「첨가·배경」의 유일한 후보였던 C49 「있는데」를 <b>종결어미로 판정</b>했으므로 0이다. 그리고 「비례·정도」가 1인 것은 오직 C17의 「-게」 덕분이니, 그것을 부사형으로 빼면 <b>다섯</b>이 빈다 — <b>빈칸의 수마저 판정에 달려 있다.</b>)<br><br>빈칸이 몰린 자리를 보라: 나열·이유·조건처럼 <b>이른 시기에 나타나는 범주</b>는 채워져 있고, 두 사건의 시간 관계를 겹치거나(-으면서) 정도로 재는(-을수록) <b>늦게 자리 잡는 범주</b>가 비어 있다. 4;6이라는 나이를 생각하면 예상 범위 안이다.<br><br>가짓수(14)가 종결어미(17)에 육박한다는 데 주목하라. <b>절을 잇는 장치가 상당히 갖춰졌다</b>는 뜻이고, 11주차 이어진문장 분석에서 이것이 재료가 된다. 11주차 §Ⅳ의 <b>「연결어미 의미 탐색 — 열아홉」</b>은 이 열 범주를 개별 어미 수준으로 펼친 것이다.'}
+];
+const cnBtns=document.getElementById('cn-btns'),cnPanel=document.getElementById('cn-panel');
+CONN.forEach((x,i)=>{
+  const b=document.createElement('button');
+  b.className='ibtn'+(i===0?' active':'');b.textContent=x.btn;
+  b.onclick=()=>{[...cnBtns.children].forEach(c=>c.classList.remove('active'));b.classList.add('active');renderCn(x);};
+  cnBtns.appendChild(b);
+});
+function renderCn(x){
+  cnPanel.innerHTML='<h4>'+x.btn+'</h4>'+
+    '<div style="font-family:var(--sans);font-size:1.15rem;color:var(--highlight);margin:.5rem 0 .7rem">'+x.ex+'</div>'+
+    (x.s!=='—'?'<div style="font-family:var(--sans);font-size:.93rem;line-height:1.9;margin-bottom:.6rem">'+x.s+'</div>':'')+
+    '<p class="note">'+x.n+'</p>';
+}
+renderCn(CONN[0]);
+
+/* ===== §Ⅵ 세 체계 ===== */
+const SYS=[
+ {btn:'분석적 체계',w:'꽃 / 이 / 피 / 었 / 다',cnt:'「꽃이 피었다」 → 5단어',
+  who:'주시경 계열',
+  d:'<b>조사도 어미도 단어로 본다.</b> 홀로 못 쓰이는 것도 문법적 기능이 뚜렷하면 단어로 인정한다.',
+  n:'가장 <b>잘게</b> 나눈다. 교착어의 성질을 그대로 드러내는 장점이 있지만, 「단어」라는 말이 너무 넓어진다는 비판을 받는다.'},
+ {btn:'종합적 체계',w:'꽃이 / 피었다',cnt:'「꽃이 피었다」 → 2단어',
+  who:'정렬모·이숭녕 계열',
+  d:'<b>조사도 어미도 단어가 아니다.</b> 둘 다 앞말에 붙는 <b>굴절 요소</b>로 본다. 그러면 「꽃이」는 체언의 <b>곡용형</b>, 「피었다」는 용언의 <b>활용형</b>이 된다.',
+  n:'<b>가장 일관된다.</b> 홀로 못 쓰이는 것은 모두 단어가 아니라는 하나의 기준을 지킨다. 5주차 §Ⅰ에서 「곡용」이라는 말에 걸렸던 것이 이 체계의 용어다.'},
+ {btn:'절충적 체계 ★',w:'꽃 / 이 / 피었다',cnt:'「꽃이 피었다」 → 3단어',
+  who:'최현배·이희승 계열 · <b>학교 문법 · 이 과목</b>',
+  d:'<b>조사는 단어, 어미는 단어가 아니다.</b> 조사는 앞말과 분리성이 크고 여러 체언에 두루 붙지만, 어미는 어간과 떼어 낼 수 없다는 것이 근거다.',
+  n:'<b>가장 널리 쓰이지만 가장 덜 일관된다.</b> 둘 다 홀로 못 쓰이는데 하나만 단어로 세기 때문이다. 그래서 7주차 §Ⅶ에서 「일관되지 않다」는 비판을 소개했다.'},
+ {btn:'그래서 어떻게 되는가',w:'—',cnt:'같은 발화, 다른 값',
+  who:'—',
+  d:'전사본 C22 「토끼가 나오는 거요」를 세 체계로 세어 보라.',
+  n:'<b>분석적</b> — 토끼/가/나오/는/거/요 = <b>6</b><br><b>종합적</b> — 토끼가/나오는/거요 = <b>3</b><br><b>절충적</b> — 토끼/가/나오는/거/요 = <b>5</b><br><br>같은 발화인데 <b>3에서 6까지</b> 나온다. 4주차에서 MLU를 낼 때 「어느 체계를 택하든 밝히기만 하면 된다」고 한 이유가 이것이다. <b>실습 4번 문항이 이 계산이다.</b>'}
+];
+const syBtns=document.getElementById('sy-btns'),syPanel=document.getElementById('sy-panel');
+SYS.forEach((x,i)=>{
+  const b=document.createElement('button');
+  b.className='ibtn'+(i===0?' active':'');b.textContent=x.btn;
+  b.onclick=()=>{[...syBtns.children].forEach(c=>c.classList.remove('active'));b.classList.add('active');renderSy(x);};
+  syBtns.appendChild(b);
+});
+function renderSy(x){
+  syPanel.innerHTML='<h4>'+x.btn+(x.who!=='—'?' <span style="font-family:var(--sans);font-size:.82rem;opacity:.6">— '+x.who+'</span>':'')+'</h4>'+
+    (x.w!=='—'?'<div style="font-family:var(--sans);font-size:1.2rem;color:var(--highlight);margin:.5rem 0 .3rem">'+x.w+'</div>'+
+      '<div style="font-family:var(--mono);font-size:.8rem;opacity:.65;margin-bottom:.8rem">'+x.cnt+'</div>':'')+
+    '<p>'+x.d+'</p><p class="note">'+x.n+'</p>';
+}
+renderSy(SYS[0]);
+
+/* ===== §Ⅶ 빈도 탐색기 ===== */
+const FCOL={'주격':'#9dd39a','목적격':'#e8b647','부사격':'#8fb8d8','보조사':'#c0a8d8','인용격':'#e0836a',
+ '접속·부사격':'#d4a862','선어말':'#9dd39a','종결':'#e8b647','종결·연결':'#d4a862','연결':'#8fb8d8','관형사형':'#c0a8d8'};
+/* 표면형 기준 · 조사 56토큰 18타입 전부 */
+const JRAW=[['가','주격',14],['에','부사격',6],['요','보조사',5],['이','주격',4],['는','보조사',4],
+ ['랑','접속·부사격',3],['고','인용격',3],['은','보조사',2],['로','부사격',2],['을','목적격',2],
+ ['만','보조사',2],['도','보조사',2],['에서','부사격',2],
+ ['를','목적격',1],['처럼','부사격',1],['서','부사격',1],['한테','부사격',1],['라고','인용격',1]];
+/* {이/가} {은/는} {을/를} {고/라고} 넷을 묶음 → 14타입 */
+const JMRG=[['{이/가}','주격',18],['{은/는}','보조사',6],['에','부사격',6],['요','보조사',5],
+ ['{고/라고}','인용격',4],['{을/를}','목적격',3],['랑','접속·부사격',3],
+ ['로','부사격',2],['만','보조사',2],['도','보조사',2],['에서','부사격',2],
+ ['처럼','부사격',1],['서','부사격',1],['한테','부사격',1]];
+/* 표면형 기준 · 세 번 이상만 표시 (전체 122토큰 중 94) */
+const ERAW=[['어요','종결',18],['어','종결·연결',17],['었','선어말',14],['았','선어말',7],
+ ['ㄹ','관형사형',5],['아','종결',4],['는','관형사형',4],['였','선어말',4],
+ ['야','종결',3],['ㄴ','관형사형',3],['고','연결',3],['시','선어말',3],['아서','연결',3],['아요','종결',3],['다','종결',3]];
+/* {았/었/였} {아/어요} {아/어} {아/어서} {(으)ㄹ} 다섯 묶음 → 28타입 */
+const EMRG=[['{았/었/였}','선어말',25],['{아/어요}','종결',21],['{아/어}','종결·연결',21],
+ ['{(으)ㄹ}','관형사형',7],['{아/어서}','연결',5],['는','관형사형',4],
+ ['야','종결',3],['ㄴ','관형사형',3],['고','연결',3],['시','선어말',3],['다','종결',3]];
+let fqIdx=0,fqMerge=false;
+const fqBtns=document.getElementById('fq-btns'),fqTg=document.getElementById('fq-tg'),
+      fqBars=document.getElementById('fq-bars'),fqPanel=document.getElementById('fq-panel');
+const FQSET=[
+ {btn:'조사',raw:JRAW,mrg:JMRG,tokRaw:56,typRaw:18,typMrg:14,
+  capRaw:'18가지 전부 표시 · 56토큰',capMrg:'묶은 뒤 14가지 · 56토큰 전부',
+  n0:'표면형 그대로 세면 <b>18가지</b>다. 1위 「가」 14회, 4위 「이」 4회 — <b>같은 주격조사가 둘로 흩어져 있다.</b> 「은」 2회와 「는」 4회도 마찬가지다.',
+  n1:'{이/가}·{은/는}·{을/를}·{고/라고} 넷을 묶으면 <b>14가지</b>가 되고 <b>주격 18회</b>가 압도적 1위로 올라선다. 그리고 「{을/를}」이 <b>3회뿐</b>이라는 것이 눈에 들어온다 — 목적어 자리는 15군데인데. <b>이 대비가 §임상의 출발점이다.</b>'},
+ {btn:'어미',raw:ERAW,mrg:EMRG,tokRaw:122,typRaw:35,typMrg:29,
+  capRaw:'세 번 이상만 표시 · 122토큰 중 94',capMrg:'묶은 뒤 상위 11항목 · 122토큰 중 98',
+  n0:'표면형 그대로 세면 <b>35가지</b>다. 과거의 세 이형태 「었」 14 · 「았」 7 · 「였」 4가 <b>따로 흩어져</b> 3·4·8위에 앉아 있다.',
+  n1:'{았/었/였}·{아/어요}·{아/어}·{아/어서}·{(으)ㄹ} 다섯을 묶으면(11개 형태 → 5개) <b>29가지</b>가 되고 <b>「{았/었/였}」 25회</b>가 단독 1위가 된다. 「{아/어요}」 21회가 뒤를 잇는다 — <b>과거 + 해요체</b>가 이 아동의 주된 틀이라는 것이 이제야 한눈에 보인다.'}
+];
+FQSET.forEach((x,i)=>{
+  const b=document.createElement('button');
+  b.className='ibtn'+(i===0?' active':'');b.textContent=x.btn;
+  b.onclick=()=>{[...fqBtns.children].forEach(c=>c.classList.remove('active'));b.classList.add('active');fqIdx=i;drawFq();};
+  fqBtns.appendChild(b);
+});
+function drawFq(){
+  const S=FQSET[fqIdx],rows=fqMerge?S.mrg:S.raw,mx=rows[0][2];
+  fqTg.innerHTML='<button class="tg'+(fqMerge?' on':'')+'" id="fq-m">이형태를 묶기</button>';
+  document.getElementById('fq-m').onclick=()=>{fqMerge=!fqMerge;drawFq();};
+  fqBars.innerHTML=rows.map(r=>
+    '<div class="barrow"><span>'+r[0]+'</span>'+
+    '<div class="bartrack"><div class="barfill" style="width:'+(r[2]/mx*100).toFixed(1)+'%;background:'+(FCOL[r[1]]||'#aaa')+'"></div></div>'+
+    '<span class="barval">'+r[2]+'회 · '+r[1]+'</span></div>').join('');
+  fqPanel.innerHTML='<h4>'+S.btn+' <span style="font-family:var(--mono);font-size:.76rem;opacity:.6">토큰 '+S.tokRaw+' · 타입 '+(fqMerge?S.typMrg:S.typRaw)+(fqMerge?' (묶은 뒤)':' (표면형)')+'</span></h4>'+
+    '<p style="font-family:var(--sans);font-size:.8rem;opacity:.55;margin-bottom:.5rem">'+(fqMerge?S.capMrg:S.capRaw)+'</p>'+
+    '<p class="note">'+(fqMerge?S.n1:S.n0)+'</p>';
+}
+drawFq();
+
+/* ===== §임상 생략 판정 ===== */
+const OMIT=[
+ {btn:'주어 자리 — 21.7%',
+  rows:[['자리 수','23군데'],['조사 실현','18 (78.3%)'],['생략','5 (21.7%)'],['생략된 것','C01·C21·C36·C54의 <b>「나」</b> 넷과 C09의 <b>「이거」</b>']],
+  n:'<b>다섯 중 넷이 「나」다.</b> 「나」는 「내가」로 쓸 수도 있지만 「나는」으로 쓸 자리이기도 하다 — 즉 <b>보조사 「는」이 빠진 것</b>으로 볼 수도 있다. 어느 쪽이든 <b>말하는 이 자신을 가리키는 자리라 안 붙여도 통한다.</b> C09 「이거 안 돼」도 눈앞의 물건을 가리키므로 마찬가지다. <b>정상적인 생략이다.</b><br><br>다만 <b>C49 「나 혼자서도 탈 수 있는데」</b>는 판정이 갈린다 — 「나 혼자서」를 한 덩어리로 보면 「서」가 붙어 있는 셈이라 생략이 아니다. 이 자료는 그렇게 보아 자리 수에서 뺐다. <b>어느 쪽이든 밝혀야 한다.</b>'},
+ {btn:'목적어 자리 — 80.0%',
+  rows:[['자리 수','15군데'],['조사 실현','3 (20.0%)'],['생략','12 (80.0%)'],['실현된 것','C12 「거<b>를</b>」 · C17 「문<b>을</b>」 · C25 「잠<b>을</b>」']],
+  n:'<b>다섯 중 넷이 생략된다.</b> 이것은 한국어 구어의 일반적 경향과 맞고, 성인도 그렇게 말한다 — 「밥 먹었어?」에 조사를 넣으면 오히려 어색하다. <b>이 자체는 문제의 신호가 아니다.</b>'},
+ {btn:'왜 다른가',
+  rows:[['어순','한국어는 <b>주어–목적어–서술어</b>가 기본이다. 서술어 바로 앞은 목적어일 가능성이 높다'],
+        ['유정성','주어는 대개 <b>유정물</b>, 목적어는 <b>무정물</b>인 경우가 많다 — 뜻으로도 구별된다'],
+        ['정보','주어는 <b>새 인물을 도입</b>하는 자리라 표시가 필요할 때가 많다(§Ⅲ ①)'],
+        ['결론','목적격 조사는 <b>없어도 복원되므로</b> 더 잘 생략된다']],
+  n:'<b>실습 2번 문항의 답이 여기 있다.</b> 다만 이것은 설명이지 규칙이 아니다 — 어순이 바뀌거나 목적어가 유정물이면(C57 「오빠 혼냈어요」) 사정이 달라진다. <b>맥락을 봐야 한다.</b>'},
+ {btn:'그래서 어떻게 판정하나',
+  rows:[['① 정상','격조사가 빠졌는데 <b>어순과 맥락으로 복원 가능</b>하다 — 전사본의 대부분'],
+        ['② 판정 보류','<b>표본이 부족</b>하다 — 그 격을 쓸 맥락이 아예 없었다면 판정할 수 없다'],
+        ['③ 문제 가능','<b>보조사가 빠져 뜻이 달라졌다</b> / 격조사를 <b>잘못 썼다</b>(대치) / <b>복원해도 문장이 안 된다</b>']],
+  n:'<b>「생략이 많다」는 관찰은 그 자체로 소견이 되지 못한다.</b> 이희란 외(2008)가 말한 대로, 일반 아동은 <b>담화-화용적 생략 규칙을 정확히 적용</b>한다. 문제가 되는 것은 <b>규칙을 못 지킬 때</b>다. 이것이 [제출 과제 4]의 1번 문항이다.'}
+];
+const omBtns=document.getElementById('om-btns'),omPanel=document.getElementById('om-panel');
+OMIT.forEach((x,i)=>{
+  const b=document.createElement('button');
+  b.className='ibtn'+(i===0?' active':'');b.textContent=x.btn;
+  b.onclick=()=>{[...omBtns.children].forEach(c=>c.classList.remove('active'));b.classList.add('active');renderOm(x);};
+  omBtns.appendChild(b);
+});
+function renderOm(x){
+  let t='<table class="itable"><tbody>';
+  x.rows.forEach(r=>{t+='<tr><td style="width:26%;color:var(--highlight)">'+r[0]+'</td><td>'+r[1]+'</td></tr>';});
+  omPanel.innerHTML='<h4>'+x.btn+'</h4>'+t+'</tbody></table><p class="note">'+x.n+'</p>';
+}
+renderOm(OMIT[0]);
+
+/* ===== 실습실 워크시트 ===== */
+const LABW=['격조사 (전체)','보조사','접속조사','조사 합계','선어말어미','종결어미','연결어미','전성어미','어미 합계','조사 생략 자리'];
+document.getElementById('ws-body').innerHTML=LABW.map(w=>
+  '<tr><td class="w">'+w+'</td>'+
+  '<td><input type="text" aria-label="'+w+' 토큰 수" placeholder="토큰"></td>'+
+  '<td><input type="text" aria-label="'+w+' 타입 수" placeholder="타입"></td>'+
+  '<td><input type="text" aria-label="'+w+' 최빈 항목" placeholder="가장 잦은 것과 횟수"></td></tr>').join('');
+
+/* ===== 퀴즈 ===== */
+function buildQuiz(containerId,scoreId,items){
+  const wrap=document.getElementById(containerId),scoreEl=document.getElementById(scoreId);
+  let done=0,right=0;
+  items.forEach((it,i)=>{
+    const d=document.createElement('div');
+    d.className='quiz-item';
+    d.innerHTML='<div class="quiz-q"><span class="num">'+String(i+1).padStart(2,'0')+'</span>'+it.q+'</div>'+
+      '<div class="quiz-opts"></div><div class="quiz-fb"></div>';
+    const optWrap=d.querySelector('.quiz-opts'),fb=d.querySelector('.quiz-fb');
+    it.opts.forEach((label,j)=>{
+      const b=document.createElement('button');
+      b.className='quiz-opt';b.textContent=label;
+      b.onclick=()=>{
+        optWrap.querySelectorAll('.quiz-opt').forEach(x=>x.disabled=true);
+        const ok=j===it.a;
+        b.classList.add(ok?'correct':'wrong');
+        if(!ok)optWrap.querySelectorAll('.quiz-opt')[it.a].classList.add('correct');
+        fb.innerHTML='<b>'+(ok?'정답':'다시 보기')+'</b> · '+it.fb;
+        fb.classList.add('show');
+        done++;if(ok)right++;
+        scoreEl.textContent=done+'문항 풀이 · 정답 '+right+'개 ('+Math.round(right/done*100)+'%)'+
+          (done===items.length?(right===items.length?' — 완벽합니다.':' — 틀린 문항의 해설을 다시 읽어 보세요.'):'');
+      };
+      optWrap.appendChild(b);
+    });
+    wrap.appendChild(d);
+  });
+}
+
+buildQuiz('check-items','check-score',[
+ {q:'「물이 얼음이 되었다」에서 두 「이」의 격은?',
+  opts:['둘 다 주격','앞은 주격, 뒤는 보격','앞은 보격, 뒤는 주격','둘 다 보격'],a:1,
+  fb:'형태는 같지만 격이 다르다. <b>「되다·아니다」 바로 앞</b>이면 보격이다. 이 두 용언만 보어를 요구한다 — 8주차에서 「되다·아니다」가 자동사인데 두 자리를 요구한다고 한 그 이야기다. → §Ⅰ'},
+ {q:'격조사와 보조사의 차이로 <b>옳지 않은</b> 것은?',
+  opts:['격조사는 자격을, 보조사는 뜻을 나타낸다','보조사는 격조사 뒤에 겹쳐 붙을 수 있다','보조사는 체언 뒤에만 붙는다','격조사가 보조사보다 잘 생략된다'],a:2,
+  fb:'보조사는 <b>부사와 어미 뒤에도</b> 붙는다 — 「빨리<u>도</u> 간다」, 「먹어<u>는</u> 봤다」. 체언 뒤에만 붙는 것은 격조사다. → §Ⅱ'},
+ {q:'이야기의 <b>첫 문장</b>에서 인물을 소개할 때 쓰는 조사는?',
+  opts:['은/는','이/가','을/를','도'],a:1,
+  fb:'처음 나오는 것은 <b>신정보</b>이므로 「이/가」다. 「<span class="bad">?</span>옛날에 임금은 살았어요」는 <b>이미 아는 임금</b>을 가리키는 것처럼 들려 어색하다. → §Ⅲ ①'},
+ {q:'「<span class="bad">*</span>토끼는 나오는 거」가 안 되는 이유는?',
+  opts:['「토끼」가 무정물이라서','주제의 「은/는」은 관형절 안에 들어가지 못해서','발음이 어려워서','시제가 안 맞아서'],a:1,
+  fb:'<b>주제</b>로 쓰인 「은/는」은 문장 전체의 화제를 세우므로 관형절·명사절 같은 <b>안긴 절</b> 안에 들어가지 못한다. 다만 <b>대조</b>의 「은/는」은 종속적으로 이어진 절 안에 자유롭게 나타난다 — 「돈<u>은</u> 없어도 마음<u>은</u> 편하다」. 절의 종류와 「은/는」의 기능이 <b>함께</b> 작용하는 것이지 예외 없는 규칙이 아니다. → §Ⅲ ④'},
+ {q:'「높으셨겠다」에서 <b>어말어미</b>는?',
+  opts:['-으시-','-었-','-겠-','-다'],a:3,
+  fb:'「-다」 하나다. 「-으시-·-었-·-겠-」은 전부 <b>선어말어미</b>다. 어말어미는 <b>반드시 하나</b> 있어야 하고, 선어말어미는 <b>없어도 되고 여럿이어도</b> 된다. → §Ⅳ'},
+ {q:'어말어미 세 갈래 중 <b>11주차 안은문장의 재료</b>가 되는 것은?',
+  opts:['종결어미','연결어미','전성어미','선어말어미'],a:2,
+  fb:'<b>전성어미</b>다. 명사형 「-음/-기」는 명사절을, 관형사형 「-ㄴ/-는/-ㄹ」은 관형절을, 부사형 「-게/-도록」은 부사절을 만든다. 용언을 다른 품사처럼 쓰이게 해 문장을 문장 안에 넣는다. → §Ⅳ'},
+ {q:'전사본에 <b>명사형 어미 「-음/-기」가 한 번도 없는</b> 것은 무엇을 뜻하는가?',
+  opts:['아동이 어미를 모른다','관형절은 쓰는데 명사절은 아직 쓰지 않는다','전사가 잘못되었다','아무 뜻도 없다'],a:1,
+  fb:'관형사형은 <b>14회</b> 나오는데 명사형은 <b>0회</b>다. 관형절은 만드는데 명사절은 아직 만들지 않는다는 뜻이고, 명사절이 늦게 발달하는 것은 자연스럽다. → §Ⅳ'},
+ {q:'연결어미 중 아동에게 <b>가장 먼저</b> 나타나는 것으로 보고된 것은?',
+  opts:['-지만(대립)','-고(나열)와 -서(이유)','-려고(목적)','-다가(전환)'],a:1,
+  fb:'서희선·이승환(1999)에서 「-고」는 나열·대립에서, 「-(아/어)서」는 계기·이유에서 <b>2;0~2;5</b>부터 나타나고, 다섯 의미관계가 모두 안정되는 것은 <b>4;6~4;11</b>이다. 전사본에서도 이유(-아서) 5회, 나열(-고) 3회로 잦다. → §Ⅴ'},
+ {q:'「꽃이 피었다」를 <b>학교 문법</b>으로 세면 몇 단어인가?',
+  opts:['2단어','3단어','5단어','1단어'],a:1,
+  fb:'학교 문법은 <b>절충적 체계</b>다 — 조사는 단어로 세고 어미는 세지 않는다. 「꽃 / 이 / 피었다」로 3단어다. 분석적 체계면 5단어, 종합적 체계면 2단어가 된다. → §Ⅵ'},
+ {q:'세 체계 중 <b>가장 일관되지만</b> 학교 문법이 채택하지 않은 것은?',
+  opts:['분석적 체계','종합적 체계','절충적 체계','셋 다 같다'],a:1,
+  fb:'<b>종합적 체계</b>다. 「홀로 못 쓰이는 것은 단어가 아니다」라는 <b>하나의 기준</b>을 조사와 어미에 똑같이 적용한다. 반면 절충적 체계는 둘 다 홀로 못 쓰이는데 조사만 단어로 세므로 덜 일관된다. → §Ⅵ'},
+ {q:'주격조사 「가」 14회, 「이」 4회를 <b>따로 세는 것</b>의 문제는?',
+  opts:['계산이 복잡해서','둘은 앞말 받침으로 갈리는 이형태라 아동의 문법에 대해 말해 주는 바가 없다','「이」가 더 어려운 조사라서','문어와 구어가 달라서'],a:1,
+  fb:'{이/가}는 <b>앞말의 받침 유무</b>로 갈린다. 「가」가 세 배 많다는 것은 앞에 온 명사가 어떤 소리로 끝났는지를 말할 뿐이다. 묶으면 <b>주격 18회</b>가 되고, 그래야 목적격 3회와 비교할 수 있다. → §Ⅶ'},
+ {q:'전사본에서 <b>주어 자리 생략률 21.7%, 목적어 자리 80.0%</b>다. 이 차이의 설명으로 가장 적절한 것은?',
+  opts:['아동이 목적격 조사를 모른다','목적격 조사는 어순과 맥락으로 복원되므로 더 잘 생략된다','전사가 잘못되었다','목적어가 더 어려운 개념이라서'],a:1,
+  fb:'한국어는 서술어 바로 앞이 목적어일 가능성이 높아 <b>조사 없이도 복원</b>된다. 반면 주어는 새 인물을 도입하는 자리라 표시가 필요할 때가 많다. 다만 이것은 설명이지 규칙이 아니다 — <b>맥락을 봐야 한다.</b> → §임상'},
+ {q:'같은 36개월 아동의 목적격 조사 산출률이 연구마다 77.5%와 46.6%로 다르다. 왜인가?',
+  opts:['아동 집단이 달라서','방법이 달라서 — 부모 보고와 구조화된 산출 과제','시대가 달라서','통계 오류'],a:1,
+  fb:'이희란 외(2008)는 <b>어머니가 체크리스트에 표시</b>한 것이고, 이순형(2000)은 <b>아동에게 그림을 보고 직접 말하게</b> 한 것이다. 저자들 스스로 어머니의 과잉평가 가능성을 밝힌다. <b>규준을 인용할 때는 방법을 함께 인용해야 한다.</b> → §임상'},
+ {q:'아동 발화에서 조사 생략을 평가할 때 <b>가장 먼저</b> 할 일은?',
+  opts:['전체 생략률을 계산한다','격별로 따로 생략률을 낸다','생략 횟수를 센다','또래와 비교한다'],a:1,
+  fb:'전사본에서 주어 자리 21.7%, 목적어 자리 80.0%였다. <b>합치면 44.7%인데 그 수치는 아무것도 말해 주지 않는다.</b> 격에 따라 생략의 성질이 다르므로 따로 봐야 한다. → §임상'}
+]);
+
+/* ===== 스크롤 스파이 ===== */
+const navLinks=[...document.querySelectorAll('.nav-link')].filter(a=>document.querySelector(a.getAttribute('href')));
+const navSecs=navLinks.map(a=>document.querySelector(a.getAttribute('href')));
+function spy(){
+  let cur=0;
+  navSecs.forEach((s,i)=>{if(s.getBoundingClientRect().top<250)cur=i;});
+  navLinks.forEach((a,i)=>a.classList.toggle('active',i===cur));
+}
+window.addEventListener('scroll',spy);spy();
+</script>
+
+</body>
+</html>

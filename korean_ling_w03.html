@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>말과 글 — 한국어학 제3주</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Noto+Serif+KR:wght@300;400;500;600;700;900&family=Noto+Sans+KR:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1a1814;
+  --paper:#f5f1e8;
+  --paper-warm:#ede5d3;
+  --accent:#1e4a7a;        /* deep blue — BLOCK A */
+  --accent-soft:#7da3c4;
+  --moss:#4a5d3a;
+  --terracotta:#c85a3e;
+  --rule:#1a181433;
+  --highlight:#e8b647;
+  --serif:'Noto Serif KR','Fraunces',Georgia,serif;
+  --sans:'Noto Sans KR',sans-serif;
+  --mono:'JetBrains Mono',monospace;
+  --ipa:'Charis SIL','Doulos SIL','Noto Sans',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--serif);background:var(--paper);color:var(--ink);
+  line-height:1.75;font-size:16px;
+  background-image:
+    radial-gradient(circle at 20% 30%, #00000008 1px, transparent 1px),
+    radial-gradient(circle at 80% 70%, #00000008 1px, transparent 1px);
+  background-size:40px 40px,60px 60px;
+}
+.masthead{border-bottom:3px double var(--ink);padding:1.8rem 3rem 1.3rem;background:rgba(245,241,232,.95);position:sticky;top:0;z-index:100;backdrop-filter:blur(8px)}
+.masthead-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:auto 1fr auto;gap:2rem;align-items:end}
+.issue-tag{font-family:var(--mono);font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);border:1px solid var(--accent);padding:.3rem .6rem;align-self:start}
+.title-block h1{font-weight:900;font-size:clamp(1.9rem,4.6vw,3.3rem);line-height:.98;letter-spacing:-.02em}
+.title-block .subtitle{font-style:italic;font-weight:300;font-size:1rem;margin-top:.5rem;opacity:.7}
+.meta-info{text-align:right;font-family:var(--mono);font-size:.7rem;line-height:1.6;opacity:.7}
+
+.toc-nav{border-bottom:1px solid var(--rule);background:var(--paper-warm);padding:.8rem 3rem;position:sticky;top:141px;z-index:99}
+.toc-nav-inner{max-width:1200px;margin:0 auto;display:flex;gap:.4rem;flex-wrap:wrap;font-family:var(--sans);font-size:.78rem}
+.toc-nav a{color:var(--ink);text-decoration:none;padding:.3rem .7rem;border:1px solid transparent;transition:all .2s;font-weight:500}
+.toc-nav a:hover{border-color:var(--ink);background:var(--paper)}
+.toc-nav a.active{background:var(--ink);color:var(--paper)}
+
+main{max-width:1200px;margin:0 auto;padding:3rem}
+
+.hero{display:grid;grid-template-columns:1.35fr 1fr;gap:3rem;margin-bottom:4rem;align-items:start}
+.hero-text .lead{font-size:1.16rem;line-height:1.95}
+.hero-text .lead::first-letter{float:left;font-size:4.3rem;line-height:.82;font-weight:900;margin:.1rem .6rem 0 0;color:var(--accent)}
+.hero-text p+p{margin-top:1.2rem}
+.hero-aside{background:var(--paper-warm);border:1px solid var(--rule);padding:1.6rem 1.8rem}
+.hero-aside h3{font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem;font-weight:500}
+.hero-aside ol{list-style:none;counter-reset:g}
+.hero-aside li{counter-increment:g;position:relative;padding-left:1.9rem;margin-bottom:.75rem;font-size:.92rem;line-height:1.6}
+.hero-aside li::before{content:counter(g);position:absolute;left:0;top:.2rem;font-family:var(--mono);font-size:.68rem;color:var(--paper);background:var(--accent);width:1.3rem;height:1.3rem;display:flex;align-items:center;justify-content:center;border-radius:50%}
+
+.section{margin-bottom:4.5rem;scroll-margin-top:200px}
+.section-header{border-bottom:2px solid var(--ink);padding-bottom:.6rem;margin-bottom:1.6rem}
+.section-number{font-family:var(--mono);font-size:.72rem;letter-spacing:.16em;color:var(--accent);display:block;margin-bottom:.3rem}
+.section-header h2{font-size:clamp(1.5rem,3vw,2.15rem);font-weight:700;letter-spacing:-.01em}
+.ko-en{font-family:var(--sans);font-size:.8rem;font-weight:400;opacity:.55;margin-left:.6rem}
+.src-badge{display:inline-block;font-family:var(--mono);font-size:.63rem;letter-spacing:.06em;border:1px solid var(--rule);padding:.15rem .45rem;margin:.5rem .3rem 0 0;opacity:.72}
+.src-badge.main{border-color:var(--accent);color:var(--accent)}
+.prose p{margin-bottom:1.2rem}
+.prose h3{font-size:1.24rem;font-weight:700;margin:2.2rem 0 .8rem;padding-left:.7rem;border-left:3px solid var(--accent)}
+em.term{font-style:normal;font-weight:600;border-bottom:2px solid var(--highlight);padding-bottom:1px}
+.ex{font-family:var(--sans);background:var(--paper-warm);padding:.9rem 1.2rem;margin:1.1rem 0;font-size:.93rem;line-height:2}
+.ipa{font-family:var(--ipa)}
+
+.concept-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:1rem;margin:1.8rem 0}
+.concept-card{border:1px solid var(--rule);padding:1.2rem;background:#fff9;transition:transform .2s}
+.concept-card:hover{transform:translateY(-3px)}
+.concept-card .card-num{font-family:var(--mono);font-size:.65rem;letter-spacing:.13em;color:var(--accent);display:block;margin-bottom:.45rem}
+.concept-card h4{font-size:1rem;margin-bottom:.15rem}
+.concept-card .ko{font-family:var(--sans);font-size:.72rem;opacity:.55;display:block;margin-bottom:.5rem}
+.concept-card p{font-size:.85rem;line-height:1.62;opacity:.87}
+
+.interactive{background:var(--ink);color:var(--paper);padding:2.1rem 2.3rem;margin:2rem 0;position:relative}
+.interactive::before{content:'';position:absolute;top:8px;left:8px;right:8px;bottom:8px;border:1px solid #f5f1e830;pointer-events:none}
+.interactive h3{font-family:var(--serif);font-size:1.18rem;margin-bottom:.35rem;position:relative}
+.interactive-desc{font-family:var(--sans);font-size:.81rem;opacity:.6;margin-bottom:1.5rem;position:relative}
+.ibody{position:relative}
+.btnrow{display:flex;flex-wrap:wrap;gap:.45rem;margin-bottom:1.3rem}
+.ibtn{font-family:var(--sans);font-size:.8rem;background:transparent;color:var(--paper);border:1px solid #f5f1e850;padding:.4rem .85rem;cursor:pointer;transition:all .18s}
+.ibtn:hover{background:#f5f1e820}
+.ibtn.active{background:var(--paper);color:var(--ink);border-color:var(--paper)}
+.ipanel{min-height:140px;font-size:.9rem;line-height:1.75}
+.ipanel h4{font-size:1.12rem;margin-bottom:.3rem}
+.ipanel .sub{font-family:var(--sans);font-size:.78rem;opacity:.6;margin-bottom:.9rem}
+.ipanel p{margin-bottom:.75rem}
+.ibody .note{font-family:var(--sans);font-size:.82rem;opacity:.75;border-left:2px solid var(--accent-soft);padding-left:.8rem;margin-top:.9rem}
+.igrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem}
+.icell{border:1px solid #f5f1e830;padding:.9rem 1rem}
+.icell b{display:block;font-size:.88rem;margin-bottom:.3rem}
+.icell span{font-size:.82rem;opacity:.78;line-height:1.6}
+.bigform{font-family:var(--sans);font-size:1.4rem;text-align:center;margin:1.2rem 0;letter-spacing:.02em;line-height:1.7}
+.bigform small{display:block;font-size:.78rem;opacity:.55;margin-top:.4rem;letter-spacing:0}
+
+/* 텍스트 표본 */
+.sample{font-family:var(--sans);font-size:.95rem;line-height:2.1;padding:.9rem 1.1rem;border:1px solid #f5f1e828;margin-bottom:.7rem}
+.sample .cw{color:var(--highlight);font-weight:500}
+.sample .cl{border-bottom:1px solid #7da3c470;padding-bottom:1px}
+.metric{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.5rem;margin-top:.6rem}
+.metric div{text-align:center;border:1px solid #f5f1e825;padding:.5rem .3rem}
+.metric b{display:block;font-family:var(--mono);font-size:1.3rem;color:var(--highlight)}
+.metric span{font-size:.68rem;opacity:.6;font-family:var(--sans)}
+
+/* 산점도 */
+.scatsvg{width:100%;height:auto;max-width:560px;display:block;margin:0 auto}
+.scatsvg .pt{cursor:pointer}
+.scatsvg .pt circle{transition:all .15s}
+.scatsvg .pt:hover circle,.scatsvg .pt.on circle{stroke:#f5f1e8;stroke-width:2.5}
+.scatsvg text{font-family:'Noto Sans KR',sans-serif;font-size:11px}
+
+/* 표 */
+.data-table{width:100%;border-collapse:collapse;margin:1.5rem 0;font-size:.85rem}
+.data-table th{font-family:var(--mono);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;text-align:left;padding:.6rem .7rem;border-bottom:2px solid var(--ink);font-weight:500}
+.data-table td{padding:.6rem .7rem;border-bottom:1px solid var(--rule);vertical-align:top;line-height:1.55}
+.data-table tr:hover td{background:var(--paper-warm)}
+.data-table .ko{font-weight:600}
+
+.callout{border-left:3px solid var(--accent);background:var(--paper-warm);padding:1.2rem 1.5rem;margin:1.7rem 0}
+.callout-label{font-family:var(--mono);font-size:.65rem;letter-spacing:.13em;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:.5rem}
+.callout p{font-size:.92rem;line-height:1.78;margin-bottom:.7rem}
+.callout p:last-child{margin-bottom:0}
+.callout.clinical{border-left-color:var(--moss)}
+.callout.clinical .callout-label{color:var(--moss)}
+.callout.warning{border-left-color:var(--terracotta)}
+.callout.warning .callout-label{color:var(--terracotta)}
+
+.quiz-item{border:1px solid var(--rule);padding:1.1rem 1.3rem;margin-bottom:.9rem;background:#fff9}
+.quiz-q{font-size:.97rem;margin-bottom:.75rem;line-height:1.7}
+.quiz-q .num{font-family:var(--mono);font-size:.7rem;color:var(--accent);margin-right:.5rem}
+.quiz-opts{display:flex;flex-wrap:wrap;gap:.4rem}
+.quiz-opt{font-family:var(--sans);font-size:.82rem;background:var(--paper);border:1px solid var(--rule);padding:.35rem .8rem;cursor:pointer;transition:all .16s;color:var(--ink)}
+.quiz-opt:hover{border-color:var(--ink)}
+.quiz-opt.correct{background:var(--moss);color:var(--paper);border-color:var(--moss)}
+.quiz-opt.wrong{background:var(--terracotta);color:var(--paper);border-color:var(--terracotta)}
+.quiz-opt:disabled{cursor:default}
+.quiz-fb{font-family:var(--sans);font-size:.85rem;line-height:1.7;margin-top:.75rem;padding-top:.7rem;border-top:1px dotted var(--rule);display:none}
+.quiz-fb.show{display:block;animation:fade .3s}
+@keyframes fade{from{opacity:0;transform:translateY(-3px)}to{opacity:1;transform:none}}
+.quiz-score{font-family:var(--mono);font-size:.8rem;padding:.7rem 1rem;background:var(--paper-warm);border:1px solid var(--rule);margin-top:1rem}
+
+.lab{border:2px solid var(--ink);padding:0;margin:2rem 0}
+.lab-head{background:var(--ink);color:var(--paper);padding:1.1rem 1.6rem}
+.lab-head .tag{font-family:var(--mono);font-size:.65rem;letter-spacing:.14em;color:var(--highlight);display:block;margin-bottom:.25rem}
+.lab-head h3{font-size:1.25rem;font-weight:700}
+.lab-head p{font-family:var(--sans);font-size:.83rem;opacity:.72;margin-top:.35rem}
+.lab-body{padding:1.6rem}
+.worksheet{width:100%;border-collapse:collapse;font-size:.88rem;margin:1.2rem 0}
+.worksheet th,.worksheet td{border:1px solid var(--rule);padding:.5rem .6rem;text-align:left}
+.worksheet th{font-family:var(--mono);font-size:.62rem;letter-spacing:.08em;background:var(--paper-warm);font-weight:500}
+.worksheet td.w{font-family:var(--sans);width:26%}
+.worksheet input{width:100%;font-family:var(--sans);font-size:.88rem;border:none;background:transparent;color:var(--ink);padding:.15rem}
+.worksheet input:focus{outline:1px solid var(--accent)}
+
+.mini-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:1rem;margin:1.6rem 0}
+.mini{border:1px solid var(--rule);padding:1.1rem 1.2rem;background:#fff9;transition:transform .2s}
+.mini:hover{transform:translateY(-3px)}
+.mini h5{font-size:.98rem;margin-bottom:.4rem}
+.mini .mtag{font-family:var(--mono);font-size:.63rem;letter-spacing:.1em;color:var(--accent);display:block;margin-bottom:.35rem}
+.mini p{font-size:.83rem;line-height:1.62;opacity:.87}
+
+.fig{margin:1.8rem 0;text-align:center}
+.fig svg{max-width:100%;height:auto}
+.fig figcaption{font-family:var(--sans);font-size:.78rem;opacity:.6;margin-top:.7rem}
+
+.week-nav{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:3.5rem;padding-top:2rem;border-top:1px solid var(--rule)}
+.week-nav div{border:1px solid var(--rule);padding:1.1rem 1.3rem;background:#fff9}
+.week-nav .lbl{font-family:var(--mono);font-size:.63rem;letter-spacing:.13em;color:var(--accent);display:block;margin-bottom:.35rem}
+.week-nav b{font-size:1rem;display:block;margin-bottom:.25rem}
+.week-nav p{font-size:.83rem;opacity:.75;line-height:1.6}
+
+footer{border-top:3px double var(--ink);margin-top:4rem;padding:2.5rem 3rem 3.5rem}
+.colophon{max-width:640px;margin:0 auto;text-align:center;font-size:.82rem;line-height:1.9;opacity:.72}
+.colophon .mono{font-family:var(--mono);font-size:.7rem;letter-spacing:.08em}
+.colophon .epigraph{font-style:italic;margin-top:1.2rem;opacity:.8}
+
+@media(max-width:900px){
+  .masthead,.toc-nav,main,footer{padding-left:1.4rem;padding-right:1.4rem}
+  .masthead-inner{grid-template-columns:1fr;gap:.8rem}
+  .meta-info{text-align:left}
+  .toc-nav{position:static}
+  .hero{grid-template-columns:1fr;gap:2rem}
+  .week-nav{grid-template-columns:1fr}
+  .interactive{padding:1.5rem 1.2rem}
+  .lab-head,.lab-body{padding-left:1.2rem;padding-right:1.2rem}
+  .metric{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <span class="issue-tag">제03주 · BLOCK A</span>
+    <div class="title-block">
+      <h1>말과 글</h1>
+      <p class="subtitle"><em>Two Media, Two Grammars</em> — 구어는 단순한 것이 아니라 다르게 복잡하다</p>
+    </div>
+    <div class="meta-info">
+      나사렛대학교<br>언어치료학과<br>학부 과정<br>개론서 05·12장 · 이봉원 15장
+    </div>
+  </div>
+</header>
+
+<nav class="toc-nav">
+  <div class="toc-nav-inner">
+    <a href="#intro" class="nav-link">들어가며</a>
+    <a href="#media" class="nav-link">§Ⅰ 두 매체의 조건</a>
+    <a href="#levels" class="nav-link">§Ⅱ 층위별 대비</a>
+    <a href="#complexity" class="nav-link">§Ⅲ 두 가지 복잡성</a>
+    <a href="#beyond" class="nav-link">§Ⅳ 이분법을 넘어서</a>
+    <a href="#script" class="nav-link">§Ⅴ 글자는 소리를 어떻게 적는가</a>
+    <a href="#transcribe" class="nav-link">§Ⅵ 전사</a>
+    <a href="#lab" class="nav-link">분석 실습실</a>
+    <a href="#clinical" class="nav-link">임상 적용</a>
+    <a href="#check" class="nav-link">확인 문제</a>
+    <a href="#refs" class="nav-link">참고 문헌</a>
+  </div>
+</nav>
+
+<main>
+
+<!-- ============ 들어가며 ============ -->
+<section id="intro" class="section">
+  <div class="hero">
+    <div class="hero-text">
+      <p class="lead">지난주에는 소리를 다뤘다. 오늘은 그 맞은편, 그 소리를 <strong>적어 놓은 것</strong>을 다룬다. 그런데 이 주차의 목적은 문자 지식을 늘리는 데 있지 않다. 훨씬 실용적인 데 있다 — <strong>여러분이 앞으로 열두 주 동안 분석할 자료가 구어</strong>이기 때문이다.</p>
+
+      <p>학교에서 배운 문법은 거의 전부 <strong>문어를 대상으로 만들어진 것</strong>이다. 완결된 문장, 갖춰진 성분, 정돈된 접속. 그런데 아동의 발화는 그렇게 생기지 않았다. 문장이 끝나지 않고, 조사가 빠지고, 같은 말이 반복되고, "어… 그 뭐냐"가 끼어든다.</p>
+
+      <p>이때 가장 흔한 실수가 <strong>구어를 「망가진 문어」로 읽는 것</strong>이다. 그러면 정상적인 구어의 성질이 전부 결함으로 잡힌다. 오늘 배울 것은 그 실수를 막는 장치다. 요점은 한 문장으로 줄어든다 — <strong>구어는 문어보다 단순한 것이 아니라, 다르게 복잡하다.</strong> 그리고 그 "다르게"를 오늘 <strong>수치로 확인</strong>할 것이다.</p>
+    </div>
+
+    <aside class="hero-aside">
+      <h3>이번 주 학습 목표</h3>
+      <ol>
+        <li>두 매체의 <strong>물리적 조건</strong>이 언어 형식에 어떤 결과를 낳는지 설명한다</li>
+        <li>구어와 문어의 차이를 <strong>음운·형태·통사·어휘·담화</strong> 층위로 나누어 기술한다</li>
+        <li><strong>어휘 밀도</strong>와 <strong>문법적 복잡성</strong>을 계산하고 두 판본을 비교한다</li>
+        <li>구어/문어가 <strong>이분이 아니라 다차원</strong>임을 사용역의 예로 설명한다</li>
+        <li>문자 체계의 유형을 알고 <strong>한글의 설계 원리</strong>를 조음 지식과 연결한다</li>
+        <li><strong>정서법의 깊이</strong>가 무엇이며 한국어가 어디에 있는지 판정한다</li>
+        <li>전사가 <strong>기록이 아니라 변환</strong>임을 알고 수준을 골라 쓴다</li>
+      </ol>
+    </aside>
+  </div>
+
+  <div class="callout warning">
+    <span class="callout-label">이 주차 끝에 전사본을 배부합니다</span>
+    <p>학기 내내 쓸 <strong>아동 발화 전사본</strong>을 오늘 받습니다. 4주차에 형태소를 나누고 MLU를 산출하고, 7~9주차에 품사와 조사·어미를 태깅하고, 10~11주차에 성분과 복문을 분석하고, 14주차에 담화표지를 표시합니다. <strong>같은 자료가 층위를 바꿔 가며 여섯 번 다시 보이는 것</strong>이 이 과목의 핵심 경험입니다.</p>
+    <p>그 자료를 받기 전에 오늘 반드시 짚어야 할 것이 있습니다 — <strong>전사본은 「사실」이 아니라 이미 한 번 해석된 자료</strong>라는 것. 누군가가 무엇을 남기고 무엇을 버릴지 결정한 결과입니다. §Ⅵ에서 그 결정의 무게를 다룹니다.</p>
+  </div>
+</section>
+
+<!-- ============ §Ⅰ ============ -->
+<section id="media" class="section">
+  <div class="section-header">
+    <span class="section-number">§ Ⅰ</span>
+    <h2>두 매체의 조건<span class="ko-en">The Conditions of Each Medium</span></h2>
+    <span class="src-badge main">개론서 05장 「문어와 구어」 절</span>
+  </div>
+
+  <div class="prose">
+    <p>구어와 문어의 차이는 <strong>취향이나 격식의 문제가 아니다.</strong> 두 매체가 놓인 물리적·상황적 조건이 다르고, 그 조건이 언어 형식을 밀어붙인 결과다. 그러니 조건부터 정리하는 것이 순서다.</p>
+  </div>
+
+  <div class="interactive">
+    <h3>조건이 형식을 만든다</h3>
+    <p class="interactive-desc">조건을 하나씩 눌러 보세요. 그 조건이 <strong>언어 형식에 어떤 결과</strong>를 낳는지 보여 줍니다. 이것이 §Ⅱ 층위별 대비의 원인 설명이 됩니다.</p>
+    <div class="ibody">
+      <div class="btnrow" id="cond-btns"></div>
+      <div class="ipanel" id="cond-panel"></div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <span class="callout-label">한 가지 단서 — 조건은 매체에 고정되어 있지 않다</span>
+    <p>위의 조건들은 <strong>전형적인</strong> 구어와 <strong>전형적인</strong> 문어를 상정한 것이다. 그런데 실시간 채팅은 글이면서도 즉각적 피드백이 있고, 낭독은 말이면서도 미리 계획되고 수정된 것이다.</p>
+    <p>즉 <strong>매체가 조건을 완전히 결정하지는 않는다.</strong> 이 점이 §Ⅳ에서 이분법을 흔드는 근거가 된다. 지금은 전형적인 경우부터 보자.</p>
+  </div>
+</section>
+
+<!-- ============ §Ⅱ ============ -->
+<section id="levels" class="section">
+  <div class="section-header">
+    <span class="section-number">§ Ⅱ</span>
+    <h2>층위별 대비<span class="ko-en">Level by Level</span></h2>
+    <span class="src-badge main">개론서 05장 · 02장</span>
+    <span class="src-badge">1주차에서 그린 다섯 층위를 도구로</span>
+  </div>
+
+  <div class="prose">
+    <p>이제 <strong>1주차에 그린 언어학의 층위</strong>를 그대로 도구로 쓴다. 구어와 문어가 어느 층위에서 어떻게 갈리는지 하나씩 본다. 이렇게 나누어 보는 훈련 자체가 이 과목이 가르치려는 것이다 — "말투가 다르다"가 아니라 <strong>"어느 층위에서 무엇이 다른가"</strong>로 말하는 법.</p>
+  </div>
+
+  <div class="interactive">
+    <h3>층위별 대비 탐색기</h3>
+    <p class="interactive-desc">층위를 골라 보세요. 같은 기능을 구어와 문어가 각각 어떤 수단으로 처리하는지 대조합니다.</p>
+    <div class="ibody">
+      <div class="btnrow" id="lv-btns"></div>
+      <div class="ipanel" id="lv-panel"></div>
+    </div>
+  </div>
+
+  <div class="callout clinical">
+    <span class="callout-label">임상 연결 — 무엇을 오류로 셀 것인가</span>
+    <p>위의 대비를 알아야 <strong>오류와 구어의 정상적 성질을 가를 수 있다.</strong> 아동의 발화에서 다음이 나타났다고 하자.</p>
+    <p>· 조사가 빠졌다 → 구어에서 <strong>매우 흔한 생략</strong>이다(9주차에서 본격적으로)<br>
+       · 같은 말을 두 번 했다 → 구어의 <strong>정상적인 반복</strong>일 수 있다<br>
+       · "어… 그러니까"가 끼어들었다 → <strong>담화표지</strong>다. 14주차에 분석할 자료이지 군말이 아니다<br>
+       · 문장을 끝맺지 않았다 → 발화 단위를 <strong>문장으로 잡은 것이 잘못</strong>일 수 있다(4주차 발화 구분)</p>
+    <p>물론 이 중 어떤 것은 진짜 문제일 수 있다. 요점은 <strong>둘을 구별하려면 구어의 정상 상태를 먼저 알아야 한다</strong>는 것이다.</p>
+  </div>
+</section>
+
+<!-- ============ §Ⅲ ============ -->
+<section id="complexity" class="section">
+  <div class="section-header">
+    <span class="section-number">§ Ⅲ</span>
+    <h2>두 가지 복잡성<span class="ko-en">Two Kinds of Complexity</span></h2>
+    <span class="src-badge">보강 — Halliday(1985)</span>
+  </div>
+
+  <div class="prose">
+    <p>여기가 이 주차의 중심이다. 흔히 <strong>"구어는 단순하고 문어는 복잡하다"</strong>고 말한다. 언어학자 <strong>할리데이</strong>(M. A. K. Halliday)는 이 통념을 정면으로 반박했다. 둘 다 복잡한데 <strong>복잡한 방식이 다르다</strong>는 것이다.</p>
+
+    <div class="concept-grid">
+      <div class="concept-card">
+        <span class="card-num">문어의 복잡성</span>
+        <h4>어휘 밀도</h4>
+        <span class="ko">lexical density</span>
+        <p>절 하나에 <strong>내용어를 많이 담는다.</strong> 명사구가 길어지고 정보가 압축된다. 계산은 <strong>내용어 수 ÷ 절 수</strong>.</p>
+      </div>
+      <div class="concept-card">
+        <span class="card-num">구어의 복잡성</span>
+        <h4>문법적 복잡성</h4>
+        <span class="ko">grammatical intricacy</span>
+        <p>절이 <strong>길게 얽혀 흐른다.</strong> 하나하나는 단순하지만 그것들이 이어지는 방식이 복잡하다. 계산은 <strong>절의 수와 연결 관계</strong>.</p>
+      </div>
+      <div class="concept-card">
+        <span class="card-num">할리데이의 비유</span>
+        <h4>안무와 결정</h4>
+        <span class="ko">choreographic vs. crystalline</span>
+        <p>"구어의 복잡성은 <strong>안무(按舞)</strong> 같다 — <strong>움직임의 얽힘</strong>. 문어의 복잡성은 <strong>결정(結晶)</strong> 같다 — <strong>물질의 조밀함</strong>."</p>
+      </div>
+    </div>
+
+    <p>말이 추상적으로 들린다면, 직접 세어 보는 것이 가장 빠르다. 같은 내용을 말로 한 판본과 글로 쓴 판본을 놓고 계산해 보자.</p>
+  </div>
+
+  <div class="interactive">
+    <h3>어휘 밀도 계산기</h3>
+    <p class="interactive-desc">같은 내용의 <strong>구어판과 문어판</strong>입니다. <span style="color:#e8b647">노란 글자</span>가 내용어, <span style="border-bottom:1px solid #7da3c4">밑줄</span>이 절의 경계입니다. 어느 쪽이 절이 많고 어느 쪽이 절당 내용어가 많은지 확인하세요.</p>
+    <div class="ibody">
+      <div class="btnrow" id="ld-btns"></div>
+      <div id="ld-out"></div>
+      <div class="ipanel" id="ld-panel" style="margin-top:1rem"></div>
+    </div>
+  </div>
+
+  <div class="callout warning">
+    <span class="callout-label">한국어에서 어휘 밀도를 잴 때의 주의</span>
+    <p>할리데이의 원래 논의는 영어를 대상으로 한 것이고, "전체 단어 중 내용어의 비율"로 재는 방식도 널리 쓰인다(영어 문어는 대체로 40% 이상, 구어는 그 아래로 보고된다).</p>
+    <p>그런데 <strong>한국어에 그 비율식을 그대로 쓰면 곤란하다.</strong> 교착어라 조사와 어미가 줄줄이 붙는데, 그것들을 <strong>단어로 셀 것인지 아닌지에 따라 비율이 크게 흔들리기</strong> 때문이다. 이것은 1주차에서 본 "조사를 단어로 볼 것인가" 문제이고 9주차에서 다시 다룬다.</p>
+    <p>그래서 이 과목은 <strong>비율식이 아니라 할리데이의 원래 정의 — 절당 내용어 수 —</strong> 를 쓴다. 절의 수는 어절 정의와 무관하게 셀 수 있으므로 훨씬 안정적이다.</p>
+    <p>이 문제, 어디서 본 것 같지 않은가. <strong>영어권에서 만들어진 지표를 한국어에 옮길 때 무엇을 조심해야 하는가</strong> — 4주차 MLU와 11주차 C-unit에서 똑같은 일이 벌어진다.</p>
+  </div>
+</section>
+
+<!-- ============ §Ⅳ ============ -->
+<section id="beyond" class="section">
+  <div class="section-header">
+    <span class="section-number">§ Ⅳ</span>
+    <h2>이분법을 넘어서<span class="ko-en">Beyond the Dichotomy</span></h2>
+    <span class="src-badge">열린 쟁점 — Biber(1988)</span>
+  </div>
+
+  <div class="prose">
+    <p>지금까지 구어와 문어를 나란히 놓고 대조했다. 그런데 <strong>이 이분법 자체가 얼마나 튼튼한가?</strong></p>
+
+    <p>강연은 말이지만 글에 가깝다. 실시간 채팅은 글이지만 말에 가깝다. 낭독은 말인데 원고는 글이다. 그렇다면 "구어의 특징"이라고 한 것들은 <strong>말이라서</strong> 그런가, 아니면 <strong>즉흥적이고 대면적이라서</strong> 그런가?</p>
+
+    <p><strong>더글러스 바이버</strong>(D. Biber)는 1988년에 이 물음을 실증으로 다뤘다. 영어의 말과 글 스물세 갈래를 모아 수십 개의 언어적 특징이 어떻게 함께 나타나는지 통계로 분석했더니, <strong>여섯 개의 차원</strong>이 드러났다. 그중 가장 강한 첫 번째 차원이 <em class="term">관여 대 정보</em>(involved vs. informational)다 — 대명사와 동사가 많은 쪽과, 명사와 명사 수식어가 많은 쪽.</p>
+
+    <p>핵심은 결론이다. <strong>어느 차원도 말과 글을 깨끗이 가르지 못했다.</strong> 각 갈래는 차원마다 다른 자리에 놓였고, 말과 글은 겹쳤다.</p>
+  </div>
+
+  <div class="interactive">
+    <h3>사용역 스펙트럼</h3>
+    <p class="interactive-desc">점을 눌러 보세요. <span style="color:#e8b647">노란 점</span>은 말, <span style="color:#7da3c4">파란 점</span>은 글입니다. 두 색이 <strong>섞여 있다</strong>는 것이 이 그림의 요점입니다. 좌표는 Biber의 논의를 학부 수준으로 단순화한 모식도입니다.</p>
+    <div class="ibody">
+      <div id="reg-fig" class="fig" style="margin:0 0 1rem"></div>
+      <div class="ipanel" id="reg-panel"></div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <span class="callout-label">그래서 무엇이 남는가</span>
+    <p>이분법이 무너졌다고 해서 §Ⅱ·§Ⅲ이 쓸모없어지는 것은 아니다. <strong>남는 것과 버릴 것이 갈릴 뿐이다.</strong></p>
+    <p><strong>버릴 것</strong> — "말은 이렇고 글은 이렇다"는 단정. 매체가 곧 형식을 정한다는 생각.<br>
+       <strong>남을 것</strong> — 층위별로 나누어 기술하는 방법, 어휘 밀도와 절 수라는 지표, 그리고 <strong>조건이 형식을 만든다</strong>는 §Ⅰ의 통찰. 매체가 아니라 <strong>즉흥성·대면성·계획 가능성</strong>이 진짜 변수였던 것이다.</p>
+    <p>그러니 정확한 물음은 "이건 구어인가 문어인가"가 아니라 <strong>"이 자료는 어떤 조건에서 산출되었는가"</strong>다. 이 물음이 15주차 사용역·변이 논의로 이어진다.</p>
+  </div>
+
+  <div class="callout clinical">
+    <span class="callout-label">임상 연결 — 검사 상황도 하나의 사용역이다</span>
+    <p>아동이 검사실에서 낯선 어른과 마주 앉아 산출한 발화와, 집에서 엄마와 놀며 산출한 발화는 <strong>같은 아이의 말이지만 다른 사용역</strong>이다. 앞의 것이 뒤의 것보다 짧고 단순한 것은 능력의 차이가 아니라 <strong>조건의 차이</strong>일 수 있다.</p>
+    <p>자발화 표본을 수집할 때 <strong>어디서 누구와 무엇을 하며 모았는지를 기록해야 하는 이유</strong>가 여기 있다. 4주차에서 표본 수집을 다룰 때 이 문제를 다시 만난다.</p>
+  </div>
+</section>
+
+<!-- ============ §Ⅴ ============ -->
+<section id="script" class="section">
+  <div class="section-header">
+    <span class="section-number">§ Ⅴ</span>
+    <h2>글자는 소리를 어떻게 적는가<span class="ko-en">Writing Systems</span></h2>
+    <span class="src-badge main">개론서 12장 1절 「우리말 표기 방법의 변화」</span>
+  </div>
+
+  <div class="prose">
+    <p>이제 문자 자체를 본다. 문자는 <strong>언어의 어느 단위를 하나의 기호에 대응시키는가</strong>에 따라 유형이 갈린다.</p>
+  </div>
+
+  <div class="interactive">
+    <h3>문자 체계의 유형</h3>
+    <p class="interactive-desc">유형을 눌러 보세요. 무엇을 한 기호에 담는지, 그래서 기호가 몇 개나 필요한지를 보여 줍니다.</p>
+    <div class="ibody">
+      <div class="btnrow" id="ws-btns"></div>
+      <div class="ipanel" id="ws-panel"></div>
+    </div>
+  </div>
+
+  <div class="prose">
+    <h3>한글 이전 — 남의 문자로 내 말을 적으려 한 천 년</h3>
+    <p>한글이 만들어지기 전에도 <strong>한국어를 적으려는 시도는 있었다.</strong> 다만 쓸 수 있는 문자가 한자뿐이었다. 그래서 <strong>한자의 소리를 빌리거나 뜻을 빌려</strong> 한국어를 적었다. 이것을 통틀어 <em class="term">차자 표기</em>(借字表記)라 한다.</p>
+
+    <table class="data-table">
+      <thead>
+        <tr><th style="width:16%">이름</th><th style="width:34%">무엇을 적었나</th><th>어떤 자료에 남았나</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="ko">이두<br><span style="font-weight:400;opacity:.55;font-size:.78rem">吏讀</span></td>
+          <td>한문 문장의 <strong>어순을 한국어로 바꾸고</strong> 조사·어미를 한자로 채워 넣음</td>
+          <td>공문서·법률 문서. 조선 후기까지 실무에서 쓰임</td>
+        </tr>
+        <tr>
+          <td class="ko">구결<br><span style="font-weight:400;opacity:.55;font-size:.78rem">口訣</span></td>
+          <td>한문은 그대로 두고 <strong>읽을 때 필요한 조사·어미만</strong> 작은 글자로 끼워 넣음</td>
+          <td>불경·경서의 여백. 한문을 읽기 위한 보조 장치</td>
+        </tr>
+        <tr>
+          <td class="ko">향찰<br><span style="font-weight:400;opacity:.55;font-size:.78rem">鄕札</span></td>
+          <td>한국어 문장을 <strong>통째로</strong> 적으려 함. 실질 부분은 뜻을, 문법 부분은 소리를 빌림</td>
+          <td>향가 25수(『삼국유사』 14수, 『균여전』 11수)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>세 가지는 <strong>한국어를 적는 정도</strong>가 다르다. 구결은 한문을 읽기 위한 보조이고, 이두는 실무 문서의 문체이며, 향찰은 <strong>한국어 문장 전체를 적으려는 가장 야심찬 시도</strong>였다.</p>
+
+    <div class="ex">
+      <strong>善化公主主隱</strong> &nbsp;<span style="opacity:.55">「서동요」 첫 구</span><br>
+      <span style="opacity:.85">善化公主 — <b>음독</b>(한자음 그대로 「선화공주」) &nbsp;·&nbsp; 主 — <b>훈독</b>(뜻을 빌림 → 「님」) &nbsp;·&nbsp; 隱 — <b>음차</b>(소리만 빌림 → 「은」)</span><br>
+      <span style="opacity:.6;font-size:.86rem">→ 「선화공주님은」</span>
+    </div>
+
+    <p>한자를 쓰는 방식이 <strong>셋</strong>이라는 데 주목하라. <strong>음독</strong>은 한자어를 그 한자음으로 읽는 것이고, <strong>훈독</strong>은 한자의 뜻에 해당하는 고유어로 읽는 것이며, <strong>음차</strong>는 뜻을 버리고 소리만 빌리는 것이다. 향찰의 원칙은 대체로 <strong>실질적인 부분은 훈독, 문법적인 부분은 음차</strong>이고, 한자어 고유명사는 음독한다.</p>
+
+    <div class="callout warning">
+      <span class="callout-label">향찰의 읽는 법은 지금도 확정되지 않았다</span>
+      <p>위의 풀이는 <strong>가장 널리 받아들여지는 해독</strong>일 뿐이다. 향가 25수의 해독은 백 년 넘게 이어져 왔고 지금도 연구자마다 다르다. 어떤 구절은 <strong>해독안이 열 가지가 넘는다.</strong></p>
+      <p>왜 이렇게 어려운가. ① 같은 한자가 <strong>뜻으로 읽히는지 소리로 읽히는지</strong> 표시가 없다. ② 당시의 한국어가 어떤 소리였는지를 <strong>그 표기 자체로부터 추정</strong>해야 하는데, 그 추정에 다시 그 표기를 근거로 쓰게 된다. ③ 자료가 25수뿐이라 검증할 대조군이 없다.</p>
+      <p><strong>이것이 이 절의 요점이다.</strong> 남의 문자를 빌려 쓰면 <strong>읽는 사람이 무엇을 빌린 것인지 매번 알아맞혀야 한다.</strong> 문자와 언어가 맞지 않을 때 치르는 비용이 바로 이것이고, 훈민정음 서문의 「제 뜻을 펴지 못하는 사람이 많다」는 말은 이 비용을 가리킨 것이다.</p>
+    </div>
+
+    <h3>한글 — 소리의 구조를 글자의 구조로</h3>
+    <p>한글이 특별한 것은 자모를 쓴다는 점이 아니다. 로마자도 자모 문자다. 특별한 것은 <strong>글자의 모양이 소리의 성질을 반영한다</strong>는 점이다.</p>
+
+    <p>지난주에 배운 것을 떠올려 보자. 조음 위치가 다섯이었다 — 양순·치조·경구개·연구개·성문. 훈민정음의 기본 자음 다섯 글자도 <strong>조음 기관의 모양을 본뜬 것</strong>이다(혀뿌리가 목구멍을 막는 모양, 혀가 윗잇몸에 닿는 모양, 입 모양, 이 모양, 목구멍 모양). 그리고 같은 자리에서 나는 소리들은 <strong>획을 더해</strong> 만들었다.</p>
+
+    <div class="ex">
+      ㄱ(어금닛소리) → <strong>ㅋ</strong> &nbsp;&nbsp;·&nbsp;&nbsp; ㄴ(혓소리) → <strong>ㄷ</strong> → <strong>ㅌ</strong><br>
+      ㅁ(입술소리) → <strong>ㅂ</strong> → <strong>ㅍ</strong> &nbsp;&nbsp;·&nbsp;&nbsp; ㅅ(잇소리) → <strong>ㅈ</strong> → <strong>ㅊ</strong><br>
+      ㅇ(목구멍소리) → <strong>ㆆ</strong> → <strong>ㅎ</strong><br>
+      <span style="opacity:.6;font-size:.86rem">획이 더해질수록 소리가 더 세진다 — 해례본의 표현으로 「厲(려)」하다</span>
+    </div>
+
+    <div class="callout warning">
+      <span class="callout-label">단, 가획만으로 한국어 자음 체계가 다 설명되지는 않는다</span>
+      <p>위에서 <strong>두 번째 가획</strong>(ㄷ→ㅌ, ㅂ→ㅍ, ㅈ→ㅊ, ㄱ→ㅋ)이 2주차의 <strong>평음·격음 대비</strong>다. 그런데 첫 번째 가획은 성격이 다르다 — ㄴ→ㄷ, ㅁ→ㅂ은 <strong>비음에서 평음으로</strong> 가는 것이고, ㅅ→ㅈ은 <strong>마찰음에서 파찰음으로</strong> 가는 것이다.</p>
+      <p>더 중요한 것은 <strong>된소리가 가획으로 만들어지지 않는다</strong>는 점이다. ㄲㄸㅃㅆㅉ는 같은 글자를 나란히 쓰는 <strong>각자병서</strong>로 만든다. 즉 삼지적 대립의 세 번째 항은 <strong>다른 원리로 표시된다.</strong></p>
+      <p>또 <strong>ㆁ·ㄹ·ㅿ은 가획자가 아니라 이체자</strong>다. ㄹ이 ㄴ에 획을 더한 것처럼 보이지만 해례본은 그렇게 설명하지 않는다.</p>
+    </div>
+
+    <div class="callout">
+      <span class="callout-label">훈민정음의 다섯과 오늘날의 다섯은 같은 다섯이 아니다</span>
+      <p>훈민정음의 오음은 <strong>아(牙)·설(舌)·순(脣)·치(齒)·후(喉)</strong>이고, 현대 음성학의 조음 위치는 <strong>양순·치조·경구개·연구개·성문</strong>이다. 둘 다 다섯이지만 하나씩 맞물리지는 않는다 — 훈민정음에 <strong>「경구개」라는 자리는 없고</strong>, 치음(ㅅㅈㅊ)이 오늘날의 치조와 경구개에 걸쳐 있다.</p>
+    </div>
+
+    <p>이렇게 <strong>음소보다 작은 단위(자질)가 글자 모양에 반영된</strong> 문자를 두고, 영국의 문자학자 샘슨(G. Sampson)은 <em class="term">자질 문자</em>(featural writing system)라는 이름을 붙였다. 그가 든 대표 사례가 한글이다.</p>
+
+    <div class="callout warning">
+      <span class="callout-label">다만 "한글은 자질 문자다"라고 단정하지는 말자</span>
+      <p>이 규정에는 이견이 있다. 한글이 실제로 <strong>운용되는</strong> 방식은 자모 문자에 가깝기 때문이다 — 우리는 글자를 읽을 때 획의 구성을 분석하지 않는다. 그래서 <strong>"자질적 설계 원리를 가진 자모 문자"</strong>로 보는 편이 정확하다는 견해가 널리 받아들여진다.</p>
+      <p>덧붙여 한글은 자모를 <strong>음절 단위로 모아쓴다</strong>는 점에서도 특이하다. 자모 문자이면서 음절 문자의 성격을 함께 갖는 셈이다.</p>
+    </div>
+
+    <h3>정서법의 깊이</h3>
+    <p>문자 체계가 정해졌다고 표기가 자동으로 결정되지는 않는다. <strong>같은 문자로도 적는 방식이 갈린다.</strong></p>
+
+    <div class="ex">
+      <strong>소리대로 적기</strong> &nbsp; 꽃이 [꼬치] · 꽃을 [꼬츨] · 꽃도 [꼳또] &nbsp;→&nbsp; 꼬치, 꼬츨, 꼳또<br>
+      <strong>형태를 밝혀 적기</strong> &nbsp;→&nbsp; <strong>꽃</strong>이, <strong>꽃</strong>을, <strong>꽃</strong>도
+    </div>
+
+    <p>앞의 방식은 <em class="term">표음적 표기</em>, 뒤의 방식은 <em class="term">형태음소적 표기</em>다. 소리와 표기가 가까울수록 <strong>얕은 정서법</strong>, 멀수록 <strong>깊은 정서법</strong>이라 한다.</p>
+
+    <p>한국어는 어느 쪽인가. 한글 맞춤법 제1항이 답을 준다 — <strong>"한글 맞춤법은 표준어를 소리대로 적되, 어법에 맞도록 함을 원칙으로 한다."</strong> 두 원리를 <strong>타협시킨 것</strong>이다.</p>
+
+    <p>국제 비교 연구는 한글을 대체로 <strong>얕은 정서법</strong>으로 분류한다 — 자모와 소리의 대응이 매우 규칙적이기 때문이다. 영어와는 비교가 안 되게 얕다. 그러나 순수한 표음 표기와도 다르다. 그래서 한국어 정서법을 <strong>비대칭</strong>이라고 한다 — <strong>읽기에서는 얕고 쓰기에서는 깊다.</strong></p>
+  </div>
+
+  <div class="interactive">
+    <h3>정서법 깊이 스펙트럼</h3>
+    <p class="interactive-desc">언어를 눌러 보세요. 소리와 표기가 얼마나 가까운지, 그것이 읽기 학습에 어떤 결과를 낳는지 보여 줍니다.</p>
+    <div class="ibody">
+      <div class="btnrow" id="dep-btns"></div>
+      <div class="ipanel" id="dep-panel"></div>
+    </div>
+  </div>
+
+  <div class="callout clinical">
+    <span class="callout-label">임상 연결 — 정서법의 깊이와 읽기</span>
+    <p>정서법의 깊이는 <strong>읽기 학습의 속도와 난독증의 발현 양상</strong>에 영향을 준다. 얕은 정서법을 쓰는 언어(핀란드어·이탈리아어)의 아동은 해독을 빨리 익히고, 깊은 정서법(영어)에서는 오래 걸린다.</p>
+    <p>한국어는 비대칭이라 사정이 복잡하다. <strong>낱글자 읽기는 매우 빨리 익히지만</strong>(자모의 규칙성이 높다), '꽃이'를 [꼬치]로 읽으려면 <strong>음운 규칙을 적용할 줄 알아야 한다</strong>. 2주차에 배운 그 규칙들이다.</p>
+    <p>그래서 한국 아동의 읽기 어려움은 <strong>음운 규칙이 적용되는 낱말</strong>('꽃이', '국물')에서 특히 두드러진다. 난독 아동의 해독 오류 중 <strong>「음운변동을 적용하지 않고 글자 그대로 읽는」 유형이 가장 흔하다</strong>고 보고된다. 다만 난독 아동은 <strong>규칙이 적용되지 않는 낱말에서도 또래보다 낮으므로</strong>, 낱글자 단계가 무사하다는 뜻은 아니다 — 격차가 규칙 적용 단계에서 <strong>더 벌어진다</strong>는 뜻이다.</p>
+    <p>자세한 것은 「읽기장애」 관련 과목의 몫이지만, <strong>왜 그런지</strong>는 오늘의 내용으로 설명된다.</p>
+  </div>
+</section>
+
+<!-- ============ §Ⅵ ============ -->
+<section id="transcribe" class="section">
+  <div class="section-header">
+    <span class="section-number">§ Ⅵ</span>
+    <h2>전사 — 두 매체 사이<span class="ko-en">Transcription</span></h2>
+    <span class="src-badge main">이봉원 10장 「발화의 분석 방법」 예고</span>
+  </div>
+
+  <div class="prose">
+    <p>지금까지의 논의가 한 점으로 모이는 자리다. <strong>전사</strong>는 말을 글로 옮기는 작업이다. 즉 <strong>매체를 건너는 일</strong>이고, §Ⅰ에서 본 조건이 통째로 바뀌는 일이다.</p>
+
+    <p>여기서 가장 중요한 인식 하나. <strong>전사는 기록이 아니라 변환이다.</strong> 녹음은 기록이지만 전사는 그렇지 않다. 소리에 있던 것 중 무엇을 남기고 무엇을 버릴지 <strong>사람이 결정</strong>해야 하고, 그 결정이 이후의 분석을 통째로 바꾼다.</p>
+  </div>
+
+  <div class="interactive">
+    <h3>전사 실험 — 같은 발화, 세 가지 수준</h3>
+    <p class="interactive-desc">같은 5초짜리 발화를 세 수준으로 전사했습니다. 수준을 바꿔 가며 <strong>무엇이 나타나고 무엇이 사라지는지</strong> 확인하세요.</p>
+    <div class="ibody">
+      <div class="btnrow" id="tr-btns"></div>
+      <div class="ipanel" id="tr-panel"></div>
+    </div>
+  </div>
+
+  <div class="prose">
+    <h3>전사 기호 — 최소한만</h3>
+    <p>연구와 임상에서 쓰이는 전사 기호 체계는 여럿이고 서로 조금씩 다르다. 이 과목에서는 <strong>다음 정도만</strong> 쓴다. 4주차 실습에서 바로 필요한 것들이다.</p>
+  </div>
+
+  <table class="data-table">
+    <thead><tr><th style="width:14%">기호</th><th style="width:24%">뜻</th><th>왜 필요한가</th></tr></thead>
+    <tbody>
+      <tr><td class="ko">(.)</td><td>짧은 휴지</td><td>발화를 어디서 끊을지 판단하는 근거. 2주차의 억양구 경계와 함께 쓴다.</td></tr>
+      <tr><td class="ko">(2.0)</td><td>2초 정도의 휴지</td><td>긴 휴지는 단어 찾기의 어려움이나 계획의 흔적일 수 있다.</td></tr>
+      <tr><td class="ko">:</td><td>소리 늘임 (아:::)</td><td>망설임과 강조를 구별하는 단서.</td></tr>
+      <tr><td class="ko">↗ ↘</td><td>끝의 억양이 오름/내림</td><td>종결어미가 없을 때 <strong>발화 종결의 유일한 근거</strong>가 되기도 한다.</td></tr>
+      <tr><td class="ko">[ ]</td><td>두 사람의 말이 겹침</td><td>대화 자료에서 말차례를 정리할 때.</td></tr>
+      <tr><td class="ko">( )</td><td>알아듣기 어려운 부분</td><td><strong>추측해서 채워 넣지 않는다.</strong> 모르는 것은 모른다고 적는다.</td></tr>
+      <tr><td class="ko">(( ))</td><td>비언어적 행동</td><td>((웃음)), ((장난감을 가리키며)) — 맥락이 없으면 해석되지 않는 발화가 많다.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout warning">
+    <span class="callout-label">전사에서 가장 흔한 실수 — 아는 대로 적기</span>
+    <p>2주차에서 이미 예고한 문제다. 우리는 <strong>들은 것이 아니라 아는 것을 적는 경향</strong>이 있다. '금은방'을 [그믄빵]이라 들었는데 '금은방'이라 적고, "머 먹었어?"를 들었는데 "뭐 먹었어?"라 적는다.</p>
+    <p>이것이 왜 문제인가. 그 순간 <strong>그 자료에서 알아낼 수 있었던 것이 사라지기</strong> 때문이다. 아동이 '뭐'를 [머]로 산출했다는 사실은 음운 발달의 정보인데, 표준 표기로 적으면 그 정보가 없어진다.</p>
+    <p>그리고 이것은 <strong>고칠 수 없는 종류의 오류</strong>다. 잘못 계산한 것은 다시 계산하면 되지만, <strong>잘못 전사한 자료는 녹음으로 돌아가지 않는 한 되살릴 수 없다.</strong></p>
+  </div>
+</section>
+
+<!-- ============ 분석 실습실 ============ -->
+<section id="lab" class="section">
+  <div class="lab">
+    <div class="lab-head">
+      <span class="tag">분석 실습실 · TYPE 3+4 계량 + 조사 · [제출 과제 1]</span>
+      <h3>내 말과 내 글은 얼마나 다른가</h3>
+      <p>이 과목의 첫 제출 과제입니다. 자료는 여러분 자신의 말입니다.</p>
+    </div>
+    <div class="lab-body">
+      <div class="prose">
+        <p><strong>절차.</strong> 아래 넷을 순서대로 합니다.</p>
+        <p><strong>①</strong> 최근에 있었던 일 하나를 골라 <strong>3분간 말로</strong> 설명하고 녹음합니다. 원고를 쓰지 말고, 친구에게 이야기하듯 하세요.<br>
+           <strong>②</strong> 녹음을 <strong>전사</strong>합니다. §Ⅵ의 기호를 써서, 담화표지와 반복과 자기수정을 <strong>지우지 말고</strong> 그대로 적으세요.<br>
+           <strong>③</strong> 같은 내용을 <strong>글로 다시 씁니다.</strong> 이때 전사본을 보지 말고 처음부터 쓰세요.<br>
+           <strong>④</strong> 두 판본을 아래 표로 계량하고 비교합니다.</p>
+      </div>
+
+      <table class="worksheet">
+        <thead>
+          <tr><th style="width:26%">항목</th><th>구어판 (전사본)</th><th>문어판 (글)</th></tr>
+        </thead>
+        <tbody id="ws-body"></tbody>
+      </table>
+
+      <div class="prose">
+        <p style="font-size:.9rem;opacity:.8"><strong>계산법</strong> — 어휘 밀도 = <strong>내용어 수 ÷ 절 수</strong>.<br>
+        <strong>내용어</strong>는 명사·동사·형용사·부사 중 <strong>어휘적 의미를 지닌 것</strong>만 셉니다. 다음은 세지 않습니다 — 조사·어미, <strong>대명사·지시어</strong>(그거, 거기), <strong>접속부사·담화표지</strong>(그래서, 근데, 어), <strong>부정 부사</strong>(안, 못), <strong>보조용언</strong>(-아/어 주다, -고 있다, -고 나가다), 수사·관형사, 그리고 <strong>형식적으로만 쓰인 용언</strong>(~로 인한, ~에 대한).<br>
+        <strong>절</strong>은 서술어의 수로 세되, <strong>다른 성분 안에 안긴 절은 세지 않습니다</strong>(「~로 인한」, 「~에 대한」, 「지속적인」). 문어의 압축은 절을 명사구 안으로 밀어 넣는 방식으로 일어나므로, 그것까지 세면 압축의 효과가 지워집니다.</p>
+      </div>
+
+      <div class="callout">
+        <span class="callout-label">이어서 쓸 것 — 제출 분량 A4 한 쪽</span>
+        <p><strong>1.</strong> <strong>할리데이의 예측이 자기 자료에서 맞았는가?</strong> 문어판의 어휘 밀도가 더 높고 구어판의 절이 더 많았는가. 맞지 않았다면 왜 그럴지 생각해 보라(원고 없이 말했는가, 글을 얼마나 다듬었는가).</p>
+        <p><strong>2.</strong> 두 판본을 나란히 놓고 <strong>사라진 것과 더해진 것</strong>을 목록으로 만들라. 담화표지·반복·자기수정·억양 정보·문장 경계·생략된 조사 등.</p>
+        <p><strong>3.</strong> §Ⅱ의 <strong>네 층위 중 하나</strong>를 골라, 자기 자료에서 그 층위의 차이가 어떻게 나타났는지 구체적인 예를 들어 기술하라.</p>
+      </div>
+
+      <div class="callout clinical">
+        <span class="callout-label">임상 연결 — 이 실습이 훈련하는 것</span>
+        <p>세 가지입니다. <strong>전사 기술</strong>(다음 주부터 계속 씁니다), <strong>계량 습관</strong>(인상이 아니라 수치로 말하기), 그리고 가장 중요한 것 — <strong>자기 말이 자기 글과 얼마나 다른지 직접 겪어 보는 것</strong>입니다.</p>
+      <p>덧붙여, 세는 기준이 조금만 달라져도 수치가 흔들린다는 것도 겪게 됩니다. <strong>그것이 이 실습의 숨은 목표</strong>입니다 — 4주차 MLU에서 똑같은 일이 벌어지고, 그때는 그 흔들림이 진단에 영향을 줍니다. <strong>수치를 낼 때 기준을 함께 밝혀야 하는 이유</strong>를 지금 몸으로 알아 두는 것.</p>
+        <p>이 경험이 없으면, 아동의 전사본을 보고 "문장이 엉망이다"라고 판단하기 쉽습니다. <strong>여러분 자신의 전사본도 그렇게 보일 것</strong>입니다. 그게 정상입니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 임상 적용 ============ -->
+<section id="clinical" class="section">
+  <div class="section-header">
+    <span class="section-number">§ 임상</span>
+    <h2>임상 적용 — 전사본은 무엇인가<span class="ko-en">Clinical Application</span></h2>
+    <span class="src-badge main">개론서 16장 3절 「국어 지식의 이용」</span>
+  </div>
+
+  <div class="prose">
+    <p>오늘 배운 것이 임상에서 만나는 자리는 하나로 모인다. <strong>여러분이 앞으로 다룰 거의 모든 자료가 전사본</strong>이고, 전사본은 <strong>구어를 문어로 변환한 결과물</strong>이다. 그 사실이 만드는 함정이 셋 있다.</p>
+  </div>
+
+  <table class="data-table">
+    <thead>
+      <tr><th style="width:24%">함정</th><th style="width:30%">어떻게 나타나는가</th><th>오늘 배운 것으로 어떻게 막는가</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="ko">① 구어를 문어의 잣대로 재기</td>
+        <td>완결되지 않은 문장, 빠진 조사, 반복을 <strong>모두 오류로 계산</strong>한다</td>
+        <td>§Ⅱ의 층위별 대비. 구어의 정상 상태를 알면 <strong>오류와 구어적 특성을 가를 수</strong> 있다.</td>
+      </tr>
+      <tr>
+        <td class="ko">② 구어의 복잡성을 못 보기</td>
+        <td>어휘 밀도가 낮으면 <strong>어휘력이 부족하다고 판단</strong>한다. 절이 이어지기만 하면 구문이 미숙하다고 본다</td>
+        <td>§Ⅲ의 두 복잡성. <strong>구어는 원래 어휘 밀도가 낮고 절이 많다.</strong> 문어의 지표로 구어를 재면 누구나 낮게 나온다.</td>
+      </tr>
+      <tr>
+        <td class="ko">③ 전사본을 사실로 믿기</td>
+        <td>전사자가 무엇을 버렸는지 모른 채 분석한다. 담화표지가 지워진 자료로 화용을 평가한다</td>
+        <td>§Ⅵ. <strong>전사는 변환이고 이미 한 번의 해석</strong>이다. 전사 수준과 규약을 반드시 확인·기록한다.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="prose">
+    <h3>주교재가 남긴 과제</h3>
+    <p>이 주차의 문제의식은 사실 <strong>주교재의 저자가 머리말에 직접 써 둔 것</strong>이다. 개정판을 내면서 그는 아직 해결하지 못한 과제를 이렇게 적었다.</p>
+
+    <div class="callout">
+      <span class="callout-label">이봉원(2015), 머리말</span>
+      <p>"물론 학교 문법이 실제 언어병리학 분야가 요구하는 평가 및 분석의 틀을 제공하기에 부족한 면이 있지만 … <strong>구어와 아동의 언어발달과 관련된 분석의 틀을 제시하는 과제는 아직 남아 있다.</strong> 구어 문법 연구가 점차 활성화되고 있으므로 머지않아 그 성과를 정리할 수 있으리라 기대한다."</p>
+    </div>
+
+    <p>즉 우리가 학기 내내 쓸 문법 도구는 <strong>본래 문어를 위해 만들어진 것</strong>이고, 저자 자신이 그 한계를 인정하고 있다. 그렇다고 그 도구를 안 쓸 수는 없다. <strong>한계를 알고 쓰는 것과 모르고 쓰는 것이 다를 뿐이다.</strong></p>
+
+    <p>오늘 배운 것이 그 "알고 쓰기"의 내용이다. 다음 주부터 열두 주 동안, 문어를 위해 만들어진 도구로 구어를 분석하면서 <strong>어긋나는 지점마다 오늘을 떠올리게</strong> 될 것이다.</p>
+  </div>
+</section>
+
+<!-- ============ 확인 문제 ============ -->
+<section id="check" class="section">
+  <div class="section-header">
+    <span class="section-number">§ 정리</span>
+    <h2>확인 문제<span class="ko-en">Self-Check</span></h2>
+  </div>
+
+  <div class="prose">
+    <p>점수는 반영되지 않습니다. 틀린 문항의 해설을 읽고 해당 절로 돌아가 확인하세요.</p>
+  </div>
+
+  <div id="check-items"></div>
+  <div class="quiz-score" id="check-score">아직 푼 문항이 없습니다.</div>
+
+  <div class="callout" style="margin-top:2rem">
+    <span class="callout-label">이번 주 과제</span>
+    <p><strong>필수 · 제출 과제 1</strong> — 분석 실습실의 네 단계(녹음 → 전사 → 글로 쓰기 → 계량 비교). A4 한 쪽. <strong>전사본과 글 원본을 함께 첨부</strong>할 것.</p>
+    <p><strong>배부</strong> — 오늘 <strong>아동 발화 전사본</strong>을 받습니다. 다음 주까지 통독해 오세요. 읽으면서 "이건 오류인가 구어의 정상적 성질인가" 싶은 대목에 표시해 두면 다음 주 실습이 수월합니다.</p>
+    <p><strong>읽어 올 것</strong> — 이봉원 3장 「문법 단위」 앞부분(형태소까지), 2장의 「계열관계와 결합관계」 절, 개론서 03장 1~4절.</p>
+  </div>
+
+  <div class="week-nav">
+    <div>
+      <span class="lbl">지난주 · 제02주</span>
+      <b>말소리의 구조</b>
+      <p>음성과 음운, 발동–발성–조음, 한국어의 자음 19개와 삼지적 대립, 음절과 음운 규칙, 억양구 경계 성조, 그리고 변하는 중인 소리.</p>
+    </div>
+    <div>
+      <span class="lbl">다음 주 · 제04주</span>
+      <b>문법 단위와 형태소 분석</b>
+      <p>이 과목의 기초 공사입니다. 계열관계와 결합관계로 형태소를 분석하고, <strong>2주차의 억양구 경계와 오늘의 전사 기호로 발화를 끊고</strong>, MLU를 산출합니다. 오늘 받은 전사본이 첫 실습 자료가 됩니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 참고 문헌 ============ -->
+<section id="refs" class="section">
+  <div class="section-header">
+    <span class="section-number">§ 자료</span>
+    <h2>참고 문헌과 더 읽을거리<span class="ko-en">References</span></h2>
+  </div>
+
+  <div class="prose"><h3>교재</h3></div>
+
+  <table class="data-table">
+    <tbody>
+      <tr>
+        <td style="width:30%" class="ko">홍종선 외 19인(2022)</td>
+        <td><strong>『쉽게 읽는 한국어학의 이해』 개정2판.</strong> 서울: 한국문화사.<br>
+        <span style="opacity:.72">이번 주에 쓴 부분 — 05장 「어휘론」의 「문어와 구어」 절(§Ⅰ·§Ⅱ), 12장 「우리말의 변화」 1절 「우리말 표기 방법의 변화」(§Ⅴ).</span></td>
+      </tr>
+      <tr>
+        <td class="ko">이봉원(2015)</td>
+        <td><strong>『언어치료사를 위한 한국어 문법』 개정판.</strong> 서울: 학지사.<br>
+        <span style="opacity:.72">15장 「어문 규범과 문법」 절의 한글 맞춤법 원리(§Ⅴ), 10장 「발화의 분석 방법」 예고(§Ⅵ), 그리고 <strong>머리말</strong>(§임상).</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="prose">
+    <h3>이번 주에 인용한 연구</h3>
+    <p style="font-size:.9rem;opacity:.8">이 주차는 두 교재 어느 쪽도 본체가 되지 못한다. 구어/문어 대비를 본격적으로 다룬 것은 아래 두 문헌이므로, 이번 주의 정본은 사실상 이쪽이다.</p>
+  </div>
+
+  <table class="data-table">
+    <thead><tr><th style="width:22%">절</th><th>문헌</th></tr></thead>
+    <tbody>
+      <tr><td class="ko">§Ⅲ 두 복잡성</td><td><strong>Halliday, M. A. K. (1985)</strong> <em>Spoken and Written Language</em>. Geelong, Vic.: Deakin University Press. (2판, Oxford: Oxford University Press, 1989.) <span style="opacity:.65">— 어휘 밀도와 문법적 복잡성의 출처. 「안무 vs 결정」 비유도 여기서 나온다.</span></td></tr>
+      <tr><td class="ko">§Ⅲ 어휘 밀도의 다른 정의</td><td><strong>Ure, J. (1971)</strong> "Lexical density and register differentiation." In G. E. Perren &amp; J. L. M. Trim (eds.), <em>Applications of Linguistics</em>. Cambridge University Press, 443–452. <span style="opacity:.65">— <b>비율식</b> 어휘 밀도(내용어 ÷ 전체 단어)의 출처. 영어 문어 40% 이상 / 구어 그 아래라는 수치가 여기서 나온다. 이 과목이 쓰지 <b>않는</b> 쪽이다.</span></td></tr>
+      <tr><td class="ko">§Ⅳ 다차원 분석</td><td><strong>Biber, D. (1988)</strong> <em>Variation across Speech and Writing</em>. Cambridge University Press. <span style="opacity:.65">— 영어의 말·글 23개 갈래를 요인분석해 여섯 차원을 도출. ①관여 대 정보 ②서사 대 비서사 ③명시적 대 상황 의존 ④설득의 명시적 표현 ⑤추상 대 비추상 ⑥즉석 정보 부연. 이 자료의 산점도는 ①과 ③을 두 축으로 삼았다.</span></td></tr>
+      <tr><td class="ko">§Ⅴ 자질 문자</td><td>Sampson, G. (1985) <em>Writing Systems: A Linguistic Introduction</em>. London: Hutchinson / Stanford: Stanford University Press. <span style="opacity:.65">— 한글을 자질 문자의 사례로 든 논의.</span><br>반론: Sproat, R. (2000) <em>A Computational Theory of Writing Systems</em>. Cambridge University Press. <span style="opacity:.65">— 한글을 「정교하게 설계된 분절 자모 문자」로 본다.</span></td></tr>
+      <tr><td class="ko">§Ⅴ 정서법의 깊이</td><td>Katz, L. &amp; Frost, R. (1992) "The reading process is different for different orthographies: The orthographic depth hypothesis." In R. Frost &amp; L. Katz (eds.), <em>Orthography, Phonology, Morphology, and Meaning</em> (Advances in Psychology, Vol. 94), 67–84. Amsterdam: North-Holland. <span style="opacity:.65">— 정서법 깊이 가설의 표준 인용.</span></td></tr>
+      <tr><td class="ko">§Ⅴ 훈민정음</td><td>『훈민정음』 해례본 제자해. <span style="opacity:.65">기본자 다섯의 상형, 가획의 원리(「聲出稍厲 故加畫」), 각자병서, 이체자.</span></td></tr>
+      <tr><td class="ko">§Ⅴ 규범</td><td>국립국어원 「한글 맞춤법」 제1항(문화체육관광부 고시 제2017-12호). <span style="opacity:.65">"한글 맞춤법은 표준어를 소리대로 적되, 어법에 맞도록 함을 원칙으로 한다." 15주차에서 전면적으로 다룬다.</span></td></tr>
+      <tr><td class="ko">§Ⅵ 전사</td><td>김수진 외(2011) — 발화 구분 기준. 이봉원(2015: 10장) 재인용. <span style="opacity:.65">4주차에서 본격적으로 쓴다.</span></td></tr>
+    </tbody>
+  </table>
+
+  <div class="prose">
+    <h3>더 볼 사람에게</h3>
+  </div>
+
+  <table class="data-table">
+    <tbody>
+      <tr><td style="width:30%" class="ko">★ 강범모</td><td>『언어: 풀어 쓴 언어학 개론』, 한국문화사. <span style="opacity:.65">— 문자와 표기를 다룬 장이 이 주차의 배경.</span></td></tr>
+      <tr><td class="ko">Coulmas, F.</td><td><em>Writing Systems</em>, Cambridge University Press. <span style="opacity:.65">— 문자 체계 유형론의 표준 개론서.</span></td></tr>
+      <tr><td class="ko" style="opacity:.75">Ong, W. J. (1982)</td><td style="opacity:.75"><em>Orality and Literacy</em>. Methuen. <span style="opacity:.8">— 구술문화와 문자문화를 대비한 유명한 논의이나, <strong>언어학이 아니라 문학·미디어 이론</strong>이다. 언어의 형식을 계량한 것이 아니라 매체가 사고와 문화를 어떻게 바꾸는지를 다룬다. 관심 있으면 읽어 볼 만하되, <strong>이 과목의 틀은 아니다.</strong></span></td></tr>
+    </tbody>
+  </table>
+
+  <div class="prose"><h3>직접 써 볼 자료</h3></div>
+
+  <div class="mini-grid">
+    <div class="mini">
+      <span class="mtag">구어 말뭉치</span>
+      <h5>모두의 말뭉치 — 구어 자료</h5>
+      <p>국립국어원. 실제 대화를 전사한 자료를 볼 수 있다. <strong>전문 연구자의 전사가 어떻게 생겼는지</strong> 확인해 보라. 6주차에서 본격적으로 다룬다.</p>
+    </div>
+    <div class="mini">
+      <span class="mtag">규범</span>
+      <h5>국립국어원 어문 규범</h5>
+      <p>한글 맞춤법 제1항의 원문을 확인할 것. §Ⅴ의 "소리대로 적되 어법에 맞도록"이 어떤 맥락에 놓여 있는지 보인다.</p>
+    </div>
+    <div class="mini">
+      <span class="mtag">전사 도구</span>
+      <h5>Praat · ELAN</h5>
+      <p>소리와 전사를 시간축에 맞춰 정렬해 주는 도구. 휴지 길이를 눈으로 재고 억양 곡선을 볼 수 있어 <strong>전사의 정확도가 달라진다.</strong></p>
+    </div>
+    <div class="mini">
+      <span class="mtag">사전</span>
+      <h5>고려대 한국어대사전</h5>
+      <p>이 과목의 기본 사전. <strong>말뭉치 용례에서 출발한 사전</strong>이라 구어에서 쓰이는 형태를 찾을 때 특히 유용하다.</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="colophon">
+    <strong>말과 글</strong> — 한국어학 제3주 강의자료<br>
+    <span class="mono">주교재 이봉원(2015) 『언어치료사를 위한 한국어 문법』 개정판, 학지사</span><br>
+    <span class="mono">부교재 홍종선 외 19인(2022) 『쉽게 읽는 한국어학의 이해』 개정2판, 한국문화사</span><br>
+    <span class="mono">Set in Noto Serif KR &amp; JetBrains Mono</span>
+    <p class="epigraph">"The complexity of speech is choreographic — an intricacy of movement.<br>That of writing is crystalline — a denseness of matter."<br>— Halliday(1985)</p>
+    <p style="font-size:.72rem;opacity:.55;margin-top:1rem">교재 밖 내용의 출처는 §자료 「참고 문헌」에 밝혀 두었다.</p>
+  </div>
+</footer>
+
+<script>
+/* ===== §Ⅰ 매체의 조건 ===== */
+const CONDS=[
+ {btn:'감각과 지속',
+  title:'소리는 사라지고 글자는 남는다',sub:'청각 · 시간 vs 시각 · 공간',
+  sp:'말은 <b>시간 속에만</b> 존재한다. 발음되는 순간 사라지고, 되돌아가 다시 들을 수 없다.',
+  wr:'글은 <b>공간에 놓인다.</b> 남아 있으므로 앞으로 되돌아가고 건너뛰며 읽을 수 있다.',
+  eff:'그래서 구어는 <b>기억의 부담을 덜어 주는 장치</b>를 발달시켰다 — 반복, 되풀이되는 표현, 짧은 절의 연쇄. 반면 문어는 독자가 되돌아갈 수 있으므로 <b>정보를 촘촘히 압축</b>할 수 있다.',
+  note:'§Ⅲ에서 볼 어휘 밀도의 차이가 여기서 이미 예고된다. 문어가 정보를 압축할 수 있는 것은 <b>독자가 다시 읽을 수 있기 때문</b>이다.'},
+ {btn:'계획과 수정',
+  title:'말은 하면서 만들고 글은 만들고 나서 보인다',sub:'실시간 산출 vs 사후 수정',
+  sp:'말은 <b>생각하면서 동시에</b> 산출된다. 계획할 시간이 거의 없고, 이미 뱉은 말은 지울 수 없다.',
+  wr:'글은 쓰고 <b>고치고 다시 쓴</b> 뒤에야 독자에게 간다. 최종본만 보인다.',
+  eff:'그래서 구어에는 <b>계획의 흔적이 그대로 남는다</b> — 휴지, "어…", 말을 하다 고치기(자기수정), 시작한 구조를 바꾸기. 문어에는 그 흔적이 지워진다.',
+  note:'<b>임상적으로 결정적이다.</b> 아동 발화의 망설임과 자기수정은 「오류」가 아니라 <b>실시간 산출의 정상적 부산물</b>일 수 있다. 다만 그 양과 양상이 비정상적일 때 유창성 문제의 신호가 되므로, 정상 범위를 아는 것이 먼저다.'},
+ {btn:'대면과 피드백',
+  title:'듣는 사람이 앞에 있는가',sub:'즉각적 반응 vs 부재하는 독자',
+  sp:'청자가 눈앞에 있고 <b>즉각 반응한다.</b> 고개를 끄덕이고 되묻고 끼어든다. 화자는 그에 맞춰 말을 조정한다.',
+  wr:'독자는 <b>지금 여기 없다.</b> 언제 어디서 누가 읽을지 모른다.',
+  eff:'그래서 구어는 <b>상황에 기댈 수 있다</b> — "저거 좀 줘" 같은 말이 통한다. 청자가 무엇을 아는지 알기 때문에 생략도 자유롭다. 문어는 <b>맥락을 말로 다 만들어야</b> 하므로 명시적이 된다.',
+  note:'이것이 Biber가 찾아낸 차원 중 「상황 의존적 vs 명시적 지시」다(§Ⅳ). 그리고 <b>아동 발화가 맥락 없이는 이해되지 않는 것</b>도 결함이 아니라 이 조건의 결과일 수 있다.'},
+ {btn:'매체가 나르는 정보',
+  title:'소리에는 있고 글자에는 없는 것',sub:'운율 · 목소리 vs 문장부호 · 배치',
+  sp:'억양, 강세, 속도, 휴지, 목소리의 크기와 떨림. 게다가 표정과 몸짓까지 함께 간다.',
+  wr:'그중 <b>거의 아무것도 옮길 수 없다.</b> 문장부호와 띄어쓰기와 문단 나누기, 그리고 굵은 글씨 정도가 대신할 뿐이다.',
+  eff:'그래서 문어는 <b>운율이 하던 일을 문법으로 떠맡는다.</b> 구어에서 억양으로 표시하던 의문을 문어는 의문형 어미와 물음표로 표시해야 한다.',
+  note:'<b>이것이 §Ⅵ 전사 문제의 근원이다.</b> 말을 글로 옮기는 순간 운율 정보가 통째로 날아간다. 전사 기호는 그중 일부라도 붙잡아 두려는 장치다.'}
+];
+const condBtns=document.getElementById('cond-btns'),condPanel=document.getElementById('cond-panel');
+CONDS.forEach((c,i)=>{
+  const b=document.createElement('button');
+  b.className='ibtn'+(i===0?' active':'');b.textContent=c.btn;
+  b.onclick=()=>{[...condBtns.children].forEach(x=>x.classList.remove('active'));b.classList.add('active');renderCond(c);};
+  condBtns.appendChild(b);
+});
+function renderCond(c){
+  condPanel.innerHTML='<h4>'+c.title+'</h4><p class="sub">'+c.sub+'</p>'+
+    '<div class="igrid" style="margin-bottom:1rem">'+
+      '<div class="icell"><b style="color:#e8b647">말</b><span>'+c.sp+'</span></div>'+
+      '<div class="icell"><b style="color:#7da3c4">글</b><span>'+c.wr+'</span></div>'+
+    '</div>'+
+    '<p><b>그 결과 —</b> '+c.eff+'</p><p class="note">'+c.note+'</p>';
+}
+renderCond(CONDS[0]);
+
+/* ===== §Ⅱ 층위별 대비 ===== */
+const LEVELS=[
+ {btn:'음운 · 표기',
+  title:'경계를 무엇으로 표시하는가',
+  rows:[['단위의 경계','억양구 경계 성조, 휴지','문장부호, 띄어쓰기'],
+        ['강조','강세, 크기, 늘임','굵은 글씨, 밑줄, 어순'],
+        ['덩어리 짓기','운율구, 말차례','문단, 장 나누기'],
+        ['태도 표시','억양의 모양','물음표, 느낌표']],
+  body:'구어에서 <b>운율이 하던 일을 문어에서는 표기 장치가 대신한다.</b> 그런데 대신하는 능력이 훨씬 떨어진다 — 문장부호 몇 개로 억양의 온갖 모양을 담을 수는 없다.',
+  note:'2주차에서 억양구 경계 성조를 배운 이유가 여기 있다. <b>발화를 끊는 근거가 문어에는 문장부호로 주어져 있지만 구어에는 없다.</b> 우리가 직접 찾아야 한다.'},
+ {btn:'형태 · 통사',
+  title:'복잡성을 어디에 두는가',
+  rows:[['절의 연결','짧은 절을 길게 이어 붙임','종속 관계로 짜임'],
+        ['명사구','짧다 (그거, 저 사람)','길다 (지난주에 제출된 보고서)'],
+        ['생략','조사·주어·목적어 자유롭게','원칙적으로 생략하지 않음'],
+        ['문장 종결','끝나지 않고 이어지기도','반드시 종결']],
+  body:'구어는 절을 <b>옆으로 이어 붙이고</b>, 문어는 <b>안으로 껴 넣는다.</b> 그리고 문어는 명사구를 길게 만들어 정보를 담는다 — 이것이 §Ⅲ 어휘 밀도의 직접적 원인이다.',
+  note:'<b>가장 오독하기 쉬운 층위다.</b> 아동이 절을 이어 붙이기만 한다고 복문을 못 만드는 것이 아니다. 11주차 「문장의 확대」에서 이 문제를 정면으로 다룬다.'},
+ {btn:'어휘',
+  title:'무엇으로 가리키는가',
+  rows:[['지시','대명사·지시어 (이거, 저기)','명사구로 명시'],
+        ['어휘의 종류','고빈도의 일상어','저빈도어·전문어 비중 높음'],
+        ['반복','같은 말을 되풀이','유의어로 바꿔 씀'],
+        ['밀도','낮음','높음']],
+  body:'구어는 <b>상황에 기댄다.</b> 눈앞에 있는 것은 "저거"로 충분하다. 문어는 그럴 수 없으므로 <b>말로 다 만들어야</b> 하고, 그래서 어휘가 촘촘해진다.',
+  note:'<b>어휘 밀도가 낮다는 것이 어휘력이 부족하다는 뜻이 아니다.</b> 구어에서는 낮은 것이 정상이다. 6주차에서 배울 TTR도 같은 함정을 갖는다.'},
+ {btn:'담화',
+  title:'흐름을 어떻게 관리하는가',
+  rows:[['연결','담화표지 (근데, 그래서, 어)','접속부사·연결어미의 정밀한 사용'],
+        ['수정','자기수정을 드러냄 ("아니 그게 아니라")','고쳐 쓴 흔적이 없음'],
+        ['말차례','겹침, 끼어들기, 맞장구','해당 없음'],
+        ['머뭇거림','간투사, 휴지, 늘임','해당 없음']],
+  body:'구어에는 <b>말을 만들어 가는 과정 자체가 노출된다.</b> 문어에서는 그 과정이 지워지고 결과만 남는다.',
+  note:'여기 나열된 것들이 <b>전사할 때 가장 먼저 지워지는 것들</b>이다(§Ⅵ). 그런데 <b>14주차 화용론에서 분석할 자료가 바로 이것들</b>이다. 지금 지우면 그때 볼 것이 없다.'}
+];
+const lvBtns=document.getElementById('lv-btns'),lvPanel=document.getElementById('lv-panel');
+LEVELS.forEach((l,i)=>{
+  const b=document.createElement('button');
+  b.className='ibtn'+(i===0?' active':'');b.textContent=l.btn;
+  b.onclick=()=>{[...lvBtns.children].forEach(x=>x.classList.remove('active'));b.classList.add('active');renderLv(l);};
+  lvBtns.appendChild(b);
+});
+function renderLv(l){
+  let t='<table class="data-table" style="color:var(--paper);margin-top:0">'+
+    '<thead><tr><th style="color:var(--paper);border-bottom-color:#f5f1e850;width:22%">기능</th>'+
+    '<th style="color:#e8b647;border-bottom-color:#f5f1e850">구어</th>'+
+    '<th style="color:#7da3c4;border-bottom-color:#f5f1e850">문어</th></tr></thead><tbody>';
+  l.rows.forEach(r=>{
+    t+='<tr><td style="border-bottom-color:#f5f1e820;opacity:.75">'+r[0]+'</td>'+
+       '<td style="border-bottom-color:#f5f1e820">'+r[1]+'</td>'+
+       '<td style="border-bottom-color:#f5f1e820">'+r[2]+'</td></tr>';
+  });
+  lvPanel.innerHTML='<h4>'+l.title+'</h4>'+t+'</tbody></table>'+
+    '<p style="margin-top:.8rem">'+l.body+'</p><p class="note">'+l.note+'</p>';
+}
+renderLv(LEVELS[0]);
+
+/* ===== §Ⅲ 어휘 밀도 ===== */
+const LDPAIRS=[
+ {btn:'도서관 이야기',
+  sp:{txt:'<c>어제</c> 그 뭐냐 <c>도서관</c>에 <c>갔</c>는데<cl>, 어 <c>사람</c>이 <c>진짜</c> <c>많</c>더라고<cl>. 그래서 <c>자리</c>를 못 <c>찾</c>아서<cl> <c>한참</c> <c>돌아다녔</c>어<cl>. 근데 <c>결국</c> <c>삼층</c>에 하나 <c>있</c>어서<cl> 거기 <c>앉았</c>지<cl>.',cw:14,cl:6},
+  wr:{txt:'<c>어제</c> <c>도서관</c>의 <c>이용객</c> <c>과다</c>로 인한 <c>좌석</c> <c>부족</c>으로 <c>상당</c> <c>시간</c> <c>배회하였</c>으나<cl>, <c>삼층</c> <c>잔여</c> <c>좌석</c> <c>확보</c>에 <c>성공하였</c>다<cl>.',cw:14,cl:2},
+  body:'같은 이야기다. 그런데 <b>구어판은 절이 여섯인데 문어판은 둘</b>이다. 내용어 수는 같은데(둘 다 14) 그것이 <b>몇 개의 절에 나뉘어 담겼는가</b>가 완전히 다르다.',
+  note:'문어판의 "이용객 과다로 인한 좌석 부족"을 보라. 구어판에서 <b>절 두 개로 말하던 것</b>("사람이 많더라고", "자리를 못 찾아서")이 <b>명사구 하나로 압축</b>되었다. 이것이 할리데이가 말한 문어의 「결정 같은」 복잡성이다.'},
+ {btn:'아이 이야기',
+  sp:{txt:'그 <c>애</c>가 <c>자꾸</c> <c>울</c>어서<cl> <c>엄마</c>가 <c>안아</c> 줬는데도<cl> 안 <c>그치</c>더라고<cl>. 그래서 <c>결국</c> <c>밖</c>에 데리고 <c>나갔</c>어<cl>.',cw:9,cl:4},
+  wr:{txt:'<c>지속적</c>인 <c>울음</c>에 대한 <c>모친</c>의 <c>신체</c> <c>접촉</c> <c>시도</c>는 <c>효과</c>가 <c>없었</c>고<cl>, <c>최종적</c>으로 <c>실외</c> <c>이동</c>이 <c>선택되었</c>다<cl>.',cw:12,cl:2},
+  body:'문어판이 <b>평가보고서 문체</b>에 가깝다는 데 주목하라. 여러분이 앞으로 쓰게 될 글이 이런 모양이다. 여기서는 내용어까지 늘었다(9 → 12) — 절은 절반으로 줄었는데 담긴 내용어는 오히려 많아졌으니, <b>밀도가 두 배 이상 뛴다</b>(2.3 → 6.0).',
+  note:'그런데 <b>정보가 늘어난 것이 아니다.</b> "엄마가 안아 줬는데도"가 "모친의 신체 접촉 시도"가 되었을 뿐이다. 오히려 <b>누가 무엇을 했는지가 흐려졌다</b> — 압축에는 대가가 따른다. 15주차 임상 문서 작성에서 이 문제를 다시 만난다.'}
+];
+const ldBtns=document.getElementById('ld-btns'),ldOut=document.getElementById('ld-out'),ldPanel=document.getElementById('ld-panel');
+LDPAIRS.forEach((p,i)=>{
+  const b=document.createElement('button');
+  b.className='ibtn'+(i===0?' active':'');b.textContent=p.btn;
+  b.onclick=()=>{[...ldBtns.children].forEach(x=>x.classList.remove('active'));b.classList.add('active');renderLD(p);};
+  ldBtns.appendChild(b);
+});
+function mark(t){
+  return t.replace(/<c>/g,'<span class="cw">').replace(/<\/c>/g,'</span>')
+          .replace(/<cl>/g,'<span class="cl"> </span>');
+}
+function renderLD(p){
+  const box=(lbl,color,d)=>
+    '<div style="margin-bottom:1.1rem">'+
+    '<b style="font-family:var(--sans);font-size:.82rem;color:'+color+';display:block;margin-bottom:.35rem">'+lbl+'</b>'+
+    '<div class="sample">'+mark(d.txt)+'</div>'+
+    '<div class="metric">'+
+      '<div><b>'+d.cw+'</b><span>내용어</span></div>'+
+      '<div><b>'+d.cl+'</b><span>절</span></div>'+
+      '<div><b>'+(d.cw/d.cl).toFixed(1)+'</b><span>어휘 밀도</span></div>'+
+    '</div></div>';
+  ldOut.innerHTML=box('구어판 — 말한 것을 그대로 전사','#e8b647',p.sp)+box('문어판 — 같은 내용을 글로','#7da3c4',p.wr);
+  ldPanel.innerHTML='<p>'+p.body+'</p><p class="note">'+p.note+'</p>';
+}
+renderLD(LDPAIRS[0]);
+
+/* ===== §Ⅳ 사용역 스펙트럼 ===== */
+const REGS=[
+ {n:'사적 대화',x:12,y:18,m:'말',d:'가장 전형적인 구어. 즉흥적이고 대면적이며 상황에 크게 기댄다.'},
+ {n:'전화 통화',x:20,y:14,m:'말',d:'대면은 아니지만 즉각적 피드백이 있다. <b>상황 의존도가 오히려 더 높다</b> — 상대가 무엇을 보고 있는지 모르니 "그거"가 더 자주 쓰인다.'},
+ {n:'메신저 대화',x:28,y:30,m:'글',d:'<b>글인데 말 쪽에 있다.</b> 문자로 쓰지만 즉각적이고 상호적이며 짧다. 이모티콘은 사라진 운율을 대신하려는 장치다.'},
+ {n:'방송 인터뷰',x:45,y:48,m:'말',d:'말이지만 공적이고 어느 정도 준비되어 있다. 청중을 의식하므로 상황 의존도가 낮아진다.'},
+ {n:'사적 편지',x:38,y:58,m:'글',d:'글이지만 관여도가 높다. <b>강연보다 말에 가까운 자리</b>에 있다.'},
+ {n:'강연',x:62,y:62,m:'말',d:'<b>말인데 글 쪽에 있다.</b> 미리 계획되고 정보 전달이 목적이며 청중과의 상호작용이 제한적이다. 원고가 있으면 더 오른쪽으로 간다.'},
+ {n:'소설',x:56,y:72,m:'글',d:'글이지만 대화가 들어가고 서사적이다. 장르 안에서도 편차가 크다.'},
+ {n:'신문 기사',x:76,y:88,m:'글',d:'정보 전달이 목적이고 명시적이다. 명사구가 길고 어휘 밀도가 높다.'},
+ {n:'학술 논문',x:88,y:80,m:'글',d:'가장 전형적인 문어. 압축과 명시성이 극대화된다.'},
+ {n:'법률 문서',x:94,y:94,m:'글',d:'해석의 여지를 없애야 하므로 명시성이 극단에 이른다. 그 결과 <b>읽기가 매우 어려워진다</b> — 압축의 대가.'}
+];
+const regFig=document.getElementById('reg-fig'),regPanel=document.getElementById('reg-panel');
+(function drawReg(){
+  let s='<svg class="scatsvg" viewBox="0 0 560 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="사용역 산점도. 가로축은 관여에서 정보로, 세로축은 상황 의존에서 명시적 지시로. 말과 글이 섞여 분포한다.">'+
+    '<line x1="55" y1="290" x2="455" y2="290" stroke="#f5f1e8" stroke-width="1" opacity=".3"/>'+
+    '<line x1="55" y1="30" x2="55" y2="290" stroke="#f5f1e8" stroke-width="1" opacity=".3"/>'+
+    '<text x="255" y="316" fill="#7da3c4" text-anchor="middle">← 관여적  ·  차원 1  ·  정보적 →</text>'+
+    '<text x="255" y="333" fill="#f5f1e8" opacity=".4" font-size="9.5" text-anchor="middle">축의 방향은 읽기 편하도록 정한 것으로, Biber의 요인점수 부호와는 다르다</text>'+
+    '<text x="20" y="160" fill="#7da3c4" text-anchor="middle" transform="rotate(-90 20 160)">← 상황 의존  ·  차원 3  ·  명시적 →</text>';
+  REGS.forEach((r,i)=>{
+    const cx=55+r.x*4, cy=290-r.y*2.6;
+    s+='<g class="pt" data-i="'+i+'"><circle cx="'+cx+'" cy="'+cy+'" r="7" fill="'+(r.m==='말'?'#e8b647':'#7da3c4')+'"/>'+
+       '<text x="'+(cx+11)+'" y="'+(cy+4)+'" fill="#f5f1e8" opacity=".85">'+r.n+'</text></g>';
+  });
+  regFig.innerHTML=s+'</svg>';
+  regFig.querySelectorAll('.pt').forEach(g=>{
+    g.onclick=()=>{
+      regFig.querySelectorAll('.pt').forEach(x=>x.classList.remove('on'));
+      g.classList.add('on');showReg(+g.dataset.i);
+    };
+  });
+})();
+function showReg(i){
+  const r=REGS[i];
+  regPanel.innerHTML='<h4>'+r.n+' <span style="font-family:var(--sans);font-size:.78rem;color:'+(r.m==='말'?'#e8b647':'#7da3c4')+'">'+r.m+'</span></h4><p>'+r.d+'</p>'+
+    '<p class="note">이 그림에서 <b>말(노랑)과 글(파랑)이 뒤섞여 있다</b>는 것이 요점이다. 강연은 사적 편지보다 오른쪽에, 메신저 대화는 방송 인터뷰보다 왼쪽에 있다. <b>매체가 아니라 조건이 자리를 정한다.</b></p>';
+}
+showReg(0);
+
+/* ===== §Ⅴ 문자 유형 ===== */
+const WSYS=[
+ {btn:'표어문자',name:'표어문자',en:'logographic',unit:'단어 또는 형태소',
+  ex:'한자 — 山, 水, 人',
+  n:'수천 개 이상',
+  body:'기호 하나가 <b>형태소 하나</b>(그리고 대개 음절 하나)에 대응한다. 소리를 몰라도 뜻을 알 수 있어, 말이 다른 지역에서도 같은 글자를 쓸 수 있다.',
+  note:'대가는 <b>글자 수</b>다. 새 단어가 생기면 새 글자가 필요하다. 배우는 데 오래 걸린다.'},
+ {btn:'음절문자',name:'음절문자',en:'syllabary',unit:'음절',
+  ex:'일본어 가나 — か(ka), さ(sa)',
+  n:'수십에서 수백 개',
+  body:'기호 하나가 <b>음절 하나</b>를 나타낸다. 음절 구조가 단순한 언어에 잘 맞는다.',
+  note:'일본어처럼 음절 종류가 적은 언어에는 효율적이지만, <b>한국어처럼 음절이 수천 종류인 언어에는 맞지 않는다.</b> (엄밀히 가나는 음절이 아니라 모라 단위라 <b>모라 문자</b>로 분류하기도 한다.)'},
+ {btn:'자음문자',name:'자음문자',en:'abjad',unit:'자음',
+  ex:'아랍 문자, 히브리 문자',
+  n:'20~30개',
+  body:'<b>자음만 적고 모음은 대개 적지 않는다.</b> 셈어족처럼 자음이 어근을 이루는 언어에서 잘 작동한다.',
+  note:'모어 화자는 문맥으로 모음을 복원한다. 배우는 사람에게는 어렵다.'},
+ {btn:'자모문자',name:'자모문자',en:'alphabet',unit:'음소',
+  ex:'로마자 — a, b, c',
+  n:'20~40개',
+  body:'기호 하나가 <b>음소 하나</b>에 대응한다. 적은 수의 글자로 모든 말을 적을 수 있다.',
+  note:'가장 널리 쓰이는 유형이다. 다만 <b>글자의 모양과 소리의 성질 사이에는 아무 관계가 없다</b> — b와 p가 비슷한 소리라는 것이 글자에 드러나지 않는다.'},
+ {btn:'아부기다',name:'아부기다',en:'abugida / alphasyllabary',unit:'자음 + 딸린 모음',
+  ex:'데바나가리 — क(ka), कि(ki), कु(ku)',
+  n:'수십 개',
+  body:'자음 글자가 <b>기본 모음을 이미 품고</b> 있고, 다른 모음은 부호를 붙여 바꾼다. 인도와 동남아시아 전역의 문자가 이 유형이다.',
+  note:'<b>한글의 모아쓰기와 겉보기가 비슷하지만 결정적으로 다르다</b> — 아부기다의 모음은 자음에 딸린 부속 기호이고, 한글의 모음은 <b>자음과 대등한 독립 글자</b>다.'},
+ {btn:'자질문자',name:'자질문자',en:'featural',unit:'음소보다 작은 단위(자질)',
+  ex:'한글 — ㄱ / ㅋ, ㄴ / ㄷ / ㅌ',
+  n:'수십 개',
+  body:'글자의 <b>모양 자체가 소리의 성질을 반영</b>한다. 같은 자리에서 나는 소리는 비슷하게 생겼고, 획을 더하면 소리가 세진다.',
+  note:'샘슨(1985)이 한글을 두고 붙인 이름이다. 다만 <b>이 규정에는 이견이 있다</b> — 실제 운용은 자모 문자에 가깝기 때문이다. 「자질적 설계 원리를 가진 자모 문자」로 보는 견해가 널리 받아들여진다.'}
+];
+const wsBtns=document.getElementById('ws-btns'),wsPanel=document.getElementById('ws-panel');
+WSYS.forEach((w,i)=>{
+  const b=document.createElement('button');
+  b.className='ibtn'+(i===0?' active':'');b.textContent=w.btn;
+  b.onclick=()=>{[...wsBtns.children].forEach(x=>x.classList.remove('active'));b.classList.add('active');renderWs(w);};
+  wsBtns.appendChild(b);
+});
+function renderWs(w){
+  wsPanel.innerHTML='<h4>'+w.name+' <span style="font-family:var(--sans);font-size:.75rem;opacity:.55">'+w.en+'</span></h4>'+
+    '<div class="igrid" style="margin:.6rem 0 1rem">'+
+      '<div class="icell"><b>한 기호가 담는 단위</b><span>'+w.unit+'</span></div>'+
+      '<div class="icell"><b>보기</b><span>'+w.ex+'</span></div>'+
+      '<div class="icell"><b>필요한 기호 수</b><span>'+w.n+'</span></div>'+
+    '</div><p>'+w.body+'</p><p class="note">'+w.note+'</p>';
+}
+renderWs(WSYS[0]);
+
+/* ===== §Ⅴ 정서법 깊이 ===== */
+const DEPTHS=[
+ {btn:'핀란드어 · 이탈리아어',pos:8,label:'매우 얕음',
+  body:'글자와 소리가 <b>거의 일대일로 대응</b>한다. 글자를 알면 바로 읽을 수 있다.',
+  note:'읽기 학습이 빠르다. 초등 1학년 안에 해독을 거의 완성하는 것으로 보고된다.'},
+ {btn:'한국어',pos:28,label:'얕은 편 — 다만 비대칭',
+  body:'국제 비교 연구는 한글을 대체로 <b>얕은 정서법</b>으로 분류한다. 자모와 소리의 대응이 매우 규칙적이기 때문이다. 다만 한글 맞춤법 제1항이 <b>"소리대로 적되, 어법에 맞도록"</b>이라고 두 원리를 타협시켜 놓아, 표기와 발음 사이에 <b>음운 규칙이 끼어든다</b>(꽃이 → [꼬치]).',
+  note:'그래서 한국어 정서법은 <b>비대칭</b>이다 — <b>읽기에서는 얕고 쓰기에서는 깊다.</b> 자음은 형태를 밝혀 적고(꽃) 모음은 소리대로 적기 때문이다. 취학 전에 한글을 떼는 아이가 많은 것은 앞쪽 때문이고, 받아쓰기가 어려운 것은 뒤쪽 때문이다.'},
+ {btn:'프랑스어 · 덴마크어',pos:52,label:'중간',
+  body:'글자와 소리의 대응에 규칙은 있지만 예외가 많다. 읽기는 비교적 되는데 <b>철자가 어렵다</b>.',
+  note:'읽기 학습의 속도도 얕은 정서법과 깊은 정서법의 중간쯤으로 보고된다. 정서법의 깊이는 <b>이분이 아니라 연속</b>이라는 것을 보여 주는 자리다.'},
+ {btn:'영어',pos:88,label:'매우 깊음',
+  body:'같은 글자가 여러 소리로 읽히고(<i>though, through, tough</i>), 같은 소리가 여러 방식으로 적힌다. 철자와 발음의 대응이 매우 불규칙하다.',
+  note:'읽기 학습이 오래 걸리고 난독증의 발현율도 상대적으로 높게 보고된다. <b>영어권 읽기 연구를 한국어에 그대로 옮길 수 없는 이유</b>가 여기 있다 — 이 과목의 반복되는 주제다.'},
+ {btn:'왜 깊어지는가',pos:-1,label:'',
+  body:'얕은 것이 무조건 좋다면 모든 언어가 소리대로 적을 것이다. 그런데 그러지 않는다. <b>형태를 밝혀 적으면 얻는 것이 있기 때문</b>이다.',
+  note:'‘꽃이 / 꽃을 / 꽃도’를 소리대로 적으면 ‘꼬치 / 꼬츨 / 꼳또’가 되어 <b>같은 단어라는 것이 눈에 보이지 않는다.</b> 형태를 고정해 적으면 읽는 사람이 단어를 즉시 알아본다. <b>쓰기는 어려워지고 읽기는 쉬워지는 거래</b>다.'}
+];
+const depBtns=document.getElementById('dep-btns'),depPanel=document.getElementById('dep-panel');
+DEPTHS.forEach((d,i)=>{
+  const b=document.createElement('button');
+  b.className='ibtn'+(i===0?' active':'');b.textContent=d.btn;
+  b.onclick=()=>{[...depBtns.children].forEach(x=>x.classList.remove('active'));b.classList.add('active');renderDep(d);};
+  depBtns.appendChild(b);
+});
+function renderDep(d){
+  let bar='';
+  if(d.pos>=0){
+    bar='<div style="margin:.4rem 0 1.1rem">'+
+      '<div style="position:relative;height:1.5rem;background:#f5f1e814;border:1px solid #f5f1e828">'+
+      '<div style="position:absolute;left:'+d.pos+'%;top:-3px;width:3px;height:calc(100% + 6px);background:var(--highlight)"></div></div>'+
+      '<div style="display:flex;justify-content:space-between;font-family:var(--sans);font-size:.7rem;opacity:.55;margin-top:.25rem">'+
+      '<span>얕은 정서법 — 소리대로</span><span>깊은 정서법 — 형태를 밝혀</span></div></div>';
+  }
+  depPanel.innerHTML='<h4>'+d.btn+(d.label?' <span style="font-family:var(--sans);font-size:.78rem;color:var(--highlight)">'+d.label+'</span>':'')+'</h4>'+
+    bar+'<p>'+d.body+'</p><p class="note">'+d.note+'</p>';
+}
+renderDep(DEPTHS[0]);
+
+/* ===== §Ⅵ 전사 실험 ===== */
+const TRANS=[
+ {btn:'간략 전사',lv:'표준 표기로만',
+  txt:'뭐 먹었어? 나는 밥 먹었어.',
+  keep:'말한 내용',
+  lose:'실제 발음, 휴지, 억양, 망설임, 반복 — <b>거의 전부</b>',
+  body:'표준 맞춤법으로 내용만 옮긴다. 회의록이나 인터뷰 기사에 쓰는 방식이다.',
+  note:'읽기 쉽고 만들기 빠르다. 그러나 <b>음운 분석도 유창성 분석도 화용 분석도 불가능하다.</b> 이 자료로 할 수 있는 것은 "무슨 말을 했나"뿐이다.'},
+ {btn:'표준 전사',lv:'실제 발음과 담화 요소 유지',
+  txt:'머 먹었어? (.) 어:: 나는 (1.5) 밥 먹었어 밥.',
+  keep:'실제 발음(머), 휴지의 위치와 길이, 망설임(어::), 반복(밥 … 밥)',
+  lose:'억양의 모양, 음성적 세부, 비언어적 행동',
+  body:'<b>이 과목에서 쓰는 수준이다.</b> 아동 발화 분석의 표준이기도 하다. 들은 대로 적되 음성 기호까지는 가지 않는다.',
+  note:'여기서 비로소 분석이 가능해진다 — 휴지가 길다는 것은 단어 찾기의 어려움일 수 있고, ‘밥’의 반복은 강조일 수도 유창성 문제일 수도 있다. <b>판단의 재료가 남아 있다.</b>'},
+ {btn:'정밀 전사',lv:'음성 기호와 운율까지',
+  txt:'[mʌ mʌgʌssʌ]↗ (.) 어:: 나는 (1.5) [pap̚ mʌgʌssʌ]↘ 밥↘',
+  keep:'음성적 실현, 억양의 방향, 위의 모든 것',
+  lose:'거의 없음 (그래도 목소리의 질과 표정은 남지 않는다)',
+  body:'IPA와 운율 표시를 함께 쓴다. 음성학·음운론 연구와 조음 평가에서 쓴다.',
+  note:'<b>가장 정확하지만 가장 비싸다.</b> 만드는 데 몇 배의 시간이 들고 읽기도 어렵다. 그래서 <b>목적에 맞는 수준을 고르는 것</b>이 실력이다 — 무조건 정밀하게 하는 것이 좋은 것이 아니다.'}
+];
+const trBtns=document.getElementById('tr-btns'),trPanel=document.getElementById('tr-panel');
+TRANS.forEach((t,i)=>{
+  const b=document.createElement('button');
+  b.className='ibtn'+(i===1?' active':'');b.textContent=t.btn;
+  b.onclick=()=>{[...trBtns.children].forEach(x=>x.classList.remove('active'));b.classList.add('active');renderTr(t);};
+  trBtns.appendChild(b);
+});
+function renderTr(t){
+  trPanel.innerHTML='<h4>'+t.btn+' <span style="font-family:var(--sans);font-size:.75rem;opacity:.55">'+t.lv+'</span></h4>'+
+    '<div class="sample" style="font-size:1.05rem;margin:.7rem 0 1rem">'+t.txt+'</div>'+
+    '<div class="igrid" style="margin-bottom:1rem">'+
+      '<div class="icell"><b style="color:#9dd39a">남는 것</b><span>'+t.keep+'</span></div>'+
+      '<div class="icell"><b style="color:#e0836a">사라지는 것</b><span>'+t.lose+'</span></div>'+
+    '</div><p>'+t.body+'</p><p class="note">'+t.note+'</p>';
+}
+renderTr(TRANS[1]);
+
+/* ===== 실습실 워크시트 ===== */
+const WSROWS=['전체 어절 수','내용어 수','절(서술어) 수','<b>어휘 밀도</b> (내용어 ÷ 절)','담화표지 · 간투사 수','반복 · 자기수정 수'];
+document.getElementById('ws-body').innerHTML=WSROWS.map((r,i)=>
+  '<tr><td class="w">'+r+'</td>'+
+  '<td><input type="text" aria-label="구어판의 '+r.replace(/<[^>]+>/g,'')+'"></td>'+
+  '<td><input type="text" aria-label="문어판의 '+r.replace(/<[^>]+>/g,'')+'"></td></tr>').join('');
+
+/* ===== 퀴즈 ===== */
+function buildQuiz(containerId,scoreId,items){
+  const wrap=document.getElementById(containerId),scoreEl=document.getElementById(scoreId);
+  let done=0,right=0;
+  items.forEach((it,i)=>{
+    const d=document.createElement('div');
+    d.className='quiz-item';
+    d.innerHTML='<div class="quiz-q"><span class="num">'+String(i+1).padStart(2,'0')+'</span>'+it.q+'</div>'+
+      '<div class="quiz-opts"></div><div class="quiz-fb"></div>';
+    const optWrap=d.querySelector('.quiz-opts'),fb=d.querySelector('.quiz-fb');
+    it.opts.forEach((label,j)=>{
+      const b=document.createElement('button');
+      b.className='quiz-opt';b.textContent=label;
+      b.onclick=()=>{
+        optWrap.querySelectorAll('.quiz-opt').forEach(x=>x.disabled=true);
+        const ok=j===it.a;
+        b.classList.add(ok?'correct':'wrong');
+        if(!ok)optWrap.querySelectorAll('.quiz-opt')[it.a].classList.add('correct');
+        fb.innerHTML='<b>'+(ok?'정답':'다시 보기')+'</b> · '+it.fb;
+        fb.classList.add('show');
+        done++;if(ok)right++;
+        scoreEl.textContent=done+'문항 풀이 · 정답 '+right+'개 ('+Math.round(right/done*100)+'%)'+
+          (done===items.length?(right===items.length?' — 완벽합니다.':' — 틀린 문항의 해설을 다시 읽어 보세요.'):'');
+      };
+      optWrap.appendChild(b);
+    });
+    wrap.appendChild(d);
+  });
+}
+
+buildQuiz('check-items','check-score',[
+ {q:'할리데이에 따르면 문어의 복잡성은 어디에 있는가?',
+  opts:['절의 수가 많은 데','문장이 긴 데','어려운 단어를 쓰는 데','절 하나에 내용어를 많이 담는 데'],a:3,
+  fb:'문어는 <b>어휘 밀도</b>가 높다 — 절 하나에 정보를 압축한다. 반면 구어는 <b>문법적 복잡성</b>이 높아 절이 길게 이어진다. 둘 다 복잡하되 복잡한 방식이 다르다. → §Ⅲ'},
+ {q:'구어판의 내용어가 14개, 절이 6개다. 어휘 밀도는?',
+  opts:['0.4','2.3','21','84'],a:1,
+  fb:'어휘 밀도 = 내용어 수 ÷ 절 수 = 14 ÷ 6 ≈ <b>2.3</b>. 같은 내용의 문어판이 내용어 14개·절 2개라면 밀도는 7.0이 되어, <b>같은 양의 정보가 3분의 1의 절에 압축</b>되었음을 보여 준다. → §Ⅲ'},
+ {q:'아동의 자발화에서 어휘 밀도가 낮게 나왔다. 가장 적절한 해석은?',
+  opts:['구어에서는 원래 낮으므로 그 자체로는 판단 근거가 되지 않는다','어휘력이 부족하다','구문 능력이 부족하다','전사가 잘못되었다'],a:0,
+  fb:'<b>구어는 원래 어휘 밀도가 낮다.</b> 상황에 기대어 "저거"로 가리킬 수 있고, 정보를 압축할 필요가 없기 때문이다. 문어의 지표로 구어를 재면 누구나 낮게 나온다. 비교하려면 <b>같은 조건에서 산출된 또래의 자료</b>와 견주어야 한다. → §Ⅲ·§임상'},
+ {q:'Biber(1988)의 다차원 분석이 보여 준 가장 중요한 결론은?',
+  opts:['구어가 문어보다 단순하다','어느 차원도 말과 글을 깨끗이 가르지 못했다','문어가 구어보다 복잡하다','구어와 문어는 여섯 가지 유형으로 나뉜다'],a:1,
+  fb:'각 갈래는 차원마다 다른 자리에 놓였고 <b>말과 글이 겹쳤다.</b> 강연은 사적 편지보다 정보 쪽에 있고 메신저 대화는 방송 인터뷰보다 관여 쪽에 있다. 매체가 아니라 <b>조건</b>이 자리를 정한다. → §Ⅳ'},
+ {q:'구어에서 "저거 좀 줘"가 통하는 이유를 §Ⅰ의 조건으로 설명하면?',
+  opts:['청자가 눈앞에 있어 상황에 기댈 수 있기 때문','말이 글보다 짧기 때문','구어에는 문법이 없기 때문','조사를 생략할 수 있기 때문'],a:0,
+  fb:'대면성과 즉각적 피드백이라는 조건 덕분에 <b>맥락을 말로 다 만들 필요가 없다.</b> 문어는 독자가 지금 여기 없으므로 명시적이 될 수밖에 없다. 이것이 Biber의 「상황 의존적 vs 명시적 지시」 차원이다. → §Ⅰ·§Ⅳ'},
+ {q:'한글의 <b>가획</b> 원리가 보여 주는 것은?',
+  opts:['글자 수를 줄이려는 경제성','한자의 영향','음절 단위로 모아쓰기 위한 장치','글자 모양에 소리의 성질이 반영된다는 점'],a:3,
+  fb:'ㄴ → ㄷ → ㅌ처럼 <b>획이 더해질수록 소리가 세진다.</b> 2주차에서 배운 평음·격음 대비가 글자 모양에 새겨져 있다. 샘슨은 이를 근거로 한글을 자질 문자라 불렀다 — 다만 이 규정에는 이견이 있다. → §Ⅴ'},
+ {q:'‘꽃이·꽃을·꽃도’를 소리대로 적지 않고 형태를 밝혀 적는 이유는?',
+  opts:['발음이 어려워서','한자어와 구별하려고','전통이라서','같은 단어라는 것을 눈에 보이게 하려고'],a:3,
+  fb:'소리대로 적으면 ‘꼬치·꼬츨·꼳또’가 되어 같은 단어임이 드러나지 않는다. 형태를 고정하면 <b>읽는 사람이 단어를 즉시 알아본다.</b> 쓰기는 어려워지고 읽기는 쉬워지는 거래다. 한글 맞춤법 제1항의 "어법에 맞도록"이 이것이다. → §Ⅴ'},
+ {q:'한국 아동이 취학 전에 한글을 떼는 일이 많지만 읽기 어려움은 따로 나타날 수 있다. 그 이유로 가장 적절한 것은?',
+  opts:['한글이 어려운 문자라서','한국어 어휘가 많아서','낱글자 읽기와 음운 규칙 적용은 별개의 단계라서','한자를 함께 배워야 해서'],a:2,
+  fb:'한글의 낱글자는 규칙적이라 빨리 익힌다. 그러나 ‘꽃이’를 [꼬치]로 읽으려면 <b>2주차에서 배운 음운 규칙을 적용할 줄 알아야 한다.</b> 한국어 정서법이 <b>읽기에서는 얕고 쓰기에서는 깊은 비대칭</b>이라 이런 이중 구조가 생긴다. → §Ⅴ'},
+ {q:'전사에 대한 설명으로 <b>가장 정확한</b> 것은?',
+  opts:['녹음을 글자로 옮기는 기록이다','정밀할수록 항상 좋다','표준 맞춤법으로 적는 것이 원칙이다','매체를 건너는 변환이며 이미 한 번의 해석이다'],a:3,
+  fb:'무엇을 남기고 무엇을 버릴지 사람이 결정해야 하므로 <b>전사본은 사실이 아니라 이미 해석된 자료</b>다. 정밀 전사가 늘 좋은 것도 아니다 — 목적에 맞는 수준을 고르는 것이 실력이다. → §Ⅵ'},
+ {q:'아동이 [머]라고 발음한 것을 전사자가 ‘뭐’라고 적었다. 무엇이 문제인가?',
+  opts:['맞춤법이 틀렸다','발화 수를 잘못 셌다','음운 발달의 정보가 사라졌다','문제없다 — 표준 표기가 원칙이다'],a:2,
+  fb:'<b>들은 것이 아니라 아는 것을 적은 것</b>이다. 그 순간 그 자료에서 알아낼 수 있었던 음운 정보가 사라진다. 게다가 이것은 <b>녹음으로 돌아가지 않는 한 되살릴 수 없는</b> 종류의 오류다. → §Ⅵ'},
+ {q:'검사실에서 모은 발화가 집에서 모은 발화보다 짧고 단순했다. 가장 신중한 해석은?',
+  opts:['검사실 자료가 더 정확하므로 그것을 쓴다','아동의 능력이 낮다','두 상황은 서로 다른 사용역이므로 조건의 차이일 수 있다','전사를 다시 해야 한다'],a:2,
+  fb:'낯선 어른과 마주 앉은 상황과 엄마와 노는 상황은 <b>같은 아이의 말이지만 다른 사용역</b>이다. 그래서 자발화 표본을 모을 때 <b>어디서 누구와 무엇을 하며 모았는지 기록해야</b> 한다. → §Ⅳ'},
+ {q:'구어를 문어의 잣대로 재는 데서 오는 오독이 <b>아닌</b> 것은?',
+  opts:['빠진 조사를 모두 오류로 계산한다','반복을 유창성 문제로 단정한다','담화표지를 군말로 지운다','또래 자료와 비교해 판단한다'],a:3,
+  fb:'또래와 비교하는 것은 <b>오독이 아니라 올바른 절차</b>다. 나머지 셋은 구어의 정상적 성질을 결함으로 읽는 경우다. 단, 반복과 조사 생략이 <b>진짜 문제일 수도</b> 있다 — 둘을 가르려면 구어의 정상 상태를 먼저 알아야 한다. → §Ⅱ·§임상'},
+ {q:'차자 표기 셋 가운데 <b>한국어 문장 전체를 적으려 한</b> 것은?',
+  opts:['구결','이두','향찰','반절'],a:2,
+  fb:'구결은 한문을 읽기 위해 조사·어미만 끼워 넣은 보조 장치이고, 이두는 공문서의 문체였다. <b>향찰</b>만이 한국어 문장을 통째로 적으려 했고, 그 결과가 향가 25수다. → §Ⅴ'},
+ {q:'향가의 해독안이 지금도 하나로 정해지지 않은 이유로 <b>가장 근본적인</b> 것은?',
+  opts:['자료가 훼손되어 글자를 알아볼 수 없어서','같은 한자를 뜻으로 읽을지 소리로 읽을지 표시가 없어서','한자를 아는 연구자가 적어서','향가가 노래라서 문법이 흐트러져 있어서'],a:1,
+  fb:'남의 문자를 빌려 쓰면 <b>읽는 사람이 무엇을 빌린 것인지 매번 알아맞혀야 한다.</b> 게다가 당시 한국어의 소리를 그 표기로부터 추정해야 하는데 그 추정의 근거가 다시 그 표기다. 문자와 언어가 맞지 않을 때 치르는 비용이 이것이다. → §Ⅴ'}
+]);
+
+/* ===== 스크롤 스파이 ===== */
+const navLinks=[...document.querySelectorAll('.nav-link')].filter(a=>document.querySelector(a.getAttribute('href')));
+const navSecs=navLinks.map(a=>document.querySelector(a.getAttribute('href')));
+function spy(){
+  let cur=0;
+  navSecs.forEach((s,i)=>{if(s.getBoundingClientRect().top<250)cur=i;});
+  navLinks.forEach((a,i)=>a.classList.toggle('active',i===cur));
+}
+window.addEventListener('scroll',spy);spy();
+</script>
+
+</body>
+</html>

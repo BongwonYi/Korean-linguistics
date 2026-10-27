@@ -444,12 +444,14 @@ footer{border-top:3px double var(--ink);margin-top:4rem;padding:2.5rem 3rem 3.5r
       <span class="mono">S → (NP) VP</span> &nbsp;<span style="opacity:.5">10주차 그대로</span><br>
       <span class="mono">NP → (AdnP) N (P)</span> &nbsp;<span style="opacity:.5">10주차 그대로</span><br>
       <span class="mono">AdnP → <b style="color:var(--accent)">S<sub>관형절</sub></b> | N | 관형사 | 관형사형</span> &nbsp;<span style="opacity:.6">★<b>확장</b>: 10주차 규칙의 오른쪽에 S를 더했다</span><br>
-      <span class="mono">AdvP → <b style="color:var(--accent)">S<sub>인용절</sub></b> P &nbsp;|&nbsp; NP P</span> &nbsp;<span style="opacity:.6">★<b>확장</b>: 10주차의 <span class="mono">AdvP → NP P</span> 자리에 절도 온다</span><br>
+      <span class="mono">AdvP → <b style="color:var(--accent)">S<sub>인용절</sub></b> P &nbsp;|&nbsp; Adv</span> &nbsp;<span style="opacity:.6">★<b>확장</b>: 10주차의 <span class="mono">AdvP → Adv</span>에 「절+조사」를 더했다</span><br>
       <span class="mono">S → <b style="color:var(--accent)">S<sub>선행절</sub></b> &nbsp;S<sub>후행절</sub></span> &nbsp;<span style="opacity:.6">★<b>새 규칙</b>: 문장이 문장 둘로 갈린다</span><br>
       <span class="mono">VP → V EC</span> &nbsp;<span style="opacity:.6"><b>새 규칙</b>: 연결어미가 서술어에 붙는다</span>
     </div>
 
-    <p>먼저 <strong>넓힌 두 줄</strong>을 본다. 10주차에서는 관형어 자리에 <strong>관형사·관형사형</strong>이, 부사어 자리에 <strong>명사구</strong>가 들어갔다. 이번 주에는 그 <strong>같은 자리에 절이 들어간다.</strong> 새 자리를 만든 것이 아니라 <strong>있던 자리에 더 큰 단위를 넣었다</strong>.</p>
+    <p>먼저 <strong>넓힌 두 줄</strong>을 본다. 10주차에서는 관형어 자리에 <strong>관형사·관형사형</strong>이, 부사어 자리에 <strong>부사·명사구</strong>가 들어갔다. 이번 주에는 그 <strong>같은 자리에 절이 들어간다.</strong> 새 자리를 만든 것이 아니라 <strong>있던 자리에 더 큰 단위를 넣었다</strong>.</p>
+
+    <p>인용절의 조사는 10주차와 다는 자리가 다르다. 10주차에서 조사는 NP 안에서 N의 자매로 놓였다. 그런데 인용절에는 체언이 없어 NP를 이룰 수 없으므로, 조사 「고」는 <strong>절 바깥에서 S의 자매</strong>로 붙는다. 그렇게 만들어진 「절+조사」가 부사어 자리에 들어가므로 AdvP라 부른다.</p>
 
     <p><strong>그 결과 S가 규칙의 오른쪽에 다시 나타난다.</strong> 이것을 <em class="term">재귀</em>(recursion)라 하는데, 1주차에서는 <strong>「귀환」</strong>이라는 이름으로 나왔다. 1주차에서 <strong>생산성을 만드는 장치</strong>로 든 <strong>조합과 귀환</strong> 가운데 귀환이 이것이다. <strong>규칙이 유한한데 문장이 무한한 이유</strong>가 여기 있다.</p>
   </div>
@@ -1008,11 +1010,11 @@ const TREES=[
          '단어까지 내려왔다. 「좁-」에 연결어미 「-아서」가 붙어 두 절을 잇는다. 후행절은 주어가 생략되어 <span class="mono">S → VP</span>뿐이라 더 갈리지 않았다.'],
   concl:'<b>내포와 모양이 다르다.</b> 안긴 절은 <b>NP나 AdnP 아래</b>에 들어가지만, 이어진 절은 <b>S 바로 아래에 나란히</b> 놓인다. <b>성분이 되지 않는다</b>는 §Ⅰ의 판정 기준이 그림으로 확인된다.'},
  {btn:'C31 다음에 이기면 된다고 했어요',
-  root:{l:'S',k:[{l:'S',t:'선행절',s:1,k:[{l:'AdvP',k:[{l:'다음에'}]},{l:'VP',k:[{l:'V',k:[{l:'이기-'}]},{l:'EC',k:[{l:'-면'}]}]}]},
+  root:{l:'S',k:[{l:'S',t:'선행절',s:1,k:[{l:'NP',t:'부사어',k:[{l:'N',k:[{l:'다음'}]},{l:'P',k:[{l:'에'}]}]},{l:'VP',k:[{l:'V',k:[{l:'이기-'}]},{l:'EC',k:[{l:'-면'}]}]}]},
                  {l:'S',t:'후행절',k:[{l:'VP',k:[{l:'AdvP',t:'인용절',s:1,k:[{l:'S',t:'안긴 절',s:1,k:[{l:'VP',k:[{l:'된다'}]}]},{l:'P',t:'부사격(인용)',k:[{l:'고'}]}]},{l:'V',k:[{l:'했어요'}]}]}]}]},
   steps:['<span class="mono">S → S S</span>: 「이기면」에서 갈린다. <b>접속</b>이다.',
-         '선행절 <span class="mono">S → AdvP VP</span>, 후행절 <span class="mono">S → VP</span>.',
-         '선행절 아래 <span class="mono">VP → V EC</span>, 후행절 아래 <span class="mono">VP → AdvP V</span>: 「했어요」 앞에 부사어가 하나 있다.',
+         '선행절 <span class="mono">S → NP VP</span>, 후행절 <span class="mono">S → VP</span>. 선행절의 NP는 주어가 아니라 때를 나타내는 <b>부사어</b> 「다음+에」다. 주어는 생략되었다.',
+         '선행절 아래 <span class="mono">NP → N P</span>와 <span class="mono">VP → V EC</span>, 후행절 아래 <span class="mono">VP → AdvP V</span>: 「했어요」 앞에 부사어가 하나 있다.',
          '<span class="mono">AdvP → S P</span>: <b>그 부사어가 인용절이다.</b> 표지는 조사 「고」. <b>목적어가 아니라 부사어</b>인 것은 학교 문법이 「고」를 <b>인용의 부사격조사</b>로 보기 때문이다(§Ⅱ).',
          '안긴 S가 <span class="mono">S → VP</span>로 갈린다. 주어 없이 서술어뿐이다.',
          '단어까지 내려왔다. <b>「고」가 절 하나를 통째로 부사어로 만들었다.</b>'],

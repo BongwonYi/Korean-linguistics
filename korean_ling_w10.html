@@ -555,13 +555,16 @@ footer{border-top:3px double var(--ink);margin-top:4rem;padding:2.5rem 3rem 3.5r
 
     <div class="ex">
       <span class="mono">S → (NP<sub>주어</sub>) &nbsp;VP</span> &nbsp;<span style="opacity:.6">문장은 주어부와 서술부로 갈린다. 주어는 생략될 수 있다</span><br>
-      <span class="mono">VP → (NP<sub>목적어/보어</sub>) (AdvP) &nbsp;V</span> &nbsp;<span style="opacity:.6">서술부는 목적어·보어·부사어를 거느릴 수 있다</span><br>
-      <span class="mono">NP → (AdnP) &nbsp;N &nbsp;(P)</span> &nbsp;<span style="opacity:.6">명사구는 관형어를 앞에, 조사를 뒤에 둔다</span><br>
-      <span class="mono">AdvP → NP &nbsp;P</span> &nbsp;<span style="opacity:.6">명사구에 조사가 붙어 부사어가 된다</span><br>
-      <span class="mono">AdnP → N | 관형사 | 관형사형</span> &nbsp;<span style="opacity:.6">관형어가 될 수 있는 것들</span>
+      <span class="mono">VP → (NP<sub>목적어/보어</sub>) (NP<sub>부사어</sub> | AdvP) &nbsp;V</span> &nbsp;<span style="opacity:.6">서술부는 목적어·보어·부사어를 거느릴 수 있다</span><br>
+      <span class="mono">NP → (AdnP) &nbsp;N &nbsp;(P)</span> &nbsp;<span style="opacity:.6">명사구는 관형어를 앞에, 조사를 뒤에 둔다. 주어·목적어·보어·부사어 모두 같다</span><br>
+      <span class="mono">AdvP → Adv</span> &nbsp;<span style="opacity:.6">부사가 그대로 부사어가 된다(「먼저」, 「못」)</span><br>
+      <span class="mono">AdnP → N (P) | 관형사 | 관형사형</span> &nbsp;<span style="opacity:.6">관형어가 될 수 있는 것들. P는 관형격조사 「의」</span>
     </div>
 
     <p>괄호는 <strong>있어도 되고 없어도 된다</strong>는 뜻이다. 이런 규칙을 <em class="term">구절 구조 규칙</em>(phrase structure rule)이라 한다. 이번 주에 그릴 수형도는 <strong>이 다섯 개로 모두 그릴 수 있다</strong>. 모자라면 <strong>규칙을 새로 만들어도 되지만</strong>, 만든 규칙은 적어 두어야 한다(실습 1번).</p>
+
+    <p><strong>조사는 어느 성분에서나 같은 자리에 단다.</strong> 조사는 9품사의 하나이므로 N·V처럼 자기 마디(P)를 갖고, 체언과 함께 명사구를 이룬다. 핵은 체언이므로 마디 이름은 NP 그대로이고, P는 N의 자매로 NP 안에 놓인다. 「거북이<b>가</b>」(주어)도 「여기<b>로</b>」(부사어)도 NP 아래에서 N과 P로 갈린다. 성분은 마디 이름이 아니라 <strong>그 NP가 어디에 붙었는지</strong>(S 바로 아래인지 VP 안인지)와 <strong>조사가 무엇인지</strong>로 가린다. 그래서 수형도에는 NP 옆에 「주어」·「부사어」 같은 성분 이름을 함께 적는다. AdvP는 부사가 부사어로 쓰일 때만 쓴다.</p>
+    <p>어미는 따로 떼지 않는다. 학교 문법에서 어미는 단어가 아니므로 「이겼어요」는 V 마디 하나에 통째로 놓인다. 조사는 떼고 어미는 붙여 두는 차이가 여기서 나온다. 어미를 떼어 그리는 것은 11주차의 연결어미(EC)가 처음이다.</p>
   </div>
 
   <div class="interactive">
@@ -1035,7 +1038,7 @@ const HEAD=[
   n:'전사본 C51이다. 영어는 <i>a bicycle <b>with four wheels</b></i>로 꾸미는 말이 뒤에 온다. <b>한국어는 관형어가 반드시 앞</b>에 온다. 7주차에서 다룬 관형사의 어순도 이 원리에 따른 것이다.'},
  {btn:'조사가 붙은 구성',ex:'할머니 집<b>에</b>',head:'—',
   d:'조사는 <b>언제나 뒤</b>에 붙는다. 영어의 전치사가 <i><b>to</b> grandma\'s house</i>로 앞에 오는 것과 반대다.',
-  n:'그래서 한국어의 <b>부사격조사</b>를 <b>후치사</b>(postposition)라 부르기도 한다.<br><br><b>다만 주의할 점이 있다.</b> 「조사가 핵이다」(조사구·후치사구)는 <b>생성문법 쪽의 분석</b>이고, 학교 문법과 전통 국어문법은 「체언+조사」를 <b>체언구</b>로 보아 핵을 체언으로 잡는다. 그래서 §Ⅵ의 규칙은 <span class="mono">NP → (AdnP) N (P)</span>, 곧 학교 문법 쪽을 따랐다. <b>두 틀은 같은 사실을 다르게 그린다.</b> 어느 쪽이든 <b>조사가 뒤에 온다</b>는 사실은 같다.'},
+  n:'그래서 한국어의 <b>부사격조사</b>를 <b>후치사</b>(postposition)라 부르기도 한다.<br><br><b>다만 주의할 점이 있다.</b> 「조사가 핵이다」(조사구·후치사구)는 <b>생성문법 쪽의 분석</b>이고, 학교 문법과 전통 국어문법은 「체언+조사」를 <b>체언구</b>로 보아 핵을 체언으로 잡는다. 그래서 §Ⅵ의 규칙은 <span class="mono">NP → (AdnP) N (P)</span>, 곧 학교 문법 쪽을 따랐다. 주어의 「가」든 부사어의 「로」든 조사는 언제나 NP 안에서 N의 자매로 놓인다. <b>두 틀은 같은 사실을 다르게 그린다.</b> 어느 쪽이든 <b>조사가 뒤에 온다</b>는 사실은 같다.'},
  {btn:'보조용언 구성',ex:'해 <b>주셨어요</b>',head:'주셨어요 (보조용언)',
   d:'본용언과 보조용언 중 <b>뒤의 보조용언이 핵</b>이며, 높임과 시제 표지가 거기에 붙는다.',
   n:'8주차 §Ⅲ에서 「높임 -시-와 과거 -었-이 보조용언 쪽에 붙었다」고 한 것이 <b>핵이 뒤에 있기 때문</b>이다. 문법 정보는 핵에 실린다.'},
@@ -1077,21 +1080,19 @@ const TREES=[
   concl:'<b>목적어가 VP 안에 있다</b>는 점이 중요하다. 목적어는 주어보다 서술어에 더 가깝게 묶이며, 이 구조가 「주어–목적어–서술어」 어순을 설명한다.'},
  {btn:'C15 인형이 여기로 들어가',
   root:{l:'S',k:[{l:'NP',t:'주어',k:[{l:'N',k:[{l:'인형'}]},{l:'P',k:[{l:'이'}]}]},
-                 {l:'VP',k:[{l:'AdvP',t:'부사어',k:[{l:'NP',k:[{l:'N',k:[{l:'여기'}]}]},{l:'P',k:[{l:'로'}]}]},{l:'V',k:[{l:'들어가'}]}]}]},
+                 {l:'VP',k:[{l:'NP',t:'부사어',k:[{l:'N',k:[{l:'여기'}]},{l:'P',k:[{l:'로'}]}]},{l:'V',k:[{l:'들어가'}]}]}]},
   steps:['<span class="mono">S → NP VP</span>',
-         '<span class="mono">VP → AdvP V</span>: 서술부에 <b>부사어</b>가 들어 있다. 이것은 <b>필수적 부사어</b>다.',
-         '<span class="mono">AdvP → NP P</span>: 명사구 「여기」에 조사 「로」가 붙어 부사어가 되었다.',
-         '<span class="mono">NP → N</span>: 「여기」에는 관형어도 다른 조사도 없다.',
+         '<span class="mono">NP → N P</span>: 주어부는 명사 「인형」과 조사 「이」. <span class="mono">VP → NP V</span>: 서술부에 <b>부사어</b> NP가 들어 있다. 이것은 <b>필수적 부사어</b>다.',
+         '<span class="mono">NP → N P</span>: 부사어 NP도 명사 「여기」와 조사 「로」로 갈린다. <b>주어 「인형이」와 모양이 같다.</b>',
          '마디 끝에 실제 형태가 놓인다.'],
-  concl:'<b>부사어도 VP 안에 있다.</b> 필수적 부사어는 서술어가 요구하는 논항이므로 서술부에 속한다. 반면 <b>문장부사</b>(그래서·다행히)는 문장 전체를 꾸미므로 S 바로 아래에 붙는다. (접속부사를 <b>독립어</b>로 보는 견해를 따르면 아예 S 밖에 놓인다. §Ⅱ의 C27 참조.)'},
+  concl:'<b>주어 NP와 부사어 NP는 안의 모양이 같다.</b> 둘을 가르는 것은 붙은 자리(S 바로 아래인가 VP 안인가)와 조사(「이」인가 「로」인가)다.<br><br><b>부사어도 VP 안에 있다.</b> 필수적 부사어는 서술어가 요구하는 논항이므로 서술부에 속한다. 반면 <b>문장부사</b>(그래서·다행히)는 문장 전체를 꾸미므로 S 바로 아래에 붙는다. (접속부사를 <b>독립어</b>로 보는 견해를 따르면 아예 S 밖에 놓인다. §Ⅱ의 C27 참조.)'},
  {btn:'C39 할머니 집에 갔어요',
-  root:{l:'S',k:[{l:'VP',k:[{l:'AdvP',t:'부사어',k:[{l:'NP',k:[{l:'AdnP',t:'관형어',k:[{l:'할머니'}]},{l:'N',k:[{l:'집'}]}]},{l:'P',k:[{l:'에'}]}]},{l:'V',k:[{l:'갔어요'}]}]}]},
+  root:{l:'S',k:[{l:'VP',k:[{l:'NP',t:'부사어',k:[{l:'AdnP',t:'관형어',k:[{l:'할머니'}]},{l:'N',k:[{l:'집'}]},{l:'P',k:[{l:'에'}]}]},{l:'V',k:[{l:'갔어요'}]}]}]},
   steps:['<span class="mono">S → VP</span>: <b>주어가 없다.</b> 말하는 이 자신이라 생략되었다.',
-         '<span class="mono">VP → AdvP V</span>: 부사어 「할머니 집에」와 동사 「갔어요」.',
-         '<span class="mono">AdvP → NP P</span>: 명사구 「할머니 집」에 조사 「에」가 붙었다.',
-         '<span class="mono">NP → AdnP N</span>: 「할머니」가 「집」을 꾸민다. <b>관형격조사 「의」가 생략된 관형어</b>다.',
+         '<span class="mono">VP → NP V</span>: 부사어 NP 「할머니 집에」와 동사 「갔어요」.',
+         '<span class="mono">NP → AdnP N P</span>: 관형어 「할머니」, 핵 명사 「집」, 조사 「에」가 한 NP 안에 나란히 놓인다. 「할머니」는 <b>관형격조사 「의」가 생략된 관형어</b>다.',
          '마디 끝에 실제 형태가 놓인다.'],
-  concl:'관형어 자리에 온 명사는 <b>AdnP 아래에 바로</b> 놓았다. <span class="mono">AdnP → N</span>을 한 단계로 줄인 것이다.<br><br><b>생략된 주어를 그리는 방식</b>은 여럿이다. 이 자료는 아예 그리지 않았지만, <b>빈 마디로 표시하는 방식</b>도 있다. 어느 쪽이든 <b>주어가 없다는 사실은 기록</b>해야 하며, 실습 2번의 판정이 이 기록에 해당한다.'},
+  concl:'관형어 자리에 온 명사는 <b>AdnP 아래에 바로</b> 놓았다. <span class="mono">AdnP → N</span>을 한 단계로 줄인 것이다. 「의」가 실현된 「할머니<b>의</b> 집에」라면 <span class="mono">AdnP → N P</span>로 AdnP 아래에 「할머니」와 「의」가 갈린다.<br><br><b>생략된 주어를 그리는 방식</b>은 여럿이다. 이 자료는 아예 그리지 않았지만, <b>빈 마디로 표시하는 방식</b>도 있다. 어느 쪽이든 <b>주어가 없다는 사실은 기록</b>해야 하며, 실습 2번의 판정이 이 기록에 해당한다.'},
  {btn:'C54 나 애기 아닌데',
   root:{l:'S',k:[{l:'NP',t:'주어',k:[{l:'N',k:[{l:'나'}]}]},
                  {l:'VP',k:[{l:'NP',t:'보어',k:[{l:'N',k:[{l:'애기'}]}]},{l:'V',k:[{l:'아닌데'}]}]}]},

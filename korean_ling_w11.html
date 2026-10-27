@@ -442,9 +442,9 @@ footer{border-top:3px double var(--ink);margin-top:4rem;padding:2.5rem 3rem 3.5r
 
     <div class="ex">
       <span class="mono">S → (NP) VP</span> &nbsp;<span style="opacity:.5">10주차 그대로</span><br>
-      <span class="mono">NP → (AdnP) N (P)</span> &nbsp;<span style="opacity:.5">10주차 그대로</span><br>
+      <span class="mono">NP → (AdnP) N (J)</span> &nbsp;<span style="opacity:.5">10주차 그대로</span><br>
       <span class="mono">AdnP → <b style="color:var(--accent)">S<sub>관형절</sub></b> | N | 관형사 | 관형사형</span> &nbsp;<span style="opacity:.6">★<b>확장</b>: 10주차 규칙의 오른쪽에 S를 더했다</span><br>
-      <span class="mono">AdvP → <b style="color:var(--accent)">S<sub>인용절</sub></b> P &nbsp;|&nbsp; Adv</span> &nbsp;<span style="opacity:.6">★<b>확장</b>: 10주차의 <span class="mono">AdvP → Adv</span>에 「절+조사」를 더했다</span><br>
+      <span class="mono">AdvP → <b style="color:var(--accent)">S<sub>인용절</sub></b> J &nbsp;|&nbsp; Adv</span> &nbsp;<span style="opacity:.6">★<b>확장</b>: 10주차의 <span class="mono">AdvP → Adv</span>에 「절+조사」를 더했다</span><br>
       <span class="mono">S → <b style="color:var(--accent)">S<sub>선행절</sub></b> &nbsp;S<sub>후행절</sub></span> &nbsp;<span style="opacity:.6">★<b>새 규칙</b>: 문장이 문장 둘로 갈린다</span><br>
       <span class="mono">VP → V EC</span> &nbsp;<span style="opacity:.6"><b>새 규칙</b>: 연결어미가 서술어에 붙는다</span>
     </div>
@@ -1010,15 +1010,15 @@ const TREES=[
          '단어까지 내려왔다. 「좁-」에 연결어미 「-아서」가 붙어 두 절을 잇는다. 후행절은 주어가 생략되어 <span class="mono">S → VP</span>뿐이라 더 갈리지 않았다.'],
   concl:'<b>내포와 모양이 다르다.</b> 안긴 절은 <b>NP나 AdnP 아래</b>에 들어가지만, 이어진 절은 <b>S 바로 아래에 나란히</b> 놓인다. <b>성분이 되지 않는다</b>는 §Ⅰ의 판정 기준이 그림으로 확인된다.'},
  {btn:'C31 다음에 이기면 된다고 했어요',
-  root:{l:'S',k:[{l:'S',t:'선행절',s:1,k:[{l:'NP',t:'부사어',k:[{l:'N',k:[{l:'다음'}]},{l:'P',k:[{l:'에'}]}]},{l:'VP',k:[{l:'V',k:[{l:'이기-'}]},{l:'EC',k:[{l:'-면'}]}]}]},
-                 {l:'S',t:'후행절',k:[{l:'VP',k:[{l:'AdvP',t:'인용절',s:1,k:[{l:'S',t:'안긴 절',s:1,k:[{l:'VP',k:[{l:'된다'}]}]},{l:'P',t:'부사격(인용)',k:[{l:'고'}]}]},{l:'V',k:[{l:'했어요'}]}]}]}]},
+  root:{l:'S',k:[{l:'S',t:'선행절',s:1,k:[{l:'NP',t:'부사어',k:[{l:'N',k:[{l:'다음'}]},{l:'J',k:[{l:'에'}]}]},{l:'VP',k:[{l:'V',k:[{l:'이기-'}]},{l:'EC',k:[{l:'-면'}]}]}]},
+                 {l:'S',t:'후행절',k:[{l:'VP',k:[{l:'AdvP',t:'인용절',s:1,k:[{l:'S',t:'안긴 절',s:1,k:[{l:'VP',k:[{l:'된다'}]}]},{l:'J',t:'부사격(인용)',k:[{l:'고'}]}]},{l:'V',k:[{l:'했어요'}]}]}]}]},
   steps:['<span class="mono">S → S S</span>: 「이기면」에서 갈린다. <b>접속</b>이다.',
          '선행절 <span class="mono">S → NP VP</span>, 후행절 <span class="mono">S → VP</span>. 선행절의 NP는 주어가 아니라 때를 나타내는 <b>부사어</b> 「다음+에」다. 주어는 생략되었다.',
-         '선행절 아래 <span class="mono">NP → N P</span>와 <span class="mono">VP → V EC</span>, 후행절 아래 <span class="mono">VP → AdvP V</span>: 「했어요」 앞에 부사어가 하나 있다.',
-         '<span class="mono">AdvP → S P</span>: <b>그 부사어가 인용절이다.</b> 표지는 조사 「고」. <b>목적어가 아니라 부사어</b>인 것은 학교 문법이 「고」를 <b>인용의 부사격조사</b>로 보기 때문이다(§Ⅱ).',
+         '선행절 아래 <span class="mono">NP → N J</span>와 <span class="mono">VP → V EC</span>, 후행절 아래 <span class="mono">VP → AdvP V</span>: 「했어요」 앞에 부사어가 하나 있다.',
+         '<span class="mono">AdvP → S J</span>: <b>그 부사어가 인용절이다.</b> 표지는 조사 「고」. <b>목적어가 아니라 부사어</b>인 것은 학교 문법이 「고」를 <b>인용의 부사격조사</b>로 보기 때문이다(§Ⅱ).',
          '안긴 S가 <span class="mono">S → VP</span>로 갈린다. 주어 없이 서술어뿐이다.',
          '단어까지 내려왔다. <b>「고」가 절 하나를 통째로 부사어로 만들었다.</b>'],
-  concl:'<b>접속과 내포가 한 문장에 함께 있다.</b> 바깥은 접속(S→S S), 안은 내포(AdvP→S P). 전사본에서 절이 셋인 발화 넷 중 하나다. <b>4;6에 이 정도 구조가 나온다는 점</b>은 눈여겨볼 만하다.'},
+  concl:'<b>접속과 내포가 한 문장에 함께 있다.</b> 바깥은 접속(S→S S), 안은 내포(AdvP→S J). 전사본에서 절이 셋인 발화 넷 중 하나다. <b>4;6에 이 정도 구조가 나온다는 점</b>은 눈여겨볼 만하다.'},
  {btn:'C04 큰 집 (절로 센다면)',
   root:{l:'NP',k:[{l:'AdnP',t:'관형절?',s:1,k:[{l:'S',t:'안긴 절?',s:1,k:[{l:'NP',t:'생략',k:[{l:'(집이)'}]},{l:'VP',k:[{l:'크-ㄴ'}]}]}]},{l:'N',k:[{l:'집'}]}]},
   steps:['<span class="mono">NP → AdnP N</span>: 관형어와 명사.',
@@ -1241,7 +1241,7 @@ buildQuiz('check-items','check-score',[
   fb:'그래서 <b>종속 접속과 부사절 내포의 경계가 흐려진다.</b> 「-게」를 부사형 전성어미로 볼지 종속적 연결어미로 볼지 갈리는 것(충돌 ②)이 이 문제의 한 갈래다. → §Ⅳ'},
  {q:'복문 수형도에서 <b>재귀</b>가 일어나는 자리는?',
   opts:['NP 아래에 NP가 올 때','규칙의 오른쪽에 S가 다시 나타날 때','조사가 붙을 때','어미가 겹칠 때'],a:1,
-  fb:'<span class="mono">AdnP → S</span>, <span class="mono">S → S S</span>, <span class="mono">AdvP → S P</span>처럼 이번 주에 더하거나 넓힌 네 줄 가운데 <b>세 줄</b>의 오른쪽에 S가 있다. 이 성질 때문에 <b>규칙은 유한해도 문장은 무한</b>해지며, 1주차에서 말한 「생산성」이 여기서 나온다. → §Ⅴ'},
+  fb:'<span class="mono">AdnP → S</span>, <span class="mono">S → S S</span>, <span class="mono">AdvP → S J</span>처럼 이번 주에 더하거나 넓힌 네 줄 가운데 <b>세 줄</b>의 오른쪽에 S가 있다. 이 성질 때문에 <b>규칙은 유한해도 문장은 무한</b>해지며, 1주차에서 말한 「생산성」이 여기서 나온다. → §Ⅴ'},
  {q:'「토끼와 거북이가 <b>만났다</b>」가 단문인 이유는?',
   opts:['「만나다」가 둘 이상을 요구해 구 접속으로만 읽혀서','짧아서','조사가 하나라서','주어가 하나라서'],a:0,
   fb:'<span class="bad">*</span>「토끼가 만났다 + 거북이가 만났다」로 풀리지 않는다. 반면 「달렸다」는 풀리므로 <b>문 접속으로도 읽혀</b> 중의적이다. <b>서술어가 정한다.</b><br>다만 문 접속을 <b>절 둘</b>로 셀지는 이론 틀에 달려 있다. 기저 구조를 상정하면 둘, 학교 문법은 표면의 서술어가 하나이므로 보통 홑문장으로 둔다. → §Ⅵ'},

@@ -1,5 +1,5 @@
 ---
-title: 문장 성분 분석기
+title: 한국어 문장 분석기
 emoji: 🌳
 colorFrom: yellow
 colorTo: red
@@ -8,7 +8,7 @@ app_port: 7860
 pinned: false
 ---
 
-# 문장 성분 분석기 (시제품)
+# 한국어 문장 분석기 (시제품)
 
 바른(Bareun) 형태소 분석 결과를 바탕으로 **학교문법의 문장 성분과 문장 구조**를 판정하고,
 **의존 관계**를 참고 정보로 보여 주는 수업용 웹앱입니다. 스마트폰 브라우저에서 쓸 수 있습니다.
@@ -62,7 +62,7 @@ pinned: false
    ```bash
    git clone https://huggingface.co/spaces/<아이디>/<스페이스이름> space
    cp -r syntax-analyzer/* space/
-   cd space && git add . && git commit -m "문장 성분 분석기" && git push
+   cd space && git add . && git commit -m "한국어 문장 분석기" && git push
    ```
 4. 빌드가 끝나면 `https://huggingface.co/spaces/<아이디>/<스페이스이름>` 주소로 접속합니다.
 

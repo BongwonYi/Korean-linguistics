@@ -1,4 +1,4 @@
-"""문장 성분 분석기 웹 서버 (FastAPI).
+"""한국어 문장 분석기 웹 서버 (FastAPI).
 
 - 브라우저는 이 서버의 /api/analyze 만 호출하고, 바른 API 키는 서버 환경 변수에만 둔다.
 - 무료 구간(5만 어절)을 아끼기 위해 결과 캐시, 입력 길이 제한, 접속자별·하루 사용량 제한을 둔다.
@@ -33,7 +33,7 @@ PER_IP_PER_MIN = int(os.environ.get("PER_IP_PER_MIN", "15"))
 DAILY_EOJEOL_LIMIT = int(os.environ.get("DAILY_EOJEOL_LIMIT", "2000"))
 CACHE_SIZE = int(os.environ.get("CACHE_SIZE", "1000"))
 
-app = FastAPI(title="문장 성분 분석기", docs_url=None, redoc_url=None)
+app = FastAPI(title="한국어 문장 분석기", docs_url=None, redoc_url=None)
 app.mount("/static", StaticFiles(directory=STATIC), name="static")
 
 _cache: OrderedDict[str, dict] = OrderedDict()

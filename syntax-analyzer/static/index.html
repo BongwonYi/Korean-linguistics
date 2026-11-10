@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>문장 성분 분석기</title>
+<meta name="description" content="바른 형태소 분석 결과를 바탕으로 학교문법의 문장 성분과 문장 구조를 보여 주는 수업용 도구">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Noto+Serif+KR:wght@700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<header class="masthead">
+  <div class="wrap">
+    <p class="kicker">한국어학 수업 도구</p>
+    <h1>문장 성분 분석기</h1>
+    <p class="sub">형태소 분석(바른) → 학교문법 문장 성분 · 문장 구조 · 의존 관계(참고)</p>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="card input-card">
+    <label for="text" class="lbl">분석할 문장</label>
+    <textarea id="text" rows="3" maxlength="200" placeholder="예: 내가 어제 산 책이 재미있다."></textarea>
+    <div class="row">
+      <span id="count" class="muted">0 / 200자</span>
+      <button id="go" class="btn">분석하기</button>
+    </div>
+    <details class="examples">
+      <summary>예문 고르기 <span class="muted">(저장된 결과 · 사용량 차감 없음)</span></summary>
+      <div id="examples" class="chips"></div>
+    </details>
+  </section>
+
+  <div id="msg" class="msg" hidden></div>
+  <div id="out"></div>
+
+  <section class="card legend">
+    <h2>색깔 안내</h2>
+    <div class="chips static">
+      <span class="role r-주어">주어</span><span class="role r-서술어">서술어</span>
+      <span class="role r-목적어">목적어</span><span class="role r-보어">보어</span>
+      <span class="role r-관형어">관형어</span><span class="role r-부사어">부사어</span>
+      <span class="role r-독립어">독립어</span><span class="role est">점선 = 추정</span>
+    </div>
+    <p class="muted small">어절을 누르면 형태소 분석 결과와 판정 근거를 볼 수 있습니다.
+      판정은 형태(조사·어미) 정보에 기댄 규칙 기반 결과이므로, 조사가 생략되었거나 보조사가 붙은 경우 등은
+      '추정'으로 표시합니다. 의미까지 고려한 최종 판단은 수업에서 함께 검토해 주세요.</p>
+  </section>
+</main>
+
+<footer class="wrap foot muted small">
+  형태소 분석: <a href="https://bareun.ai" target="_blank" rel="noopener">바른(Bareun)</a> ·
+  품사 태그는 바른 47품사 체계 · 문장 성분 판정 규칙은 이 도구의 자체 규칙입니다.
+</footer>
+
+<template id="sentence-tpl">
+  <section class="card sentence">
+    <div class="s-head">
+      <span class="badge kind"></span>
+      <span class="structure"></span>
+    </div>
+    <div class="eojeols"></div>
+    <div class="detail" hidden></div>
+    <div class="clauses"></div>
+    <details class="dep">
+      <summary>의존 관계 보기 <span class="muted">(참고)</span></summary>
+      <div class="dep-scroll"><div class="dep-inner"></div></div>
+      <p class="muted small">화살표는 꾸미거나 기대는 말(의존어)에서 그 말이 기대는 중심어로 향합니다. 규칙으로 추정한 참고 정보입니다.</p>
+    </details>
+    <details class="morph">
+      <summary>형태소 분석 표</summary>
+      <div class="table-scroll"><table><thead><tr><th>어절</th><th>형태소/태그</th><th>성분</th></tr></thead><tbody></tbody></table></div>
+    </details>
+  </section>
+</template>
+
+<script src="/static/app.js"></script>
+</body>
+</html>

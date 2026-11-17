@@ -85,6 +85,14 @@ pinned: false
    ```
 4. 빌드가 끝나면 `https://huggingface.co/spaces/<아이디>/<스페이스이름>` 주소로 접속합니다.
 
+git 인증이 번거로우면 Hub API로 올리는 스크립트를 씁니다(쓰기 권한 토큰 필요).
+토큰은 Windows 자격 증명 관리자(keyring 서비스 `huggingface`, 이름 `api_key`)나 환경 변수 `HF_TOKEN`에서 읽습니다.
+```bash
+pip install huggingface_hub keyring
+python -m tools.deploy_space            # 기본: bongwonyi/syntax-analyzer
+python -m tools.deploy_space --space <아이디>/<스페이스이름>
+```
+
 ## 로컬에서 실행·검사
 
 ```bash

@@ -109,3 +109,130 @@ def test_frame_choice_prefers_case_marked_arguments():
     s_e = _match(at_e, [subj, bare, adv], cases)[2]
     s_ro = _match(by_ro, [subj, bare, adv], cases)[2]
     assert s_ro > s_e
+
+
+# ---------------------------------------------------------------------------
+# 문법 요소(문장 종결, 높임, 시제·동작상, 부정)
+# ---------------------------------------------------------------------------
+
+def feats(s, word):
+    E = s["eojeols"]
+    a = next(a for a in s["argument_structure"] if E[a["predicate"]]["text"].strip('.,!?"').split('.')[0] == word)
+    return {f["cat"]: f for f in a["features"]}
+
+
+def fake(*tokens):
+    """[(어절, [(형태, 태그), …]), …] → 바른 응답 모양."""
+    toks = [{"text": {"content": w}, "morphemes": [{"text": {"content": f}, "tag": t} for f, t in ms]}
+            for w, ms in tokens]
+    return analyze_response({"sentences": [{"text": {"content": " ".join(w for w, _ in tokens)},
+                                            "tokens": toks}]})["sentences"][0]
+
+
+@pytest.mark.parametrize("n, word, expect", [
+    (1, "주었다", {"문장 종결": "평서문", "상대 높임": "해라체", "시제": "과거"}),
+    (7, "먹어라", {"문장 종결": "명령문", "상대 높임": "해라체"}),
+    (11, "산", {"시제": "과거"}),            # 동사 + 관형사형 -ㄴ
+    (1, "예쁜", {"시제": "현재"}),           # 형용사 + 관형사형 -ㄴ
+    (14, "가셨다", {"주체 높임": "높임", "시제": "과거"}),
+    (18, "않았다", {"부정": "긴 부정(-지 않다)"}),
+    (22, "버렸다", {"동작상": "완료상"}),
+    (16, "갈게", {"상대 높임": "해체"}),
+])
+def test_grammar_features(n, word, expect):
+    f = feats(load(n), word)
+    for cat, val in expect.items():
+        assert f[cat]["value"] == val, (cat, f.get(cat))
+
+
+def test_imperative_has_no_tense():
+    assert "시제" not in feats(load(7), "먹어라")
+
+
+def test_sentence_features_from_final_predicate():
+    sf = {f["cat"]: f["value"] for f in load(14)["sentence_features"]}
+    assert sf == {"문장 종결": "평서문", "상대 높임": "해라체"}
+
+
+def test_subject_honor_mismatch_is_flagged():
+    s = fake(("할머니께서", [("할머니", "NNG"), ("께서", "JKS")]),
+             ("왔다.", [("오", "VV"), ("았", "EP"), ("다", "EF"), (".", "SF")]))
+    f = feats(s, "왔다")["주체 높임"]
+    assert f["warn"] and f["value"] == "확인 필요"
+
+
+def test_question_mark_decides_ambiguous_ending():
+    s = fake(("밥", [("밥", "NNG")]), ("먹어?", [("먹", "VV"), ("어", "EF"), ("?", "SF")]))
+    f = feats(s, "먹어")["문장 종결"]
+    assert f["value"] == "의문문" and not f["estimated"]
+
+
+def test_short_negation_and_object_honor():
+    s = fake(("나는", [("나", "NP"), ("는", "JX")]),
+             ("선생님께", [("선생", "NNG"), ("님", "XSN"), ("께", "JKB")]),
+             ("선물을", [("선물", "NNG"), ("을", "JKO")]),
+             ("못", [("못", "MAG")]),
+             ("드렸다.", [("드리", "VV"), ("었", "EP"), ("다", "EF"), (".", "SF")]))
+    f = feats(s, "드렸다")
+    assert f["부정"]["value"] == "짧은 부정(못)"
+    assert f["객체 높임"]["value"] == "높임"
+
+
+# ---------------------------------------------------------------------------
+# 절 구조(간접 인용절, '에 의해', 서술절, 안긴 절의 부사어, 절 나무)
+# ---------------------------------------------------------------------------
+
+def test_indirect_quote_clause():
+    s = load(29)   # 그는 내일 비가 온다고 말했다.
+    assert roles(s)["온다고"] == "부사어"
+    assert clause_types(s) == ["인용절"]
+    assert head_of(s, "비가") == "온다고"
+
+
+def test_agent_phrase_is_not_a_clause():
+    s = load(30)   # 그 사건이 경찰에 의해 해결되었다.
+    assert s["sentence_kind"] == "홑문장"
+    assert roles(s)["의해"] == "부사어" and head_of(s, "사건이") == "해결되었다"
+
+
+def test_predicate_clause_in_each_conjunct_and_tree():
+    s = load(31)   # 영수는 키가 크고 민수는 키가 작다.
+    assert clause_types(s) == ["대등", "서술절", "서술절"]
+    inner = next(c for c in s["clauses"] if c["type"] == "서술절" and c["text"].startswith("키가 크고"))
+    outer = next(c for c in s["clauses"] if c["type"] == "대등")
+    assert inner["parent"] == outer["id"] and inner["depth"] == 1
+    assert outer.get("meaning", "").startswith("나열")
+
+
+def test_adverbial_attaches_inside_embedded_clause():
+    s = fake(("철수가", [("철수", "NNP"), ("가", "JKS")]),
+             ("학교에", [("학교", "NNG"), ("에", "JKB")]),
+             ("간", [("가", "VV"), ("ㄴ", "ETM")]),
+             ("사실을", [("사실", "NNG"), ("을", "JKO")]),
+             ("몰랐다.", [("모르", "VV"), ("았", "EP"), ("다", "EF"), (".", "SF")]))
+    assert head_of(s, "학교에") == "간"
+
+
+# ---------------------------------------------------------------------------
+# 사동·피동과 논항 변화
+# ---------------------------------------------------------------------------
+
+def voice(s, word):
+    E = s["eojeols"]
+    a = next(a for a in s["argument_structure"] if E[a["predicate"]]["text"].strip('.,!?"') == word)
+    return a["voice"]
+
+
+@pytest.mark.parametrize("n, word, kind, back", [
+    (26, "먹였다", "사동", "아이가 밥을 먹다."),
+    (27, "잡혔다", "피동", "고양이가 쥐를 잡다."),
+    (28, "했다", "사동", "아이가 밥을 먹다."),
+    (30, "해결되었다", "피동", "경찰이 사건을 해결하다."),
+])
+def test_voice_and_counterpart(n, word, kind, back):
+    v = voice(load(n), word)
+    assert v["type"] == kind and v["counterpart"] == back
+
+
+def test_plain_verb_has_no_voice():
+    assert voice(load(1), "주었다") is None

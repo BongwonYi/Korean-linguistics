@@ -18,6 +18,8 @@ from dataclasses import dataclass, field
 from itertools import combinations
 from pathlib import Path
 
+from .features import load_endings, predicate_features
+from .voice import voice_info
 from .tags import ENDINGS, MODIFIERS, NOMINAL, PRED_STEM, PUNCT, SCHOOL_POS, TAG_NAMES
 
 # ---------------------------------------------------------------------------
@@ -48,6 +50,8 @@ CASE_ROLE = {
 SINGLE_SLOTS = {"주어", "보어", "목적어"}
 ARG_ROLES = ("주어", "목적어", "보어", "부사어")
 ADV_DERIV_LEMMA = {"없이": "없다", "같이": "같다", "달리": "다르다"}
+# 간접 인용의 어미(바른은 '-ㄴ다고'를 연결 어미 하나로 분석함)
+QUOTE_EC = {"다고", "ㄴ다고", "는다고", "라고", "으라고", "자고", "냐고", "느냐고", "으냐고", "니냐고"}
 
 # ---------------------------------------------------------------------------
 # 격틀 사전
@@ -238,6 +242,8 @@ def _arg_form(e: Eojeol) -> str | None:
     if e.frame_arg:
         return e.frame_arg
     if e.kind == "pred" and e.ending == "EC":
+        if e.quoted:
+            return "-고"   # 기초사전 문형의 인용 자리 표기('3-고 생각하다')
         return "-" + e.ending_form
     ct = _case_tag(e)
     if ct:
@@ -303,6 +309,22 @@ def analyze_sentence(sent: dict) -> dict:
                    for ent in frames.get(lem, []) for s in ent["frame"]):
                 e.kind, e.pk, e.frame_arg = "nominal", "", e.ending_form
                 e.particles = []
+    # 2-2) 간접 인용절: '-다고/-라고/-자고/-냐고'로 끝난 절(교재 12장 '형은 철수가 학교에 간다고 말했다')
+    for e in E:
+        if (e.kind == "pred" and e.ending == "EC" and e.ending_form in QUOTE_EC and not e.aux_main
+                and any(x.kind == "pred" for x in E[e.idx + 1:])):
+            e.quoted, e.pk = True, "emb"
+
+    # 2-3) '체언+에 의해(서)': 서술어 '의하다'의 절이 아니라 피동문의 행위주를 나타내는 부사어 한 덩어리로 본다
+    for e in E:
+        if (e.kind == "pred" and e.pred_stem is not None and e.pred_stem.form == "의하" and e.ending == "EC"
+                and e.idx > 0 and E[e.idx - 1].kind == "nominal" and _particle_str(E[e.idx - 1], "JKB") == "에"):
+            prev = E[e.idx - 1]
+            e.kind, e.pk, e.frame_arg = "agent", "", "에 의해"
+            prev.head, prev.role, prev.dep_label = e.idx, "부사어", "꾸밈"
+            prev.role_note = "'에 의해'와 함께 부사어"
+            prev.reason = (f"'{prev.text} {e.text}'는 '체언+에 의해(서)'의 짜임으로, 둘이 함께 행위의 주체(행위주)를 "
+                           f"나타내는 부사어 구실을 합니다(주로 피동문에 쓰임).")
     cands = [e.idx for e in E if e.kind == "pred" and not e.aux_main]
 
     def main_of(j: int) -> int:
@@ -317,6 +339,11 @@ def analyze_sentence(sent: dict) -> dict:
         if E[m].pred_stem is not None and E[m].pred_stem.tag == "VX":
             return []
         return frames.get(lemma_of(E[m]) or "", [])
+
+    def frame_case(j: int, form: str) -> bool:
+        """서술어 j의 격틀에 '부사어 + form(조사)' 자리가 있는가."""
+        return any(sl["role"] == "부사어" and form in sl.get("case", [])
+                   for ent in frame_entries(j) for sl in ent["frame"])
 
     def frame_allows(j: int, slot: str) -> bool:
         ents = frame_entries(j)
@@ -360,6 +387,27 @@ def analyze_sentence(sent: dict) -> dict:
                 return j
         return None
 
+    def emb_takes_adverbial(i: int, j: int, k: int) -> bool:
+        """부사어 i를 뒤의 서술어 k 대신 안긴 절의 서술어 j에 연결할지('발에 땀이 나도록', '학교에 간 사실').
+
+        j의 격틀에 그 조사의 부사어 자리가 있고, k의 격틀에는 없거나 i와 j 사이에 이미 j의 논항이 있을 때."""
+        ct = _case_tag(E[i])
+        if ct != "JKB":
+            return False
+        form = _particle_str(E[i], "JKB")
+        if not frame_case(j, form):
+            return False
+        if not frame_case(k, form) or any(E[x].head == j for x in range(i + 1, j)):
+            return True
+        # 뒤 서술어의 주어가 이미 정해졌고(주제어 등), i 앞에 주격 조사 주어가 있으면 i는 안긴 절 안에 있다
+        if "주어" in filled.get(k, set()):
+            for x in range(i - 1, -1, -1):
+                if E[x].kind == "pred":
+                    break
+                if E[x].kind == "nominal" and _case_tag(E[x]) == "JKS":
+                    return True
+        return False
+
     def choose_head(i: int, slot: str, topic: bool = False) -> tuple[int, bool]:
         """논항 i가 연결될 서술어를 고른다. (head, 정상 여부)"""
         after = [j for j in cands if j > i]
@@ -376,7 +424,7 @@ def analyze_sentence(sent: dict) -> dict:
             if E[j].pk == "emb":
                 later = [k for k in after[pos + 1:] if E[k].pk != "emb"]
                 if multi:
-                    if later:
+                    if later and not emb_takes_adverbial(i, j, later[0]):
                         continue
                 else:
                     if later and slot not in filled[later[0]] and frame_allows(later[0], slot):
@@ -397,6 +445,12 @@ def analyze_sentence(sent: dict) -> dict:
             e.role_note = "교재에 따라 다름"
             e.reason = (f"접속 부사 '{_core(e.morphs)[0].form}'(MAJ)는 앞 문장과 이 문장을 이어 줍니다. "
                         f"학교문법 교재에 따라 독립어 또는 부사어로 처리합니다.")
+        elif e.kind == "agent":
+            j = next_pred(i)
+            e.head, e.role, e.dep_label = (j if j is not None else root), "부사어", "꾸밈"
+            e.role_note = "'에 의해'와 함께 부사어"
+            e.reason = (f"'{E[i - 1].text} {e.text}'가 함께 행위의 주체를 나타내는 부사어입니다. '의하다'를 서술어로 하는 "
+                        f"절로 보지 않고, 조사처럼 굳어진 표현으로 보았습니다.")
         elif e.kind == "modifier":
             k = next_nominal(i)
             e.head, e.role, e.dep_label = (k if k is not None else root), "관형어", "꾸밈"
@@ -491,6 +545,13 @@ def analyze_sentence(sent: dict) -> dict:
             e.reason = (f"용언 {_stem_desc(e)}에 명사형 전성 어미 '-{e.ending_form}'(ETN)가 붙어 명사절이 되고, "
                         + (f"격 조사 '{''.join(m.form for m in e.particles)}'가 붙어 명사절 전체가 {slot} 구실을 합니다."
                            if e.particles else f"명사절 전체가 {slot} 구실을 합니다."))
+        elif e.kind == "pred" and e.quoted and e.ending == "EC":
+            e.role = "부사어"
+            e.dep_label = "인용절 → 용언"
+            e.role_note = "간접 인용절"
+            e.reason = (f"용언 {_stem_desc(e)}에 간접 인용의 '-{e.ending_form}'가 붙어 남의 말이나 생각을 옮기는 "
+                        f"인용절이 됩니다(바른은 '-{e.ending_form}'를 연결 어미로 분석). 인용절은 안긴문장이며 "
+                        f"학교문법에서는 인용절 전체를 부사어로 봅니다.")
         elif e.kind == "pred" and e.quoted:
             e.role = "부사어"
             e.dep_label = "인용절 → 용언"
@@ -545,10 +606,27 @@ def analyze_sentence(sent: dict) -> dict:
     # 6) 격틀로 자리 채우기 — 서술어별 자릿수, 필수/수의 성분, 생략 논항
     argst = [_fill_frame(E, j, main_of(j), frame_entries(j), slot_cases) for j in cands]
 
+    # 6-1) 서술어별 문법 요소(종결 표현, 높임, 시제·동작상, 부정)
+    sf = [x.form for e in E for x in e.morphs if x.tag == "SF"]
+    punct = sf[-1] if sf else ""
+    for a in argst:
+        j = a["predicate"]
+        a["features"] = predicate_features(E, j, a["main"], a["lemma"], E[j].pk == "main", punct)
+        # 6-2) 사동·피동과 논항 변화
+        v = a["voice"] = voice_info(E, a, frames)
+        if v:
+            back = f"{v['counterpart_label']}: {v['counterpart']}"
+            a["features"].append({"cat": "사동·피동", "value": v["type"], "markers": [v["form"]],
+                                  "note": back + (f" ({v['note']})" if v["note"] else ""),
+                                  "estimated": v["estimated"], "warn": False})
+
     # 7) 문장 구조(절) 판정
     clauses, structure = _clauses(E, root, cands, notes)
     out = _pack(sent, E, clauses, structure, cands, notes)
     out["argument_structure"] = argst
+    fin = next((a for a in argst if E[a["predicate"]].pk == "main" and E[a["predicate"]].idx == root), None)         or next((a for a in argst if E[a["predicate"]].pk == "main"), None)
+    out["sentence_features"] = [f for f in (fin["features"] if fin else [])
+                                if f["cat"] in ("문장 종결", "상대 높임")]
     return out
 
 
@@ -809,23 +887,47 @@ def _clauses(E, root, cands, notes):
         clauses.append({"id": cid, "group": ctype[0], "type": ctype[1], "predicate": j,
                         "span": span, "text": words(span), "note": e.role_note})
 
-    # 서술절: 뿌리 서술어에 주어가 둘 연결된 경우(보조사 주어 + 주격 조사 주어)
-    subj = [k for k in ch.get(root, []) if E[k].role == "주어"]
-    if len(subj) >= 2:
+    # 서술절: 한 서술어에 주어가 둘 연결된 경우('코끼리는 코가 길다', '이 책이 글씨가 작다')
+    for p in [*cands, root] if root not in cands else cands:
+        subj = [k for k in ch.get(p, []) if E[k].role == "주어"]
+        if len(subj) < 2:
+            continue
         inner = [k for k in subj if _case_tag(E[k]) == "JKS"]
         outer = [k for k in subj if k not in inner]
-        if inner and outer:
-            k = inner[-1]
-            span = sorted(set(_subtree(ch, k)) | {root} |
-                          {x for c in ch[root] if c > k and c not in outer for x in _subtree(ch, c)})
-            # 본용언+보조 용언
-            span = sorted(set(span))
-            cid += 1
-            clauses.append({"id": cid, "group": "안긴문장", "type": "서술절", "predicate": root,
-                            "span": span, "text": words(span),
-                            "note": f"문장 전체의 주어: {E[outer[0]].text} / 서술절의 주어: {E[k].text}"})
-            E[k].role_note = "서술절의 주어"
-            E[outer[0]].role_note = "문장 전체의 주어(서술절을 안은 문장)"
+        if not outer and len(inner) >= 2:
+            outer, inner = inner[:1], inner[1:]   # 주격 조사 주어가 둘이면 앞의 것이 문장 전체의 주어
+        if not (inner and outer):
+            continue
+        k = inner[-1]
+        span = sorted(set(_subtree(ch, k)) | {p} |
+                      {x for c in ch[p] if c > k and c not in outer and c not in subj for x in _subtree(ch, c)})
+        span = [x for x in span if x >= k]
+        cid += 1
+        clauses.append({"id": cid, "group": "안긴문장", "type": "서술절", "predicate": p,
+                        "span": span, "text": words(span),
+                        "note": f"서술절을 안은 절의 주어: {E[outer[0]].text} / 서술절의 주어: {E[k].text}"})
+        E[k].role_note = "서술절의 주어"
+        E[outer[0]].role_note = "서술절을 안은 문장(절)의 주어"
+
+    # 연결 어미의 의미 관계(이어진문장·부사절)
+    ec = load_endings().get("EC", {})
+    for c in clauses:
+        e = E[c["predicate"]]
+        if c["type"] in ("대등", "종속", "부사절") and e.ending == "EC" and e.ending_form in ec:
+            c["meaning"] = ec[e.ending_form]
+
+    # 절의 포함 관계(나무 구조): 범위를 포함하는 가장 작은 절이 부모
+    for c in clauses:
+        sc = set(c["span"])
+        outer_c = [d for d in clauses if d is not c and sc < set(d["span"])]
+        par = min(outer_c, key=lambda d: len(d["span"]), default=None)
+        c["parent"] = par["id"] if par else None
+    for c in clauses:
+        depth, q = 0, c
+        while q["parent"] is not None and depth < 10:
+            q = next(d for d in clauses if d["id"] == q["parent"])
+            depth += 1
+        c["depth"] = depth
 
     groups = {c["type"] for c in clauses}
     coord = [c for c in clauses if c["group"].startswith("이어진")]

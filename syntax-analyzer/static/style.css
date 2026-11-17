@@ -88,6 +88,14 @@ details > summary { cursor: pointer; font-weight: 500; padding: 6px 0; min-heigh
 .clauses { margin-top: 12px; display: grid; gap: 8px; }
 .clause { font-size: .92rem; padding: 8px 10px; border: 1px dashed var(--rule); border-radius: 8px; }
 .clause .ct { font-weight: 700; color: var(--accent); margin-right: 6px; }
+.clause .cm { font-size: .78rem; border: 1px solid var(--accent); color: var(--accent); border-radius: 999px; padding: 0 8px; margin-right: 6px; }
+.bracket { font-size: 1rem; line-height: 2; padding: 6px 10px; background: var(--paper-warm); border-radius: 8px; word-break: keep-all; }
+.bracket .br { font-weight: 900; color: var(--accent); }
+.bracket sub { font-size: .7rem; color: var(--accent); margin-right: 2px; }
+.voice { margin-top: 8px; padding: 8px 10px; border: 1px solid var(--rule); border-left: 4px solid var(--c-obj); border-radius: 0 8px 8px 0; background: var(--card); }
+.voice.est { border-left-style: dashed; }
+.voice .vc { margin: 2px 0; }
+.voice ul { margin: 2px 0 2px 18px; font-size: .88rem; }
 .clause mark { background: #e8b64755; color: inherit; padding: 0 2px; border-radius: 3px; }
 
 .args { margin-top: 14px; border-top: 1px solid var(--rule); padding-top: 10px; }
@@ -113,6 +121,18 @@ button.slot { cursor: pointer; }
 .legend .slot { min-width: 0; }
 .legend p { margin-top: 8px; }
 .pred-n { margin-top: 6px; line-height: 1.5; }
+
+.feats { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
+.feat { font: inherit; font-size: .8rem; border: 1px solid var(--rule); border-radius: 999px; padding: 3px 10px; background: var(--card); color: var(--ink); cursor: pointer; text-align: left; }
+.feat b { font-weight: 700; color: var(--accent); margin-right: 2px; }
+.feat .mk { font-family: var(--mono); font-size: .74rem; color: var(--muted); }
+.feat.est { border-style: dashed; }
+.feat.warn { border: 2px solid var(--c-subj); }
+.feat.on { background: var(--paper-warm); border-color: var(--ink); }
+.feat-note { margin-top: 6px; padding: 6px 10px; border-left: 3px solid var(--accent); background: var(--paper-warm); border-radius: 0 6px 6px 0; }
+.sfeat { display: inline-flex; gap: 6px; }
+.sf { font-size: .8rem; font-weight: 700; border: 1px solid var(--ink); border-radius: 6px; padding: 1px 8px; }
+.sf.est { border-style: dashed; }
 
 .dep, .morph { margin-top: 10px; }
 .dep-scroll, .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }

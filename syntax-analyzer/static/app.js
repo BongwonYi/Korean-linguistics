@@ -56,6 +56,15 @@
     $(".kind", node).textContent = s.sentence_kind;
     $(".structure", node).textContent = s.structure.filter((x) => x !== "홑문장").join(" + ") || "주어와 서술어의 관계가 한 번 나타나는 문장";
 
+    const sf = $(".sfeat", node);
+    (s.sentence_features || []).forEach((f) => {
+      const b = document.createElement("span");
+      b.className = "sf" + (f.estimated ? " est" : "");
+      b.textContent = f.value + (f.estimated ? "?" : "");
+      b.title = `${f.cat}: ${f.note || ""}`;
+      sf.appendChild(b);
+    });
+
     const E = s.eojeols;
     const box = $(".eojeols", node), detail = $(".detail", node);
     const btns = {};
@@ -74,13 +83,32 @@
     });
 
     const cl = $(".clauses", node);
-    s.clauses.forEach((c) => {
+    const clauses = s.clauses || [];
+    if (clauses.length) {
+      // 괄호 표시: 절마다 [ … ]절이름 (바깥 절부터 열고 안쪽 절부터 닫음)
+      const shortName = (c) => (c.group === "안긴문장" ? c.type : `${c.type}적 앞 절`);
+      const lo = (c) => Math.min(...c.span), hi = (c) => Math.max(...c.span);
+      const words = E.filter((e) => e.role).map((e) => {
+        const opens = clauses.filter((c) => lo(c) === e.idx).sort((a, b) => hi(b) - hi(a));
+        const closes = clauses.filter((c) => hi(c) === e.idx).sort((a, b) => lo(b) - lo(a));
+        return opens.map(() => '<span class="br">[</span>').join("") + esc(e.text.replace(/[.,!?]+$/, "")) +
+          closes.map((c) => `<span class="br">]</span><sub>${esc(shortName(c))}</sub>`).join("");
+      });
+      const b = document.createElement("div");
+      b.className = "bracket";
+      b.innerHTML = words.join(" ");
+      cl.appendChild(b);
+    }
+    clauses.forEach((c) => {
       const d = document.createElement("div");
       d.className = "clause";
+      d.style.marginLeft = `${(c.depth || 0) * 16}px`;
       const inSpan = new Set(c.span);
       const html = E.filter((e) => e.role).map((e) => inSpan.has(e.idx) ? `<mark>${esc(e.text)}</mark>` : esc(e.text)).join(" ");
-      const label = c.group === "안긴문장" ? `${c.type} (안긴문장)` : `${c.type}적으로 이어진 앞 절`;
-      d.innerHTML = `<span class="ct">${esc(label)}</span>${html}` + (c.note ? `<div class="muted small">${esc(c.note)}</div>` : "");
+      let label = c.group === "안긴문장" ? `${c.type} (안긴문장)` : `${c.type}적으로 이어진 앞 절`;
+      if (c.depth) label = "└ " + label;
+      const meaning = c.meaning ? `<span class="cm">${esc(c.meaning)}</span>` : "";
+      d.innerHTML = `<span class="ct">${esc(label)}</span>${meaning}${html}` + (c.note ? `<div class="muted small">${esc(c.note)}</div>` : "");
       cl.appendChild(d);
     });
 
@@ -172,8 +200,53 @@
           card.appendChild(n);
         }
       }
+      renderFeats(card, a.features || []);
+      if (a.voice) renderVoice(card, a.voice);
       list.appendChild(card);
     });
+  }
+
+  // 사동·피동: 되돌린 주동문·능동문과 논항 변화
+  function renderVoice(card, v) {
+    const box = document.createElement("div");
+    box.className = "voice" + (v.estimated ? " est" : "");
+    const pair = v.type === "사동" ? "사동문 ↔ 주동문" : "피동문 ↔ 능동문";
+    box.innerHTML =
+      `<div class="vh"><b>${esc(pair)}</b> <span class="muted small">${esc(v.form)}${v.estimated ? " · 추정" : ""}</span></div>` +
+      `<div class="vc">${esc(v.counterpart_label)}: <b>${esc(v.counterpart)}</b></div>` +
+      `<ul>${v.changes.map((c) => `<li>${esc(c)}</li>`).join("")}</ul>` +
+      (v.base_pattern ? `<div class="muted small">'${esc(v.base_lemma)}'의 사전 문형: ${esc(v.base_pattern)}</div>` : "") +
+      (v.note ? `<div class="muted small">${esc(v.note)}</div>` : "");
+    card.appendChild(box);
+  }
+
+  // 서술어별 문법 요소 칩: 누르면 근거 형태와 설명을 보여 준다
+  function renderFeats(card, feats) {
+    if (!feats.length) return;
+    const row = document.createElement("div");
+    row.className = "feats";
+    const note = document.createElement("div");
+    note.className = "feat-note small";
+    note.hidden = true;
+    feats.forEach((f) => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "feat" + (f.estimated ? " est" : "") + (f.warn ? " warn" : "");
+      const mk = (f.markers || []).join(", ");
+      b.innerHTML = `<b>${esc(f.cat)}</b> ${esc(f.value)}${f.estimated ? "?" : ""}` + (mk ? ` <span class="mk">${esc(mk)}</span>` : "");
+      b.addEventListener("click", () => {
+        const open = b.classList.toggle("on");
+        row.querySelectorAll(".feat").forEach((x) => { if (x !== b) x.classList.remove("on"); });
+        note.hidden = !open;
+        note.textContent = `${f.cat} ${f.value}: ` + (mk ? `근거 ${mk}. ` : "") + (f.note || "");
+      });
+      row.appendChild(b);
+    });
+    card.appendChild(row);
+    card.appendChild(note);
+    // 높임 표현 확인 같은 경고는 처음부터 펼쳐 둔다
+    const w = feats.findIndex((f) => f.warn);
+    if (w >= 0) row.children[w].click();
   }
 
   function showDetail(detail, e, E) {

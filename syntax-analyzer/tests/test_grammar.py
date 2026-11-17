@@ -88,3 +88,24 @@ def test_every_eojeol_has_reason():
         for e in load(n)["eojeols"]:
             if e["role"]:
                 assert e["reason"], (n, e["text"])
+
+
+def test_frame_choice_prefers_case_marked_arguments():
+    """격틀 점수가 같으면 조사로 형태가 확인된 논항이 채우는 격틀을 고른다('이런 식으로 나오다')."""
+    from app.grammar import Eojeol, Morph, _match, classify
+
+    def eo(i, text, morphs, role, est):
+        e = Eojeol(i, text, [Morph(f, t) for f, t in morphs])
+        classify(e)
+        e.role, e.estimated = role, est
+        return e
+
+    subj = eo(0, "네가", [("네", "NP"), ("가", "JKS")], "주어", False)
+    bare = eo(1, "만일", [("만일", "NNG")], "목적어", True)          # 조사 없는 체언(추정)
+    adv = eo(2, "식으로", [("식", "NNB"), ("으로", "JKB")], "부사어", False)
+    cases = {"주어": ["이", "가"], "목적어": ["을", "를"]}
+    at_e = {"frame": [{"role": "주어", "required": True}, {"role": "부사어", "case": ["에"], "required": True}]}
+    by_ro = {"frame": [{"role": "주어", "required": True}, {"role": "부사어", "case": ["으로", "로"], "required": True}]}
+    s_e = _match(at_e, [subj, bare, adv], cases)[2]
+    s_ro = _match(by_ro, [subj, bare, adv], cases)[2]
+    assert s_ro > s_e

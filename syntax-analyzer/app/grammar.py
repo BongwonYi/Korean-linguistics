@@ -12,7 +12,11 @@
 
 from __future__ import annotations
 
+import json
+import os
 from dataclasses import dataclass, field
+from itertools import combinations
+from pathlib import Path
 
 from .tags import ENDINGS, MODIFIERS, NOMINAL, PRED_STEM, PUNCT, SCHOOL_POS, TAG_NAMES
 
@@ -30,12 +34,54 @@ ADV_DERIV = {"없이", "같이", "달리"}
 TIME_NOUNS = {"오늘", "내일", "모레", "글피", "지금", "요즘", "아까", "이제", "올해",
               "작년", "내년", "올봄", "올여름", "올가을", "올겨울", "방금", "어젯밤", "오늘밤"}
 TOPIC_JX = {"은", "는", "ㄴ"}
+# 바른이 보조사(JX)로 태깅하지만 체언에 붙어 부사어를 만드는 것('예정대로', '꽃처럼')
+ADV_JX = {"대로", "처럼", "만큼", "같이", "보다"}
+# 동격 관형절을 주로 받는 체언(빈자리 없이 꾸밈을 받음: '비가 오는 소리', '그가 왔다는 사실')
+CONTENT_HEADS = {"사실", "소문", "생각", "소식", "소리", "냄새", "느낌", "기억", "가운데", "중", "도중",
+                 "때", "동안", "뒤", "후", "전", "다음", "줄", "수", "리", "척", "체", "듯", "바람", "탓",
+                 "덕분", "까닭", "이유", "경우", "모습", "장면"}
 
 CASE_ROLE = {
     "JKS": "주어", "JKC": "보어", "JKO": "목적어", "JKG": "관형어",
     "JKB": "부사어", "JKV": "독립어", "JKQ": "부사어",
 }
 SINGLE_SLOTS = {"주어", "보어", "목적어"}
+ARG_ROLES = ("주어", "목적어", "보어", "부사어")
+ADV_DERIV_LEMMA = {"없이": "없다", "같이": "같다", "달리": "다르다"}
+
+# ---------------------------------------------------------------------------
+# 격틀 사전
+#  기본: frames_krdict.json — 국립국어원 한국어기초사전 문형에서 자동 생성(CC BY-SA 2.0 KR)
+#        + frames_override.json — 표제어 단위로 기본 격틀을 바꿔 끼우는 교사 판정
+#  frames_v0.json — 손으로 만든 초기 사전(평가 비교용)
+# ---------------------------------------------------------------------------
+
+_FRAMES: tuple[dict, dict] | None = None
+APP = Path(__file__).parent
+
+
+def _read_frames(p: Path) -> tuple[dict, dict]:
+    data = json.loads(p.read_text(encoding="utf-8")) if p.exists() else {}
+    idx: dict[str, list[dict]] = {}
+    for ent in data.get("entries", []):
+        idx.setdefault(ent["lemma"], []).append(ent)
+    return idx, data.get("slot_cases", {})
+
+
+def load_frames() -> tuple[dict, dict]:
+    """(lemma → 격틀 항목 목록, 성분별 기본 조사)"""
+    global _FRAMES
+    if _FRAMES is None:
+        custom = os.environ.get("SYNTAX_FRAMES")
+        if custom:
+            # 평가용: 지정한 격틀 파일만 쓴다(덮어쓰기 없음)
+            _FRAMES = _read_frames(Path(custom))
+        else:
+            idx, cases = _read_frames(APP / "frames_krdict.json")
+            over, _ = _read_frames(APP / "frames_override.json")
+            idx.update(over)  # 덮어쓰기 파일에 있는 표제어는 기본 격틀 전체를 바꾼다
+            _FRAMES = (idx, cases)
+    return _FRAMES
 
 
 @dataclass
@@ -65,6 +111,7 @@ class Eojeol:
     estimated: bool = False
     aux_main: bool = False        # 보조 용언 앞의 본용언
     pk: str = ""                  # 서술어 종류: main / conn / emb
+    frame_arg: str = ""           # 격틀에 따라 논항으로 다시 본 '체언+이라고' 등의 형태
 
 
 def _core(morphs: list[Morph]) -> list[Morph]:
@@ -162,6 +209,42 @@ def _stem_desc(e: Eojeol) -> str:
     return f"'{s.form}'({TAG_NAMES.get(s.tag, s.tag)})" if s else ""
 
 
+def lemma_of(e: Eojeol) -> str | None:
+    """서술어 어절의 기본형(격틀 사전 표제어)."""
+    s = e.pred_stem
+    if s is None:
+        return None
+    if e.ending == "ADV_DERIV":
+        return ADV_DERIV_LEMMA.get(s.form)
+    if s.tag == "VCP":
+        return "이다"
+    if s.tag == "VCN":
+        return "아니다"
+    if s.tag in ("XSV", "XSA"):
+        core = _core(e.morphs)
+        k = next(i for i in range(len(core) - 1, -1, -1) if core[i] is s)
+        base = ""
+        for m in reversed(core[:k]):
+            if m.tag in ("NNG", "NNP", "NNB", "XR", "MAG"):
+                base = m.form + base
+            else:
+                break
+        return base + s.form + "다"
+    return s.form + "다"
+
+
+def _arg_form(e: Eojeol) -> str | None:
+    """논항 어절의 격 표지 형태(조사, 또는 '-게' 같은 어미). 보조사만 있거나 조사가 없으면 None."""
+    if e.frame_arg:
+        return e.frame_arg
+    if e.kind == "pred" and e.ending == "EC":
+        return "-" + e.ending_form
+    ct = _case_tag(e)
+    if ct:
+        return _particle_str(e, ct)
+    return None
+
+
 # ---------------------------------------------------------------------------
 # 문장 분석
 # ---------------------------------------------------------------------------
@@ -207,7 +290,37 @@ def analyze_sentence(sent: dict) -> dict:
             e.pk = "emb"
         else:
             e.pk = "conn"
+
+    frames, slot_cases = load_frames()
+
+    # 2-1) '체언+이라고' 다음 서술어의 격틀에 '라고' 부사어 자리가 있으면 절이 아니라 필수적 부사어로 본다
+    #      (교재 10장 문형 (5) '나는 그를 학생이라고 생각한다')
+    for e in E:
+        if (e.kind == "pred" and e.ending == "EC" and e.pred_stem and e.pred_stem.tag == "VCP"
+                and e.ending_form in ("라고", "고") and e.idx + 1 < n and E[e.idx + 1].kind == "pred"):
+            lem = lemma_of(E[e.idx + 1])
+            if any(s["role"] == "부사어" and e.ending_form in s.get("case", [])
+                   for ent in frames.get(lem, []) for s in ent["frame"]):
+                e.kind, e.pk, e.frame_arg = "nominal", "", e.ending_form
+                e.particles = []
     cands = [e.idx for e in E if e.kind == "pred" and not e.aux_main]
+
+    def main_of(j: int) -> int:
+        """보조 용언 서술어 j의 본용언(없으면 j)."""
+        k = j
+        while k - 1 >= 0 and E[k - 1].aux_main and E[k - 1].head == k:
+            k -= 1
+        return k
+
+    def frame_entries(j: int) -> list[dict]:
+        m = main_of(j)
+        if E[m].pred_stem is not None and E[m].pred_stem.tag == "VX":
+            return []
+        return frames.get(lemma_of(E[m]) or "", [])
+
+    def frame_allows(j: int, slot: str) -> bool:
+        ents = frame_entries(j)
+        return not ents or any(s["role"] == slot for ent in ents for s in ent["frame"])
 
     mains = [j for j in cands if E[j].pk == "main"]
     if mains:
@@ -258,13 +371,15 @@ def analyze_sentence(sent: dict) -> dict:
             multi = slot not in SINGLE_SLOTS
             if not multi and slot in filled[j]:
                 continue
+            if not multi and not frame_allows(j, slot):
+                continue  # 격틀에 이 자리가 없는 서술어는 건너뛴다
             if E[j].pk == "emb":
                 later = [k for k in after[pos + 1:] if E[k].pk != "emb"]
                 if multi:
                     if later:
                         continue
                 else:
-                    if later and slot not in filled[later[0]]:
+                    if later and slot not in filled[later[0]] and frame_allows(later[0], slot):
                         continue
             return j, True
         return after[0], False
@@ -326,6 +441,8 @@ def analyze_sentence(sent: dict) -> dict:
     # 4) 논항(주어·목적어·보어·부사어)의 연결 — 오른쪽에서 왼쪽으로
     def arg_slot(e: Eojeol) -> tuple[str, bool] | None:
         """(slot, topic) — 논항이 아니면 None"""
+        if e.frame_arg:
+            return "부사어", False
         if e.kind == "pred" and e.ending == "ETN":
             ct = _case_tag(e)
             if ct in ("JKS", "JKO", "JKC", "JKB"):
@@ -345,6 +462,8 @@ def analyze_sentence(sent: dict) -> dict:
             return None
         jx = _jx(e)
         if jx is not None:
+            if jx.form in ADV_JX:
+                return "부사어", False
             return "주어", jx.form in TOPIC_JX
         return None
 
@@ -363,7 +482,12 @@ def analyze_sentence(sent: dict) -> dict:
             filled[j].add(slot)
         e.role = slot
         e.dep_label = slot
-        if e.kind == "pred" and e.ending == "ETN":
+        if e.frame_arg:
+            e.reason = (f"'{e.text}'는 체언에 '이다'와 '-{e.frame_arg}'가 붙은 형태입니다. 뒤의 서술어 "
+                        f"'{lemma_of(E[j])}'의 격틀에 '-{e.frame_arg}' 자리가 있어 절이 아니라 부사어로 보았습니다"
+                        f"(교재 10장 문형 (5)). 인용절로 보는 견해도 있습니다.")
+            e.role_note = "인용절로 보기도 함"
+        elif e.kind == "pred" and e.ending == "ETN":
             e.reason = (f"용언 {_stem_desc(e)}에 명사형 전성 어미 '-{e.ending_form}'(ETN)가 붙어 명사절이 되고, "
                         + (f"격 조사 '{''.join(m.form for m in e.particles)}'가 붙어 명사절 전체가 {slot} 구실을 합니다."
                            if e.particles else f"명사절 전체가 {slot} 구실을 합니다."))
@@ -381,6 +505,9 @@ def analyze_sentence(sent: dict) -> dict:
                 e.dep_label = "인용"
             if jx is not None:
                 e.reason += f" (보조사 '{jx.form}'가 함께 붙음: '{pform}')"
+        elif jx is not None and jx.form in ADV_JX:
+            e.reason = (f"보조사 '{jx.form}'(JX)가 붙어 '~과 같이, ~에 따라' 같은 뜻으로 서술어를 꾸미므로 "
+                        f"부사어입니다.")
         elif jx is not None:
             e.estimated = True
             e.reason = (f"보조사 '{jx.form}'(JX)는 격을 나타내지 않습니다. 서술어와의 관계로 보아 주어로 "
@@ -415,9 +542,171 @@ def analyze_sentence(sent: dict) -> dict:
             e.reason = "형태 정보만으로 성분을 판정하지 못했습니다."
             e.estimated = True
 
-    # 6) 문장 구조(절) 판정
+    # 6) 격틀로 자리 채우기 — 서술어별 자릿수, 필수/수의 성분, 생략 논항
+    argst = [_fill_frame(E, j, main_of(j), frame_entries(j), slot_cases) for j in cands]
+
+    # 7) 문장 구조(절) 판정
     clauses, structure = _clauses(E, root, cands, notes)
-    return _pack(sent, E, clauses, structure, cands, notes)
+    out = _pack(sent, E, clauses, structure, cands, notes)
+    out["argument_structure"] = argst
+    return out
+
+
+def _compatible(slot: dict, role: str, form: str | None, slot_cases: dict, cross: bool) -> bool:
+    cases = slot.get("case")
+    if not cross:
+        if slot["role"] != role:
+            return False
+        if form is None:
+            # 형태 표지가 없는 확정 성분(부사 등)은 조사가 명시된 자리를 채우지 않는다
+            return cases is None
+        return form in (cases if cases is not None else slot_cases.get(role, []))
+    # 다른 성분 자리: 격틀에 그 형태가 명시된 경우만('학교를 가다'의 '를' → 부사어 자리)
+    return form is not None and cases is not None and form in cases
+
+
+def _match(ent: dict, args: list[Eojeol], slot_cases: dict, gap: bool = False):
+    """격틀 항목 하나에 논항을 배정한다. (배정표, 남은 논항, 점수). gap: 관형절 서술어인지"""
+    slots = ent["frame"]
+    assign: dict[int, Eojeol] = {}
+    fixed = [a for a in args if not a.estimated]
+    guessed = [a for a in args if a.estimated]
+    rest: list[Eojeol] = []
+    # 같은 성분 자리부터: 주어·목적어·보어는 앞에서부터, 부사어는 서술어에 가까운 것부터
+    # ('오후에 사무실에 배달되었다' → '사무실에'가 자리를 채움)
+    order = ([a for a in fixed if a.role != "부사어"]
+             + [a for a in reversed(fixed) if a.role == "부사어"])
+    left: list[Eojeol] = []
+    for a in order:
+        form = _arg_form(a)
+        k = next((i for i, s in enumerate(slots) if i not in assign
+                  and _compatible(s, a.role, form, slot_cases, False)), None)
+        if k is None:
+            left.append(a)
+        else:
+            assign[k] = a
+    # 그다음 다른 성분 자리: 격틀에 그 형태가 명시된 경우('의준이를 주다'의 '를' → 부사어 자리)
+    for a in sorted(left, key=lambda x: x.idx):
+        form = _arg_form(a)
+        k = next((i for i, s in enumerate(slots) if i not in assign
+                  and _compatible(s, a.role, form, slot_cases, True)), None)
+        if k is None:
+            rest.append(a)
+        else:
+            assign[k] = a
+    # 보조사·조사 생략 논항: 남은 자리에 어순을 지키며 배정한다(보어는 형태가 있어야 하므로 제외).
+    # 지금 추정한 성분과 같은 자리, 주제 보조사(은/는)는 주어 자리, 조사 생략은 주어 아닌 자리를 우선한다.
+    # 보조사는 주격·목적격 조사 자리에만 대신 쓰이고 부사격 조사는 남기므로('학교에는'),
+    # 보조사만 붙은 논항('예정대로', '사과는')은 부사어 자리를 채우지 않는다.
+    open_slots = [i for i, s in enumerate(slots) if i not in assign and s["role"] != "보어"]
+    best_pairs: list[tuple[int, Eojeol]] = []
+    best_sc = None
+    for k in range(min(len(open_slots), len(guessed)), -1, -1):
+        for gs in combinations(guessed, k):
+            for ss in combinations(open_slots, k):
+                sc = 0
+                for a, i in zip(gs, ss):
+                    role = slots[i]["role"]
+                    jx = _jx(a)
+                    if jx is not None and role == "부사어":
+                        sc = None
+                        break
+                    sc += 2 if a.role == role else 0
+                    if jx is not None and jx.form in TOPIC_JX:
+                        sc += 1 if role == "주어" else 0
+                    elif jx is None:
+                        sc += 1 if role != "주어" else 0
+                if sc is not None and (best_sc is None or sc > best_sc):
+                    best_sc, best_pairs = sc, list(zip(ss, gs))
+        if best_sc is not None:
+            break
+    for i, a in best_pairs:
+        assign[i] = a
+    used = {id(a) for _, a in best_pairs}
+    rest += [a for a in guessed if id(a) not in used]
+    # 점수: 채운 필수 자리(2) + 채운 수의 자리(1)
+    #  + 조사·어미로 형태가 확인된 논항이 채운 자리(2): 형태 근거가 있는 격틀을 고르도록
+    #    ('이런 식으로 나오다' → '1이 2로 나오다', 조사 없는 '만일'로 '에' 자리를 채운 격틀보다 앞섬)
+    #  - 자리를 못 찾은 확정 주어·목적어·보어(2), 자리를 못 찾은 추정 논항(1), 비어 있는 필수 자리(1)
+    req = sum(1 for i, s in enumerate(slots) if s.get("required") and i in assign)
+    opt = sum(1 for i, s in enumerate(slots) if not s.get("required") and i in assign)
+    marked = sum(1 for a in assign.values() if not a.estimated)
+    core_left = sum(1 for a in rest if a.role in SINGLE_SLOTS and not a.estimated)
+    guess_left = sum(1 for a in rest if a.role in SINGLE_SLOTS and a.estimated)
+    missing = sum(1 for i, s in enumerate(slots) if s.get("required") and i not in assign)
+    # 관형절: 꾸밈을 받는 체언이 빈 필수 자리 하나를 채운다('내가 좋아하는 것' → 목적어 자리).
+    # gap에 성분 집합을 주면 그 성분 자리가 비어 있을 때만 인정한다(의존명사 '것' 앞은 주어·목적어만).
+    if gap and missing:
+        roles = gap if isinstance(gap, (set, frozenset)) else None
+        if roles is None or any(s.get("required") and i not in assign and s["role"] in roles
+                                for i, s in enumerate(slots)):
+            missing -= 1
+            req += 1
+    # + 형태 근거에 따른 추정 논항의 적합도: 주제 보조사(은/는) → 주어 자리, 조사 생략 → 주어 아닌 자리 (+1)
+    #   ('민수야, 밥 먹어라' → '1이 2를 먹다'가 한 자리 '1이 먹다(귀가 먹다)'와 같은 점수가 되어 빈도순으로 앞섬)
+    #   앞 단계에서 임시로 추정한 성분은 근거가 약하므로 격틀 점수에는 넣지 않는다.
+    fit = 0
+    for i, a in best_pairs:
+        jx = _jx(a)
+        role = slots[i]["role"]
+        if (jx is not None and jx.form in TOPIC_JX and role == "주어") or (jx is None and role != "주어"):
+            fit += 1
+    return assign, rest, 2 * req + opt + 3 * marked - 2 * core_left - guess_left - missing + fit
+
+
+def _fill_frame(E: list[Eojeol], j: int, m: int, ents: list[dict], slot_cases: dict) -> dict:
+    lemma = lemma_of(E[m])
+    args = [e for e in E if e.head in (j, m) and e.idx != m and e.role in ARG_ROLES]
+    info = {"predicate": j, "main": m, "lemma": lemma, "frame_found": bool(ents),
+            "sense": None, "places": None, "slots": [], "omitted": [], "adjuncts": [],
+            "unmatched": [], "relative": None}
+    if not ents:
+        info["adjuncts"] = [a.idx for a in args if a.role == "부사어"]
+        return info
+    gap = E[m].ending == "ETM" or E[j].ending == "ETM"
+    if gap:
+        h = E[j].head
+        noun = "".join(x.form for x in _core(E[h].morphs) if x.tag in NOMINAL) if h is not None and h >= 0 else ""
+        if noun in CONTENT_HEADS:
+            gap = False  # 동격 관형절을 주로 받는 체언이면 빈자리를 가정하지 않는다
+        elif h is not None and h >= 0 and any(x.tag == "NNB" for x in _core(E[h].morphs)):
+            gap = {"주어", "목적어"}  # 의존명사('것' 등)는 부사어 자리의 빈자리를 받는 일이 드묾
+    best = max((_match(ent, args, slot_cases, gap) + (ent,) for ent in ents), key=lambda x: x[2])
+    assign, rest, _, ent = best
+    info["sense"] = ent.get("sense")
+    info["places"] = ent["places"]
+    for i, s in enumerate(ent["frame"]):
+        a = assign.get(i)
+        info["slots"].append({"role": s["role"], "required": bool(s.get("required")),
+                              "case": s.get("case"), "filled_by": a.idx if a else None})
+        if a is None:
+            if s.get("required"):
+                info["omitted"].append(s["role"])
+            continue
+        if a.estimated and a.role != s["role"]:
+            a.role = a.dep_label = s["role"]
+            a.role_note = "격틀로 추정"
+            jx = _jx(a)
+            mark = f"보조사 '{jx.form}'(JX)만 붙어" if jx else "조사가 생략되어"
+            a.reason = (f"'{a.text}'에는 {mark} 격을 형태로 알 수 없습니다. 서술어 '{lemma}'의 격틀에서 "
+                        f"{s['role']} 자리가 비어 있어 {s['role']}로 추정했습니다.")
+        elif a.role != s["role"]:
+            a.role_note = f"형식상 {a.role}(격틀의 {s['role']} 자리)"
+            a.reason += (f" 다만 '{lemma}'의 격틀에서는 {s['role']} 자리를 채웁니다"
+                         f"(기능상 {s['role']}로 보는 견해가 있음).")
+        if s["role"] == "부사어" and s.get("required") and a.role == "부사어":
+            if not a.role_note:
+                a.role_note = "필수적 부사어"
+            a.reason += f" 서술어 '{lemma}'가 꼭 필요로 하는 자리이므로 필수적 부사어입니다."
+    for a in rest:
+        (info["adjuncts"] if a.role == "부사어" else info["unmatched"]).append(a.idx)
+    # 관형절: 채워지지 않은 필수 자리 중 하나를 꾸밈을 받는 체언이 채운다
+    if E[m].ending == "ETM" or E[j].ending == "ETM":
+        h = E[j].head
+        gaps = info["omitted"]
+        info["relative"] = {"head_noun": h, "type": "관계" if gaps else "동격",
+                            "gap_candidates": list(gaps)}
+    return info
 
 
 def _bare_noun(e, E, cands, root, filled, next_nominal, next_pred) -> None:
@@ -441,7 +730,9 @@ def _bare_noun(e, E, cands, root, filled, next_nominal, next_pred) -> None:
         e.reason = (f"'{word}' 뒤에 수량 표현(수 관형사 + 단위 명사)이 이어집니다. 조사가 생략되어 수량 표현과 "
                     f"함께 하나의 성분({e.role})을 이루는 것으로 보았습니다.")
         return
-    if nxt is not None and (nxt.kind in ("nominal",) or nxt.kind == "modifier"):
+    nxt_np = nxt is not None and nxt.kind == "nominal" and _core(nxt.morphs)[0].tag == "NP"
+    if nxt is not None and (nxt.kind in ("nominal",) or nxt.kind == "modifier") and not nxt_np:
+        # 체언이 조사 없이 대명사를 꾸미는 경우는 드물어('너 어디'), 대명사 앞에서는 관형어로 보지 않는다
         k = next_nominal(i)
         e.head, e.role, e.dep_label = (k if k is not None else root), "관형어", "꾸밈"
         e.reason = f"체언 '{word}'가 조사 없이 바로 뒤의 체언을 꾸미므로 관형어(체언 단독)로 보았습니다."

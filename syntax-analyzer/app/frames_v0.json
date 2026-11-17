@@ -1,0 +1,55 @@
+{
+  "version": "v0",
+  "status": "초안 — 교사 검토 필요",
+  "note": "서술어 격틀 사전 v0. 설계 문서(docs/extension-design.md) A1 형식을 따른다. 의미역(semantic)은 범위가 정해지지 않아 비워 둔다. 예문은 작성자가 만든 문장이다. case의 '-게'처럼 '-'로 시작하는 것은 조사가 아니라 어미 형태다. 같은 lemma에 항목이 여럿이면 엔진이 문장에 가장 잘 맞는 항목을 고른다.",
+  "slot_cases": {
+    "주어": ["이", "가", "께서", "에서"],
+    "목적어": ["을", "를"],
+    "보어": ["이", "가"]
+  },
+  "entries": [
+    {"lemma": "짖다", "places": 1, "frame": [{"role": "주어", "required": true}], "example": "개가 짖는다.", "source": "Claude 초안"},
+    {"lemma": "자다", "places": 1, "frame": [{"role": "주어", "required": true}], "example": "아기가 잔다.", "source": "10주차 강의 자료", "note": "동족목적어 '잠을'은 판정 보류(평가 세트 B11-09)"},
+    {"lemma": "날다", "places": 1, "frame": [{"role": "주어", "required": true}], "example": "새가 난다.", "source": "Claude 초안"},
+    {"lemma": "날아가다", "places": 1, "frame": [{"role": "주어", "required": true}, {"role": "부사어", "case": ["으로", "로", "에"], "required": false}], "example": "새가 남쪽으로 날아간다.", "source": "Claude 초안"},
+    {"lemma": "사라지다", "places": 1, "frame": [{"role": "주어", "required": true}, {"role": "부사어", "case": ["에서"], "required": false}], "example": "안개가 사라졌다.", "source": "Claude 초안"},
+    {"lemma": "발달하다", "places": 1, "frame": [{"role": "주어", "required": true}], "example": "기술이 발달했다.", "source": "Claude 초안"},
+    {"lemma": "나오다", "places": 1, "frame": [{"role": "주어", "required": true}, {"role": "부사어", "case": ["에서", "으로", "로"], "required": false}], "example": "아이가 방에서 나왔다.", "source": "Claude 초안", "note": "'이런 식으로 나오다'(태도) 뜻의 자릿수는 판정 필요"},
+
+    {"lemma": "예쁘다", "places": 1, "frame": [{"role": "주어", "required": true}], "example": "꽃이 예쁘다.", "source": "교재 11장(한 자리 예)"},
+    {"lemma": "쉽다", "places": 1, "frame": [{"role": "주어", "required": true}], "example": "문제가 쉽다.", "source": "Claude 초안"},
+    {"lemma": "비싸다", "places": 1, "frame": [{"role": "주어", "required": true}], "example": "책이 비싸다.", "source": "Claude 초안"},
+    {"lemma": "화창하다", "places": 1, "frame": [{"role": "주어", "required": true}], "example": "날씨가 화창하다.", "source": "Claude 초안"},
+    {"lemma": "깨끗하다", "places": 1, "frame": [{"role": "주어", "required": true}], "example": "방이 깨끗하다.", "source": "Claude 초안"},
+    {"lemma": "멋지다", "places": 1, "frame": [{"role": "주어", "required": true}], "example": "경치가 멋지다.", "source": "Claude 초안"},
+    {"lemma": "없다", "places": 1, "frame": [{"role": "주어", "required": true}, {"role": "부사어", "case": ["에", "에게"], "required": false}], "example": "문제가 없다.", "source": "Claude 초안", "note": "'~에 ~이 없다'(존재)의 두 자리 처리는 판정 필요"},
+    {"lemma": "이다", "places": 1, "frame": [{"role": "주어", "required": true}], "example": "철수가 학생이다.", "source": "교재 10장 문형 (1)"},
+
+    {"lemma": "먹다", "places": 2, "frame": [{"role": "주어", "required": true}, {"role": "목적어", "required": true}], "example": "아이가 밥을 먹는다.", "source": "교재 10장 문형 (3), 10주차"},
+    {"lemma": "보다", "places": 2, "frame": [{"role": "주어", "required": true}, {"role": "목적어", "required": true}], "example": "나는 영화를 보았다.", "source": "교재 11장(두 자리 예)"},
+    {"lemma": "좋아하다", "places": 2, "frame": [{"role": "주어", "required": true}, {"role": "목적어", "required": true}], "example": "동생이 사과를 좋아한다.", "source": "Claude 초안"},
+    {"lemma": "입다", "places": 2, "frame": [{"role": "주어", "required": true}, {"role": "목적어", "required": true}], "example": "아이가 외투를 입었다.", "source": "Claude 초안"},
+    {"lemma": "알다", "places": 2, "frame": [{"role": "주어", "required": true}, {"role": "목적어", "required": true}], "example": "나는 그 사람을 안다.", "source": "Claude 초안"},
+    {"lemma": "돕다", "places": 2, "frame": [{"role": "주어", "required": true}, {"role": "목적어", "required": true}], "example": "친구가 나를 도왔다.", "source": "Claude 초안"},
+    {"lemma": "해결하다", "places": 2, "frame": [{"role": "주어", "required": true}, {"role": "목적어", "required": true}], "example": "그가 문제를 해결했다.", "source": "Claude 초안"},
+    {"lemma": "주문하다", "places": 2, "frame": [{"role": "주어", "required": true}, {"role": "목적어", "required": true}], "example": "내가 책을 주문했다.", "source": "Claude 초안"},
+    {"lemma": "하다", "places": 2, "frame": [{"role": "주어", "required": true}, {"role": "목적어", "required": true}], "example": "학생이 공부를 한다.", "source": "Claude 초안", "note": "'하다'는 뜻이 매우 많아 v0에서는 '~을 하다'만 둠"},
+
+    {"lemma": "가다", "places": 2, "frame": [{"role": "주어", "required": true}, {"role": "부사어", "case": ["에", "으로", "로", "에게", "을", "를"], "required": true}], "example": "아이가 학교에 간다.", "source": "10주차 강의 자료", "note": "'학교를 가다'의 '학교를'은 형식상 목적어이지만 이 부사어 자리를 채운다고 봄(교재 11장 목적어 논의)"},
+    {"lemma": "오다", "places": 2, "frame": [{"role": "주어", "required": true}, {"role": "부사어", "case": ["에", "으로", "로", "에게", "을", "를"], "required": true}], "example": "손님이 집에 왔다.", "source": "Claude 초안", "note": "'가다'와 같이 처리"},
+    {"lemma": "닮다", "places": 2, "frame": [{"role": "주어", "required": true}, {"role": "부사어", "case": ["와", "과"], "required": true}], "example": "아이가 아빠와 닮았다.", "source": "교재 10장 문형 (2)"},
+    {"lemma": "같다", "places": 2, "frame": [{"role": "주어", "required": true}, {"role": "부사어", "case": ["와", "과"], "required": true}], "example": "이 책은 저 책과 같다.", "source": "교재 11장(필수적 부사어)"},
+    {"lemma": "다르다", "places": 2, "frame": [{"role": "주어", "required": true}, {"role": "부사어", "case": ["와", "과"], "required": true}], "example": "형은 동생과 다르다.", "source": "교재 11장(필수적 부사어)"},
+    {"lemma": "생기다", "places": 2, "frame": [{"role": "주어", "required": true}, {"role": "부사어", "case": ["-게"], "required": true}], "example": "그 사람은 착하게 생겼다.", "source": "교재 11장(필수적 부사어)", "note": "'모양이 그러하다' 뜻. '일이 생기다'(한 자리) 뜻은 v1에서 따로 둠"},
+    {"lemma": "되다", "sense": "보어", "places": 2, "frame": [{"role": "주어", "required": true}, {"role": "보어", "required": true}], "example": "물이 얼음이 되었다.", "source": "교재 10장 문형 (4)"},
+    {"lemma": "되다", "sense": "으로", "places": 2, "frame": [{"role": "주어", "required": true}, {"role": "부사어", "case": ["으로", "로"], "required": true}], "example": "물이 얼음으로 되었다.", "source": "교재 11장(보어 아님, 필수적 부사어)"},
+    {"lemma": "아니다", "places": 2, "frame": [{"role": "주어", "required": true}, {"role": "보어", "required": true}], "example": "그는 학생이 아니다.", "source": "교재 10장 문형 (4)"},
+    {"lemma": "배달되다", "places": 1, "frame": [{"role": "주어", "required": true}, {"role": "부사어", "case": ["에", "으로", "로", "에게"], "required": false}], "example": "소포가 집에 배달되었다.", "source": "Claude 초안", "note": "부사어 자리의 필수 여부 판정 필요(평가 세트 B11-30)"},
+
+    {"lemma": "주다", "places": 3, "frame": [{"role": "주어", "required": true}, {"role": "부사어", "case": ["에게", "한테", "께", "에", "을", "를"], "required": true}, {"role": "목적어", "required": true}], "example": "엄마가 아이에게 책을 주었다.", "source": "교재 10장 문형 (5), 10주차", "note": "보조용언 '주다'에는 쓰지 않음. '의준이를 주다'의 '를'은 형식상 목적어이지만 이 부사어 자리를 채운다고 봄"},
+    {"lemma": "드리다", "places": 3, "frame": [{"role": "주어", "required": true}, {"role": "부사어", "case": ["께", "에게", "한테"], "required": true}, {"role": "목적어", "required": true}], "example": "자식들이 부모님께 선물을 드렸다.", "source": "교재 11장(세 자리 예)"},
+    {"lemma": "내리다", "sense": "주다", "places": 3, "frame": [{"role": "주어", "required": true}, {"role": "부사어", "case": ["에게", "께", "에"], "required": true}, {"role": "목적어", "required": true}], "example": "왕이 신하에게 상을 내렸다.", "source": "Claude 초안", "note": "'비가 내리다' 등 다른 뜻은 v1에서 따로 둠"},
+    {"lemma": "생각하다", "sense": "여기다", "places": 3, "frame": [{"role": "주어", "required": true}, {"role": "목적어", "required": true}, {"role": "부사어", "case": ["라고", "이라고", "고", "으로", "로"], "required": true}], "example": "나는 그를 친구라고 생각한다.", "source": "교재 10장 문형 (5)"},
+    {"lemma": "생각하다", "places": 2, "frame": [{"role": "주어", "required": true}, {"role": "목적어", "required": true}], "example": "나는 고향을 생각한다.", "source": "Claude 초안"}
+  ]
+}

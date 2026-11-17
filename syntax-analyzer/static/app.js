@@ -58,6 +58,7 @@
 
     const E = s.eojeols;
     const box = $(".eojeols", node), detail = $(".detail", node);
+    const btns = {};
     E.forEach((e) => {
       const b = document.createElement("button");
       b.type = "button";
@@ -68,6 +69,7 @@
         b.classList.add("sel");
         showDetail(detail, e, E);
       });
+      btns[e.idx] = b;
       box.appendChild(b);
     });
 
@@ -82,6 +84,8 @@
       cl.appendChild(d);
     });
 
+    renderArgs($(".args", node), s.argument_structure || [], E, btns);
+
     const tb = $(".morph tbody", node);
     E.forEach((e) => {
       const tr = document.createElement("tr");
@@ -92,6 +96,84 @@
     const dep = $(".dep", node);
     dep.addEventListener("toggle", () => { if (dep.open) drawDeps($(".dep-inner", node), E); });
     return node;
+  }
+
+  // 서술어별 논항 구조: 격틀의 자리마다 채운 어절, 비어 있는 필수 자리(∅), 수의적 부사어
+  const caseLabel = (sl) => {
+    if (sl.case && sl.case.length) return sl.case.map((c) => (c.startsWith("-") ? c : "~" + c)).join("/");
+    return { 주어: "~이/가", 목적어: "~을/를", 보어: "~이/가" }[sl.role] || "";
+  };
+
+  function renderArgs(wrap, AS, E, btns) {
+    const list = $(".args-list", wrap);
+    list.innerHTML = "";
+    const preds = [...AS].sort((a, b) => a.main - b.main);
+    if (!preds.length) { wrap.hidden = true; return; }
+    wrap.hidden = false;
+    const select = (idx) => { if (btns[idx]) btns[idx].click(); };
+
+    preds.forEach((a) => {
+      const card = document.createElement("div");
+      card.className = "pred";
+      const words = [E[a.main].text];
+      if (a.predicate !== a.main) words.push(E[a.predicate].text);
+      const predTxt = words.join(" ").replace(/[.,!?]+$/, "");
+
+      const head = document.createElement("div");
+      head.className = "pred-h";
+      head.innerHTML =
+        `<button type="button" class="pw">${esc(predTxt)}</button>` +
+        `<span class="lemma">${esc(a.lemma || "")}</span>` +
+        (a.frame_found
+          ? `<span class="places">${a.places}자리 서술어</span>`
+          : `<span class="places none">격틀 정보 없음</span>`);
+      $(".pw", head).addEventListener("click", () => select(a.main));
+      card.appendChild(head);
+
+      if (a.frame_found) {
+        const slots = document.createElement("div");
+        slots.className = "slots";
+        const rel = a.relative;
+        const gaps = rel && rel.type === "관계" ? rel.gap_candidates || [] : [];
+        const headNoun = rel && rel.head_noun != null && rel.head_noun >= 0 ? E[rel.head_noun].text.replace(/[.,!?]+$/, "") : "";
+        a.slots.forEach((sl) => {
+          const el = document.createElement(sl.filled_by != null ? "button" : "span");
+          if (sl.filled_by != null) { el.type = "button"; el.addEventListener("click", () => select(sl.filled_by)); }
+          const filled = sl.filled_by != null;
+          const isGap = !filled && sl.required && gaps.length === 1 && gaps[0] === sl.role;
+          let val;
+          if (filled) val = esc(E[sl.filled_by].text.replace(/[.,!?]+$/, ""));
+          else if (isGap) val = `↪ ${esc(headNoun)}`;
+          else if (sl.required) val = "∅ 생략";
+          else val = "—";
+          el.className = `slot ${roleClass(sl.role)} ${sl.required ? "req" : "opt"}` +
+            (!filled && !isGap ? " empty" : "") + (isGap ? " gap" : "");
+          el.innerHTML = `<span class="sr">${esc(sl.role)}${sl.required ? "" : "(수의)"} <span class="cs">${esc(caseLabel(sl))}</span></span>` +
+            `<span class="sv">${val}</span>`;
+          slots.appendChild(el);
+        });
+        card.appendChild(slots);
+
+        const notes = [];
+        if (rel) {
+          if (rel.type === "동격") notes.push(`관형절이 '${headNoun}'의 내용을 나타냄(동격 관형절, 빈자리 없음)`);
+          else if (gaps.length > 1) notes.push(`꾸밈을 받는 '${headNoun}'가 ${gaps.join("·")} 자리 중 하나를 채움(관계 관형절)`);
+          else if (gaps.length === 1) notes.push(`꾸밈을 받는 '${headNoun}'가 ${gaps[0]} 자리를 채움(관계 관형절)`);
+        }
+        const adj = (a.adjuncts || []).map((k) => E[k].text.replace(/[.,!?]+$/, ""));
+        if (adj.length) notes.push(`수의적 부사어: ${adj.join(", ")}`);
+        const extra = (a.unmatched || []).map((k) => E[k].text.replace(/[.,!?]+$/, ""));
+        if (extra.length) notes.push(`격틀에 맞는 자리가 없는 성분: ${extra.join(", ")}`);
+        if (a.pattern) notes.push(`사전 문형: ${a.pattern}`);
+        if (notes.length) {
+          const n = document.createElement("div");
+          n.className = "pred-n muted small";
+          n.innerHTML = notes.map(esc).join("<br>");
+          card.appendChild(n);
+        }
+      }
+      list.appendChild(card);
+    });
   }
 
   function showDetail(detail, e, E) {

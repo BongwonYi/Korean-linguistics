@@ -90,6 +90,30 @@ details > summary { cursor: pointer; font-weight: 500; padding: 6px 0; min-heigh
 .clause .ct { font-weight: 700; color: var(--accent); margin-right: 6px; }
 .clause mark { background: #e8b64755; color: inherit; padding: 0 2px; border-radius: 3px; }
 
+.args { margin-top: 14px; border-top: 1px solid var(--rule); padding-top: 10px; }
+.args-h { font-size: .95rem; margin-bottom: 8px; }
+.args-list { display: grid; gap: 10px; }
+.pred { border: 1px solid var(--rule); border-radius: 8px; padding: 8px 10px; background: var(--paper); }
+.pred-h { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 10px; margin-bottom: 6px; }
+.pred-h .pw { font: inherit; font-weight: 700; font-size: 1.05rem; background: none; border: 0; border-bottom: 2px solid var(--c-pred); color: var(--ink); padding: 0 2px; cursor: pointer; }
+.pred-h .lemma { font-size: .85rem; color: var(--muted); }
+.pred-h .places { font-size: .78rem; font-weight: 700; border-radius: 6px; padding: 1px 8px; background: var(--ink); color: var(--paper); }
+.pred-h .places.none { background: transparent; color: var(--muted); border: 1px dashed var(--rule); }
+.slots { display: flex; flex-wrap: wrap; gap: 6px; }
+.slot { display: inline-flex; flex-direction: column; min-width: 76px; padding: 4px 10px; border: 2px solid var(--rc, var(--ink)); border-radius: 8px; background: var(--card); font: inherit; color: var(--ink); text-align: left; }
+button.slot { cursor: pointer; }
+.slot .sr { font-size: .74rem; font-weight: 700; color: var(--rc, var(--muted)); white-space: nowrap; }
+.slot .cs { font-weight: 400; color: var(--muted); }
+.slot .sv { font-size: 1rem; font-weight: 700; }
+.slot.opt { border-style: dashed; }
+.slot.empty { background: transparent; border-color: var(--rule); }
+.slot.empty .sv { color: var(--muted); font-weight: 500; }
+.slot.gap { background: var(--paper-warm); }
+.slot.gap .sv { font-weight: 500; }
+.legend .slot { min-width: 0; }
+.legend p { margin-top: 8px; }
+.pred-n { margin-top: 6px; line-height: 1.5; }
+
 .dep, .morph { margin-top: 10px; }
 .dep-scroll, .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 .dep-inner { position: relative; display: inline-block; min-width: 100%; padding-top: 8px; }

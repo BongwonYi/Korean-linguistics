@@ -675,6 +675,8 @@ def _fill_frame(E: list[Eojeol], j: int, m: int, ents: list[dict], slot_cases: d
     assign, rest, _, ent = best
     info["sense"] = ent.get("sense")
     info["places"] = ent["places"]
+    info["pattern"] = ent.get("example", "")      # 사전 문형 또는 격틀 예문(화면 표시용)
+    info["frame_source"] = ent.get("source", "")
     for i, s in enumerate(ent["frame"]):
         a = assign.get(i)
         info["slots"].append({"role": s["role"], "required": bool(s.get("required")),

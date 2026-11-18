@@ -7,6 +7,7 @@
 
 from __future__ import annotations
 
+import asyncio
 import json
 import logging
 import os
@@ -79,26 +80,36 @@ async def call_bareun(text: str) -> dict:
         "encoding_type": "UTF16",
         "auto_split_sentence": True,
     }
-    # 바른 서버가 가끔 늦게 응답하므로 넉넉히 기다리고, 시간 초과·연결 오류는 한 번 더 시도한다
-    r = None
-    for attempt in range(2):
+    # 바른 서버가 가끔 늦거나 일시 오류(429·5xx)를 내므로 잠깐 쉬었다가 모두 세 번까지 시도한다
+    tries = 3
+    for attempt in range(1, tries + 1):
         try:
-            async with httpx.AsyncClient(timeout=httpx.Timeout(30, connect=10)) as client:
+            async with httpx.AsyncClient(timeout=httpx.Timeout(20, connect=10)) as client:
                 r = await client.post(
                     f"{BAREUN_URL}/bareun.LanguageService/AnalyzeSyntax",
                     json=body,
                     headers={"api-key": BAREUN_API_KEY},
                 )
-            break
         except (httpx.TimeoutException, httpx.TransportError) as e:
-            log.warning("바른 API 호출 실패(%d번째): %s", attempt + 1, type(e).__name__)
-            if attempt == 1:
+            log.warning("바른 API 호출 실패(%d/%d번째): %s", attempt, tries, type(e).__name__)
+            if attempt == tries:
                 raise HTTPException(504, "바른 형태소 분석 서버가 응답하지 않습니다. 잠시 후 다시 시도해 주세요.")
-    if r.status_code in (401, 403):
-        raise HTTPException(502, "바른 API 인증에 실패했습니다. API 키를 확인해 주세요.")
-    if r.status_code != 200:
-        raise HTTPException(502, f"바른 API 오류 (HTTP {r.status_code})")
-    return r.json()
+            await asyncio.sleep(attempt)
+            continue
+        if r.status_code == 200:
+            return r.json()
+        if r.status_code in (401, 403):
+            log.error("바른 API 인증 실패: HTTP %d", r.status_code)
+            raise HTTPException(502, "바른 API 인증에 실패했습니다. API 키를 확인해 주세요.")
+        log.warning("바른 API 오류 응답(%d/%d번째): HTTP %d %s", attempt, tries, r.status_code,
+                    r.text[:200].replace("\n", " "))
+        if r.status_code != 429 and r.status_code < 500:
+            raise HTTPException(502, f"바른 API 오류 (HTTP {r.status_code})")
+        if attempt == tries:
+            if r.status_code == 429:
+                raise HTTPException(503, "바른 API 사용량 제한에 걸렸습니다. 잠시 후 다시 시도해 주세요.")
+            raise HTTPException(502, f"바른 서버에 일시적인 오류가 있습니다(HTTP {r.status_code}). 잠시 후 다시 시도해 주세요.")
+        await asyncio.sleep(attempt)
 
 
 @app.get("/")

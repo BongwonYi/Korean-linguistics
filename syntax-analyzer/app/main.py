@@ -8,6 +8,7 @@
 from __future__ import annotations
 
 import json
+import logging
 import os
 import time
 from collections import OrderedDict, defaultdict, deque
@@ -32,6 +33,8 @@ MAX_CHARS = int(os.environ.get("MAX_CHARS", "200"))
 PER_IP_PER_MIN = int(os.environ.get("PER_IP_PER_MIN", "15"))
 DAILY_EOJEOL_LIMIT = int(os.environ.get("DAILY_EOJEOL_LIMIT", "2000"))
 CACHE_SIZE = int(os.environ.get("CACHE_SIZE", "1000"))
+
+log = logging.getLogger("syntax-analyzer")
 
 app = FastAPI(title="한국어 문장 분석기", docs_url=None, redoc_url=None)
 app.mount("/static", StaticFiles(directory=STATIC), name="static")
@@ -76,12 +79,21 @@ async def call_bareun(text: str) -> dict:
         "encoding_type": "UTF16",
         "auto_split_sentence": True,
     }
-    async with httpx.AsyncClient(timeout=15) as client:
-        r = await client.post(
-            f"{BAREUN_URL}/bareun.LanguageService/AnalyzeSyntax",
-            json=body,
-            headers={"api-key": BAREUN_API_KEY},
-        )
+    # 바른 서버가 가끔 늦게 응답하므로 넉넉히 기다리고, 시간 초과·연결 오류는 한 번 더 시도한다
+    r = None
+    for attempt in range(2):
+        try:
+            async with httpx.AsyncClient(timeout=httpx.Timeout(30, connect=10)) as client:
+                r = await client.post(
+                    f"{BAREUN_URL}/bareun.LanguageService/AnalyzeSyntax",
+                    json=body,
+                    headers={"api-key": BAREUN_API_KEY},
+                )
+            break
+        except (httpx.TimeoutException, httpx.TransportError) as e:
+            log.warning("바른 API 호출 실패(%d번째): %s", attempt + 1, type(e).__name__)
+            if attempt == 1:
+                raise HTTPException(504, "바른 형태소 분석 서버가 응답하지 않습니다. 잠시 후 다시 시도해 주세요.")
     if r.status_code in (401, 403):
         raise HTTPException(502, "바른 API 인증에 실패했습니다. API 키를 확인해 주세요.")
     if r.status_code != 200:
@@ -133,7 +145,11 @@ async def analyze(inp: AnalyzeIn, req: Request):
 
     raw = await call_bareun(text)
     _usage["eojeols"] += int(raw.get("tokensCount", 0) or 0)
-    result = analyze_response(raw)
+    try:
+        result = analyze_response(raw)
+    except Exception:
+        log.exception("규칙 엔진 오류: %r", text)
+        raise HTTPException(500, "문장 분석 규칙에서 오류가 났습니다. 문장을 조금 바꿔 다시 시도해 주세요.")
     _cache[text] = result
     if len(_cache) > CACHE_SIZE:
         _cache.popitem(last=False)
